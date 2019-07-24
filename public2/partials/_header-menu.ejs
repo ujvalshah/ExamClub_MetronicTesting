@@ -1,0 +1,284 @@
+<!-- begin: Header Menu -->
+<button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
+<div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
+
+    <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile ">
+        <ul class="kt-menu__nav ">
+            <!-- begin:: Home Menu -->
+            <!-- <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'landing' ? 'kt-menu__item--here' : '' %>"
+                data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                <a href="/downloads" class="kt-menu__link kt-menu__toggle"><span
+                        class="kt-menu__link-text">Home</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a> -->
+                <!-- <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item kt-menu__item--active " aria-haspopup="true">
+                            <a href="?page=index" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Default Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="?page=dashboards/fluid" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Fluid Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="?page=dashboards/aside" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Aside Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+            <!-- </li> -->
+            <% if(currentUser){%>
+            <!-- begin:: Dashboard Menu -->
+            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'dashboard_admin' || page === 'dashboard_faculty' || page === 'dashboard_student' ? 'kt-menu__item--here' : '' %>" data-ktmenu-submenu-toggle="click"
+                aria-haspopup="true">
+                <a href="/user/<%=currentUser._id%>/dashboard" class="kt-menu__link"><span
+                        class="kt-menu__link-text">Dashboard</span><i
+                        class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                <!-- <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="javascript:;" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Create New Post</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="#" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Generate Reports</span>
+                                <span class="kt-menu__link-badge"><span class="kt-badge kt-badge--success">2</span></span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
+                            <a href="#" class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Manage Orders</span><i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Latest Orders</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Pending Orders</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Processed Orders</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Delivery Reports</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Payments</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Customers</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="kt-menu__item kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
+                            <a href="#" class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Customer Feedbacks</span><i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Customer Feedbacks</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Supplier Feedbacks</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Reviewed Feedbacks</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Resolved Feedbacks</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><span class="kt-menu__link-text">Feedback Reports</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="#" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Register Member</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+            </li>
+            <%}%>
+             <!-- begin:: Faculty's Directory -->
+            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'teachersindex' || page ==='facultyprofile' ? 'kt-menu__item--here' : '' %>" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                <a href="/teachers" class="kt-menu__link"><span class="kt-menu__link-text">Faculty's Directory</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+            </li>
+             <!-- begin:: Downloads Menu -->
+            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'downloads' || page === 'downloads_uploadform'|| page === 'downloads_updateform' ? 'kt-menu__item--here' : '' %>" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">CA Downloads</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                            <li class="kt-menu__item " aria-haspopup="true">
+                                    <a href="/downloads" class="kt-menu__link ">
+                                        <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                        <span class="kt-menu__link-text">Downloads</span>
+                                        <span class="kt-menu__link-badge"><span class="kt-badge kt-badge--success">3</span></span>
+                                    </a>
+                                </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="/downloads/upload" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Upload</span>
+                            </a>
+                        </li>
+                        <!-- <li class="kt-menu__item kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
+                            <a href="#" class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Audience</span><i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-users"></i><span class="kt-menu__link-text">Active Users</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-interface-1"></i><span class="kt-menu__link-text">User Explorer</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-lifebuoy"></i><span class="kt-menu__link-text">Users Flows</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-graphic-1"></i><span class="kt-menu__link-text">Market Segments</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-graphic"></i><span class="kt-menu__link-text">User Reports</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="#" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Marketing</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
+                            <a href="#" class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Cloud Manager</span><i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon flaticon-add"></i><span class="kt-menu__link-text">File Upload</span>
+                                            <span class="kt-menu__link-badge"><span class="kt-badge kt-badge--danger">3</span></span>
+                                        </a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-signs-1"></i><span class="kt-menu__link-text">File Attributes</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-folder"></i><span class="kt-menu__link-text">Folders</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-cogwheel-2"></i><span class="kt-menu__link-text">System Settings</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </li>
+             <!-- begin:: Videos Menu -->
+            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'videos' ? 'kt-menu__item--here' : '' %>" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">CA Video Bank</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                            <li class="kt-menu__item " aria-haspopup="true">
+                                    <a href="/videos" class="kt-menu__link ">
+                                        <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                        <span class="kt-menu__link-text">Videos</span>
+                                        <span class="kt-menu__link-badge"><span class="kt-badge kt-badge--success">3</span></span>
+                                    </a>
+                                </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="/videos/new" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Upload</span>
+                            </a>
+                        </li>
+                        <!-- <li class="kt-menu__item kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
+                            <a href="#" class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Audience</span><i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-users"></i><span class="kt-menu__link-text">Active Users</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-interface-1"></i><span class="kt-menu__link-text">User Explorer</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-lifebuoy"></i><span class="kt-menu__link-text">Users Flows</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-graphic-1"></i><span class="kt-menu__link-text">Market Segments</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-graphic"></i><span class="kt-menu__link-text">User Reports</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="#" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Marketing</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item kt-menu__item--submenu" data-ktmenu-submenu-toggle="hover" aria-haspopup="true">
+                            <a href="#" class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Cloud Manager</span><i class="kt-menu__hor-arrow la la-angle-right"></i><i class="kt-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--right">
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon flaticon-add"></i><span class="kt-menu__link-text">File Upload</span>
+                                            <span class="kt-menu__link-badge"><span class="kt-badge kt-badge--danger">3</span></span>
+                                        </a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-signs-1"></i><span class="kt-menu__link-text">File Attributes</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-folder"></i><span class="kt-menu__link-text">Folders</span></a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-cogwheel-2"></i><span class="kt-menu__link-text">System Settings</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- <div class="kt-header-toolbar">
+            <% include ./_dropdown-search-default %>
+    </div> -->
+</div>
+<!-- end: Header Menu -->

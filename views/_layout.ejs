@@ -1,0 +1,21 @@
+<!-- begin:: Page -->
+<% include ./partials/_header-base-mobile %>
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+            <% include ./partials/_header-base %>
+            <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+                <%if(page === "landing"){ %>
+                    <% include ./landing %>
+                <%} else if(page==="metronic"){%>
+                    <% include ./partials/_content-base %> 
+                <%}%>
+            </div>
+            <% include ./partials/_footer-base %>
+        </div>
+    </div>
+</div>
+<!-- end:: Page -->
+<% include ./partials/_offcanvas-search %>
+<% include ./partials/_layout-scrolltop %>
+<% include ./partials/_layout-toolbar %>

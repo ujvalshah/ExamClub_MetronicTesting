@@ -1,0 +1,169 @@
+<% include ../partials/header %>
+
+<!-------------------------------------------------------------------------------->
+<!----------------------------Profile Info---------------------------------------->
+<!-------------------------------------------------------------------------------->
+<div class="container">
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="section-block mb-4">
+            <h2 class="section-title"><%=teacher.firstName %> <%=teacher.lastName %></h2>
+        </div>
+    </div>
+</div>
+<div class="media mb-4">
+  <img src="<%=teacher.image%>" class="align-self-center mr-4 img-thumbnail" alt="Teacher_Image" style="width:25%; height:100%;">
+  <div class="media-body">
+    <h5 class="mt-0" id="about">About</h5>
+    <p><%=teacher.firstName %></p>
+    <p>Subjects taught:</p>
+    <ul>
+        <%teacher.subject.forEach(function(subject){%>
+            <li><%=subject%></li>
+        <%})%>
+    </ul>
+    <h5 class="mt-3">Contact</h5>
+    <div class="bd-example">
+  <address>
+    <strong>Twitter, Inc.</strong><br/>
+    <%=teacher.address %><br/>
+    <%=teacher.pincode%><br/>
+    <%=teacher.city %><br/>
+    <%=teacher.state%><br/>
+    
+    <abbr title="Phone">P:</abbr> <%=teacher.mobile%>
+  </address>
+
+  <address>
+    <strong>Full Name</strong><br />
+    <a href="mailto:first.last@example.com"><%=teacher.email%></a>
+  </address>
+</div>
+  </div>
+</div>
+<!-------------------------------------------------------------------------------->
+<!----------------------------Statistics------------------------------------------>
+<!-------------------------------------------------------------------------------->
+<div class="row mb-5">
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+        <div class="card mb-2">
+            <div class="card-body p-3">
+                <h1 class="mb-1"> <%=teacher.downloads.reduce(function (accumulator, download) {return accumulator + download.downloadCounter}, 0)%>+ <small>times</small></h1>
+                <p>Notes downloaded</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+        <div class="card mb-2">
+            <div class="card-body p-3">
+                <h1 class="mb-1"><%=teacher.downloads.length%></h1>
+                <p>Documents</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+        <div class="card mb-2">
+            <div class="card-body p-3">
+                <h1 class="mb-1"><%=teacher.videos.length%></h1>
+                <p>Videos</p>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+        <div class="card mb-2">
+            <div class="card-body p-3">
+                <h1 class="mb-1">1</h1>
+                <p>Followers</p>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+<!-------------------------------------------------------------------------------->
+<!----------------------------Downloads Table------------------------------------->
+<!-------------------------------------------------------------------------------->
+<div class="table-responsive mb-5">
+        <h4 class="d-inline">Notes</h4> <br>
+        <p class="d-inline"><%=teacher.username%> has uploaded <span class="text-primary"><%=teacher.downloads.length%></span> <%=teacher.downloads.length===1 ? "document":"documents"%></p>
+    <table id="container_downloads_dashboard" class="table table-sm table-hover table-striped overflow-auto mt-3">
+      <thead>
+          <tr class="table-light">
+              <th class="text-center tdv" scope="col">Sr.No</th>
+              <th class="text-center tdv" scope="col">Date</th>
+              <th class="text-center tdv" scope="col">Author</th>
+              <th class="text-center tdv" scope="col">Title</th>
+              <th class="text-center tdv" scope="col">Exam</th>
+              <th class="text-center tdv" scope="col">Attempt</th>
+              <th class="text-center tdv" scope="col">Subject</th>
+              <th class="text-center tdv" scope="col">Description</th>
+              <th class="text-center tdv" scope="col">Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          
+      <%teacher.downloads.forEach(function(download, index){%>
+        <tr>
+          <th class="align-middle tdv text-center" scope="row"></small><%=index + 1%></small></th> 
+          <td class="align-middle tdv"><small><%=download.date.toDateString()%></small></td>
+          <td class="align-middle tdv" nowrap><img class="rounded-circle" src="https://cdn3.vectorstock.com/i/1000x1000/30/97/flat-business-man-user-profile-avatar-icon-vector-4333097.jpg" width="55" height="55"><small><%=download.author.username%></small></td>
+          <td class="align-middle tdv"><small><%=download.title%></small></td>
+          <td class="align-middle tdv"><small><%=download.exam%></small></td>
+          <td class="align-middle tdv"><small><%=download.attempt%></small></td>
+          <td class="align-middle tdv" width="25%"><small><%=download.subject%></small></td>
+          <td class="align-middle tdv"><small><%-download.description%></small></td>
+          <td class="align-middle tdv">
+              <%if(download.file[0]){%>
+              <a target="_blank" class="pr-2" href="<%=download.file[0].url%>"> <span><i class="fas fa-file-download"></i></span></a>
+              <%} else {%>
+              <a class="pr-2" href="#"> <span><i class="fas fa-file-download"></i></span></a>
+              <%}%>
+              <a class="pr-2" href=#><span><i class="fas fa-share-alt"></i></span></a>
+          </td>
+        </tr>
+      <%})%>  
+      </tbody>
+    </table>
+  </div>
+  
+  <!-------------------------------------------------------------------------------->
+  <!----------------------------Video Table----------------------------------------->
+  <!-------------------------------------------------------------------------------->
+  
+  
+  <h4 class="d-inline">Video Uploads</h4> 
+  <p class="d-inline ml-1">You have uploaded <span class="text-primary"><%=teacher.videos.length%></span> <%=teacher.videos.length===1 ? "video":"videos"%> until now.</p>
+  <div class="container border rounded videobox my-4">
+      
+  <div class="container overflow-auto py-4" id="container_video_dashboard">
+      <div class="row" id="video-row">
+        <%teacher.videos.forEach(function(video){%>   
+          <div class="col-md-4 card_video">
+            <div class="card">
+                <div class="embed-responsive embed-responsive-16by9 card-img-top">
+                  <iframe width="560" height="315" class="embed-responsive-item" src="<%=video.url%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            <div class="card-body">
+                <h6 class="card-title"><%=video.title%></h6>
+                <small>Faculty: <span class="text-capitalize"><%=video.author.username%></span></small>
+                <p><small class="card-text"><span class="text-primary">Description:</span> <%-video.description.substring(0, 100) %>...</small></p>
+                <small class="card-text"><span class="text-primary">Applicable to:</span><%=video.exam%> </small> <br>
+                <small class="card-text"><span class="text-primary">Applicable attempts:</span> <%=video.attempt%></small>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Upload: <%-video.createdAt.toDateString()%></small> 
+                <a class="btn btn-primary btn-sm ml-4" href="/videos/<%=video._id %>/edit" role="button">Edit</a>
+                <form class="delete-video-form" action="/videos/<%=video._id%>?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-danger btn-sm ml-1">Delete</button>
+                </form>
+            </div>
+            </div>
+          </div>
+        <%})%>
+      </div>
+  </div>
+  </div>
+  
+  </div>
+    
+
+<% include ../partials/footer %>

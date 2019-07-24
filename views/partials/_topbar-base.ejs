@@ -1,0 +1,10 @@
+<!-- begin:: Header Topbar -->
+
+<div class="kt-header__topbar">
+  <% if(currentUser){%>
+    <% include ./_topbar-user %>
+  <%} else {%>
+    <% include ./_topbar-guest %>
+  <%}%>
+</div>
+<!-- end:: Header Topbar -->

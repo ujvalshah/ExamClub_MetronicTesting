@@ -1,0 +1,172 @@
+<% include ./_subheader-subheader-v2 %>
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+
+    <!--------------------------Download - Upload - Update Form(Put)------------------------>
+<div class="container">
+    <h2 class="pb-3">Update file details</h2>
+    
+    <form action="/downloads/<%=download._id%>?_method=PUT" method="POST" enctype="multipart/form-data">
+      
+     <div class="form-group row">
+      <label for="download[author]" class="col-sm-2 col-form-label">Author</label>
+      <div class="col-sm-4">
+        <% if(!currentUser.isAdmin){%>
+        <input type="text" class="form-control" id="download[author]_update" name="download[author][username]" value="<%=currentUser.username%>" readonly>
+        <%} else if (currentUser.isAdmin) { %>
+        <input type="text" class="form-control" id="download[author]_update" name="download[author][username]" value="<%=download.author.username%>">
+        <%}%>
+      </div>
+        
+      </div>
+      <div class="form-group row">
+        <label for="download[title]" class="col-sm-2 col-form-label">Title</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="download[title]_update" name="download[title]" value="<%=download.title%>">
+        </div>
+      </div>
+      
+      
+      <div class="form-group row">
+        <label for="updatedDocument" class="col-sm-2 col-form-label">File</label>
+        <div class="col-sm-4">
+          <input type="file" class="form-control-file" id="updatedDocument" name ="document">
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <label for="download[description]" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+        <textarea class="form-control" id="download[description]_update" name="download[description]" rows="3" aria-describedby="descriptionHelpBlock"><%=download.description%></textarea>
+         <small id="descriptionHelpBlock" class="form-text text-muted">
+          Write a brief description about the file you are uploading.
+        </small>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <label for="download[topic]" class="col-sm-2 col-form-label">Topic</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="download[topic]_update" name="download[topic]" value="<%=download.topic%>">
+           <small id="descriptionHelpBlock" class="form-text text-muted">
+            Provide details of the topics covered by the file being uploaded.  
+           </small>
+        </div>
+      </div>
+      
+      <!------------------------------------------Exam--------------------------------->
+      <div class="form-group row">
+        <label class="col-sm-2" for="downloadExamFormControlSelect_update">Applicable Exam:</label>
+        <select class="form-control col-sm-4" id="downloadExamFormControlSelect_update" name="download[exam]">
+          <option value="CA Final(New)" <%= download.exam.includes("CA Final(New)") ? "selected" : "" %>>CA Final(New)</option>
+          <option value="CA Final(Old)" <%= download.exam.includes("CA Final(Old)") ? "selected" : "" %>>CA Final(Old)</option>
+          <option value="CA Intermediate(New)" <%= download.exam.includes("CA Intermediate(New)") ? "selected" : "" %>>CA Intermediate(New)</option>
+          <option value="CA IPCC(Old)" <%= download.exam.includes("CA IPCC(Old)") ? "selected" : "" %>>CA IPCC(Old)</option>
+          <option value="CA Foundation(New)" <%= download.exam.includes("CA Foundation(New)") ? "selected" : "" %>>CA Foundation(New)</option>
+          <option value="General" <%= download.exam.includes("General") ? "selected" : "" %>>General</option>
+        </select>
+      </div>
+      
+      <!------------------------------------------Attempts--------------------------------->
+      <div class="form-group row">
+        <label class="col-sm-2" for="downloadAttemptFormControlSelect">Applicable Attempt:</label>
+        <select class="form-control col-sm-4" id="downloadAttemptFormControlSelect_update" name="download[attempt]">
+          <option value="Nov 2019" <%= download.attempt.includes("Nov 2019") ? "selected" : "" %>>Nov 2019</option>
+          <option value="May 2020" <%= download.attempt.includes("May 2020") ? "selected" : "" %>>May 2020</option>
+          <option value="Nov 2020" <%= download.attempt.includes("Nov 2020") ? "selected" : "" %>>Nov 2020</option>
+          <option value="May 2021" <%= download.attempt.includes("May 2021") ? "selected" : "" %>>May 2021</option>
+          <option value="Nov 2021" <%= download.attempt.includes("Nov 2021") ? "selected" : "" %>>Nov 2021</option>
+          <!--<option value="General" <%= download.attempt.includes("General") ? "selected" : "" %>>General</option>-->
+        </select>
+      </div>
+    
+      <!------------------------------------------Subjects--------------------------------->
+     <div class="form-group row">
+        <label class="col-md-2" id="downloadSubjectsFormControlSelectLabel_update" for="downloadSubjectsFormControlSelect">Subject:</label>
+        <select class="form-control col-md-3 mr-2 mb-3" id="downloadSubjectsFormControlSelect1_update" name="download[subject]"<%= download.exam.includes("CA Final(New)") ? "" : "disabled" %>>
+              <option disabled selected>CA Final (New)</option>
+              <option value="P1: Financial Reporting" <%= download.subject.includes("P1: Financial Reporting") ? "selected" : "" %>>P1: Financial Reporting</option>
+              <option value="P2: Strategic Financial Management" <%= download.subject.includes("P2: Strategic Financial Management") ? "selected" : "" %>>P2: Strategic Financial Management</option>
+              <option value="P3: Advanced Auditing and Professional Ethics" <%= download.subject.includes("P3: Advanced Auditing and Professional Ethics") ? "selected" : "" %>>P3: Advanced Auditing and Professional Ethics</option>
+              <option value="P4: Corporate & Economic Laws" <%= download.subject.includes("P4: Corporate & Economic Laws") ? "selected" : "" %>>P4: Corporate & Economic Laws</option>
+              <option value="P5: Strategic Cost Management and Performance Evaluation" <%= download.subject.includes("P5: Strategic Cost Management and Performance Evaluation") ? "selected" : "" %>>P5: Strategic Cost Management and Performance Evaluation</option>
+              <option value="P6A: Risk Management" <%= download.subject.includes("P6A: Risk Management") ? "selected" : "" %>>P6A: Risk Management</option>
+              <option value="P6B: Financial Services & Capital Markets" <%= download.subject.includes("P6B: Financial Services & Capital Markets") ? "selected" : "" %>>P6B: Financial Services & Capital Markets</option>
+              <option value="P6C: International Taxation" <%= download.subject.includes("P6C: International Taxation") ? "selected" : "" %>>P6C: International Taxation</option>
+              <option value="P6D: Economic Laws" <%= download.subject.includes("P6D: Economic Laws") ? "selected" : "" %>>P6D: Economic Laws</option>
+              <option value="P6E: Global Financial Reporting Standards" <%= download.subject.includes("P6E: Global Financial Reporting Standards") ? "selected" : "" %>>P6E: Global Financial Reporting Standards</option>
+              <option value="P6F: Multi-disciplinary Case Study" <%= download.subject.includes("P6F: Multi-disciplinary Case Study") ? "selected" : "" %>>P6F: Multi-disciplinary Case Study</option>
+              <option value="P7: Direct Tax Laws & International Taxation" <%= download.subject.includes("P7: Direct Tax Laws & International Taxation") ? "selected" : "" %>>P7: Direct Tax Laws & International Taxation</option>
+              <option value="P8: Indirect Tax Laws" <%= download.subject.includes("P8: Indirect Tax Laws") ? "selected" : "" %>>P8: Indirect Tax Laws</option>
+              <option value="General" <%= download.subject.includes("General") ? "selected" : "" %>>General</option>
+        </select>
+        
+       <select class="form-control col-md-3 mr-2 mb-3" id="downloadSubjectsFormControlSelect4_update" name="download[subject]" <%= download.exam.includes("CA Final(Old)") ? "" : "disabled" %>>
+            <option disabled selected>CA Final(Old)</option>
+            <option value="P1: Financial Reporting" <%= download.subject.includes("P1: Financial Reporting") ? "selected" : "" %>>P1: Financial Reporting</option>
+            <option value="P2: Strategic Financial Management" <%= download.subject.includes("P2: Strategic Financial Management") ? "selected" : "" %>>P2: Strategic Financial Management</option>
+            <option value="P3: Advanced Auditing and Professional Ethics" <%= download.subject.includes("P3: Advanced Auditing and Professional Ethics") ? "selected" : "" %>>P3: Advanced Auditing and Professional Ethics</option>
+            <option value="P4: Corporate and Allied Laws" <%= download.subject.includes("P4: Corporate and Allied Laws") ? "selected" : "" %>>P4A: Corporate and Allied Laws</option>
+            <option value="P5: Advanced Management Accounting" <%= download.subject.includes("P5: Advanced Management Accounting") ? "selected" : "" %>>P5: Advanced Management Accounting</option>
+            <option value="P6: Information Systems Control and Audit" <%= download.subject.includes("P6: Information Systems Control and Audit") ? "selected" : "" %>>P6: Information Systems Control and Audit</option>
+            <option value="P7: Direct Tax Laws" <%= download.subject.includes("P7: Direct Tax Laws") ? "selected" : "" %>>P7: Direct Tax Laws</option>
+            <option value="P8:  Indirect Tax Laws" <%= download.subject.includes("P8:  Indirect Tax Laws") ? "selected" : "" %>>P8:  Indirect Tax Laws</option>
+            <option value="General" <%= download.subject.includes("General") ? "selected" : "" %>>General</option>
+        </select>
+        
+        <select class="form-control col-md-3 mr-2 mb-3" id="downloadSubjectsFormControlSelect2_update" name="download[subject]" <%= download.exam.includes("CA Intermediate(New)") ? "" : "disabled" %>>
+              <option disabled selected>CA Intermediate(New)</option>
+              <option value="P1: Accounting" <%= download.subject.includes("P1: Accounting") ? "selected" : "" %>>P1: Accounting</option>
+              <option value="P2: Corporate & Other Law" <%= download.subject.includes("P2: Corporate & Other Law") ? "selected" : "" %>>P2: Corporate & Other Law</option>
+              <option value="P3: Cost and Management Accounting" <%= download.subject.includes("P3: Cost and Management Accounting") ? "selected" : "" %>>P3: Cost and Management Accounting</option>
+              <option value="P4A: Income-tax law" <%= download.subject.includes("P4A: Income-tax law") ? "selected" : "" %>>P4A: Income-tax law</option>
+              <option value="P4B: Indirect Taxes" <%= download.subject.includes("P4B: Indirect Taxes") ? "selected" : "" %>>P4B: Indirect Taxes</option>
+              <option value="P5: Advanced Accounting" <%= download.subject.includes("P5: Advanced Accounting") ? "selected" : "" %>>P5: Advanced Accounting</option>
+              <option value="P6: Auditing and Assurance" <%= download.subject.includes("P6: Auditing and Assurance") ? "selected" : "" %>>P6: Auditing and Assurance</option>
+              <option value="P7A: Enterprise Information Systems" <%= download.subject.includes("P7A: Enterprise Information Systems") ? "selected" : "" %>>P7A: Enterprise Information Systems</option>
+              <option value="P7B: Strategic Management" <%= download.subject.includes("P7B: Strategic Management") ? "selected" : "" %>>P7B: Strategic Management</option>
+              <option value="P8A: Financial Management" <%= download.subject.includes("P8A: Financial Management") ? "selected" : "" %>>P8A: Financial Management</option>
+              <option value="P8B: Economics for Finance" <%= download.subject.includes("P8B: Economics for Finance") ? "selected" : "" %>>P8B: Economics for Finance</option>
+              <option value="General" <%= download.subject.includes("General") ? "selected" : "" %>>General</option>
+        </select>
+        
+        
+        <select class="form-control offset-md-2 col-md-3 mr-2 mb-3" id="downloadSubjectsFormControlSelect5_update" name="download[subject]" <%= download.exam.includes("CA IPCC(Old)") ? "" : "disabled" %>>
+              <option disabled selected>CA IPCC(Old)</option>
+              <option value="P1: Accounting" <%= download.subject.includes("P1: Accounting") ? "selected" : "" %>>P1: Accounting</option>
+              <option value="P2: Business Laws, Ethics and Communication" <%= download.subject.includes("P2: Business Laws, Ethics and Communication") ? "selected" : "" %>>P2: Business Laws, Ethics and Communication</option>
+              <option value="P3: Cost Accounting and Financial Management" <%= download.subject.includes("P3: Cost Accounting and Financial Management") ? "selected" : "" %>>P3: Cost Accounting and Financial Management</option>
+              <option value="P4: Taxation" <%= download.subject.includes("P4: Taxation") ? "selected" : "" %>>P4: Taxation</option>
+              <option value="P5: Advanced Accounting" <%= download.subject.includes("P5: Advanced Accounting") ? "selected" : "" %>>P5: Advanced Accounting</option>
+              <option value="P6: Risk Management" <%= download.subject.includes("P6: Risk Management") ? "selected" : "" %>>P6: Risk Management</option>
+              <option value="P7: Information Technology and Strategic Management" <%= download.subject.includes("P7: Information Technology and Strategic Management") ? "selected" : "" %>>P7: Information Technology and Strategic Management</option>
+              <option value="General" <%= download.subject.includes("General") ? "selected" : "" %>>General</option>
+        </select>
+        
+        <select class="form-control col-md-3 mr-2 mb-3" id="downloadSubjectsFormControlSelect3_update" name="download[subject]"<%= download.exam.includes("CA Foundation(New)") ? "" : "disabled" %>>
+              <option disabled selected>CA Foundation</option>
+              <option value="P1: Principles and Practice of Accounting" <%= download.subject.includes("P1: Principles and Practice of Accounting") ? "selected" : "" %>>P1: Principles and Practice of Accounting</option>
+              <option value="P2A: Business Laws" <%= download.subject.includes("P2A: Business Laws") ? "selected" : "" %>>P2A: Business Laws</option>
+              <option value="P2B: Business Correspondence and Reporting" <%= download.subject.includes("P2B: Business Correspondence and Reporting") ? "selected" : "" %>>P2B: Business Correspondence and Reporting</option>
+              <option value="P3: Business Mathematics and Logical Reasoning & Statistics" <%= download.subject.includes("P3: Business Mathematics and Logical Reasoning & Statistics") ? "selected" : "" %>>P3: Business Mathematics and Logical Reasoning & Statistics</option>
+              <option value="P4I: Business Economics" <%= download.subject.includes("P4I: Business Economics") ? "selected" : "" %>>P4I: Business Economics</option>
+              <option value="P4II: Business and Commercial Knowledge" <%= download.subject.includes("P4II: Business and Commercial Knowledge") ? "selected" : "" %>>P4II: Business and Commercial Knowledge</option>
+              <option value="General">General</option>
+        </select>
+      </div>
+      
+      
+      
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <div class="download_submit1">
+            <button type="submit" class="btn btn-primary download_submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    </div>
+    
+
+</div>
+<!-- end:: Content -->

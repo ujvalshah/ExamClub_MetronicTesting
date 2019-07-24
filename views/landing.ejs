@@ -1,0 +1,20 @@
+<!-- begin:: Content -->
+<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+
+        <!-- begin:: Content -->
+    <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+            <h1>CA Exam Club</h1>
+            <% if(!currentUser){ %>
+            <li><a href="#">You need to sign up!</a></li>
+           <% } else { %>
+           <li><a href="#">Signed In As <%= currentUser.username %></a></li>
+           
+           <li>Admin: <%=currentUser.isAdmin%></li>
+           <li>Faculty: <%=currentUser.isFaculty%></li>
+           <li>Student: <%=currentUser.isStudent%></li>
+           <% } %>
+    </div>
+        <!-- end:: Content -->
+</div>
+<!-- end:: Content -->
+

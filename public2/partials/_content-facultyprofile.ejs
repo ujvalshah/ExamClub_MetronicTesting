@@ -1,0 +1,239 @@
+<% include ./_subheader-subheader-v2 %>
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+
+    <!-------------------------------------------------------------------------------->
+    <!----------------------------Profile Info---------------------------------------->
+    <!-------------------------------------------------------------------------------->
+    <div class="container-fluid">
+          <!--Begin::Section-->
+          <div class="row">
+                <div class="col-xl-12">
+
+                    <!--begin:: Widgets/Applications/User/Profile3-->
+                    <div class="kt-portlet kt-portlet--height-fluid">
+                        <div class="kt-portlet__body">
+                            <div class="kt-widget kt-widget--user-profile-3">
+                                <div class="kt-widget__top">
+                                    <%if(teacher.image){%>
+                                        <div class="kt-widget__media kt-hidden-">
+                                                <img src="./assets/media/users/100_1.jpg" alt="image">
+                                            </div>
+                                            <%} else {%>
+                                        <div class="kt-widget__pic kt-widget__pic--success kt-font-success kt-font-boldest kt-font-light">
+                                                <%=teacher.firstName.charAt(0).toUpperCase()%><%=teacher.lastName.charAt(0).toUpperCase()%>
+                                            </div>
+                                            <%}%>
+                                    <div class="kt-widget__content">
+                                        <div class="kt-widget__head">
+                                            <a href="#" class="kt-widget__username">
+                                                <%=teacher.firstName.charAt(0).toUpperCase()%><%=teacher.firstName.substring(1).toLowerCase()%> <%=teacher.lastName.charAt(0).toUpperCase()%><%=teacher.lastName.substring(1).toLowerCase()%>
+                                                <i class="flaticon2-correct"></i>
+                                            </a>
+                                        </div>
+                                        <div class="kt-widget__subhead">
+                                            <a href="#"><i class="flaticon2-new-email"></i><%=teacher.email%></a>
+                                            <a href="#"><i class="flaticon2-calendar-3"></i>CA Faculty</a>
+                                            <a href="#"><i class="flaticon2-placeholder"></i><%=teacher.city%></a>
+                                        </div>
+                                        <div class="kt-widget__info">
+                                            <div class="kt-widget__desc">
+                                               <%=teacher.description%>
+                                            </div>
+                                        </div>
+                                        <div class="kt-widget__info">
+                                            <div class="kt-widget__desc">
+                                               <ul>
+                                               <li><span class="kt-font-bold">Location:</span> <%=teacher.city%></li>
+                                               <li><span class="kt-font-bold">Email:</span><a href="mailto:<%=teacher.email%>"> <%=teacher.email%></a></li>
+                                               <li><span class="kt-font-bold">Contact:</span> <%=teacher.mobile%></li>
+                                               <li><span class="kt-font-bold">Subjects taught:</span></li>
+                                               <ul>
+                                                   <%teacher.subject.forEach(function(subject){%>
+                                                   <li><%=subject%></li>
+                                                   <%})%>
+                                               </ul>
+                                            </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-widget__bottom">
+                                    <div class="kt-widget__item">
+                                        <div class="kt-widget__icon">
+                                            <i class="kt-font-brand flaticon2-avatar"></i>
+                                        </div>
+                                        <div class="kt-widget__details">
+                                            <span class="kt-widget__title">Agg Download Counter</span>
+                                            <span class="kt-font-brand kt-widget__value">  <%=teacher.downloads.reduce(function (accumulator, download) {return accumulator + download.downloadCounter}, 0)%> times</span>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="kt-widget__item">
+                                        <div class="kt-widget__icon">
+                                            <i class="kt-font-warning flaticon2-file"></i>
+                                        </div>
+                                        <div class="kt-widget__details">
+                                            <span class="kt-widget__title"> Notes Upload</span>
+                                            <span class="kt-font-warning kt-widget__value"><%=teacher.downloads.length%></span>
+                                        </div>
+                                    </div>
+                                    <div class="kt-widget__item">
+                                        <div class="kt-widget__icon">
+                                            <i class="kt-font-danger flaticon2-digital-marketing"></i>
+                                        </div>
+                                        <div class="kt-widget__details">
+                                            <span class="kt-widget__title">Video Uploads</span>
+                                            <span class="kt-font-danger kt-widget__value"><%=teacher.videos.length%></span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="kt-widget__item">
+                                            <div class="kt-widget__icon">
+                                                <i class="flaticon-pie-chart"></i>
+                                            </div>
+                                            <div class="kt-widget__details">
+                                                <span class="kt-widget__title">Net</span>
+                                                <span class="kt-widget__value"><span>$</span>164,700</span>
+                                            </div>
+                                        </div>
+                                    <div class="kt-widget__item">
+                                        <div class="kt-widget__icon">
+                                            <i class="flaticon-network"></i>
+                                        </div>
+                                        <div class="kt-widget__details">
+                                            <div class="kt-section__content kt-section__content--solid">
+                                                    <div class="kt-badge kt-badge__pics">
+                                                    <a href="#" class="kt-badge__pic" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="" data-original-title="John Myer">
+                                                        <img src="./assets/media/users/100_7.jpg" alt="image">
+                                                    </a>
+                                                    <a href="#" class="kt-badge__pic" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="" data-original-title="Alison Brandy">
+                                                        <img src="./assets/media/users/100_3.jpg" alt="image">
+                                                    </a>
+                                                    <a href="#" class="kt-badge__pic" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="" data-original-title="Selina Cranson">
+                                                        <img src="./assets/media/users/100_2.jpg" alt="image">
+                                                    </a>
+                                                    <a href="#" class="kt-badge__pic" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="" data-original-title="Luke Walls">
+                                                        <img src="./assets/media/users/100_13.jpg" alt="image">
+                                                    </a>
+                                                    <a href="#" class="kt-badge__pic" data-toggle="kt-tooltip" data-skin="brand" data-placement="top" title="" data-original-title="Micheal York">
+                                                        <img src="./assets/media/users/100_4.jpg" alt="image">
+                                                    </a>
+                                                    <a href="#" class="kt-badge__pic kt-badge__pic--last kt-font-brand">
+                                                        +7
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--end:: Widgets/Applications/User/Profile3-->
+                </div>
+          
+
+            <!--End::Section-->
+
+
+    <!-------------------------------------------------------------------------------->
+    <!----------------------------Downloads Table------------------------------------->
+    <!-------------------------------------------------------------------------------->
+    <div class="table-responsive mb-5">
+        <h4 class="d-inline">Uploads</h4> <br>
+        <p class="d-inline"><%=teacher.username%> has uploaded <span
+                class="text-primary"><%=teacher.downloads.length%></span>
+            <%=teacher.downloads.length===1 ? "document":"documents"%></p>
+        <table id="container_downloads_dashboard" class="table table-sm table-hover table-striped overflow-auto mt-3">
+            <thead>
+                <tr class="table-light">
+                    <th class="text-center tdv" scope="col">Sr.No</th>
+                    <th class="text-center tdv" scope="col">Date</th>
+                    <th class="text-center tdv" scope="col">Author</th>
+                    <th class="text-center tdv" scope="col">Title</th>
+                    <th class="text-center tdv" scope="col">Exam</th>
+                    <th class="text-center tdv" scope="col">Attempt</th>
+                    <th class="text-center tdv" scope="col">Subject</th>
+                    <th class="text-center tdv" scope="col">Description</th>
+                    <th class="text-center tdv" scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <%teacher.downloads.forEach(function(download, index){%>
+                <tr>
+                    <th class="align-middle tdv text-center" scope="row"></small><%=index + 1%></small></th>
+                    <td class="align-middle tdv"><small><%=download.date.toDateString()%></small></td>
+                    <td class="align-middle tdv" nowrap><img class="rounded-circle"
+                            src="https://cdn3.vectorstock.com/i/1000x1000/30/97/flat-business-man-user-profile-avatar-icon-vector-4333097.jpg"
+                            width="55" height="55"><small><%=download.author.username%></small></td>
+                    <td class="align-middle tdv"><small><%=download.title%></small></td>
+                    <td class="align-middle tdv"><small><%=download.exam%></small></td>
+                    <td class="align-middle tdv"><small><%=download.attempt%></small></td>
+                    <td class="align-middle tdv" width="25%"><small><%=download.subject%></small></td>
+                    <td class="align-middle tdv"><small><%-download.description%></small></td>
+                    <td class="align-middle tdv">
+                        <%if(download.file[0]){%>
+                        <a target="_blank" class="pr-2" href="<%=download.file[0].url%>"> <span><i
+                                    class="fas fa-file-download"></i></span></a>
+                        <%} else {%>
+                        <a class="pr-2" href="#"> <span><i class="fas fa-file-download"></i></span></a>
+                        <%}%>
+                          <a class="pr-2" href=#><span><i class="fas fa-share-alt"></i></span></a>
+                      </td>
+                    </tr>
+                  <%})%>
+            </tbody>
+        </table>
+    </div>
+</div>
+    <!-------------------------------------------------------------------------------->
+    <!----------------------------Video Table----------------------------------------->
+    <!-------------------------------------------------------------------------------->
+
+
+    <div class="container border rounded videobox my-4">
+            <h4 class="d-inline">Video Uploads</h4>
+            <p class="d-inline ml-1">You have uploaded <span class="text-primary"><%=teacher.videos.length%></span>
+                <%=teacher.videos.length===1 ? "video":"videos"%> until now.</p>
+
+        <div class="container overflow-auto py-4" id="container_video_dashboard">
+            <div class="row" id="video-row">
+                <%teacher.videos.forEach(function(video){%>
+                <div class="col-md-4 card_video">
+                    <div class="card">
+                        <div class="embed-responsive embed-responsive-16by9 card-img-top">
+                            <iframe width="560" height="315" class="embed-responsive-item" src="<%=video.url%>"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title"><%=video.title%></h6>
+                            <small>Faculty: <span class="text-capitalize"><%=video.author.username%></span></small>
+                            <p><small class="card-text"><span class="text-primary">Description:</span>
+                                    <%-video.description.substring(0, 100) %>...</small></p>
+                            <small class="card-text"><span class="text-primary">Applicable to:</span><%=video.exam%>
+                            </small> <br>
+                            <small class="card-text"><span class="text-primary">Applicable attempts:</span>
+                                <%=video.attempt%></small>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Upload: <%-video.createdAt.toDateString()%></small>
+                            <a class="btn btn-primary btn-sm ml-4" href="/videos/<%=video._id %>/edit"
+                                role="button">Edit</a>
+                            <form class="delete-video-form" action="/videos/<%=video._id%>?_method=DELETE"
+                                method="POST">
+                                <button type="submit" class="btn btn-danger btn-sm ml-1">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <%})%>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end:: Content -->

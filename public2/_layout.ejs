@@ -1,0 +1,45 @@
+<!-- begin:: Page -->
+<% include ./partials/_header-base-mobile %>
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+            <% include ./partials/_header-base %>
+            <div class="kt-body kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch" id="kt_body">
+                <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+                    <% if(page !== 'undefined' && page === 'downloads'){%>
+                    <% include ./partials/_content-downloads %>
+                    <%} else if (page !== 'undefined' && page === 'videos') {%>
+                    <% include ./partials/_content-videos %>
+                    <%} else if (page !== 'undefined' && page === 'teachersindex') {%>
+                    <% include ./partials/_content-teachers %>
+                    <%} else if (page !== 'undefined' && page === 'facultyprofile') {%>
+                    <% include ./partials/_content-facultyprofile %>
+                    <%} else if (page !== 'undefined' && page === 'dashboard_student') {%>
+                    <% include ./partials/_content-dashboard_student %>
+                    <%} else if (page !== 'undefined' && page === 'dashboard_faculty') {%>
+                    <% include ./partials/_content-dashboard_faculty %>
+                    <%} else if (page !== 'undefined' && page === 'dashboard_admin') {%>
+                    <% include ./partials/_content-dashboard_admin %>
+                    <%} else if (page !== 'undefined' && page === 'downloads_uploadform') {%>
+                    <% include ./partials/_content-downloads_uploadform %>
+                    <%} else if (page !== 'undefined' && page === 'downloads_updateform') {%>
+                    <% include ./partials/_content-downloads_updateform %>
+                    <%} else if (page !== 'undefined' && page === 'videos_uploadform') {%>
+                    <% include ./partials/_content-videos_uploadform %>
+                    <%} else if (page !== 'undefined' && page === 'videos_updateform') {%>
+                    <% include ./partials/_content-videos_updateform %>
+                    <%} else {%>
+             
+                    <% } %>
+                </div>
+            </div>
+            <% include ./partials/_footer-base %>
+        </div>
+    </div>
+</div>
+<!-- end:: Page -->
+
+<% include ./partials/_layout-quick-panel %>
+<% include ./partials/_layout-scrolltop %>
+
+
