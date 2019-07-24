@@ -16,7 +16,7 @@ const flash = require('connect-flash');
 //----------------------------------------------------------------------------//
 const Download = require("./models/download.js");
 const Video = require("./models/video.js");
-const seedDB = require("./seed.js");
+// const seedDB = require("./seed.js");
 const User = require("./models/user.js");
 const Teacher = require("./models/teacher.js");
 
