@@ -31,7 +31,7 @@ const apiRoute = require("./routes/api.js");
 
 
 mongoose.set('debug', true);
-mongoose.connect("mongodb://localhost:27017/examclub", {useNewUrlParser: true});
+mongoose.connect(MONGODB_URL, {useNewUrlParser: true});
 mongoose.set('useCreateIndex', true);
 mongoose.Promise = Promise;
 app.use(bodyParser.json()); 
