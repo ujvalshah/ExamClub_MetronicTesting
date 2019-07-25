@@ -31,7 +31,7 @@ const apiRoute = require("./routes/api.js");
 
 
 mongoose.set('debug', true);
-mongoose.connect(MONGODB_URL , {useNewUrlParser: true});
+mongoose.connect(process.env.MONGODB_URL , {useNewUrlParser: true});
 mongoose.set('useCreateIndex', true);
 mongoose.Promise = Promise;
 app.use(bodyParser.json()); 
