@@ -11,8 +11,7 @@ var storage = multer.diskStorage({
             callback(null, 'uploads/docs')
         },
     filename: function(req, file, callback) {
-    callback(null, Date.now()+'_'+file.originalname);
-    console.log(Date.now());
+    callback(null, file.originalname.slice(0,file.originalname.length - 4) + "_" + Date.now()+'.'+file.mimetype.slice(-3));
   }
 });
 var upload = multer({ storage: storage});
@@ -211,9 +210,10 @@ router.put("/download/:id/counter", (req,res)=>{
 
 //Async Version 1.3
 router.put("/user/downloads/:id/bookmark", async (req,res)=>{
+    if(req.user){
     try{
         let foundUser = await User.findById(req.user.id);
-        if(!foundUser){res.json([{msg:"You need to be signed in!"}]);}
+
         let foundDownload = await Download.findById(req.params.id);
         var exists = foundUser.downloadBookmarks.indexOf(req.params.id);
         console.log(exists);
@@ -246,6 +246,9 @@ router.put("/user/downloads/:id/bookmark", async (req,res)=>{
     catch(error){
     req.flash("error",error.message);
     return res.render("back");
+    }
+} else if (!req.user){
+        res.json([{msg:"You need sign in to bookmark!"}]);
     }
 });
 

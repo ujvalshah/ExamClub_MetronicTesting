@@ -232,10 +232,10 @@ try{
 //----------------------------------------------------------------------------//
 //------------------------------User Save Document----------------------------//
 //----------------------------------------------------------------------------//
-router.put("/user/:id/downloads/:video_id", isStudent, async (req,res)=>{
+router.put("/user/:id/downloads/:doc_id", isStudent, async (req,res)=>{
     try{
         let foundUser= await User.findById(req.params.id);
-        let foundVideo= await Video.findById(req.params.video_id);
+        let foundVideo= await Video.findById(req.params.doc_id);
             if(foundUser.isStudent){
                 if(foundUser.videoBookmarks.includes(foundVideo.id)){
                     console.log("includes");
