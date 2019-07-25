@@ -31,7 +31,7 @@ const apiRoute = require("./routes/api.js");
 
 
 mongoose.set('debug', true);
-mongoose.connect(MONGODB_URL, {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://ujval:ujshah@cluster0-0jpdb.mongodb.net/test?retryWrites=true&w=majority" , {useNewUrlParser: true});
 mongoose.set('useCreateIndex', true);
 mongoose.Promise = Promise;
 app.use(bodyParser.json()); 
