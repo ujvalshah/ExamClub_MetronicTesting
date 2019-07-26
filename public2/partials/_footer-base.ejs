@@ -27,14 +27,14 @@
                 <div class="col-lg-4">
                     <div class="kt-footer__section">
                         <h3 class="kt-footer__title">
-                            Get In Touch
+                            Subscribe for newsletter
                         </h3>
                         <div class="kt-footer__content">
-                            <form action="" class="kt-footer__subscribe">
+                            <form action="/newsletter/subscription" method="POST" class="kt-footer__subscribe">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Enter Your Email">
+                                    <input type="text" class="form-control" name="subscriber" placeholder="Enter Your Email" required>
                                     <div class="input-group-append">
-                                        <button class="btn btn-brand" type="button">Join</button>
+                                        <button class="btn btn-brand" type="submit">Subscribe</button>
                                     </div>
                                 </div>
                             </form>

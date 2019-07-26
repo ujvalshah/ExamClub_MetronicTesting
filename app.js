@@ -19,6 +19,7 @@ const Video = require("./models/video.js");
 // const seedDB = require("./seed.js");
 const User = require("./models/user.js");
 const Teacher = require("./models/teacher.js");
+const Subscriber = require("./models/subscribers.js");
 
 //----------------------------------------------------------------------------//
 //-------------------------------Route Of Application-------------------------//
@@ -33,12 +34,14 @@ const apiRoute = require("./routes/api.js");
 mongoose.set('debug', true);
 mongoose.connect(process.env.MONGODB_URL , {useNewUrlParser: true});
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 mongoose.Promise = Promise;
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public2"));
 app.use(express.static(__dirname + "/public"));
+app.use('/uploads',express.static(__dirname + "/uploads"));
 app.use(methodOverride("_method"));
 app.use(cookieParser('secret'));
 app.use(flash());

@@ -4,6 +4,7 @@ var passport     = require("passport");
 const crypto     = require("crypto");
 const util       = require('util');
 var User         = require("../models/user.js");
+var Subscriber   = require("../models/subscribers.js");
 const {sendPasswordResetMail, sendPasswordResetConfirmationMail} = require("../middleware/email.js");
 //----------------------------------------------------------------------------//
 //--------------------------Index Route Of Application------------------------//
@@ -170,7 +171,15 @@ router.get("/metronic", (req,res)=>{
     res.render("index2", {page:"metronic", title:"Home"});
 })
 
-
+router.post('/newsletter/subscription', async (req,res)=>{
+var newSubscriber = new Subscriber({email: req.body.subscriber});  
+let subscriber = await Subscriber.create(newSubscriber);
+if(!subscriber){
+    console.log(error);
+}
+req.flash("success", "Email successfully added to the list! Thank You!");
+res.redirect("back");
+})
 
 
 module.exports = router;

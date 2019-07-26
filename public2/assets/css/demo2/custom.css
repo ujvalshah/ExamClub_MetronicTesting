@@ -5,3 +5,10 @@
 .kt-portlet#kt_portlet_tools_4 .kt-portlet__head .kt-portlet__head-label .kt-portlet__head-title{
 color: white;
 }
+
+.fas.fa-plus-circle{
+    cursor: pointer;
+} 
+.fas.fa-minus-circle{
+    cursor: pointer;
+} 

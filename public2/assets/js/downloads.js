@@ -26,6 +26,9 @@ $(document).ready(function () {
     $.fn.dataTable.moment('LL', "en-gb");
     //Datatable
     var t = $('#example').DataTable(
+        // {
+            // "dom": 'itpfl'
+        // } ,
 
         {
             "columnDefs": [
@@ -40,7 +43,7 @@ $(document).ready(function () {
                         <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-item"> 
                             <form action="/downloads/`+ row._id + `/edit" method="GET">
-                              <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i> Edit</button>
+                              <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
                             </form>
                         </div>
                            <div class="dropdown-item"> 
@@ -50,13 +53,16 @@ $(document).ready(function () {
                         </div>
                         </div>
                         </span>
-                     <a href="`+ data + `" id="` + row._id + `" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
+                     <a href="/downloads/docs/`+ row._id + `" id="` + row._id + `" title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
                      
                     <form id="bookmark_`+ row._id + `" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/` + row._id + `/bookmark" method="POST">
-                              <button type="submit" class="btn btn-sm btn-clean btn-icon btn-icon-md`+ row._id + `"><i class="fas fa-bookmark"></i></button>
+                              <button type="submit" title="Bookmark" class="btn btn-sm btn-clean btn-icon btn-icon-md`+ row._id + `"><i class="fas fa-bookmark"></i></button>
                     </form>
-                     <a href="#" title="Share"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i class="fas fa-share-alt"></i></span></a>`
-                    },
+                    <a href="#" title="Share"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i class="fas fa-share-alt"></i></span></a>`
+                },
+                // Old Download Method
+                //  <a href="`+ data + `" id="` + row._id + `" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
+
                 },
                 {
                     "targets": 0,
@@ -86,21 +92,21 @@ $(document).ready(function () {
                         let formatted_date = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear();
                         let finalData = moment(formatted_date).format("DD-MMM-YYYY");
                         //let finalData = d.toDateString();
-                        return '<small>' + finalData + '</small>';
+                        return finalData;
                     },
                 },
                 {
                     targets: 3,
                     className: "align-middle text-center",
                     render: function (data, type, full, meta) {
-                        return '<span class="text-capitalize"><small>' + data + '</small></span>';
+                        return '<span class="text-capitalize">' + data + '</span>';
                     },
                 },
                 {
                     targets: 4,
                     className: "align-middle text-center",
                     render: function (data, type, full, meta) {
-                        return '<small>' + data + '</small>';
+                        return data;
                     },
                 },
                 {
@@ -159,7 +165,7 @@ $(document).ready(function () {
                     targets: 7,
                     className: "align-middle",
                     render: function (data, type, full, meta) {
-                        return '<small>' + data + '</small>';
+                        return data;
                     },
                 },
                 { "visible": false, "targets": [8] },
@@ -172,7 +178,7 @@ $(document).ready(function () {
                 },
             ],
             "order": [[1, 'dsc']],
-            "scrollY": 200,
+            "scrollY": 500,
             "scrollX": true,
             "ajax": {
                 "url": "http://localhost:3000/api/downloads/",
@@ -200,7 +206,7 @@ $(document).ready(function () {
         });
     t.on('order.dt search.dt', function () {
         t.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-            cell.innerHTML = '<span><small>' + (i + 1) + '</small></span>';
+            cell.innerHTML = '<span>' + (i + 1) + '</span>';
         });
     }).draw();
 

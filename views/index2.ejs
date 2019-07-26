@@ -34,6 +34,24 @@
     <!-- begin::Body -->
     <body class="kt-page--loading-enabled kt-page--loading kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header--minimize-all kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading" >
     <% include ../public2/partials/_layout-page-loader %>
+    <div>
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger alert-dismissible fade show kt-alert kt-alert--outline m-0" role="alert">
+                <span><%= error %></span> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            <% } %>
+            <% if(success && success.length > 0) { %>
+                <div class="alert alert-success alert-dismissible fade show kt-alert kt-alert--outline m-0" role="alert">
+                <p><%= success %></p> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            <% } %>
+    </div>
     <% include ../public2/_layout %>
     <!-- begin::Global Config(global config for global JS sciprts) -->
     <script>            var KTAppOptions = {

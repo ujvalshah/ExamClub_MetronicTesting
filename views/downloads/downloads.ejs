@@ -52,6 +52,7 @@
             </span>
             <%if(download.file[0]){%>
             <a target="_blank" class="pr-2" href="<%=download.file[0].url%>"> <span><i class="fas fa-file-download"></i></span></a>
+            <a href="`+ data + `" id="` + row._id + `" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
             <%} else {%>
             <a class="pr-2" href="#"> <span><i class="fas fa-file-download"></i></span></a>
             <%}%>
