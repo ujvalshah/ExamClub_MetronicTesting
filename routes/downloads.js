@@ -132,7 +132,7 @@ router.get("/downloads/:id/edit", isLoggedIn, isTeacherOrAdmin, async function (
         res.redirect("/downloads");
     }
     if (req.user._id.toString() === download.author.id.toString() || loggedUser.isAdmin === true) {
-        res.render("index2", { download: download, page: "downloads_updateform", title: "download Update Form" });
+        res.render("index2", { download: download, page: "downloads_updateform", title: "Document Update Form" });
         // res.render("downloads/updateform", {download:download});
     } else {
         req.flash("error", 'To edit you must be the owner of the document.');

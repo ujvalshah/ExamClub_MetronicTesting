@@ -1,11 +1,11 @@
 //PAGE = download_uploadform
 
     
-var downloadAlert = document.querySelector(".download_alert");
-downloadAlert.addEventListener("click",function(){
-    alert("Connected");    
-    // document.querySelector('.downloadSubjectsFormControlSelect1').removeAttribute("hidden");
-});
+// var downloadAlert = document.querySelector(".download_alert");
+// downloadAlert.addEventListener("click",function(){
+//     alert("Connected");    
+//     // document.querySelector('.downloadSubjectsFormControlSelect1').removeAttribute("hidden");
+// });
 
 $("#downloadExamFormControlSelect").on("change", function(){
     var optionVal = $("#downloadExamFormControlSelect option:selected").val();
