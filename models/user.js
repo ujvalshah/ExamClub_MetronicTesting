@@ -7,6 +7,7 @@ var UserSchema = new mongoose.Schema({
     password: String,
     firstName:{type:String, required: true},
     lastName:{type:String, required: true},
+    exam:{type:String},
     image: String,
     description: String,
     location: String,
@@ -43,6 +44,24 @@ var UserSchema = new mongoose.Schema({
     isAdmin: {type: Boolean, default: false},
     isFaculty: {type: Boolean, default: false},
     isStudent: {type: Boolean, default: false},
+    notifications: [
+    	{
+    	   type: mongoose.Schema.Types.ObjectId,
+    	   ref: 'Notifications'
+    	}
+    ],
+    followers: [
+    	{
+    		type: mongoose.Schema.Types.ObjectId,
+    		ref: 'User',
+    	}
+    ],
+    following: [
+    	{
+    		type: mongoose.Schema.Types.ObjectId,
+    		ref: 'User',
+    	}
+    ],
 });
 
 UserSchema.plugin(passportLocalMongoose);

@@ -12,3 +12,23 @@ color: white;
 .fas.fa-minus-circle{
     cursor: pointer;
 } 
+
+.dataTableText{
+    display: block;
+    color: #595d6e;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+#notificationBox{
+    /* float: right; */
+    justify-content: flex-end;
+}
+
+
+#portlet-notification {
+    overflow: auto;
+    height: 60vh;
+    min-width: 55rem;
+}

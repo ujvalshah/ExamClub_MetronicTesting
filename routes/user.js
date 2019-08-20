@@ -1,8 +1,5 @@
 const express      = require("express");
 const router       = express.Router();
-
-   
-
 const Download     = require("../models/download.js");
 const Video     = require("../models/video.js");
 const User     = require("../models/user.js");
@@ -80,6 +77,7 @@ router.get("/teachers/:id", (req, res) => {
 
 // ------------------------>Different Method[Populate]!!!<----------------------
 router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
+    console.log(req.user);
     User.findById(req.params.id, async (err,foundUser)=>{
         if(err){
             console.log(err);
@@ -110,6 +108,7 @@ router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
             });
         } 
         if(foundUser.isStudent===true){
+            console.log(req.user);
                await  User.findById(req.params.id).populate("downloadBookmarks").populate("videoBookmarks").exec((err,foundUser)=>{
                 if(err){
                 console.log(err);
@@ -117,8 +116,10 @@ router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
                  if(req.xhr){
                   res.json({user:foundUser});
                 }else {
+                    console.log(foundUser)
                 res.render("index2",{page:"dashboard_student", user:foundUser, title: "Dashboard"});
                 // res.render("dashboard_student",{page:"dashboard_student", user:foundUser});
+                
               }    
                 }
             });
@@ -235,22 +236,22 @@ try{
 router.put("/user/:id/downloads/:doc_id", isStudent, async (req,res)=>{
     try{
         let foundUser= await User.findById(req.params.id);
-        let foundVideo= await Video.findById(req.params.doc_id);
+        let foundDownloads= await Downloads.findById(req.params.doc_id);
             if(foundUser.isStudent){
-                if(foundUser.videoBookmarks.includes(foundVideo.id)){
+                if(foundUser.downloadsBookmarks.includes(founddownloads.id)){
                     console.log("includes");
-                    await User.findByIdAndUpdate(req.user._id, {$pull:{videoBookmarks: foundVideo.id}}); 
+                    await User.findByIdAndUpdate(req.user._id, {$pull:{downloadsBookmarks: founddownloads.id}}); 
                     foundUser.save();
-                    req.flash("success", "Successfully removed the video from your bookmarks");
+                    req.flash("success", "Successfully removed the downloads from your bookmarks");
                     return res.redirect("back");
                 } else {
                 console.log("does not include");
-                foundUser.videoBookmarks.push(foundVideo);
+                foundUser.downloadsBookmarks.push(founddownloads);
                 foundUser.save();
-                req.flash("success", "Successfully added the video to your bookmarks");
+                req.flash("success", "Successfully added the downloads to your bookmarks");
                 return res.redirect("back");
             }} else {
-                req.flash("error", "You need to be signed to bookmark videos");
+                req.flash("error", "You need to be signed to bookmark downloadss");
             }
         }catch(err){
                 req.flash("error", err.message);
@@ -259,6 +260,37 @@ router.put("/user/:id/downloads/:doc_id", isStudent, async (req,res)=>{
     });
 
 
+//----------------------------------------------------------------------------//
+//--------------------------------Follow Put Request--------------------------//
+//----------------------------------------------------------------------------//
+router.put('/follow/:id', async (req, res)=>{
+    try{
+        let user = await User.findById(req.user.id);
+        let teacher = await User.findById(req.params.id);
+        console.log(req.user._id);
+        if(!user || !teacher){
+            console.log("Some error, try again!");
+        }
+        let following = await user.following.includes(req.params.id);
+        let follower =  await teacher.followers.includes(req.user._id);
+
+        if(follower || following){
+            await user.following.splice(req.params.id.toString(),1);
+            await user.save();
+            await teacher.followers.splice(req.user._id.toString(),1);
+            await teacher.save();
+            return res.json({message:"Both",user, teacher});
+        }
+        
+        await user.following.push(req.params.id);
+        await user.save();
+        await teacher.followers.push(req.user._id);
+        await teacher.save();
+        return res.json({user,teacher});
+    } catch(error){
+        console.log(error)    
+    }
+})
 
 
 

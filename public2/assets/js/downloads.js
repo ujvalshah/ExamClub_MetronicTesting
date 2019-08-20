@@ -4,7 +4,7 @@ function format(d) {
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '<tr>' +
         '<td class="font-weight-bold">Description:</td>' +
-        '<td><small>' + d.description + '</small></td>' +
+        '<td><span class="dataTableText">' + d.description + '</span></td>' +
         '</tr>' +
         // '<tr>'+
         //     '<td class="font-weight-bold">Title:</td>'+
@@ -25,6 +25,7 @@ $(document).ready(function () {
     });
     $.fn.dataTable.moment('LL', "en-gb");
     //Datatable
+    
     var t = $('#example').DataTable(
         // {
             // "dom": 'itpfl'
@@ -87,26 +88,27 @@ $(document).ready(function () {
                     targets: 2,
                     className: "align-middle text-center",
                     render: function (data, type, full, meta) {
-                        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                        let current_datetime = new Date(data);
-                        let formatted_date = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear();
-                        let finalData = moment(formatted_date).format("DD-MMM-YYYY");
+                        // const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                        // let current_datetime = new Date(data);
+                        // let formatted_date = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear();
+                        // let finalData = moment(formatted_date).format("DD-MMM-YYYY");
+                        let testData = moment(data).format("DD-MMM-YYYY");
                         //let finalData = d.toDateString();
-                        return finalData;
+                        return '<span class="dataTableText">' + testData + '</span>';
                     },
                 },
                 {
                     targets: 3,
                     className: "align-middle text-center",
                     render: function (data, type, full, meta) {
-                        return '<span class="text-capitalize">' + data + '</span>';
+                        return '<span class="text-capitalize dataTableText">' + data + '</span>';
                     },
                 },
                 {
                     targets: 4,
                     className: "align-middle text-center",
                     render: function (data, type, full, meta) {
-                        return data;
+                        return '<span class="dataTableText">' + data + '</span>';
                     },
                 },
                 {
@@ -114,11 +116,11 @@ $(document).ready(function () {
                     className: "align-middle text-center",
                     render: function (data, type, full, meta) {
                         var exams = {
-                            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'badge-success' },
-                            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'badge-danger' },
-                            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'badge-warning' },
-                            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'badge-info' },
-                            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'badge-secondary' },
+                            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success' },
+                            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger' },
+                            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning' },
+                            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info' },
+                            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand' },
                         };
                         var dataExam = data.split(",");
                         var txtExam = '';
@@ -126,8 +128,9 @@ $(document).ready(function () {
                             if (txtExam.length > 0) {
                                 txtExam += " "
                             }
-                            txtExam += '<span class="badge ' + exams[item].class + ' ">' + exams[item].title + '</span>';
+                            txtExam += '<span class="btn btn-bold btn-sm btn-font-sm ' + exams[item].class + ' ">' + exams[item].title + '</span>';
                         });
+                          
                         return txtExam;
 
                         if (typeof exams[data] === 'undefined') {
@@ -140,11 +143,11 @@ $(document).ready(function () {
                     className: "align-middle text-center",
                     render: function (data, type, full, meta) {
                         var attempts = {
-                            "Nov 2019": { 'title': "Nov 2019", 'class': 'badge-primary' },
-                            "May 2020": { 'title': "May 2020", 'class': 'badge-danger' },
-                            "Nov 2020": { 'title': "Nov 2020", 'class': 'badge-warning' },
-                            "May 2021": { 'title': "May 2021", 'class': 'badge-success' },
-                            "Nov 2021": { 'title': "Nov 2021", 'class': 'badge-info' },
+                            "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary' },
+                            "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger' },
+                            "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning' },
+                            "May 2021": { 'title': "May 2021", 'class': 'btn-label-success' },
+                            "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-info' },
                         };
                         var datas = data.split(",");
                         var txt = '';
@@ -152,7 +155,7 @@ $(document).ready(function () {
                             if (txt.length > 0) {
                                 txt += " "
                             }
-                            txt += '<span class="badge badge-pill ' + attempts[item].class + ' ">' + attempts[item].title + '</span>';
+                            txt += '<span class="btn btn-bold btn-sm btn-font-sm btn-pill ' + attempts[item].class + ' ">' + attempts[item].title + '</span>';
                         });
                         return txt;
 
@@ -163,9 +166,9 @@ $(document).ready(function () {
                 },
                 {
                     targets: 7,
-                    className: "align-middle",
+                    className: "align-middle text-center",
                     render: function (data, type, full, meta) {
-                        return data;
+                        return '<span class="dataTableText">' + data + '</span>';
                     },
                 },
                 { "visible": false, "targets": [8] },
@@ -181,7 +184,7 @@ $(document).ready(function () {
             "scrollY": 500,
             "scrollX": true,
             "ajax": {
-                "url": "http://localhost:3000/api/downloads/",
+                "url": "/api/downloads/",
                 "dataSrc": ''
             },
 
@@ -206,7 +209,7 @@ $(document).ready(function () {
         });
     t.on('order.dt search.dt', function () {
         t.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-            cell.innerHTML = '<span>' + (i + 1) + '</span>';
+            cell.innerHTML = '<span class="dataTableText">' + (i + 1) + '</span>';
         });
     }).draw();
 
@@ -266,6 +269,7 @@ $(document).ready(function () {
         // alert(`Button with ${buttonid} was clicked`);
         var actionUrl = `/download/${buttonid}/counter`;
         console.log(actionUrl);
+        
         $.ajax({
             url: actionUrl,
             type: "PUT",
@@ -283,7 +287,7 @@ $(document).ready(function () {
         var formid = $(this).attr("id").slice(9);
         // var actionUrl = `/download/${formid}/counter`;
         var actionUrl = 'http://localhost:3000' + $(this).attr('action');
-        // alert(`Bookmark with ${formid} was clicked and with the follwing ${actionUrl}`); 
+        // alert(`Bookmark with ${formid} was clicked and with the following ${actionUrl}`); 
         $.ajax({
             url: actionUrl,
             type: "PUT",

@@ -307,50 +307,44 @@ router.put("/download/:id/counter", (req, res) => {
 });
 
 //Async Version 1.3
-router.put("/user/downloads/:id/bookmark", async (req, res) => {
-    if (req.user) {
-        try {
+    router.put("/user/downloads/:id/bookmark", async (req,res)=>{
+        try{
             let foundUser = await User.findById(req.user.id);
-
+            if(!foundUser){res.json([{msg:"You need to be signed in!"}]);}
             let foundDownload = await Download.findById(req.params.id);
             var exists = foundUser.downloadBookmarks.indexOf(req.params.id);
             console.log(exists);
-            if (exists !== -1 || undefined) {
-                if (req.xhr) {
-                    res.json([{ msg: `${foundDownload.title} is already in your bookmarks. To remove please visit your dashboard.` }])
-                }
+            if(exists !== -1 || undefined){
+                if(req.xhr){
+                    res.json([{msg:`${foundDownload.title} is already in your bookmarks. To remove please visit your dashboard.`}])
+                } 
                 else {
-                    User.findByIdAndUpdate(req.user.id,
-                        { $pull: { downloadBookmarks: req.params.id } }, (err, result) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                req.flash("success", "Bookmark was succesfully removed")
-                                res.redirect("back");
-                            }
-                        })
-                }
-            }
-            else {
+                User.findByIdAndUpdate(req.user.id, 
+                    {$pull: { downloadBookmarks: req.params.id}}, (err, result)=>{
+                        if(err){
+                            console.log(err);
+                        } else {
+                        req.flash("success", "Bookmark was succesfully removed")
+                        res.redirect("back");   
+                   }
+                 })}}
+             else {
                 // let foundDownload = await Download.findById(req.params.id);
-                if (!foundDownload) { res.json([{ msg: "We encountered some issue. Please try again!" }]); }
-                foundUser.downloadBookmarks.push(foundDownload);
-                foundUser.save();
-                if (req.xhr) {
-                    res.json([{ msg: `${foundDownload.title} added to your bookmarks` }]);
-                } else {
-                    res.redirect("back");
-                }
-            };
+                if(!foundDownload){res.json([{msg:"We encountered some issue. Please try again!"}]);}
+                    foundUser.downloadBookmarks.push(foundDownload);
+                    foundUser.save();
+                    if(req.xhr){
+                        res.json([{msg:`${foundDownload.title} added to your bookmarks`}]);
+                    } else {
+                        res.redirect("back");
+                    }
+                }; 
         }
-        catch (error) {
-            req.flash("error", error.message);
-            return res.render("back");
+        catch(error){
+        req.flash("error",error.message);
+        return res.render("back");
         }
-    } else if (!req.user) {
-        res.json([{ msg: "You need sign in to bookmark!" }]);
-    }
-});
+    });
 
 
 router.get("/downloads/docs/:id", isLoggedIn, (req, res) => {

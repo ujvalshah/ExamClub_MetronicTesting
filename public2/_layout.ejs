@@ -6,7 +6,9 @@
             <% include ./partials/_header-base %>
             <div class="kt-body kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch" id="kt_body">
                 <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
-                    <% if(page !== 'undefined' && page === 'downloads'){%>
+                    <% if(page !== 'undefined' && page === 'homepage'){%>
+                    <% include ./partials/_content-homepage %>
+                    <%} else if(page !== 'undefined' && page === 'downloads'){%>
                     <% include ./partials/_content-downloads %>
                     <%} else if (page !== 'undefined' && page === 'videos') {%>
                     <% include ./partials/_content-videos %>

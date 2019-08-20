@@ -4,26 +4,44 @@
         <div class="kt-subheader__main">
             <h3 class="kt-subheader__title">
                 <% if(typeof title !== 'undefined'){%>
-                  <%=title%>
+                <%=title%>
                 <%}%>
             </h3>
             <span class="kt-subheader__separator kt-subheader__separator--v"></span> 
             <!-- <span class="kt-subheader__desc">#XRS-45670</span>  -->
             <% if(currentUser && !currentUser.isStudent){%>
-            <a href="/downloads/upload" class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10"> Add Notes</a> 
-            <a href="/videos/new" class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10"> Add Videos</a> 
-            <%}%>
-
-            <% if(typeof page !== 'undefined' && page === "videos"){%>
-            <form action="/videos" method="GET">                
-            <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
-                <input type="text" class="form-control" placeholder="Search videos..." id="generalSearch">
-                <span class="kt-input-icon__icon kt-input-icon__icon--right">
-                        <span><i class="flaticon2-search-1"></i></span>
-                </span>
-            </div>
-            <%}%>
+                <a href="/downloads/upload" class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10"> Add
+                    Notes</a>
+                <a href="/videos/new" class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10"> Add Videos</a>
+                <button type="button" id="notificationModalBtn" class="btn btn-bold btn-label-warning btn-sm kt-margin-l-10"
+                    data-toggle="modal" data-target="#kt_modal_4">Send Notification</button>
+                <%}%>
         </div>
+
+        
+
+            <div style="padding: 0 1rem; margin-top:0.25rem" >
+            <% if(typeof page !== 'undefined' && page === "videos"){%>
+                <form action="/videos" method="GET">
+                    <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+                        <input type="text" class="form-control" placeholder="Search videos..." id="generalSearch">
+                        <span class="kt-input-icon__icon kt-input-icon__icon--right">
+                            <span><i class="flaticon2-search-1"></i></span>
+                        </span>
+                    </div>
+                </form>
+                <%}%>
+
+            
+                <!-- <form action="/notification" method="POST">
+                    <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+                        <input type="text" class="form-control" name="notificationMessage" id="notificationMessage">
+                    </div>
+                    <button id="notificationButton" class="btn btn-small btn-primary btn-bold">Send
+                        notification</button>
+                </form> -->
+
+            </div>
         <!-- <div class="kt-subheader__toolbar">
                 <div class="kt-subheader__wrapper">
                     <a href="#" class="btn kt-subheader__btn-daterange" id="kt_dashboard_daterangepicker" data-toggle="kt-tooltip" title="Select dashboard daterange" data-placement="left"> <span class="kt-subheader__btn-daterange-title" id="kt_dashboard_daterangepicker_title">Today</span>&nbsp; <span class="kt-subheader__btn-daterange-date" id="kt_dashboard_daterangepicker_date">Aug 16</span> <i class="flaticon2-calendar-1"></i> </a>
@@ -73,3 +91,49 @@
         </div>
     </div>
     <!-- end:: Content Head -->
+    <!--begin::Modal-->
+<div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form  action="/notification" method="POST">
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Sender:</label>
+                            <% if(currentUser){%>
+                            <input type="text" class="form-control" id="notification-sender-name" name="notification-sender-name"
+                                value="<%=currentUser.username%>" readonly>
+                            <%} else if (!currentUser) { %>
+                            <input type="text" class="form-control" id="notification-sender-name" name="notification-sender-name">
+                            <%}%>
+                        </div>
+                        <div class="form-group">
+                            <label for="notificationMessage" class="form-control-label">Message:</label>
+                            <textarea class="form-control" name="notificationMessage" id="notificationMessage"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="notificationExamData">Applicable to exam:</label>
+                            <select class="form-control" id="notificationExamData" name="notificationExamData">
+                                <option disabled selected  value="">Choose Exam..</option>
+                                <option value="CA Final(New)">CA Final(New)</option>
+                                <option value="CA Final(Old)">CA Final(Old)</option>
+                                <option value="CA Intermediate(New)">CA Intermediate(New)</option>
+                                <option value="CA IPCC(Old)">CA IPCC(Old)</option>
+                                <option value="CA Foundation(New)">CA Foundation(New)</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer" id="notificationFooter">
+                            <button type="button" id="notificationBtn-close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" id="notificationBtn" class="btn btn-primary">Send message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->

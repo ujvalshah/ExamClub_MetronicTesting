@@ -2,6 +2,7 @@ var express      = require("express");
 var router       = express.Router();
 var User         = require("../models/user.js");
 var Download = require("../models/download.js");
+var Notification = require("../models/notifications.js");
 var Video = require("../models/video.js");
 var middleware = require("../middleware");
 var { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilter} = middleware;
@@ -148,6 +149,33 @@ router.delete("/videos/:id", async function(req, res){
     })
 })
 
-module.exports = router;
+// //----------------------------------------------------------------------------//
+// //-------------------------Notification Route(GET)----------------------------//
+// //----------------------------------------------------------------------------//
+
+
+// app.get('/notification', (req, res) => {
+//     Notification.find({}, (err, foundNotification) => {
+//         if (err) {
+//             console.log(err);
+//         }
+//         res.json(foundNotification);
+//     })
+// })
+
+// //----------------------------------------------------------------------------//
+// //--------------------------Notification Route(Post)--------------------------//
+// //----------------------------------------------------------------------------//
+
+// app.post('/notification', (req, res) => {
+//     console.log(req.body.message);
+//     Notification.create({message:req.body.message}, (err, newNotification) => {
+//         if (err) {
+//             console.log(err);
+//         };
+//         console.log("Successfully added the notification", newNotification);
+//     });
+// })
+
 
 module.exports = router;
