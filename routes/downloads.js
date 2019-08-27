@@ -307,44 +307,46 @@ router.put("/download/:id/counter", (req, res) => {
 });
 
 //Async Version 1.3
-    router.put("/user/downloads/:id/bookmark", async (req,res)=>{
-        try{
-            let foundUser = await User.findById(req.user.id);
-            if(!foundUser){res.json([{msg:"You need to be signed in!"}]);}
-            let foundDownload = await Download.findById(req.params.id);
-            var exists = foundUser.downloadBookmarks.indexOf(req.params.id);
-            console.log(exists);
-            if(exists !== -1 || undefined){
-                if(req.xhr){
-                    res.json([{msg:`${foundDownload.title} is already in your bookmarks. To remove please visit your dashboard.`}])
-                } 
-                else {
-                User.findByIdAndUpdate(req.user.id, 
-                    {$pull: { downloadBookmarks: req.params.id}}, (err, result)=>{
-                        if(err){
+router.put("/user/downloads/:id/bookmark", async (req, res) => {
+    try {
+        let foundUser = await User.findById(req.user.id);
+        if (!foundUser) { res.json([{ msg: "You need to be signed in!" }]); }
+        let foundDownload = await Download.findById(req.params.id);
+        var exists = foundUser.downloadBookmarks.indexOf(req.params.id);
+        console.log(exists);
+        if (exists !== -1 || undefined) {
+            if (req.xhr) {
+                res.json([{ msg: `${foundDownload.title} is already in your bookmarks. To remove please visit your dashboard.` }])
+            }
+            else {
+                User.findByIdAndUpdate(req.user.id,
+                    { $pull: { downloadBookmarks: req.params.id } }, (err, result) => {
+                        if (err) {
                             console.log(err);
                         } else {
-                        req.flash("success", "Bookmark was succesfully removed")
-                        res.redirect("back");   
-                   }
-                 })}}
-             else {
-                // let foundDownload = await Download.findById(req.params.id);
-                if(!foundDownload){res.json([{msg:"We encountered some issue. Please try again!"}]);}
-                    foundUser.downloadBookmarks.push(foundDownload);
-                    foundUser.save();
-                    if(req.xhr){
-                        res.json([{msg:`${foundDownload.title} added to your bookmarks`}]);
-                    } else {
-                        res.redirect("back");
-                    }
-                }; 
+                            req.flash("success", "Bookmark was succesfully removed")
+                            res.redirect("back");
+                        }
+                    })
+            }
         }
-        catch(error){
-        req.flash("error",error.message);
+        else {
+            // let foundDownload = await Download.findById(req.params.id);
+            if (!foundDownload) { res.json([{ msg: "We encountered some issue. Please try again!" }]); }
+            foundUser.downloadBookmarks.push(foundDownload);
+            foundUser.save();
+            if (req.xhr) {
+                res.json([{ msg: `${foundDownload.title} added to your bookmarks` }]);
+            } else {
+                res.redirect("back");
+            }
+        };
+    }
+    catch (error) {
+        req.flash("error", error.message);
         return res.render("back");
-        }
-    });
+    }
+});
 
 
 router.get("/downloads/docs/:id", isLoggedIn, (req, res) => {
@@ -436,5 +438,39 @@ router.get("/downloads/docs/:id", isLoggedIn, (req, res) => {
 //         });     
 //     }); 
 
+//----------------------------------------------------------------------------//
+//----------------------Downloads - Share-Landing Page------------------------//
+//----------------------------------------------------------------------------//
+router.get('/downloads/:id', async(req, res)=>{
+    try
+    {
+        var document = await Download.findById(req.params.id);
+        console.log(document.author.id);
+        var authorid = await User.findById(document.author.id);
+        // res.redirect('/teachers/'+authorid)
+    // var author = User.findById(document.author.id);
+    if(!document){
+        req.flash('error', 'Please try again');
+        res.redirect('/downloads');
+    }
+    // res.redirect('/teachers/' + author.id);
+    var documentName = document.file[0].url.slice(13);
+    var fileFormat = document.file[0].url.slice(-4);
+    var fileName = documentName.substring(0, documentName.indexOf('_'));
+    var documentLocation = path.join('uploads', 'docs', documentName)
+    console.log(fileFormat);
+    console.log(documentName);
+    console.log(fileName);
+    console.log(documentLocation);
+    var file = fs.createReadStream(documentLocation);
+    res.setHeader('Content-Disposition', 'attachment; filename="' + fileName + '' + fileFormat + '" ');
+    file.pipe(res);
+} catch(error){
+    req.flash('error',error.message);
+    res.redirect('/downloads');
+}
+    
+    
+})
 
 module.exports = router;

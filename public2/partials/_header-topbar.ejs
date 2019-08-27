@@ -1,44 +1,35 @@
 <!-- begin:: Header Topbar -->
 <div class="kt-header__topbar">
     <!--begin: Notifications -->
-    <% if(currentUser){%>
+    <!-- <% if(currentUser){%>
     <div class="kt-header__topbar-item dropdown">
-            <div class="text-nowrap" data-toggle="dropdown" id="quickpanel" title="Quick panel" data-placement="left" data-offset="10px,10px">
-                    
-                <div><button type="button" class="btn btn-brand">
-                            Notifications <span id="notification-btn-badge" class="kt-badge kt-badge kt-badge--danger"></span>
-                    </button></div>
-                <!-- <button type="button" class="btn btn-brand">Notifications<span class="kt-badge kt-badge--brand">3</span></button>     -->
-                <!-- <div><span class="kt-menu__link-icon"></span><span class="kt-menu__link-text">Campaigns</span><span class="kt-menu__link-badge"><span class="kt-badge kt-badge--success kt-badge--rounded">3</span></span></a></div> -->
-                        
-                <!-- <span class="kt-header__topbar-icon kt-pulse kt-pulse--warning">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--warning">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect id="bound" x="0" y="0" width="24" height="24"/>
-                            <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>
-                            <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" id="Combined-Shape" fill="#000000"/>
-                        </g>
-                    </svg>
-                    <span class="kt-pulse__ring"></span>
-                </span> -->
-            </div>
-            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
-                <form>
-                        <% include ./_dropdown-notifications %>
-                </form>
-            </div>
+        <div class="text-nowrap" data-toggle="dropdown" id="quickpanel" title="Quick panel" data-placement="left"
+            data-offset="10px,10px">
+
+            <div><button type="button" class="btn btn-brand">
+                    Notifications <span id="notification-btn-badge" class="kt-badge kt-badge kt-badge--danger"></span>
+                </button></div>
         </div>
-        <!--end: Notifications -->
-    <%}%>
+        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
+            <form>
+                include ./_dropdown-notifications 
+            </form>
+        </div>
+    </div>
+    <%}%> -->
+    <!--end: Notifications -->
 
     <% if(currentUser){%>
     <!--begin: User bar -->
     <div class="kt-header__topbar-item kt-header__topbar-item--user">
         <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,10px" aria-expanded="false">
-            <span class="kt-header__topbar-welcome">Hi,</span><span class="kt-header__topbar-username text-nowrap"><%=currentUser.firstName.charAt(0).toUpperCase()%><%=currentUser.firstName.substring(1).toLowerCase()%> <%=currentUser.lastName.charAt(0).toUpperCase()%><%=currentUser.lastName.substring(1).toLowerCase()%></span>
+            <span class="kt-header__topbar-welcome">Hi,</span><span
+                class="kt-header__topbar-username text-nowrap"><%=currentUser.firstName.charAt(0).toUpperCase()%><%=currentUser.firstName.substring(1).toLowerCase()%>
+                <%=currentUser.lastName.charAt(0).toUpperCase()%><%=currentUser.lastName.substring(1).toLowerCase()%></span>
             <!-- <img class="kt-hidden" alt="Pic" src="./assets/media/users/300_21.jpg"> -->
             <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
-            <span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold kt-hidden-"><%=currentUser.firstName.charAt(0).toUpperCase()%></span>
+            <span
+                class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold kt-hidden-"><%=currentUser.firstName.charAt(0).toUpperCase()%></span>
         </div>
         <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
             <% include ./_dropdown-user %>
@@ -46,8 +37,8 @@
     </div>
     <!--end: User bar -->
     <%} else {%>
-        <a href="/register" class="btn btn-label-warning btn-bold btn-icon-h kt-margin-l-10"> Register</a>
-        <a href="/login" class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10"> Login</a> 
+    <a href="/register" class="btn btn-label-warning btn-bold btn-icon-h kt-margin-l-10"> Register</a>
+    <a href="/login" class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10"> Login</a>
     <%}%>
 </div>
 <!-- end:: Header Topbar -->

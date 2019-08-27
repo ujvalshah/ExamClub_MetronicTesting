@@ -59,7 +59,7 @@ $(document).ready(function () {
                     <form id="bookmark_`+ row._id + `" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/` + row._id + `/bookmark" method="POST">
                               <button type="submit" title="Bookmark" class="btn btn-sm btn-clean btn-icon btn-icon-md`+ row._id + `"><i class="fas fa-bookmark"></i></button>
                     </form>
-                    <a href="#" title="Share"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i class="fas fa-share-alt"></i></span></a>`
+                    <a href="https://web.whatsapp.com/send?text=/downloads/`+row._id+`" title="Share" target="_blank"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i class="fas fa-share-alt"></i></span></a>`
                 },
                 // Old Download Method
                 //  <a href="`+ data + `" id="` + row._id + `" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
