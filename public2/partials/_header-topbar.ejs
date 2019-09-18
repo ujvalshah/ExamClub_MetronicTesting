@@ -1,22 +1,23 @@
 <!-- begin:: Header Topbar -->
 <div class="kt-header__topbar">
     <!--begin: Notifications -->
-    <!-- <% if(currentUser){%>
+    <% if(currentUser){%>
     <div class="kt-header__topbar-item dropdown">
-        <div class="text-nowrap" data-toggle="dropdown" id="quickpanel" title="Quick panel" data-placement="left"
+        <div class="text-nowrap" data-toggle="dropdown" id="quickpanel" title="Notifications" data-placement="left"
             data-offset="10px,10px">
-
-            <div><button type="button" class="btn btn-brand">
+            <div>
+                <button type="button" class="btn btn-brand">
                     Notifications <span id="notification-btn-badge" class="kt-badge kt-badge kt-badge--danger"></span>
-                </button></div>
+                </button>
+            </div>
         </div>
         <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
             <form>
-                include ./_dropdown-notifications 
+                <% include ./_dropdown-notifications %>
             </form>
         </div>
     </div>
-    <%}%> -->
+    <%}%>
     <!--end: Notifications -->
 
     <% if(currentUser){%>

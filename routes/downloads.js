@@ -6,7 +6,8 @@ const User = require("../models/user.js");
 const multer = require('multer');
 const path = require("path");
 const middleware = require("../middleware");
-const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin } = middleware;
+const moment = require('moment');
+const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs } = middleware;
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, 'uploads/docs')
@@ -27,17 +28,122 @@ cloudinary.config({
 //----------------------------------------------------------------------------//
 //--------------------------Downloads Routes----------------------------------//
 //----------------------------------------------------------------------------//
-router.get("/downloads", function (req, res) {
-    Download.find({}, (err, foundDownload) => {
+router.get("/downloads",searchAndFilterDocs, function(req, res){
+    const {docdbQuery, paginateUrl} = res.locals;
+    delete res.locals.docdbQuery;
+
+    console.log('*****docdbquery****');
+    console.log(docdbQuery);
+    Download.find(docdbQuery, (err, foundDownload) => {
         if (err) {
             req.flash("error");
             res.redirect("back");
         } else {
-            res.render("index2", { downloads: foundDownload, page: "downloads", title: "Downloads" });
+            console.log('----------');
+            console.log(res.locals.docquery);
+            console.log('----------');
+            console.log(foundDownload.length);
+            
+            if (!foundDownload.length && res.locals.query) {
+                res.locals.error = 'No results match that query.';
+                }
+            res.render("index2", { downloads: foundDownload, paginateUrl, page: "downloads", title: "Downloads"});
             // res.render("downloads/downloads", {downloads: foundDownload, page: downloads});
         }
     });
 });
+
+router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
+    try{
+    console.log('*****Req.Query***********');   
+    console.log(req.query);   
+    console.log('*****Req.Query***********');   
+    const {docdbQuery, paginateUrl} = res.locals;
+    delete res.locals.docdbQuery;
+
+    console.log('*****docdbquery****');
+    console.log(docdbQuery);
+
+    var foundDownload = await Download.paginate(docdbQuery, {
+        page: parseInt(req.query.page) || 1,
+        limit: parseInt(req.query.limit) || 10,
+        sort: req.query.sort || '-createdAt',
+    });
+    if(!foundDownload){
+    req.flash("error");
+    res.redirect("back");
+    }
+        var attemptsButtons = {
+            "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary' },
+            "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger' },
+            "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning' },
+            "May 2021": { 'title': "May 2021", 'class': 'btn-label-success' },
+            "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark' },
+        };
+
+        examsButtons = {
+            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success' },
+            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger' },
+            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning' },
+            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info' },
+            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand' },
+            "General": { 'title': "General", 'class': 'btn-label-dark' },
+            "": { 'title': "", 'class': 'btn-label-light' },
+        };
+
+    if(req.xhr){
+        console.log(foundDownload.docs.length);
+        foundDownload.pageUrl = paginateUrl;
+        foundDownload.attemptsButtons = attemptsButtons;
+        foundDownload.examsButtons = examsButtons;
+        return res.json(foundDownload);
+    } else {
+        console.log('----------');
+        console.log(res.locals.docquery);
+        console.log('----------');
+        console.log(foundDownload.docs.length);
+        console.log('----------');
+        if (!foundDownload.length && res.locals.query) {
+            res.locals.error = 'No results match that query.';
+            }
+        res.render("index2", { downloads: foundDownload, attemptsButtons, examsButtons, page: "downloadscopy", title: "Downloads"});
+    }
+} catch(error){
+    console.log(error);
+}
+});
+
+
+// router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
+//     const {docdbQuery} = res.locals;
+//     delete res.locals.docdbQuery;
+
+//     console.log('*****docdbquery****');
+//     console.log(docdbQuery);
+
+
+//     Download.find(docdbQuery, (err, foundDownload) => {
+//         if (err) {
+//             req.flash("error");
+//             res.redirect("back");
+//         } else {
+//             if(req.xhr){
+//                 res.json(foundDownload);
+//             }
+//             else {
+//             console.log('----------');
+//             console.log(res.locals.docquery);
+//             console.log('----------');
+//             console.log(foundDownload.length);
+            
+//             if (!foundDownload.length && res.locals.query) {
+//                 res.locals.error = 'No results match that query.';
+//                 }
+//             res.render("index2", { downloads: foundDownload, page: "downloadscopy", title: "Downloads"});
+//             // res.render("downloads/downloads", {downloads: foundDownload, page: downloads});
+//         }};
+//     });
+// });
 // {downloads: "edit data"}
 
 router.get("/downloads/caintermediate", function (req, res) {
@@ -292,7 +398,8 @@ router.put("/download/:id/counter", (req, res) => {
                         userDownloadData = {
                             id: foundUser,
                         };
-                        Download.findByIdAndUpdate(foundDownload, { $inc: { 'downloadCounter': 1 }, $addToSet: { downloadStudents: { id: foundUser, username: foundUser.username } } }, function (err, res) {
+                        Download.findByIdAndUpdate(foundDownload, 
+                            { $inc: { 'downloadCounter': 1 }, $addToSet: {downloadStudents: { id: foundUser, username: foundUser.username } } }, {new:true},function (err, res) {
                             if (err) {
                                 console.log(err);
                                 return res.send(err);

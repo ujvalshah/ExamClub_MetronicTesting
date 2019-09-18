@@ -1,0 +1,18 @@
+<% include ./_subheader-subheader-v2 %>
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+    <%if(currentUser.emailVerified === false){%>
+        You need to verify your email id to access all the features of this website. <br> 
+        Already a link has been sent to <%=currentUser.email%>.<br>
+        If not then please click on resend button to resend the verification email.
+        
+        <form action="/email-verification?_method=PUT" method="POST">
+            <button type="submit" class="btn btn-label-info btn-pill mt-3">Resend Email</button>
+        </form>
+    <%}%>
+
+    <%if(currentUser.emailVerified === true){%>
+        Your email id <%=currentUser.email%> is verified.
+    <%}%>
+</div>
+<!-- end:: Content -->

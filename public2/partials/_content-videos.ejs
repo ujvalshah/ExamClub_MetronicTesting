@@ -1,170 +1,220 @@
 <% include ./_subheader-subheader-v2 %>
 <div style="margin: 0 6rem">
-<div class="kt-container  kt-grid__item kt-grid__item--fluid">
-<!-- <div class="container"> -->
-	<!--begin::Portlet-->
-  <div class="kt-portlet" data-ktportlet="true" id="kt_portlet_tools_4">
-    <div class="kt-portlet__head">
-      <div class="kt-portlet__head-label">
-        <h3 class="kt-portlet__head-title">
-          Filter/Sort Videos
-        </h3>
-      </div>
-      <div class="kt-portlet__head-toolbar">
-        <div class="kt-portlet__head-group">
-          <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-danger btn-icon-md"><i class="la la-angle-down"></i></a>
-          <!-- <a href="#" data-ktportlet-tool="reload" class="btn btn-sm btn-icon btn-success btn-icon-md"><i class="la la-refresh"></i></a> -->
-          <!-- <i href="#" data-ktportlet-tool="remove" class="btn btn-sm btn-icon btn-warning btn-icon-md"><i class="la la-close"></i></a> -->
+  <div class="kt-container  kt-grid__item kt-grid__item--fluid">
+    <!-- <div class="container"> -->
+    <!--begin::Portlet-->
+    <div class="kt-portlet" data-ktportlet="true" id="kt_portlet_tools_4">
+      <div class="kt-portlet__head">
+        <div class="kt-portlet__head-label">
+          <h3 class="kt-portlet__head-title">
+            Filter/Sort Videos
+          </h3>
+        </div>
+        <div class="kt-portlet__head-toolbar">
+          <div class="kt-portlet__head-group">
+            <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-danger btn-icon-md"><i
+                class="la la-angle-down"></i></a>
+            <!-- <a href="#" data-ktportlet-tool="reload" class="btn btn-sm btn-icon btn-success btn-icon-md"><i class="la la-refresh"></i></a> -->
+            <!-- <i href="#" data-ktportlet-tool="remove" class="btn btn-sm btn-icon btn-warning btn-icon-md"><i class="la la-close"></i></a> -->
+          </div>
         </div>
       </div>
-    </div>
-    <div class="kt-portlet__body">
+      <div class="kt-portlet__body">
 
         <form class="form-inline float-right my-2 my-lg-0 ml-auto" action="/videos" method="GET">
           <div class="row">
-          <div class="d-flex p-2 bd-highlight">
+            <div class="d-flex p-2 bd-highlight">
               <div class="col">
-            <input class="form-control mr-sm-2" id="search-video" type="search" placeholder="Search Videos..." name = "search" aria-label="Search" value="">
-            </div>
-          
-          <div class="col">
-           <div class="input-group mb-3">
+                <input class="form-control mr-sm-2" id="search-video" type="search" placeholder="Search Videos..."
+                  name="search" aria-label="Search" value="">
+              </div>
+
+              <div class="col">
+                <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                  <label class="input-group-text" for="videoSortSelect01">Sort</label>
+                    <label class="input-group-text" for="videoSortSelect01">Sort</label>
                   </div>
-                <select class="custom-select videoSortSelect" id="videoSortSelect01" onchange="this.form.submit()" name="sort">
-                  <option disabled <%= !query.exam ? "selected" : "" %>>Choose...</option>
-                  <option value="Latest" <%= query.sort && query.sort==="Latest" ? "selected" : "" %>>Latest</option>
-                  <option value="Earliest" <%= query.sort && query.sort==="Earliest" ? "selected" : "" %>>Earliest</option>
-                  <option value="Description-Ascending" <%= query.sort && query.sort==="Description-Ascending" ? "selected" : "" %>>Description-Ascending</option>
-                  <option value="Description-Descending"<%= query.sort && query.sort==="Description-Descending" ? "selected" : "" %>>Description-Descending</option>
-                </select>
+                  <select class="custom-select videoSortSelect" id="videoSortSelect01" onchange="this.form.submit()"
+                    name="sort">
+                    <option disabled <%= !query.exam ? "selected" : "" %>>Choose...</option>
+                    <option value="Latest" <%= query.sort && query.sort==="Latest" ? "selected" : "" %>>Latest</option>
+                    <option value="Earliest" <%= query.sort && query.sort==="Earliest" ? "selected" : "" %>>Earliest
+                    </option>
+                    <option value="Description-Ascending"
+                      <%= query.sort && query.sort==="Description-Ascending" ? "selected" : "" %>>Description-Ascending
+                    </option>
+                    <option value="Description-Descending"
+                      <%= query.sort && query.sort==="Description-Descending" ? "selected" : "" %>>
+                      Description-Descending</option>
+                  </select>
+                </div>
+              </div>
             </div>
-           </div>
-           </div>
           </div>
-      
-              <h4>Filters</h4>
-              <div class="row">
-                  <div class="col-md-3">
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                          <label class="input-group-text" for="videoGroupSelect01">Exam</label>
-                          </div>
-                        <select class="custom-select videoGroupSelect" id="videoGroupSelect01" name="exam[]" onchange="this.form.submit()">
-                          <option class="choose-video" disabled <%= !query.exam ? "selected" : "" %>>Choose...</option>
-                          <option value="All">All</option>
-                          <option value="rf" <%= query.exam && query.exam.includes("rf") ? "selected" : "" %>>Remove Filter</option>
-                          <option value="CA Final(New)" <%= query.exam && query.exam.includes("CA Final(New)") ? "selected" : "" %>>CA Final(New)</option>
-                          <option value="CA Final(Old)" <%= query.exam && query.exam.includes("CA Final(Old)") ? "selected" : "" %>>CA Final(Old)</option>
-                          <option value="CA Intermediate(New)" <%= query.exam && query.exam.includes("CA Intermediate(New)") ? "selected" : "" %>>CA Intermediate(New)</option>
-                          <option value="CA IPCC(Old)" <%= query.exam && query.exam.includes("CA IPCC(Old)") ? "selected" : "" %>>CA IPCC(Old)</option>
-                          <option value="CA Foundation(New)" <%= query.exam && query.exam.includes("CA Foundation(New)") ? "selected" : "" %>>CA Foundation(New)</option>
-                        </select>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                          <label class="input-group-text" for="videoGroupSelect02">Attempt</label>
-                          </div>
-                        <select class="custom-select videoGroupSelect" id="videoGroupSelect02" name="attempt[]" onchange="this.form.submit()">
-                          <option disabled <%= !query.attempt ? "selected" : "" %>>Choose...</option>
-                          <option value="All">All</option>
-                          <option value="rf" <%= query.attempt && query.attempt.includes("rf") ? "selected" : "" %>>Remove Filter</option>
-                          <option value="Nov 2019"<%= query.attempt && query.attempt.includes("Nov 2019") ? "selected" : "" %>>Nov 2019</option>
-                          <option value="May 2020"<%= query.attempt && query.attempt.includes("May 2020") ? "selected" : "" %>>May 2020</option>
-                          <option value="Nov 2020"<%= query.attempt && query.attempt.includes("Nov 2020") ? "selected" : "" %>>Nov 2020</option>
-                          <option value="May 2021"<%= query.attempt && query.attempt.includes("May 2021") ? "selected" : "" %>>May 2021</option>
-                          <option value="Nov 2021"<%= query.attempt && query.attempt.includes("Nov 2021") ? "selected" : "" %>>Nov 2021</option>
-                          </select>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                          <label class="input-group-text" for="videoGroupSelect03">Author</label>
-                          </div>
-                        <select class="custom-select videoGroupSelect" id="videoGroupSelect03">
-                          <option>Choose...</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
-                      </div>
-                  </div>
-                      <div class="col-md-3">
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                          <label class="input-group-text" for="videoGroupSelect04">Option</label>
-                          </div>
-                        <select class="custom-select videoGroupSelect" id="videoGroupSelect04">
-                          <option>Choose...</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
-                      </div>
-                  </div>
+
+          <h4>Filters</h4>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="videoGroupSelect01">Exam</label>
+                </div>
+                <select class="custom-select videoGroupSelect" id="videoGroupSelect01" name="exam[]"
+                  onchange="this.form.submit()">
+                  <option class="choose-video" disabled <%= !query.exam ? "selected" : "" %>>Choose...</option>
+                  <option value="All">All</option>
+                  <option value="rf" <%= query.exam && query.exam.includes("rf") ? "selected" : "" %>>Remove Filter
+                  </option>
+                  <option value="CA Final(New)"
+                    <%= query.exam && query.exam.includes("CA Final(New)") ? "selected" : "" %>>CA Final(New)</option>
+                  <option value="CA Final(Old)"
+                    <%= query.exam && query.exam.includes("CA Final(Old)") ? "selected" : "" %>>CA Final(Old)</option>
+                  <option value="CA Intermediate(New)"
+                    <%= query.exam && query.exam.includes("CA Intermediate(New)") ? "selected" : "" %>>CA
+                    Intermediate(New)</option>
+                  <option value="CA IPCC(Old)"
+                    <%= query.exam && query.exam.includes("CA IPCC(Old)") ? "selected" : "" %>>CA IPCC(Old)</option>
+                  <option value="CA Foundation(New)"
+                    <%= query.exam && query.exam.includes("CA Foundation(New)") ? "selected" : "" %>>CA Foundation(New)
+                  </option>
+                </select>
               </div>
-              <div class="row">
-                  <div class="col-md-3">
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                          <label class="input-group-text" for="videoGroupSelect05">Subject</label>
-                          </div>
-                          <select class="custom-select videoGroupSelect" id="videoGroupSelect05" name="subject[]" onchange="this.form.submit()">
-                          <option <%= !query.subject ? "selected" : "" %> disabled>Choose...</option>
-                          <option value="All">All</option>
-                          <option value="rf" <%= query.subject && query.subject.includes("rf") ? "selected" : "" %>>Remove Filter</option>
-                          <option value="CA Final - P1: Financial Reporting"<%= query.subject && query.subject.includes("CA Final - P1: Financial Reporting") ? "selected" : "" %>>P1:Financial Reporting</option>
-                          <option value="CA Final - P2: Strategic Financial Management"<%= query.subject && query.subject.includes("CA Final - P2: Strategic Financial Management") ? "selected" : "" %>>P2:Strategic Financial Management</option>
-                          <option value="CA Final - P3: Advanced Auditing and Professional Ethics"<%= query.subject && query.subject.includes("CA Final - P3: Advanced Auditing and Professional Ethics") ? "selected" : "" %>>P3:Advanced Auditing and Professional Ethics</option>
-                          <option value="CA Final - P4: Corporate & Economic Laws"<%= query.subject && query.subject.includes("CA Final - P4: Corporate & Economic Laws") ? "selected" : "" %>>P4:Corporate & Economic Laws</option>
-                          <option value="CA Final - P5: Strategic Cost Management and Performance Evaluation"<%= query.subject && query.subject.includes("CA Final - P5: Strategic Cost Management and Performance Evaluation") ? "selected" : "" %>>P5:Strategic Cost Management and Performance Evaluation</option>
-                          <option value="CA Final - P6A: Risk Management"<%= query.subject && query.subject.includes("CA Final - P6A: Risk Management") ? "selected" : "" %>>P6A:Risk Management</option>
-                          <option value="CA Final - P6B: Financial Services & Capital Markets"<%= query.subject && query.subject.includes("CA Final - P6B: Financial Services & Capital Markets") ? "selected" : "" %>>P6B:Financial Services & Capital Markets</option>
-                          <option value="CA Final - P6C: International Taxation"<%= query.subject && query.subject.includes("CA Final - P6C: International Taxation") ? "selected" : "" %>>P6C:International Taxation</option>
-                          <option value="CA Final - P6E: Global Financial Reporting Standards"<%= query.subject && query.subject.includes("CA Final - P6E: Global Financial Reporting Standards") ? "selected" : "" %>>P6E:Global Financial Reporting Standards</option>
-                          <option value="CA Final - P6F: Multi-disciplinary Case Study"<%= query.subject && query.subject.includes("CA Final - P6F: Multi-disciplinary Case Study") ? "selected" : "" %>>P6F:Multi-disciplinary Case Study</option>
-                          <option value="CA Final - P7: Direct Tax Laws & International Taxation"<%= query.subject && query.subject.includes("CA Final - P7: Direct Tax Laws & International Taxation") ? "selected" : "" %>>P7:Direct Tax Laws & International Taxation</option>
-                          <option value="CA Final - P8: Indirect Tax Laws"<%= query.subject && query.subject.includes("CA Final - P8: Indirect Tax Laws") ? "selected" : "" %>>P8:Indirect Tax Law</option>
-                        </select>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                          <label class="input-group-text" for="videoGroupSelect06">Topic</label>
-                          </div>
-                        <select class="custom-select videoGroupSelect" id="videoGroupSelect06">
-                          <option>Choose...</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="input-group mb-3">
-                          <div class="input-group-prepend">
-                          <label class="input-group-text" for="videoGroupSelect07">Subtopic</label>
-                          </div>
-                        <select class="custom-select videoGroupSelect" id="videoGroupSelect07">
-                        <option>Choose...</option>
-      
-                        </select>
-                      </div>
-                  </div>
-                  <div class="col-md-1">
-                      <button type="submit" class="btn btn-label-success btn-bold">Submit</button>
-                  </div>
-                  <div class="col-md-2">
-                      <a class="btn btn-label-danger btn-bold" href="/videos" id="clear-video-form">Clear All Filters</a>
-                  </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="videoGroupSelect02">Attempt</label>
+                </div>
+                <select class="custom-select videoGroupSelect" id="videoGroupSelect02" name="attempt[]"
+                  onchange="this.form.submit()">
+                  <option disabled <%= !query.attempt ? "selected" : "" %>>Choose...</option>
+                  <option value="All">All</option>
+                  <option value="rf" <%= query.attempt && query.attempt.includes("rf") ? "selected" : "" %>>Remove
+                    Filter</option>
+                  <option value="Nov 2019" <%= query.attempt && query.attempt.includes("Nov 2019") ? "selected" : "" %>>
+                    Nov 2019</option>
+                  <option value="May 2020" <%= query.attempt && query.attempt.includes("May 2020") ? "selected" : "" %>>
+                    May 2020</option>
+                  <option value="Nov 2020" <%= query.attempt && query.attempt.includes("Nov 2020") ? "selected" : "" %>>
+                    Nov 2020</option>
+                  <option value="May 2021" <%= query.attempt && query.attempt.includes("May 2021") ? "selected" : "" %>>
+                    May 2021</option>
+                  <option value="Nov 2021" <%= query.attempt && query.attempt.includes("Nov 2021") ? "selected" : "" %>>
+                    Nov 2021</option>
+                </select>
               </div>
-      </form>
-      <!-- <div class="kt-portlet__content">
+            </div>
+            <div class="col-md-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="videoGroupSelect03">Author</label>
+                </div>
+                <select class="custom-select videoGroupSelect" id="videoGroupSelect03">
+                  <option>Choose...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="videoGroupSelect04">Option</label>
+                </div>
+                <select class="custom-select videoGroupSelect" id="videoGroupSelect04">
+                  <option>Choose...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="videoGroupSelect05">Subject</label>
+                </div>
+                <select class="custom-select videoGroupSelect" id="videoGroupSelect05" name="subject[]"
+                  onchange="this.form.submit()">
+                  <option <%= !query.subject ? "selected" : "" %> disabled>Choose...</option>
+                  <option value="All">All</option>
+                  <option value="rf" <%= query.subject && query.subject.includes("rf") ? "selected" : "" %>>Remove
+                    Filter</option>
+                  <option value="CA Final - P1: Financial Reporting"
+                    <%= query.subject && query.subject.includes("CA Final - P1: Financial Reporting") ? "selected" : "" %>>
+                    P1:Financial Reporting</option>
+                  <option value="CA Final - P2: Strategic Financial Management"
+                    <%= query.subject && query.subject.includes("CA Final - P2: Strategic Financial Management") ? "selected" : "" %>>
+                    P2:Strategic Financial Management</option>
+                  <option value="CA Final - P3: Advanced Auditing and Professional Ethics"
+                    <%= query.subject && query.subject.includes("CA Final - P3: Advanced Auditing and Professional Ethics") ? "selected" : "" %>>
+                    P3:Advanced Auditing and Professional Ethics</option>
+                  <option value="CA Final - P4: Corporate & Economic Laws"
+                    <%= query.subject && query.subject.includes("CA Final - P4: Corporate & Economic Laws") ? "selected" : "" %>>
+                    P4:Corporate & Economic Laws</option>
+                  <option value="CA Final - P5: Strategic Cost Management and Performance Evaluation"
+                    <%= query.subject && query.subject.includes("CA Final - P5: Strategic Cost Management and Performance Evaluation") ? "selected" : "" %>>
+                    P5:Strategic Cost Management and Performance Evaluation</option>
+                  <option value="CA Final - P6A: Risk Management"
+                    <%= query.subject && query.subject.includes("CA Final - P6A: Risk Management") ? "selected" : "" %>>
+                    P6A:Risk Management</option>
+                  <option value="CA Final - P6B: Financial Services & Capital Markets"
+                    <%= query.subject && query.subject.includes("CA Final - P6B: Financial Services & Capital Markets") ? "selected" : "" %>>
+                    P6B:Financial Services & Capital Markets</option>
+                  <option value="CA Final - P6C: International Taxation"
+                    <%= query.subject && query.subject.includes("CA Final - P6C: International Taxation") ? "selected" : "" %>>
+                    P6C:International Taxation</option>
+                  <option value="CA Final - P6E: Global Financial Reporting Standards"
+                    <%= query.subject && query.subject.includes("CA Final - P6E: Global Financial Reporting Standards") ? "selected" : "" %>>
+                    P6E:Global Financial Reporting Standards</option>
+                  <option value="CA Final - P6F: Multi-disciplinary Case Study"
+                    <%= query.subject && query.subject.includes("CA Final - P6F: Multi-disciplinary Case Study") ? "selected" : "" %>>
+                    P6F:Multi-disciplinary Case Study</option>
+                  <option value="CA Final - P7: Direct Tax Laws & International Taxation"
+                    <%= query.subject && query.subject.includes("CA Final - P7: Direct Tax Laws & International Taxation") ? "selected" : "" %>>
+                    P7:Direct Tax Laws & International Taxation</option>
+                  <option value="CA Final - P8: Indirect Tax Laws"
+                    <%= query.subject && query.subject.includes("CA Final - P8: Indirect Tax Laws") ? "selected" : "" %>>
+                    P8:Indirect Tax Law</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="videoGroupSelect06">Topic</label>
+                </div>
+                <select class="custom-select videoGroupSelect" id="videoGroupSelect06">
+                  <option>Choose...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="videoGroupSelect07">Subtopic</label>
+                </div>
+                <select class="custom-select videoGroupSelect" id="videoGroupSelect07">
+                  <option>Choose...</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <button type="submit" class="btn btn-label-success btn-bold">Submit</button>
+            </div>
+            <div class="col-md-2">
+              <a class="btn btn-label-danger btn-bold" href="/videos" id="clear-video-form">Clear All Filters</a>
+            </div>
+          </div>
+        </form>
+        <!-- <div class="kt-portlet__content">
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.
 
         <div class="kt-separator kt-separator--space kt-separator--dashed"></div>
@@ -173,13 +223,13 @@
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.
 
       </div> -->
+      </div>
     </div>
-  </div>	
-  <!--end::Portlet-->
-<!-------------------------------------------------------------------------------->
-<!--------------------------Video Filters----------------------------------------->
-<!-------------------------------------------------------------------------------->
-<!-- <form class="form-inline float-right my-2 my-lg-0 ml-auto" action="/videos" method="GET">
+    <!--end::Portlet-->
+    <!-------------------------------------------------------------------------------->
+    <!--------------------------Video Filters----------------------------------------->
+    <!-------------------------------------------------------------------------------->
+    <!-- <form class="form-inline float-right my-2 my-lg-0 ml-auto" action="/videos" method="GET">
     <div class="row">
     <div class="d-flex p-2 bd-highlight">
         <div class="col">
@@ -326,114 +376,109 @@
     </div>
 </form> -->
 
-<!-- </div> -->
+    <!-- </div> -->
 
-</div>
-<!-------------------------------------------------------------------------------->
-<!----------------------------Video Table----------------------------------------->
-<!-------------------------------------------------------------------------------->
-<div class="kt-container  kt-grid__item">
-  <div class="row">
-    <%videos.forEach(function(video){%>   
-  <div class="col-md-4">
-    <!--begin:: Widgets/Blog-->
-    <div class="kt-portlet kt-portlet--height-fluid kt-widget19">
-      <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
-        <div class="kt-widget19__pic kt-portlet-fit--top kt-portlet-fit--sides">
-          <div class="embed-responsive embed-responsive-16by9 card-img-top">
-            <iframe width="560" height="315" class="embed-responsive-item"
-              src="<%=video.url%>" frameborder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-          <!-- <iframe width="560" height="315" class="embed-responsive-item" src="https://www.youtube.com/watch?v=FobusV1Lmgg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-          <!-- <h3 class="kt-widget19__title kt-font-dark pb-0 mb-0">
+  </div>
+  <!-------------------------------------------------------------------------------->
+  <!----------------------------Video Table----------------------------------------->
+  <!-------------------------------------------------------------------------------->
+  <div class="kt-container  kt-grid__item">
+    <div style="background-color: white">
+      <div class="row p-4">
+        <%videos.forEach(function(video){%>
+        <div class="col-md-3">
+          <!--begin:: Widgets/Blog-->
+          <div class="kt-portlet kt-portlet--height-fluid kt-widget19">
+            <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
+              <div class="kt-widget19__pic kt-portlet-fit--top kt-portlet-fit--sides">
+                <div class="embed-responsive embed-responsive-16by9 card-img-top">
+                  <iframe width="560" height="315" class="embed-responsive-item" src="<%=video.url%>" frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                </div>
+                <!-- <iframe width="560" height="315" class="embed-responsive-item" src="https://www.youtube.com/watch?v=FobusV1Lmgg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                <!-- <h3 class="kt-widget19__title kt-font-dark pb-0 mb-0">
                 Introducing New Feature
               </h3> -->
-          <!-- <div class="kt-widget19__shadow"></div>
+                <!-- <div class="kt-widget19__shadow"></div>
               <div class="kt-widget19__labels">
                 <a href="#" class="btn btn-label-light-o2 btn-bold ">Recent</a>
               </div> -->
-        </div>
-      </div>
-      <div class="kt-portlet__body">
-        <div class="kt-widget19__wrapper mb-0">
-          <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-              <%=video.title%>
-          </h5>
-          <div class="kt-divider"><span></span></div>
-          <div class="kt-widget19__content mt-2">
-            <div class="kt-widget19__userpic">
-              <span
-                class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.username.charAt(0).toUpperCase()%></span>
-              <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
+              </div>
             </div>
-            <div class="kt-widget19__info">
-              <a href="/teachers/<%=video.author.id%>" class="kt-widget19__username">
-                <%=video.author.username%>
-              </a>
-              <span class="kt-widget19__time small">
-                CA Faculty/Author
-              </span>
-            </div>
-            <span class="kt-badge kt-badge--info kt-badge--inline float-right"  data-toggle="tooltip" data-placement="left" title="Date of Upload"><%=video.createdAt.toDateString()%></span>
-            <!-- <div class="kt-widget19__stats">
+            <div class="kt-portlet__body">
+              <div class="kt-widget19__wrapper mb-0">
+                <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
+                  <%=video.title%>
+                </h5>
+                <div class="kt-divider"><span></span></div>
+                <div class="kt-widget19__content mt-2">
+                  <div class="kt-widget19__userpic">
+                    <span
+                      class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.username.charAt(0).toUpperCase()%></span>
+                    <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
+                  </div>
+                  <div class="kt-widget19__info">
+                    <a href="/teachers/<%=video.author.id%>" class="kt-widget19__username">
+                      <%=video.author.username%>
+                    </a>
+                    <span class="kt-widget19__time small">
+                      CA Faculty/Author
+                    </span>
+                  </div>
+                  <span class="kt-badge kt-badge--info kt-badge--inline float-right" data-toggle="tooltip"
+                    data-placement="left" title="Date of Upload"><%=video.createdAt.toDateString()%></span>
+                  <!-- <div class="kt-widget19__stats">
               <span class="kt-widget19__number kt-font-brand" style="font-size: 0.9rem">
-                  
               </span>
               <div class="float-right"> Applicable Attempt </div>
             </div> -->
-          </div>
-          <div class="mb-3 small font-weight-bold"> Applicable: <span
-              class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"  data-toggle="tooltip" data-placement="bottom" title="Applicable Exam"><%=video.exam%></span>
-              <span
-              class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold" data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt" ><%=video.attempt%></span>
-          </div>
-          <small><span class="font-weight-bold">Description:</span> <%=video.description%></small>
-          <div class="kt-widget19__text mb-2">
-          </div>
-        </div>
-        <div class="kt-divider"><span></span></div>
-        <div class="kt-widget19__action">
-          <!--Ownership Criteria of Videos-->
-          <% if(currentUser && (currentUser.isFaculty || currentUser.isAdmin) && (JSON.stringify(currentUser._id) === JSON.stringify(video.author.id))) {%>
-            <div class="float-right align-bottom">
-          <a class="btn btn-sm btn-label-brand btn-bold ml-4" href="/videos/<%=video._id %>/edit"
-            role="button">Edit</a>
-          <form id="delete-video-form" class="d-inline-block" action="/videos/<%=video._id%>?_method=DELETE"
-            method="POST">
-            <button type="submit" class="btn btn-sm btn-label-danger btn-bold ml-1">Delete</button>
-          </form>
-        </div>
-          <%}else if(currentUser && currentUser.isStudent){%>
-            <div class="float-right">
-          <form id="save-video-form" class="d-inline float-right"
-            action="/user/<%=currentUser._id%>/videos/<%=video._id%>?_method=PUT" method="POST">
-            <button type="submit" id="video-bookmark-button"
-              class="btn btn-sm ml-1 <%=currentUser.videoBookmarks.includes(video.id) ? "btn-info": "btn-warning" %>">
-              <%=currentUser.videoBookmarks.includes(video.id) ? "Bookmarked" : "Bookmark?" %></button>
-          </form>
-        </div>
-          <%} else if(!currentUser){%>
-            <div class="float-right">
-          <form id="save-video-form" class="d-inline float-right" action="#">
-            <button type="submit" class="btn btn-sm btn-warning btn-bold student-alert">Bookmark</button>
-          </form>
-        </div>
-          <%}%>
+                </div>
+                <div class="mb-3 small font-weight-bold"> Applicable: <span
+                    class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
+                    data-toggle="tooltip" data-placement="bottom" title="Applicable Exam"><%=video.exam%></span>
+                  <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
+                    data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt"><%=video.attempt%></span>
+                </div>
+                <div><small><span class="font-weight-bold">Description:</span> <%=video.description%></small></div>
+                <div class="kt-widget19__text mb-2">
+                </div>
+              </div>
+              <div class="kt-divider"><span></span></div>
+              <div class="kt-widget19__action">
+                <!--Ownership Criteria of Videos-->
+                <% if(currentUser && (currentUser.isFaculty || currentUser.isAdmin) && (JSON.stringify(currentUser._id) === JSON.stringify(video.author.id))) {%>
+                <div class="float-right align-bottom">
+                  <a class="btn btn-sm btn-label-brand btn-bold ml-4" href="/videos/<%=video._id %>/edit"
+                    role="button">Edit</a>
+                  <form id="delete-video-form" class="d-inline-block" action="/videos/<%=video._id%>?_method=DELETE"
+                    method="POST">
+                    <button type="submit" class="btn btn-sm btn-label-danger btn-bold ml-1">Delete</button>
+                  </form>
+                </div>
+                <%}else if(currentUser && currentUser.isStudent){%>
+                <div class="float-right">
+                  <form id="save-video-form" class="d-inline float-right"
+                    action="/user/<%=currentUser._id%>/videos/<%=video._id%>?_method=PUT" method="POST">
+                    <button type="submit" id="video-bookmark-button"
+                      class="btn btn-sm ml-1 <%=currentUser.videoBookmarks.includes(video.id) ? "btn-info": "btn-warning" %>">
+                      <%=currentUser.videoBookmarks.includes(video.id) ? "Bookmarked" : "Bookmark?" %></button>
+                  </form>
+                </div>
+                <%} else if(!currentUser){%>
+                <div class="float-right">
+                  <form id="save-video-form" class="d-inline float-right" action="#">
+                    <button type="submit" class="btn btn-sm btn-warning btn-bold student-alert">Bookmark</button>
+                  </form>
+                </div>
+                <%}%>
             </div>
           </div>
         </div>
-  
         <!--end:: Widgets/Blog-->
     </div>
     <%})%>
-  </div>
-</div>
-</div>
-
-
-
-
-
-
-
+              </div>
+            </div>
+          </div>
+        </div>

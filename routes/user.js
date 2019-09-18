@@ -77,7 +77,6 @@ router.get("/teachers/:id", (req, res) => {
 
 // ------------------------>Different Method[Populate]!!!<----------------------
 router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
-    console.log(req.user);
     User.findById(req.params.id, async (err,foundUser)=>{
         if(err){
             console.log(err);
@@ -85,10 +84,17 @@ router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
             if(foundUser.isAdmin===true){
               let downloads = await Download.find({}).exec();
               let videos = await Video.find({}).exec();
+
+              let studentList = await User.find({isStudent: true}).exec();
+              console.log(studentList);
+              console.log('**********');
+              let facultyList = await User.find({isFaculty: true}).exec();
+              console.log(facultyList);
               if(req.xhr){
-                  res.json({user:foundUser, downloads:downloads, videos:videos});
+                  res.json({user:foundUser, downloads:downloads, videos:videos, students: studentList, facultys: facultyList,});
               } else {
-              res.render("index2",{page:"dashboard_admin", user:foundUser, downloads: downloads, videos: videos, title: "Dashboard"});
+              res.render("index2",{page:"dashboard_admin", user:foundUser, downloads: downloads, 
+              videos: videos, students: studentList, facultys: facultyList, title: "Dashboard"});
             //   res.render("dashboard_admin",{page:"dashboard_admin", user:foundUser, downloads: downloads, videos: videos});
                   }
               }
@@ -211,16 +217,31 @@ try{
                 console.log("includes");
                 await User.findByIdAndUpdate(req.user._id, {$pull:{videoBookmarks: foundVideo.id}}); 
                 foundUser.save();
-                req.flash("success", "Successfully removed the video from your bookmarks");
-                return res.redirect("back");
+                if(req.xhr){
+                    let message = "Successfully removed the video from your bookmarks";
+                    res.json(message);
+                } else{
+                    req.flash("success", "Successfully removed the video from your bookmarks");
+                    return res.redirect("back");
+                }
             } else {
             console.log("does not include");
             foundUser.videoBookmarks.push(foundVideo);
             foundUser.save();
-            req.flash("success", "Successfully added the video to your bookmarks");
-            return res.redirect("back");
+            if(req.xhr){
+                let message = "Successfully added the video to your bookmarks";
+                res.json(message);
+            } else {
+                req.flash("success", "Successfully added the video to your bookmarks");
+                return res.redirect("back");
+            }
         }} else {
-            req.flash("error", "You need to be signed to bookmark videos");
+            if(req.xhr){
+                let message = "You need to be signed to bookmark videos";
+                res.json(message);
+            } else {
+                req.flash("error", "You need to be signed to bookmark videos");
+            }
         }
 }catch(err){
             req.flash("error", err.message);
@@ -275,18 +296,18 @@ router.put('/follow/:id', async (req, res)=>{
         let follower =  await teacher.followers.includes(req.user._id);
 
         if(follower || following){
-            await user.following.splice(req.params.id.toString(),1);
-            await user.save();
-            await teacher.followers.splice(req.user._id.toString(),1);
-            await teacher.save();
-            return res.json({message:"Both",user, teacher});
+            user.following.splice(req.params.id.toString(),1);
+            user.save();
+            teacher.followers.splice(req.user._id.toString(),1);
+            teacher.save();
+            return res.json({message:`Faculty ${teacher.username} has been unfollowed`, class:'success', user, teacher});
         }
         
-        await user.following.push(req.params.id);
-        await user.save();
-        await teacher.followers.push(req.user._id);
-        await teacher.save();
-        return res.json({user,teacher});
+        user.following.push(req.params.id);
+        user.save();
+        teacher.followers.push(req.user._id);
+        teacher.save();
+        return res.json({message:`Faculty ${teacher.username} has been followed`, class:'danger', user,teacher});
     } catch(error){
         console.log(error)    
     }

@@ -5,10 +5,10 @@
 
 
     <div class="container">
-     
+
         <!--Begin::Section-->
         <div class="row">
-                <%teachers.forEach(function(teacher){ %>
+            <%teachers.forEach(function(teacher){ %>
             <div class="col-xl-12">
 
                 <!--begin:: Widgets/Applications/User/Profile3-->
@@ -26,17 +26,23 @@
                                     <%=teacher.firstName.charAt(0).toUpperCase()%><%=teacher.lastName.charAt(0).toUpperCase()%>
                                 </div>
                                 <%}%>
-                                        <div class="kt-widget__content">
-                                            <div class="kt-widget__head">
-                                                <a href="#" class="kt-widget__username">
-                                                    <%=teacher.firstName.charAt(0).toUpperCase()%><%=teacher.firstName.substring(1).toLowerCase()%>
+                        <div class="kt-widget__content">
+                            <div class="kt-widget__head">
+                                <a href="#" class="kt-widget__username">
+                                <%=teacher.firstName.charAt(0).toUpperCase()%><%=teacher.firstName.substring(1).toLowerCase()%>
                                 <%=teacher.lastName.charAt(0).toUpperCase()%><%=teacher.lastName.substring(1).toLowerCase()%>
                                 <i class="flaticon2-correct"></i>
                                 </a>
-                                <div class="kt-widget__action">
-                                    <button  id='<%=teacher._id%>' class="btn btn-label-success btn-sm btn-upper faculty-follow-button">Follow</button>
+                                <div class="kt-widget__action" id='parent_<%=teacher._id%>'>
+                                    <%if(currentUser && currentUser.following.includes(teacher.id)){%>
+                                    <button id='<%=teacher._id%>'
+                                        class="btn btn-label-danger btn-sm btn-upper faculty-follow-button">Unfollow</button>
+                                    <%} else if (currentUser && !currentUser.following.includes(teacher.id)) {%>
+                                    <button id='<%=teacher._id%>'
+                                        class="btn btn-label-success btn-sm btn-upper faculty-follow-button">Follow</button>
+                                    <%}%>
                                     <a href="/teachers/<%=teacher._id%>"
-                                        class="btn btn-label-brand btn-sm btn-upper">More Info</a>&nbsp;
+                                    class="btn btn-label-brand btn-sm btn-upper">More Info</a>&nbsp;
                                 </div>
                             </div>
                             <div class="kt-widget__subhead">

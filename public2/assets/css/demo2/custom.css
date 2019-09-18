@@ -14,10 +14,12 @@ color: white;
 } 
 
 .dataTableText{
-    display: block;
     color: #595d6e;
     font-size: 1rem;
     font-weight: 500;
+}
+
+.dataTableLineHeight{
     line-height: 1.5rem;
 }
 
@@ -31,4 +33,68 @@ color: white;
     overflow: auto;
     height: 60vh;
     min-width: 55rem;
+}
+/* #example{
+    background-color: white;
+} */
+
+#container_downloads_admin_dashboard{
+    background-color: white;
+}
+
+#container_students_admin_dashboard{
+    background-color: white;
+}
+
+#container_downloads_admin_dashboard_heading{
+    background-color: #374afb;
+}
+
+.dataTables_info{
+    font-weight: bold;
+    color: #374afb;
+}
+
+#container_download{
+    padding: 25px 50px;
+    background-color: white;
+}
+
+#_filter{
+    display: none;
+}
+#No_filter{
+    display: none;
+}
+#Download_filter{
+    display: none;
+}
+#DownloadsNo_filter{
+    display: none;
+}
+
+.la.la-arrow-up{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.la.la-arrow-down{
+    cursor: pointer;
+    font-weight: bold;
+
+}
+
+.downloads-sort-active{
+    color: #007bff;  
+}
+.arrow-inactive{
+    color:#e1e1ef;
+}
+
+#downloads-filter-tags span{
+    cursor: pointer;
+}
+
+#videos-filter-tags span{
+    cursor: pointer;
 }

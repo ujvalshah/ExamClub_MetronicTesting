@@ -6,15 +6,17 @@ const util = require('util');
 var User = require("../models/user.js");
 var Notification = require("../models/notifications.js");
 var Subscriber = require("../models/subscribers.js");
-const { sendPasswordResetMail, sendPasswordResetConfirmationMail } = require("../middleware/email.js");
+const { sendPasswordResetMail, sendPasswordResetConfirmationMail, sendEmailVerificationMail} = require("../middleware/email.js");
+const { isLoggedIn, isEmailVerified } = require("../middleware/index.js");
 const io = require("../utils/sockets.js");
 //----------------------------------------------------------------------------//
 //--------------------------Index Route Of Application------------------------//
 //----------------------------------------------------------------------------//
-router.get("/", function (req, res) {
+router.get("/", isEmailVerified, function (req, res) {
     // res.redirect("/downloads");
     res.render("index2", {page: "homepage", title: "Home"});
 });
+
 
 //----------------------------------------------------------------------------//
 //--------------------------Registration Form Route---------------------------//
@@ -49,30 +51,137 @@ router.post("/register", function (req, res) {
         if (err) {
             console.log(err);
             req.flash("error", err.message);
-            return res.render("register", { page: 'register' });
+            return res.redirect("/register");
         }
-        passport.authenticate("local")(req, res, function () {
-            res.redirect("/");
+        passport.authenticate("local")(req, res, async function () {
+            try {
+                const user = await User.findOne({ _id: req.user._id });
+                console.log(user);
+                const userEmail  = user.email;
+                const host = req.headers.host;
+                const token = await crypto.randomBytes(20).toString('hex');
+                console.log(token);
+                if (!user) {
+                    req.flash("error", "No account with that email.");
+                    return res.redirect("/login");
+                }
+                user.emailverificationToken = token;
+                user.emailVerificationexpiry = Date.now() + 3600000; //1hr
+                await user.save();
+                await sendEmailVerificationMail(userEmail, user.username, host, token);
+
+                //TeacherA/c Validation
+                if (req.user.isFaculty === true && req.user.isFacultyVerified === false) {
+                    req.logout();
+                    req.flash('warning',`Your faculty account needs to be approved by the admin before you can access it.
+                    Usually it takes 2-3 hours to get approved. Please wait till then.
+                    For any further enquiries email at caexamclub@gmail.com.
+                    Also for account validation it is necessary that your Email Id ${userEmail} is validated.
+                    Please check your email for our validation mail. Thanks`);
+                    res.redirect('/login');
+                } else {
+                    req.flash("success", `An e-mail has been sent to verify ${userEmail}.`);
+                    res.redirect("/");
+                };
+
+            } catch (err) {
+                console.log(err);
+                req.flash("error", err.message);
+                return res.redirect("/");
+            }
         });
     });
 });
+
+// ----------------------------------------------------------------------------//
+// -----------------------------Email Verification Route-----------------------//
+// ----------------------------------------------------------------------------//
+
+router.get("/email-verification", isLoggedIn, async (req,res)=>{
+    res.render("index2", {page:'email-verification', title: 'Email-verification'});
+})
+
+router.put("/email-verification", isLoggedIn, async(req,res)=>{
+    try {
+        var user = await User.findOne({ _id: req.user._id });
+        var userEmail  = user.email;
+        var host = req.headers.host;
+        var token = await crypto.randomBytes(20).toString('hex');
+        if (!user) {
+            req.flash("error", "No account with that email.");
+            return res.redirect("/login");
+        }
+        user.emailverificationToken = token;
+        user.emailVerificationexpiry = Date.now() + 3600000; //1hr
+        await user.save();
+        await sendEmailVerificationMail(userEmail, user.username, host, token);
+        req.flash("success", `An e-mail has been sent to verify ${userEmail}.`);
+        res.redirect("/email-verification");
+    } catch (err) {
+        console.log(err);
+        req.flash("error", err.message);
+        return res.redirect("/");
+    }
+})
+
+
+router.get("/email-verification/:token", async (req, res) => {
+    try {
+        const { token } = req.params;
+        const user = await User.findOne({
+            emailverificationToken: token,
+            emailVerificationexpiry: { $gt: Date.now() }
+        });
+        if (!user) {
+            req.flash("error", "User does not exist/The link must have expired. Please try again");
+            return res.redirect("/email-verification");
+        }
+        user.emailVerified = true;
+        user.emailverificationToken = null;
+        user.emailVerificationexpiry = null;
+        await user.save();
+        const login = util.promisify(req.login.bind(req));
+        await login(user);
+        req.flash('success', `Hi ${user.username}, your email id has been successfully verified.`)
+        res.redirect("/");
+    } catch (err) {
+        req.flash("err", err.message);
+        return res.redirect("/forgot-password");
+    }
+});
+
 
 
 //----------------------------------------------------------------------------//
 //------------------------------------Login Route-----------------------------//
 //----------------------------------------------------------------------------//
 
-router.get("/login", function (req, res) {
+router.get("/login",function (req, res) {
     req.flash("error");
+
     res.render("login", { page: 'login', title: "Login" });
 })
 
+router.get("/faculty-validation", async (req,res)=>{
+    if (req.user.isFaculty === true && req.user.isFacultyVerified === false) {
+        req.logout();
+        req.flash('warning',`Your faculty account needs to be approved by the admin before you can access it.
+        Usually it takes 2-3 hours to get approved. Please wait till then.
+        For any further enquiries email at caexamclub@gmail.com.`);
+        res.redirect('/login');
+    } else {
+        res.redirect('/');
+    }
+});
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/faculty-validation',
     failureRedirect: '/login',
     failureFlash: true,
 }));
+
+
+
 //----------------------------------------------------------------------------//
 //-----------------------------------Logout Route-----------------------------//
 //----------------------------------------------------------------------------//
@@ -182,6 +291,20 @@ router.post('/newsletter/subscription', async (req, res) => {
     req.flash("success", "Email successfully added to the list! Thank You!");
     res.redirect("back");
 })
+
+
+//----------------------------------------------------------------------------//
+//------------------------------Edit User Details-----------------------------//
+//----------------------------------------------------------------------------//
+router.get('/account-details', isLoggedIn ,async(req,res)=>{
+    let user = await User.findById(req.user._id);
+    res.render('index2', {page:'account-details', title:'Account Details', user});
+});
+
+
+
+
+
 
 
 

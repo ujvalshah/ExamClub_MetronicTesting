@@ -19,10 +19,16 @@ function format(d) {
 
 $(document).ready(function () {
 
-    $('#example tfoot th').each(function () {
+    // $('#example tfoot th').each(function () {
+    //     var title = $(this).text();
+    //     $(this).html('<input type="text" class="form-control form-control-sm search-table-download column_search" placeholder="Search ' + title + '" />');
+    // });
+
+    $('#example thead tr:eq(1) th').each( function () {
         var title = $(this).text();
-        $(this).html('<input type="text" class="form-control form-control-sm search-table-download" placeholder="Search ' + title + '" />');
-    });
+        $(this).html( '<input type="text" class="form-control form-control-sm search-table-download column_search" id = "' + title + '_filter" placeholder="Search ' + title + '" />' );
+    } );
+
     $.fn.dataTable.moment('LL', "en-gb");
     //Datatable
     
@@ -121,6 +127,7 @@ $(document).ready(function () {
                             "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning' },
                             "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info' },
                             "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand' },
+                            "General": { 'title': "General", 'class': 'btn-label-dark' },
                         };
                         var dataExam = data.split(",");
                         var txtExam = '';
@@ -180,9 +187,13 @@ $(document).ready(function () {
                     },
                 },
             ],
+            "dom": `<'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7 dataTables_pager'p><'col-sm-12'tr>>
+			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'p>>`,
             "order": [[1, 'dsc']],
-            "scrollY": 500,
             "scrollX": true,
+            "orderCellsTop": true,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "responsive": true,
             "ajax": {
                 "url": "/api/downloads/",
                 "dataSrc": ''
@@ -214,16 +225,31 @@ $(document).ready(function () {
     }).draw();
 
     // Apply the search
-    t.columns().every(function () {
-        var that = this;
-        $('input', this.footer()).on('keyup change', function () {
-            if (that.search() !== this.value) {
-                that
-                    .search(this.value)
-                    .draw();
-            }
-        });
+
+    // $('#example thead').on('keyup change', ".column_search",function(){
+    //     t.column($(this).index())
+    //         .search(this.value)
+    //         .draw();
+    //     });
+
+    $('#filter').on('keyup', ".column_search",function(){
+        t.column($(this).parent().index())
+        .search(this.value)
+        .draw();
     });
+    
+    // t.columns().every(function () {
+    //     var that = this;
+    //     $('input', this.footer()).on('keyup change', function () {
+    //         if (that.search() !== this.value) {
+    //             that
+    //                 .search(this.value)
+    //                 .draw();
+    //         }
+    //     });
+    // });
+
+
 
     //alert("connected");
     // Add event listener for opening and closing details
@@ -300,6 +326,5 @@ $(document).ready(function () {
         $(this).find("button").blur();
         // $(this).find("i.fas.fa-bookmark").toggleClass("red")
     });
-
 
 });

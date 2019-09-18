@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var mongoosePaginate = require('mongoose-paginate');
 
-var videoSchema = new mongoose.Schema({
+var VideoSchema = new mongoose.Schema({
     title: String,
     description: String,
     exam: [String],
@@ -22,6 +22,6 @@ var videoSchema = new mongoose.Schema({
     }
 );
 
-videoSchema.plugin(mongoosePaginate);
+VideoSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("Video", videoSchema);
+module.exports = mongoose.model("Video", VideoSchema);

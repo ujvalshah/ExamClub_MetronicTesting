@@ -26,6 +26,7 @@ const User = require("./models/user.js");
 const Teacher = require("./models/teacher.js");
 const Subscriber = require("./models/subscribers.js");
 const Notification = require("./models/notifications.js");
+const Notificationcopy = require("./models/notificationscopy.js");
 
 //----------------------------------------------------------------------------//
 //-------------------------------Route Of Application-------------------------//
@@ -83,6 +84,7 @@ app.use(function (req, res, next) {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.warning = req.flash("warning");
+    res.locals.emailVerification = req.flash("emailVerification");
     next();
 });
 
@@ -119,61 +121,130 @@ io.on('connection', (socket) => {
 //----------------------------------------------------------------------------//
 //-------------------------Notification Route(GET)----------------------------//
 //----------------------------------------------------------------------------//
+
 // app.get('/notification', async (req, res) => {
 //     try {
-//        Notification.find({}, (err, foundNotification) => {
-//         if (err) {
-//             console.log(err);
+//             Notification.find({}).sort({ createdAt: 1 }).exec((err, foundNotification) => {
+//                 if (err) {
+//                     console.log(err);
+//                 }
+//                 console.log(foundNotification)
+//                 res.send(foundNotification);
+//             });
+//         } else {
+//             res.send('');
 //         }
-//         console.log(foundNotification)
-//         res.send(foundNotification);
-//     })
-//     } catch(error){
+//     } catch (error) {
 //         console.log(error);
 //         return res.sendStatus(500);
 //     }
 // })
 
+
 app.get('/notification', async (req, res) => {
     try {
-       if(req.user){
-       Notification.find({}).sort({createdAt: -1}).exec((err, foundNotification) => {
-        if (err) {
-            console.log(err);
-        }
-        console.log(foundNotification)
-        res.send(foundNotification);
-    });
-    } else {
-        res.send('');
-    } 
-    } catch(error){
+        if (req.user) {
+            let user = await User.findById(req.user._id).populate({
+                path: 'notifications',
+                options: { sort: { "_id": 1 } }
+            }).exec();
+            let allNotifications = await user.notifications;
+            // console.log(user);
+            // console.log('------------')
+            // console.log(allNotifications);
+            // console.log('------------')
+            res.send(allNotifications);
+    }
+} catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+})
+//--------------------------GET ALL Notification--------------------------//
+app.get('/notification/all', async (req, res) => {
+    try {
+        if (req.user) {
+            let notification = await Notification.find({}).sort({createdAt:1}).exec();
+            res.send(notification);
+    } else if(!req.user){
+        res.send('You need to be signed in to view the notifications!');
+    }
+} catch (error) {
         console.log(error);
         return res.sendStatus(500);
     }
 })
 
+
+
 //----------------------------------------------------------------------------//
 //--------------------------Notification Route(Post)--------------------------//
 //----------------------------------------------------------------------------//
+
+// app.post('/notification', async (req, res) => {
+//     console.log(req.body);
+//     console.log(req.body.message);
+//     console.log(req.body.exam);
+//     console.log(req.body.notificationExamData);
+//     console.log("------------------");
+//     try {
+
+//         let notificationData = { message: req.body.message, author: { id: req.user._id, username: req.user.username }, exam: req.body.exam }
+//         Notification.create(notificationData, (err, newNotification) => {
+//             if (err) {
+//                 console.log(err);
+//             };
+//             console.log("Successfully added the notification", newNotification);
+//             // io.emit('notification', newNotification);
+
+//             res.send(newNotification);
+//         });
+//     } catch (err) {
+//         req.flash('error', err.message);
+//         res.redirect('back');
+//     }
+
+// })
+
 
 app.post('/notification', async (req, res) => {
     console.log(req.body);
     console.log(req.body.message);
     console.log(req.body.exam);
     console.log(req.body.notificationExamData);
-    console.log("PageBreak");
-    let notificationData = { message: req.body.message, author: { id: req.user._id, username: req.user.username }, exam:req.body.exam }
-    Notification.create(notificationData, (err, newNotification) => {
-        if (err) {
-            console.log(err);
-        };
-        console.log("Successfully added the notification", newNotification);
-        io.emit('notification', newNotification);
-        res.send(newNotification);
-    });
-})
+    console.log("------------------");
+    try {
+        let user = await User.findById(req.user._id).populate('followers').exec();
+        if(!user){req.flash('error', "You need to be signed in.")};
+        // console.log('********USER******');  
+        // console.log(user);
+        // console.log('******************');  
+        let notificationData = { message: req.body.message, author: { id: req.user._id, username: req.user.username }, exam: req.body.exam }
+        
+        // console.log('********NOTIFICATIONDATA******');
+        // console.log(notificationData);
+        // console.log('**************');
+        let notificationNew = await Notification.create(notificationData);
+        // console.log('*****NOTIFICATION*********');
+        // console.log(notificationNew);
+        // console.log('******USER.FOLLOWERS********');
+        // console.log(user.followers);
+        for(const follower of user.followers){
+            let notification = await Notificationcopy.create(notificationData);
+            follower.notifications.push(notification);
+            follower.save();
+            console.log(follower);
+        }
+        req.flash('error','Notification successfully created!');
+            // io.emit('notification', newNotification);
+        // res.send(newNotification);
+        res.redirect(`/user/${currentUser._id}/dashboard`);
+        } catch (err) {
+        req.flash('error', err.message);
+        res.redirect('back');
+    }
 
+})
 
 //----------------------------------------------------------------------------//
 //---------------------------------Server Message-----------------------------//

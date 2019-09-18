@@ -10,8 +10,12 @@
                     <% include ./partials/_content-downloads %>
                     <!-- <%} else if(page !== 'undefined' && page === 'homepage'){%>
                     <% include ./partials/_content-homepage %> -->
-                    <%} else if (page !== 'undefined' && page === 'videos') {%>s
+                    <%} else if (page !== 'undefined' && page === 'downloadscopy') {%>
+                    <% include ./partials/_content-downloads_copy %>
+                    <%} else if (page !== 'undefined' && page === 'videos') {%>
                     <% include ./partials/_content-videos %>
+                    <%} else if (page !== 'undefined' && page === 'videoscopy') {%>
+                    <% include ./partials/_content-videos_copy %>
                     <%} else if (page !== 'undefined' && page === 'teachersindex') {%>
                     <% include ./partials/_content-teachers %>
                     <%} else if (page !== 'undefined' && page === 'facultyprofile') {%>
@@ -30,8 +34,10 @@
                     <% include ./partials/_content-videos_uploadform %>
                     <%} else if (page !== 'undefined' && page === 'videos_updateform') {%>
                     <% include ./partials/_content-videos_updateform %>
-                    <%} else {%>
-             
+                    <%} else if (page !== 'undefined' && page === 'email-verification'){%>
+                    <% include ./partials/_email-verification %>
+                    <%} else if (page !== 'undefined' && page === 'account-details'){%>
+                    <% include ./partials/_content-account-details %>
                     <% } %>
                 </div>
             </div>

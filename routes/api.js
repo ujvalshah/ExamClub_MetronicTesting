@@ -3,6 +3,7 @@ var router       = express.Router();
 var User         = require("../models/user.js");
 var Download = require("../models/download.js");
 var Notification = require("../models/notifications.js");
+var Notificationcopy = require("../models/notificationscopy.js");
 var Video = require("../models/video.js");
 var middleware = require("../middleware");
 var { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilter} = middleware;
@@ -154,14 +155,24 @@ router.delete("/videos/:id", async function(req, res){
 // //----------------------------------------------------------------------------//
 
 
-// app.get('/notification', (req, res) => {
-//     Notification.find({}, (err, foundNotification) => {
-//         if (err) {
-//             console.log(err);
-//         }
-//         res.json(foundNotification);
-//     })
-// })
+router.get('/api/notification', (req, res) => {
+    Notification.find({}).sort({ createdAt:1}).exec((err, foundNotification) => {
+        if (err) {
+            console.log(err);
+        }
+        res.json(foundNotification);
+    });
+});
+
+router.get('/api/notificationcopy', (req, res) => {
+    Notificationcopy.find({}).sort({ createdAt: 1 }).exec((err, foundNotification) => {
+        if (err) {
+            console.log(err);
+        }
+        res.json(foundNotification);
+    });
+});
+
 
 // //----------------------------------------------------------------------------//
 // //--------------------------Notification Route(Post)--------------------------//

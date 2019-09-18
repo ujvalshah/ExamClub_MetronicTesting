@@ -1,47 +1,255 @@
 <% include ./_subheader-subheader-v2 %>
 <!-- begin:: Content -->
 <div class="kt-container  kt-grid__item kt-grid__item--fluid">
-    <!-------------------------------------------------------------------------------->
-    <!----------------------------Downloads Table------------------------------------->
-    <!-------------------------------------------------------------------------------->
+  <!-------------------------------------------------------------------------------->
+  <!----------------------------Downloads Table------------------------------------->
+  <!-------------------------------------------------------------------------------->
 
-    <!-- <p><a href="/downloads/upload" class="btn btn-primary btn-sm float-right d-inline-block mr-3">Upload</a></p> -->
+  <!-- <p><a href="/downloads/upload" class="btn btn-primary btn-sm float-right d-inline-block mr-3">Upload</a></p> -->
+  <!--begin::Portlet-->
+  <div class="kt-portlet" data-ktportlet="true" id="kt_portlet_tools_4">
+    <div class="kt-portlet__head">
+      <div class="kt-portlet__head-label">
+        <h3 class="kt-portlet__head-title">
+          Filter/Search Documents
+        </h3>
+      </div>
+      <div class="kt-portlet__head-toolbar">
+        <div class="kt-portlet__head-group">
+          <a href="#" data-ktportlet-tool="toggle" class="btn btn-sm btn-icon btn-danger btn-icon-md"><i
+              class="la la-angle-down"></i></a>
+          <!-- <a href="#" data-ktportlet-tool="reload" class="btn btn-sm btn-icon btn-success btn-icon-md"><i class="la la-refresh"></i></a> -->
+          <!-- <i href="#" data-ktportlet-tool="remove" class="btn btn-sm btn-icon btn-warning btn-icon-md"><i class="la la-close"></i></a> -->
+        </div>
+      </div>
+    </div>
+    <div class="kt-portlet__body">
 
-    <!-- <div class="container-fluid" id="container_download"> -->
+      <form class="form-inline float-right my-2 my-lg-0 ml-auto" action="/downloads" method="GET">
+        <div class="row">
+            <div class="p-2 bd-highlight mb-3 mr-4">
+              <input class="form-control mr-sm-2" id="search-video" type="search" placeholder="Search Downloads..."
+                name="search" aria-label="Search" value="">
+          </div>
+        </div>
 
-        <table id="example" class="table table-striped table-hover" style="width:100%">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th class="text-center">Sr.No</th>
-                    <th class="text-center">Date of Upload</th>
-                    <th class="text-center">Author</th>
-                    <th class="text-center">Title</th>
-                    <th class="text-center">Exam</th>
-                    <th class="text-center">Attempt</th>
-                    <th class="text-center">Subject</th>
-                    <th class="text-center">_id</th>
-                    <th class="text-center">No of Downloads</th>
-                    <th class="text-center">Download</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th></th>
-                    <th class="text-center">Sr.No</th>
-                    <th class="text-center">Date of Upload</th>
-                    <th class="text-center">Author</th>
-                    <th class="text-center">Title</th>
-                    <th class="text-center">Exam</th>
-                    <th class="text-center">Attempt</th>
-                    <th class="text-center">Subject</th>
-                    <th class="text-center">_id</th>
-                    <th class="text-center">No of Downloads</th>
-                    <th class="text-center">Download</th>
-                </tr>
-            </tfoot>
-        </table>
-    <!-- </div> -->
+        <div class="row">
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect01">Exam</label>
+              </div>
+              <select class="custom-select videoGroupSelect" id="videoGroupSelect01" name="exam[]"
+                onchange="this.form.submit()">
+                <option class="choose-video" disabled <%= !docquery.exam ? "selected" : "" %>>Choose...</option>
+                <option value="All">All</option>
+                <option value="rf" <%= docquery.exam && docquery.exam.includes("rf") ? "selected" : "" %>>Remove Filter
+                </option>
+                <option value="CA Final(New)"
+                  <%= docquery.exam && docquery.exam.includes("CA Final(New)") ? "selected" : "" %>>CA Final(New)</option>
+                <option value="CA Final(Old)"
+                  <%= docquery.exam && docquery.exam.includes("CA Final(Old)") ? "selected" : "" %>>CA Final(Old)</option>
+                <option value="CA Intermediate(New)"
+                  <%= docquery.exam && docquery.exam.includes("CA Intermediate(New)") ? "selected" : "" %>>CA
+                  Intermediate(New)</option>
+                <option value="CA IPCC(Old)" <%= docquery.exam && docquery.exam.includes("CA IPCC(Old)") ? "selected" : "" %>>
+                  CA IPCC(Old)</option>
+                <option value="CA Foundation(New)"
+                  <%= docquery.exam && docquery.exam.includes("CA Foundation(New)") ? "selected" : "" %>>CA Foundation(New)
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect02">Attempt</label>
+              </div>
+              <select class="custom-select videoGroupSelect" id="videoGroupSelect02" name="attempt[]"
+                onchange="this.form.submit()">
+                <option disabled <%= !docquery.attempt ? "selected" : "" %>>Choose...</option>
+                <option value="All">All</option>
+                <option value="rf" <%= docquery.attempt && docquery.attempt.includes("rf") ? "selected" : "" %>>Remove Filter
+                </option>
+                <option value="Nov 2019" <%= docquery.attempt && docquery.attempt.includes("Nov 2019") ? "selected" : "" %>>
+                  Nov 2019</option>
+                <option value="May 2020" <%= docquery.attempt && docquery.attempt.includes("May 2020") ? "selected" : "" %>>
+                  May 2020</option>
+                <option value="Nov 2020" <%= docquery.attempt && docquery.attempt.includes("Nov 2020") ? "selected" : "" %>>
+                  Nov 2020</option>
+                <option value="May 2021" <%= docquery.attempt && docquery.attempt.includes("May 2021") ? "selected" : "" %>>
+                  May 2021</option>
+                <option value="Nov 2021" <%= docquery.attempt && docquery.attempt.includes("Nov 2021") ? "selected" : "" %>>
+                  Nov 2021</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect03">Author</label>
+              </div>
+              <select class="custom-select videoGroupSelect" id="videoGroupSelect03">
+                <option>Choose...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect04">Option</label>
+              </div>
+              <select class="custom-select videoGroupSelect" id="videoGroupSelect04">
+                <option>Choose...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect05">Subject</label>
+              </div>
+              <select class="custom-select videoGroupSelect" id="videoGroupSelect05" name="subject[]"
+                onchange="this.form.submit()">
+                <option <%= !docquery.subject ? "selected" : "" %> disabled>Choose...</option>
+                <option value="All">All</option>
+                <option value="rf" <%= docquery.subject && docquery.subject.includes("rf") ? "selected" : "" %>>Remove Filter
+                </option>
+                <option value="CA Final - P1: Financial Reporting"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P1: Financial Reporting") ? "selected" : "" %>>
+                  P1:Financial Reporting</option>
+                <option value="CA Final - P2: Strategic Financial Management"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P2: Strategic Financial Management") ? "selected" : "" %>>
+                  P2:Strategic Financial Management</option>
+                <option value="CA Final - P3: Advanced Auditing and Professional Ethics"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P3: Advanced Auditing and Professional Ethics") ? "selected" : "" %>>
+                  P3:Advanced Auditing and Professional Ethics</option>
+                <option value="CA Final - P4: Corporate & Economic Laws"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P4: Corporate & Economic Laws") ? "selected" : "" %>>
+                  P4:Corporate & Economic Laws</option>
+                <option value="CA Final - P5: Strategic Cost Management and Performance Evaluation"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P5: Strategic Cost Management and Performance Evaluation") ? "selected" : "" %>>
+                  P5:Strategic Cost Management and Performance Evaluation</option>
+                <option value="CA Final - P6A: Risk Management"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P6A: Risk Management") ? "selected" : "" %>>
+                  P6A:Risk Management</option>
+                <option value="CA Final - P6B: Financial Services & Capital Markets"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P6B: Financial Services & Capital Markets") ? "selected" : "" %>>
+                  P6B:Financial Services & Capital Markets</option>
+                <option value="CA Final - P6C: International Taxation"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P6C: International Taxation") ? "selected" : "" %>>
+                  P6C:International Taxation</option>
+                <option value="CA Final - P6E: Global Financial Reporting Standards"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P6E: Global Financial Reporting Standards") ? "selected" : "" %>>
+                  P6E:Global Financial Reporting Standards</option>
+                <option value="CA Final - P6F: Multi-disciplinary Case Study"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P6F: Multi-disciplinary Case Study") ? "selected" : "" %>>
+                  P6F:Multi-disciplinary Case Study</option>
+                <option value="CA Final - P7: Direct Tax Laws & International Taxation"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P7: Direct Tax Laws & International Taxation") ? "selected" : "" %>>
+                  P7:Direct Tax Laws & International Taxation</option>
+                <option value="CA Final - P8: Indirect Tax Laws"
+                  <%= docquery.subject && docquery.subject.includes("CA Final - P8: Indirect Tax Laws") ? "selected" : "" %>>
+                  P8:Indirect Tax Law</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect06">Topic</label>
+              </div>
+              <select class="custom-select videoGroupSelect" id="videoGroupSelect06">
+                <option>Choose...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect07">Subtopic</label>
+              </div>
+              <select class="custom-select videoGroupSelect" id="videoGroupSelect07">
+                <option>Choose...</option>
+
+              </select>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button type="submit" id="downloads_filter_submit" class="btn btn-label-success btn-bold">Submit</button>
+          </div>
+          <div class="col-md-2">
+            <a class="btn btn-label-danger btn-bold" href="/downloads" id="clear-download-form">Clear All Filters</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!--end::Portlet-->
+
+
+  <div class="container-fluid mb-5" id="container_download">
+
+    <table id="example" class="table table-striped table-bordered dataTable dtr-inline table-hover" style="width:100%">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="text-center">No</th>
+          <th class="text-center">Date of Upload</th>
+          <th class="text-center">Author</th>
+          <th class="text-center">Title</th>
+          <th class="text-center">Exam</th>
+          <th class="text-center">Attempt</th>
+          <th class="text-center">Subject</th>
+          <th class="text-center">_id</th>
+          <th class="text-center">No of Downloads</th>
+          <th class="text-center">Download</th>
+        </tr>
+        <tr id='filter'>
+          <th></th>
+          <th class="text-center">No</th>
+          <th class="text-center">D/M/Y</th>
+          <th class="text-center">Author</th>
+          <th class="text-center">Title</th>
+          <th class="text-center">Exam</th>
+          <th class="text-center">Attempt</th>
+          <th class="text-center">Subject</th>
+          <th class="text-center">_id</th>
+          <th class="text-center">DownloadsNo</th>
+          <th class="text-center">Download</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th class="text-center">No</th>
+          <th class="text-center">Date of Upload</th>
+          <th class="text-center">Author</th>
+          <th class="text-center">Title</th>
+          <th class="text-center">Exam</th>
+          <th class="text-center">Attempt</th>
+          <th class="text-center">Subject</th>
+          <th class="text-center">_id</th>
+          <th class="text-center">No of Downloads</th>
+          <th class="text-center">Download</th>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="text-right"><small class="font-weight-bold">Click on the next button to see additional
+        documents.</small></div>
+  </div>
 
 </div>
 <!-- end:: Content -->

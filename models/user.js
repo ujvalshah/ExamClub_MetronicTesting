@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 
 
+
 var UserSchema = new mongoose.Schema({
     username: String,
     password: String,
@@ -17,6 +18,9 @@ var UserSchema = new mongoose.Schema({
     pincode: {type:String},
     mobile: { type: String},
     email: {type:String, unique: true, required: true},
+    emailVerified : {type: Boolean, default: false},
+    emailverificationToken : String,
+    emailVerificationexpiry: Date,
     subject: [String],
     videos:[
         { 
@@ -43,11 +47,12 @@ var UserSchema = new mongoose.Schema({
     resetPasswordExpires:Date,
     isAdmin: {type: Boolean, default: false},
     isFaculty: {type: Boolean, default: false},
+    isFacultyVerified: {type: Boolean, default: false},
     isStudent: {type: Boolean, default: false},
     notifications: [
     	{
     	   type: mongoose.Schema.Types.ObjectId,
-    	   ref: 'Notifications'
+    	   ref: 'Notificationscopy'
     	}
     ],
     followers: [
@@ -64,7 +69,9 @@ var UserSchema = new mongoose.Schema({
     ],
 });
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose, {
+    usernameQueryFields: ["email"]
+});
 
 
 module.exports = mongoose.model("User", UserSchema);

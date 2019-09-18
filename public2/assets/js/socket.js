@@ -2,25 +2,26 @@ const socket = io();
 
 // notificationFeed = []
 
-socket.on('notification', (data) => {
-    console.log(data);
-    notification(data);
-    updateNewNotificationNoBtn();
-})
+// socket.on('notification', (data) => {
+//     console.log(data);
+//     notification(data);
+//     updateNewNotificationNoBtn();
+// })
 
 // socket.on("message", addMessages)
 
-notification = (data) => {
-    var parent = document.querySelector('#notification_sockets');
-    const html = `<a href="#" class="kt-notification__item">
-    <div class="kt-notification__item-icon"> <i class="flaticon2-line-chart kt-font-success"></i> </div>
-    <div class="kt-notification__item-details">
-        <div class="kt-notification__item-title"> ${data.message} </div>
-        <div class="kt-notification__item-time"> ${data.author.username} <span class="float-right">${moment(data.createdAt).fromNow()}</span> </div>
-    </div>
-    </a>`
-    parent.insertAdjacentHTML('afterbegin', html);
-}
+// notification = (data) => {
+//     var parent = document.querySelector('#notification_sockets');
+//     const html = `<a href="#" class="kt-notification__item">
+//     <div class="kt-notification__item-icon"> <i class="flaticon2-line-chart kt-font-success"></i> </div>
+//     <div class="kt-notification__item-details">
+//         <div class="kt-notification__item-title"> ${data.message} </div>
+//         <div class="kt-notification__item-time"> ${data.author.username} <span class="float-right">${moment(data.createdAt).fromNow()}</span> </div>
+//     </div>
+//     </a>`
+//     parent.insertAdjacentHTML('afterbegin', html);
+// }
+
 
 $(document).ready(function () {
 
@@ -39,26 +40,43 @@ $(document).ready(function () {
 
     $(() => {
         getMessages();
+        getMessagesAll();
         updateNewNotificationNoBtn();
         updateNewNotificationNo();
         followFaculty();
     })
+    
 })
 
-
-
-
-function addMessages(notification) {
+function addMessages(notification){
     var parent = document.querySelector('#notification_sockets');
+    
     const html = `<a href="#" class="kt-notification__item">
         <div class="kt-notification__item-icon"> <i class="flaticon2-line-chart kt-font-success"></i> </div>
         <div class="kt-notification__item-details">
             <div class="kt-notification__item-title"> ${notification.message} </div>
-            <div class="kt-notification__item-time"> ${notification.author.username} <span class="float-right">${moment(notification.createdAt).fromNow()}</span></div>
+            <div class="kt-notification__item-time"> ${notification.author.username} - <span class="small">${notification.exam}</span> <span class="float-right">${moment(notification.createdAt).fromNow()}</span></div>
         </div>
         </a>`
     parent.insertAdjacentHTML('afterbegin', html);
+};
 
+
+function addAllMessages(notification){
+var parent2 = document.querySelector('#notification_all');
+    const html = `<a href="#" class="kt-notification__item">
+        <div class="kt-notification__item-icon"> <i class="flaticon2-line-chart kt-font-success"></i> </div>
+        <div class="kt-notification__item-details">
+            <div class="kt-notification__item-title"> ${notification.message} </div>
+            <div class="kt-notification__item-time"> ${notification.author.username}  - <span class="small">${notification.exam}</span> <span class="float-right">${moment(notification.createdAt).fromNow()}</span></div>
+        </div>
+        </a>`
+    parent2.insertAdjacentHTML('afterbegin', html);
+}
+
+
+
+function addnonDropdownNotification(notification) {
     var exam = `${notification.exam}`;
     var substring = exam.toString();
     if(substring === 'CA Final(New)'){
@@ -97,27 +115,31 @@ function addMessages(notification) {
         <div class="kt-notification__item-time"> ${notification.author.username} <span class="float-right">${moment(notification.createdAt).format("DD-MMM-YY")}</span></div>
     </div>
 </a>`)
-
-
 }
 
 function getMessages() {
     $.get('/notification', (data) => {
-        let notificationTab = ['#ca-final-new-tab', '#ca-final-old-tab', '#ca-intermediate-tab', '#ca-ipcc-tab', '#ca-foundation-tab', '#ca-general-tab'];
-        let examSub = ['CA Final(New)', 'CA Final(Old)','CA Intermediate', 'CA IPCC', 'CA Foundation', 'General'];
-        let filters = ['CA Final(New)', 'CA Final(Old)', 'CA Intermediate(New)', 'CA IPCC(Old)','CA Foundation(New)', 'General' ];
-        for (let i = 0; i < notificationTab.length; i++) {
-            var element = notificationTab[i];
-            var examelement = examSub[i];
-            var filterelement = filters[i];
+        // let notificationTab = ['#ca-final-new-tab', '#ca-final-old-tab', '#ca-intermediate-tab', '#ca-ipcc-tab', '#ca-foundation-tab', '#ca-general-tab'];
+        // let examSub = ['CA Final(New)', 'CA Final(Old)','CA Intermediate', 'CA IPCC', 'CA Foundation', 'General'];
+        // let filters = ['CA Final(New)', 'CA Final(Old)', 'CA Intermediate(New)', 'CA IPCC(Old)','CA Foundation(New)', 'General' ];
+        // for (let i = 0; i < notificationTab.length; i++) {
+        //     var element = notificationTab[i];
+        //     var examelement = examSub[i];
+        //     var filterelement = filters[i];
 
-            var examLength = data.filter(msg=>msg.exam === filterelement);
-            $(element).html(`${examelement} <span id="notification-btn-badge" class="kt-badge kt-badge kt-badge--danger">${examLength.length}</span>`)
-        };
+        //     var examLength = data.filter(msg=>msg.exam === filterelement);
+        //     $(element).html(`${examelement} <span id="notification-btn-badge" class="kt-badge kt-badge kt-badge--danger">${examLength.length}</span>`)
+        // };
         data.forEach(addMessages);
-    
     });
+
 };
+
+function getMessagesAll(){
+    $.get('/notification/all', (data)=>{
+        data.forEach(addAllMessages());
+    });
+}
 
 function sendMessage(message) {
     $.post('/notification', message, function(data){
@@ -142,9 +164,11 @@ function sendMessage(message) {
 function updateNewNotificationNo() {
     //  var quickPanel = document.querySelector('#quickpanel');
     var notificationNo = document.querySelector('#notificationNo');
+    var subnotificationNo = document.querySelector('#subNotificationNo');
     $('#quickpanel').on('click', function () {
         $.get('/notification', (data) => {
             notificationNo.innerHTML = data.length;
+            subnotificationNo.innerHTML = data.length;
         })
     })
 }
@@ -168,7 +192,12 @@ function followFaculty() {
             data: buttonid,
             type: 'PUT',
             success: function (data) {
-                console.log(data);
+                alert(data.message);
+                if(data.class==='danger'){
+                    $(`#${buttonid}`).text('Unfollow').toggleClass("btn-label-danger btn-label-success"); 
+                } else if (data.class==='success') {
+                    $(`#${buttonid}`).text('Follow').toggleClass("btn-label-success btn-label-danger");
+                };
             }
         })
         $(this).blur();

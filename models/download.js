@@ -1,7 +1,9 @@
 var mongoose = require("mongoose");
 var User = require("./user");
+var mongoosePaginate = require('mongoose-paginate');
 
-var downloadSchema = new mongoose.Schema({
+
+var DownloadSchema = new mongoose.Schema({
     title: String,
     description: String,
     exam: [String],
@@ -30,6 +32,6 @@ var downloadSchema = new mongoose.Schema({
     {timestamps:true,}
 );
 
+DownloadSchema.plugin(mongoosePaginate);
 
-
-module.exports = mongoose.model("Download", downloadSchema);
+module.exports = mongoose.model("Download", DownloadSchema);
