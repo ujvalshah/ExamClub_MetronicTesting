@@ -358,9 +358,9 @@
                   <% if(currentUser && (currentUser.isFaculty || currentUser.isAdmin) && (JSON.stringify(currentUser._id) === JSON.stringify(video.author.id))) {%>
                   <div class="float-right align-bottom">
                     <a class="btn btn-sm btn-label-brand btn-bold ml-4" href="/videos/<%=video._id %>/edit"
-                      role="button">Edit</a>
-                    <form id="delete-video-form" class="d-inline-block" action="/videos/<%=video._id%>?_method=DELETE"
-                      method="POST">
+                      role="button">Edit</a>delete
+                    <form class="d-inline-block delete-video-form" action="/videos/<%=video._id%>?_method=DELETE"
+                      method="POST" onsubmit="return deleteFacultyVideo(event,this)">
                       <button type="submit" class="btn btn-sm btn-label-danger btn-bold ml-1">Delete</button>
                     </form>
                   </div>
@@ -368,7 +368,7 @@
                   <div class="float-right">
                     <form id="save-video-form" class="d-inline float-right"
                       action="/user/<%=currentUser._id%>/videos/<%=video._id%>?_method=PUT" method="POST" onsubmit='return bookmarkVideo(event, this)'>
-                      <button type="submit" id="video-bookmark-button"
+                      <button type="submit"
                         class="btn btn-sm ml-1 <%=currentUser.videoBookmarks.includes(video.id) ? "btn-info": "btn-warning" %>">
                         <%=currentUser.videoBookmarks.includes(video.id) ? "Bookmarked" : "Bookmark?" %></button>
                     </form>

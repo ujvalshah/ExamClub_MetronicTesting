@@ -166,8 +166,8 @@ function refreshVideoBank() {
             `<div class="float-right align-bottom">
               <a class="btn btn-sm btn-label-brand btn-bold ml-4" href="/videos/${video._id}/edit"
                 role="button">Edit</a>
-              <form id="delete-video-form" class="d-inline-block" action="/videos/${video._id}?_method=DELETE"
-                method="POST">
+              <form class="d-inline-block delete-video-form" action="/videos/${video._id}?_method=DELETE"
+                method="POST" onsubmit="return deleteFacultyVideo(event,this)">
                 <button type="submit" class="btn btn-sm btn-label-danger btn-bold ml-1">Delete</button>
               </form>
             </div>` : (data.currentUser && data.currentUser.isStudent) ?
@@ -418,4 +418,26 @@ function bookmarkVideosignup(e, elem){
 //     </div>`
 //    )
 //    $("html, body").animate({ scrollTop: 0 }, "slow");
+}
+
+function deleteFacultyVideo(e,elem){
+  e.preventDefault();
+ let confirmDelete = confirm("Are You sure you want to delete?");
+  // console.log(elem);
+  let acurl = $(elem).attr('action');
+  // console.log(acurl);
+  if(confirmDelete){
+    $.ajax({
+      url: acurl,
+      type: 'DELETE',
+      success: function(data){
+        console.log(data);
+        alert(data);
+        refreshVideoBank();
+      }  
+    })
+  };
+  
+ let button = $(elem).find('button');
+ $(button).blur();
 }

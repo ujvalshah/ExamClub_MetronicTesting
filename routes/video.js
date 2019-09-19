@@ -1,3 +1,4 @@
+require('locus');
 var express = require("express");
 var router = express.Router();
 var Video = require("../models/video.js");
@@ -197,10 +198,23 @@ router.get("/videos/:id/edit", function (req, res) {
 //--------------------------------Update Route -------------------------------//
 //----------------------------------------------------------------------------//
 
-router.put("/videos/:id", function (req, res) {
+router.put("/videos/:id", isLoggedIn, async function (req, res) {
+    let query = req.body;
+    videoAuthor = req.body.video.author.username;
+    let foundauthor = await User.find({'username':videoAuthor});
+    console.log('foundauthor');
+    console.log(foundauthor);
+    console.log('query');
+    console.log(query);
+    console.log('req.body.author');
+    console.log(req.body.video.author);
+    console.log('req.body.video.author.username');
+    console.log(req.body.video.author.username);
+    let authorId = foundauthor[0]._id;
     var oldUrl = req.body.url;
     req.body.video.url = oldUrl.replace("watch?v=", "embed/");
-
+    req.body.video.author.id = authorId;
+    console.log(authorId);
     Video.findByIdAndUpdate(req.params.id, req.body.video, function (err, updatedVideo) {
         if (err) {
             req.flash("error");
@@ -218,13 +232,17 @@ router.put("/videos/:id", function (req, res) {
 router.delete("/videos/:id", async function (req, res) {
     await User.findByIdAndUpdate(req.user._id, { $pull: { videos: req.params.id } });
 
-    await Video.findByIdAndRemove(req.params.id, function (err) {
-        if (err) {
-            req.flash("error", err.message);
-            req.flash("success", "Video has been successfully deleted!");
-            return res.redirect("back");
+    Video.findByIdAndRemove(req.params.id, function (err) {
+        if(req.xhr){
+            res.json('Video successfully deleted!');
         } else {
-            return res.redirect("back")
+            if (err) {
+                req.flash("error", err.message);
+                req.flash("success", "Video has been successfully deleted!");
+                return res.redirect("back");
+            } else {
+                return res.redirect("back")
+            }
         }
     })
 })
