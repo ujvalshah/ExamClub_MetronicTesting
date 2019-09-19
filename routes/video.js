@@ -1,4 +1,3 @@
-require('locus');
 var express = require("express");
 var router = express.Router();
 var Video = require("../models/video.js");
