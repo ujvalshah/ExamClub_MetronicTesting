@@ -36,7 +36,6 @@
     "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
-    "faker": "^4.1.0",
-    "locus": "^2.0.0"
+    "faker": "^4.1.0"
   }
 }
