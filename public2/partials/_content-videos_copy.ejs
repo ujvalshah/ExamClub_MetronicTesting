@@ -1,5 +1,4 @@
 <% include ./_subheader-subheader-v2 %>
-<div style="margin: 0 6rem">
   <div class="kt-container  kt-grid__item kt-grid__item--fluid">
     <!-- <div class="container"> -->
     <!--begin::Portlet-->
@@ -28,7 +27,7 @@
 
           <div class="row">
             <div class="col-md-3">
-              <input class="form-control mr-sm-2" id="search-video" style="width:100%; background:rgba(55,74,251,0.1)"
+              <input class="form-control mr-sm-2 mb-3" id="search-video" style="width:100%; background:rgba(55,74,251,0.1)"
                 type="search" placeholder="Search Videos..." name="search" aria-label="Search" value="">
             </div>
             <div class="col-md-3">
@@ -258,10 +257,10 @@
                 Uploads
               </option>
               <option value="-description" <%= videoquery.sort && videoquery.sort==="-description" ? "selected" : "" %>>
-                Description-Ascending
+                Description-Asc
               </option>
               <option value="description" <%= videoquery.sort && videoquery.sort==="description" ? "selected" : "" %>>
-                Description-Descending</option>
+                Description-Desc</option>
             </select>
             <!-- </form> -->
           </div>

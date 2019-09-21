@@ -1,168 +1,199 @@
-
 <div class="kt-container  kt-grid__item kt-grid__item--fluid">
   <!--begin:: Widgets/Notifications-->
-<div class="row">
-      <div class="col-m-4 mt-4">
-  <div class="kt-portlet kt-portlet--height-fluid" id="portlet-notification">
-	<div class="kt-portlet__head">
-		<div class="kt-portlet__head-label">
-			<h3 class="kt-portlet__head-title">
-				Notifications
-			</h3>
-		</div>
-		<div class="kt-portlet__head-toolbar d-none d-md-flex">
-			<ul class="nav nav-pills nav-pills-sm nav-pills-label nav-pills-bold" id='notification-tabs' role="tablist">
-				<li class="nav-item">
-					<a class="nav-link ml-3 active" id="ca-final-new-tab" data-toggle="tab" href="#homepage_ca_final_new_notification" role="tab">
-						CA Final(New)
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="ca-final-old-tab" data-toggle="tab" href="#homepage_ca_final_old_notification" role="tab">
-						CA Final(Old)
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="ca-intermediate-tab" data-toggle="tab" href="#homepage_ca_intermediate_notification" role="tab">
-						CA Intermediate
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="ca-ipcc-tab" data-toggle="tab" href="#homepage_ca_ipcc_notification" role="tab">
-						CA IPCC
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="ca-foundation-tab" data-toggle="tab" href="#homepage_ca_foundation_notification" role="tab">
-						CA Foundation
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="ca-general-tab" data-toggle="tab" href="#homepage_ca_general_notification" role="tab">
-						General
-					</a>
-				</li>
+  <div class="row">
+    <div class="col-m-4 mt-4">
+      <div class="kt-portlet kt-portlet--height-fluid" id="portlet-notification">
+        <div class="kt-portlet__head">
+          <div class="kt-portlet__head-label">
+            <h3 class="kt-portlet__head-title">
+              Notifications
+            </h3>
+          </div>
+          <div class="kt-portlet__head-toolbar d-none d-md-flex">
+            <ul class="nav nav-pills nav-pills-sm nav-pills-label nav-pills-bold" id='notification-tabs' role="tablist">
+              <li class="nav-item">
+                <a class="nav-link ml-3 active" id="ca-final-new-tab" data-toggle="tab"
+                  href="#homepage_ca_final_new_notification" role="tab">
+                  CA Final(New)
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="ca-final-old-tab" data-toggle="tab" href="#homepage_ca_final_old_notification"
+                  role="tab">
+                  CA Final(Old)
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="ca-intermediate-tab" data-toggle="tab"
+                  href="#homepage_ca_intermediate_notification" role="tab">
+                  CA Intermediate
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="ca-ipcc-tab" data-toggle="tab" href="#homepage_ca_ipcc_notification" role="tab">
+                  CA IPCC
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="ca-foundation-tab" data-toggle="tab" href="#homepage_ca_foundation_notification"
+                  role="tab">
+                  CA Foundation
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="ca-general-tab" data-toggle="tab" href="#homepage_ca_general_notification"
+                  role="tab">
+                  General
+                </a>
+              </li>
             </ul>
-            <!-- ------------------------------------------------------------------------------------------------------- -->
+          </div>
+          <div class="kt-portlet__head-toolbar d-md-none">
+            <label for="dropdown-notifications-homepage" class="mb-0 mr-3">Exam</label>
+            <select class="form-control form-control-sm" id="dropdown-notifications-homepage">
+              <option value="ca-final-new-tab">CA Final(New)</optionv>
+              <option value="ca-final-old-tab">CA Final(Old)</option>
+              <option value="ca-intermediate-tab">CA Intermediate</option>
+              <option value="ca-ipcc-tab">CA IPCC</option>
+              <option value="ca-foundation-tab">CA Foundation</option>
+              <option value="ca-general-tab">General</option>
+            </select>
+          </div>
         </div>
-        <div class="kt-portlet__head-toolbar d-md-none">
-						<label for="dropdown-notifications-homepage" class="mb-0 mr-3">Exam</label>
-						<select class="form-control form-control-sm" id="dropdown-notifications-homepage">
-							<option value="ca-final-new-tab">CA Final(New)</optionv>
-                            <option value="ca-final-old-tab">CA Final(Old)</option>
-							<option value="ca-intermediate-tab">CA Intermediate</option>
-							<option value="ca-ipcc-tab">CA IPCC</option>
-							<option value="ca-foundation-tab">CA Foundation</option>
-							<option value="ca-general-tab">General</option>
-						</select>
-        </div>
-	</div>
-	<div class="kt-portlet__body">
-		<div class="tab-content">
-			<div class="tab-pane active" id="homepage_ca_final_new_notification" aria-expanded="true">
-                <div class="kt-notification" id="homepage_ca_final_new_notification_add">
-                </div>
+        <div class="kt-portlet__body">
+          <div class="tab-content">
+            <div class="tab-pane active" id="homepage_ca_final_new_notification" aria-expanded="true">
+              <div class="kt-notification" id="homepage_ca_final_new_notification_add">
+              </div>
             </div>
-			<div class="tab-pane" id="homepage_ca_final_old_notification" aria-expanded="false">
-                <div class="kt-notification" id="homepage_ca_final_old_notification_add">
-                        <a href="#" class="kt-notification__item">
-                                <div class="kt-notification__item-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--warning">
-            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <rect id="bound" x="0" y="0" width="24" height="24"/>
-                <path d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z" id="Path-50" fill="#000000" opacity="0.3"/>
-                <path d="M14.5,11 C15.0522847,11 15.5,11.4477153 15.5,12 L15.5,15 C15.5,15.5522847 15.0522847,16 14.5,16 L9.5,16 C8.94771525,16 8.5,15.5522847 8.5,15 L8.5,12 C8.5,11.4477153 8.94771525,11 9.5,11 L9.5,10.5 C9.5,9.11928813 10.6192881,8 12,8 C13.3807119,8 14.5,9.11928813 14.5,10.5 L14.5,11 Z M12,9 C11.1715729,9 10.5,9.67157288 10.5,10.5 L10.5,11 L13.5,11 L13.5,10.5 C13.5,9.67157288 12.8284271,9 12,9 Z" id="Combined-Shape" fill="#000000"/>
-            </g>
-        </svg>                        </div>
-                                <div class="kt-notification__item-details">
-                                    <div class="kt-notification__item-title">
-                                        New order has been received.
-                                    </div>
-                                    <div class="kt-notification__item-time">
-                                        2 hrs ago
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#" class="kt-notification__item">
-                                <div class="kt-notification__item-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success">
-            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <rect id="bound" x="0" y="0" width="24" height="24"/>
-                <path d="M12,21 C7.581722,21 4,17.418278 4,13 C4,8.581722 7.581722,5 12,5 C16.418278,5 20,8.581722 20,13 C20,17.418278 16.418278,21 12,21 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>
-                <path d="M13,5.06189375 C12.6724058,5.02104333 12.3386603,5 12,5 C11.6613397,5 11.3275942,5.02104333 11,5.06189375 L11,4 L10,4 C9.44771525,4 9,3.55228475 9,3 C9,2.44771525 9.44771525,2 10,2 L14,2 C14.5522847,2 15,2.44771525 15,3 C15,3.55228475 14.5522847,4 14,4 L13,4 L13,5.06189375 Z" id="Combined-Shape" fill="#000000"/>
-                <path d="M16.7099142,6.53272645 L17.5355339,5.70710678 C17.9260582,5.31658249 18.5592232,5.31658249 18.9497475,5.70710678 C19.3402718,6.09763107 19.3402718,6.73079605 18.9497475,7.12132034 L18.1671361,7.90393167 C17.7407802,7.38854954 17.251061,6.92750259 16.7099142,6.53272645 Z" id="Combined-Shape" fill="#000000"/>
-                <path d="M11.9630156,7.5 L12.0369844,7.5 C12.2982526,7.5 12.5154733,7.70115317 12.5355117,7.96165175 L12.9585886,13.4616518 C12.9797677,13.7369807 12.7737386,13.9773481 12.4984096,13.9985272 C12.4856504,13.9995087 12.4728582,14 12.4600614,14 L11.5399386,14 C11.2637963,14 11.0399386,13.7761424 11.0399386,13.5 C11.0399386,13.4872031 11.0404299,13.4744109 11.0414114,13.4616518 L11.4644883,7.96165175 C11.4845267,7.70115317 11.7017474,7.5 11.9630156,7.5 Z" id="Path-107" fill="#000000"/>
-            </g>
-        </svg>                        </div>
-                                <div class="kt-notification__item-details">
-                                    <div class="kt-notification__item-title">
-                                        New customer is registered
-                                    </div>
-                                    <div class="kt-notification__item-time">
-                                        3 hrs ago
-                                    </div>
-                                </div>
-                            </a>
-                </div>
+            <div class="tab-pane" id="homepage_ca_final_old_notification" aria-expanded="false">
+              <div class="kt-notification" id="homepage_ca_final_old_notification_add">
+                <a href="#" class="kt-notification__item">
+                  <div class="kt-notification__item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                      height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--warning">
+                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect id="bound" x="0" y="0" width="24" height="24" />
+                        <path
+                          d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z"
+                          id="Path-50" fill="#000000" opacity="0.3" />
+                        <path
+                          d="M14.5,11 C15.0522847,11 15.5,11.4477153 15.5,12 L15.5,15 C15.5,15.5522847 15.0522847,16 14.5,16 L9.5,16 C8.94771525,16 8.5,15.5522847 8.5,15 L8.5,12 C8.5,11.4477153 8.94771525,11 9.5,11 L9.5,10.5 C9.5,9.11928813 10.6192881,8 12,8 C13.3807119,8 14.5,9.11928813 14.5,10.5 L14.5,11 Z M12,9 C11.1715729,9 10.5,9.67157288 10.5,10.5 L10.5,11 L13.5,11 L13.5,10.5 C13.5,9.67157288 12.8284271,9 12,9 Z"
+                          id="Combined-Shape" fill="#000000" />
+                      </g>
+                    </svg> </div>
+                  <div class="kt-notification__item-details">
+                    <div class="kt-notification__item-title">
+                      New order has been received.
+                    </div>
+                    <div class="kt-notification__item-time">
+                      2 hrs ago
+                    </div>
+                  </div>
+                </a>
+                <a href="#" class="kt-notification__item">
+                  <div class="kt-notification__item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                      height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success">
+                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect id="bound" x="0" y="0" width="24" height="24" />
+                        <path
+                          d="M12,21 C7.581722,21 4,17.418278 4,13 C4,8.581722 7.581722,5 12,5 C16.418278,5 20,8.581722 20,13 C20,17.418278 16.418278,21 12,21 Z"
+                          id="Combined-Shape" fill="#000000" opacity="0.3" />
+                        <path
+                          d="M13,5.06189375 C12.6724058,5.02104333 12.3386603,5 12,5 C11.6613397,5 11.3275942,5.02104333 11,5.06189375 L11,4 L10,4 C9.44771525,4 9,3.55228475 9,3 C9,2.44771525 9.44771525,2 10,2 L14,2 C14.5522847,2 15,2.44771525 15,3 C15,3.55228475 14.5522847,4 14,4 L13,4 L13,5.06189375 Z"
+                          id="Combined-Shape" fill="#000000" />
+                        <path
+                          d="M16.7099142,6.53272645 L17.5355339,5.70710678 C17.9260582,5.31658249 18.5592232,5.31658249 18.9497475,5.70710678 C19.3402718,6.09763107 19.3402718,6.73079605 18.9497475,7.12132034 L18.1671361,7.90393167 C17.7407802,7.38854954 17.251061,6.92750259 16.7099142,6.53272645 Z"
+                          id="Combined-Shape" fill="#000000" />
+                        <path
+                          d="M11.9630156,7.5 L12.0369844,7.5 C12.2982526,7.5 12.5154733,7.70115317 12.5355117,7.96165175 L12.9585886,13.4616518 C12.9797677,13.7369807 12.7737386,13.9773481 12.4984096,13.9985272 C12.4856504,13.9995087 12.4728582,14 12.4600614,14 L11.5399386,14 C11.2637963,14 11.0399386,13.7761424 11.0399386,13.5 C11.0399386,13.4872031 11.0404299,13.4744109 11.0414114,13.4616518 L11.4644883,7.96165175 C11.4845267,7.70115317 11.7017474,7.5 11.9630156,7.5 Z"
+                          id="Path-107" fill="#000000" />
+                      </g>
+                    </svg> </div>
+                  <div class="kt-notification__item-details">
+                    <div class="kt-notification__item-title">
+                      New customer is registered
+                    </div>
+                    <div class="kt-notification__item-time">
+                      3 hrs ago
+                    </div>
+                  </div>
+                </a>
+              </div>
             </div>
-			<div class="tab-pane" id="homepage_ca_intermediate_notification" aria-expanded="false">
-                <div class="kt-notification" id="homepage_ca_intermediate_notification_add">
-                </div>
-			</div>
-			<div class="tab-pane" id="homepage_ca_ipcc_notification" aria-expanded="false">
-                <div class="kt-notification" id="homepage_ca_ipcc_notification_add">
-                </div>
-			</div>
+            <div class="tab-pane" id="homepage_ca_intermediate_notification" aria-expanded="false">
+              <div class="kt-notification" id="homepage_ca_intermediate_notification_add">
+              </div>
+            </div>
+            <div class="tab-pane" id="homepage_ca_ipcc_notification" aria-expanded="false">
+              <div class="kt-notification" id="homepage_ca_ipcc_notification_add">
+              </div>
+            </div>
             <div class="tab-pane" id="homepage_ca_foundation_notification" aria-expanded="false">
-                <div class="kt-notification" id="homepage_ca_foundation_notification_add">
-                </div>
-			</div>
+              <div class="kt-notification" id="homepage_ca_foundation_notification_add">
+              </div>
+            </div>
             <div class="tab-pane" id="homepage_ca_general_notification" aria-expanded="false">
-                <div class="kt-notification" id="homepage_ca_general_notification_add">
-                    <a href="#" class="kt-notification__item">
-                        <div class="kt-notification__item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--warning">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="bound" x="0" y="0" width="24" height="24"/>
-        <path d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z" id="Path-50" fill="#000000" opacity="0.3"/>
-        <path d="M14.5,11 C15.0522847,11 15.5,11.4477153 15.5,12 L15.5,15 C15.5,15.5522847 15.0522847,16 14.5,16 L9.5,16 C8.94771525,16 8.5,15.5522847 8.5,15 L8.5,12 C8.5,11.4477153 8.94771525,11 9.5,11 L9.5,10.5 C9.5,9.11928813 10.6192881,8 12,8 C13.3807119,8 14.5,9.11928813 14.5,10.5 L14.5,11 Z M12,9 C11.1715729,9 10.5,9.67157288 10.5,10.5 L10.5,11 L13.5,11 L13.5,10.5 C13.5,9.67157288 12.8284271,9 12,9 Z" id="Combined-Shape" fill="#000000"/>
-    </g>
-</svg>                        </div>
-                        <div class="kt-notification__item-details">
-                            <div class="kt-notification__item-title">
-                                New order has been received.
-                            </div>
-                            <div class="kt-notification__item-time">
-                                2 hrs ago
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="kt-notification__item">
-                        <div class="kt-notification__item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="bound" x="0" y="0" width="24" height="24"/>
-        <path d="M12,21 C7.581722,21 4,17.418278 4,13 C4,8.581722 7.581722,5 12,5 C16.418278,5 20,8.581722 20,13 C20,17.418278 16.418278,21 12,21 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>
-        <path d="M13,5.06189375 C12.6724058,5.02104333 12.3386603,5 12,5 C11.6613397,5 11.3275942,5.02104333 11,5.06189375 L11,4 L10,4 C9.44771525,4 9,3.55228475 9,3 C9,2.44771525 9.44771525,2 10,2 L14,2 C14.5522847,2 15,2.44771525 15,3 C15,3.55228475 14.5522847,4 14,4 L13,4 L13,5.06189375 Z" id="Combined-Shape" fill="#000000"/>
-        <path d="M16.7099142,6.53272645 L17.5355339,5.70710678 C17.9260582,5.31658249 18.5592232,5.31658249 18.9497475,5.70710678 C19.3402718,6.09763107 19.3402718,6.73079605 18.9497475,7.12132034 L18.1671361,7.90393167 C17.7407802,7.38854954 17.251061,6.92750259 16.7099142,6.53272645 Z" id="Combined-Shape" fill="#000000"/>
-        <path d="M11.9630156,7.5 L12.0369844,7.5 C12.2982526,7.5 12.5154733,7.70115317 12.5355117,7.96165175 L12.9585886,13.4616518 C12.9797677,13.7369807 12.7737386,13.9773481 12.4984096,13.9985272 C12.4856504,13.9995087 12.4728582,14 12.4600614,14 L11.5399386,14 C11.2637963,14 11.0399386,13.7761424 11.0399386,13.5 C11.0399386,13.4872031 11.0404299,13.4744109 11.0414114,13.4616518 L11.4644883,7.96165175 C11.4845267,7.70115317 11.7017474,7.5 11.9630156,7.5 Z" id="Path-107" fill="#000000"/>
-    </g>
-</svg>                        </div>
-                        <div class="kt-notification__item-details">
-                            <div class="kt-notification__item-title">
-                                New customer is registered
-                            </div>
-                            <div class="kt-notification__item-time">
-                                3 hrs ago
-                            </div>
-                        </div>
-                    </a>
-                </div>
-			</div>
-		</div>
-	</div>
-</div>
-</div>
-</div>
-<!--end:: Widgets/Notifications--> 
+              <div class="kt-notification" id="homepage_ca_general_notification_add">
+                <a href="#" class="kt-notification__item">
+                  <div class="kt-notification__item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                      height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--warning">
+                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect id="bound" x="0" y="0" width="24" height="24" />
+                        <path
+                          d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z"
+                          id="Path-50" fill="#000000" opacity="0.3" />
+                        <path
+                          d="M14.5,11 C15.0522847,11 15.5,11.4477153 15.5,12 L15.5,15 C15.5,15.5522847 15.0522847,16 14.5,16 L9.5,16 C8.94771525,16 8.5,15.5522847 8.5,15 L8.5,12 C8.5,11.4477153 8.94771525,11 9.5,11 L9.5,10.5 C9.5,9.11928813 10.6192881,8 12,8 C13.3807119,8 14.5,9.11928813 14.5,10.5 L14.5,11 Z M12,9 C11.1715729,9 10.5,9.67157288 10.5,10.5 L10.5,11 L13.5,11 L13.5,10.5 C13.5,9.67157288 12.8284271,9 12,9 Z"
+                          id="Combined-Shape" fill="#000000" />
+                      </g>
+                    </svg> </div>
+                  <div class="kt-notification__item-details">
+                    <div class="kt-notification__item-title">
+                      New order has been received.
+                    </div>
+                    <div class="kt-notification__item-time">
+                      2 hrs ago
+                    </div>
+                  </div>
+                </a>
+                <a href="#" class="kt-notification__item">
+                  <div class="kt-notification__item-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                      height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success">
+                      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <rect id="bound" x="0" y="0" width="24" height="24" />
+                        <path
+                          d="M12,21 C7.581722,21 4,17.418278 4,13 C4,8.581722 7.581722,5 12,5 C16.418278,5 20,8.581722 20,13 C20,17.418278 16.418278,21 12,21 Z"
+                          id="Combined-Shape" fill="#000000" opacity="0.3" />
+                        <path
+                          d="M13,5.06189375 C12.6724058,5.02104333 12.3386603,5 12,5 C11.6613397,5 11.3275942,5.02104333 11,5.06189375 L11,4 L10,4 C9.44771525,4 9,3.55228475 9,3 C9,2.44771525 9.44771525,2 10,2 L14,2 C14.5522847,2 15,2.44771525 15,3 C15,3.55228475 14.5522847,4 14,4 L13,4 L13,5.06189375 Z"
+                          id="Combined-Shape" fill="#000000" />
+                        <path
+                          d="M16.7099142,6.53272645 L17.5355339,5.70710678 C17.9260582,5.31658249 18.5592232,5.31658249 18.9497475,5.70710678 C19.3402718,6.09763107 19.3402718,6.73079605 18.9497475,7.12132034 L18.1671361,7.90393167 C17.7407802,7.38854954 17.251061,6.92750259 16.7099142,6.53272645 Z"
+                          id="Combined-Shape" fill="#000000" />
+                        <path
+                          d="M11.9630156,7.5 L12.0369844,7.5 C12.2982526,7.5 12.5154733,7.70115317 12.5355117,7.96165175 L12.9585886,13.4616518 C12.9797677,13.7369807 12.7737386,13.9773481 12.4984096,13.9985272 C12.4856504,13.9995087 12.4728582,14 12.4600614,14 L11.5399386,14 C11.2637963,14 11.0399386,13.7761424 11.0399386,13.5 C11.0399386,13.4872031 11.0404299,13.4744109 11.0414114,13.4616518 L11.4644883,7.96165175 C11.4845267,7.70115317 11.7017474,7.5 11.9630156,7.5 Z"
+                          id="Path-107" fill="#000000" />
+                      </g>
+                    </svg> </div>
+                  <div class="kt-notification__item-details">
+                    <div class="kt-notification__item-title">
+                      New customer is registered
+                    </div>
+                    <div class="kt-notification__item-time">
+                      3 hrs ago
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end:: Widgets/Notifications-->
 </div>

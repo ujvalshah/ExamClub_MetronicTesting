@@ -8,8 +8,8 @@
                 <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
                     <% if(page !== 'undefined' && page === 'downloads'){%>
                     <% include ./partials/_content-downloads %>
-                    <!-- <%} else if(page !== 'undefined' && page === 'homepage'){%>
-                    <% include ./partials/_content-homepage %> -->
+                    <!-- else if(page !== 'undefined' && page === 'homepage')
+                     include ./partials/_content-homepage  -->
                     <%} else if (page !== 'undefined' && page === 'downloadscopy') {%>
                     <% include ./partials/_content-downloads_copy %>
                     <%} else if (page !== 'undefined' && page === 'videos') {%>
@@ -47,7 +47,7 @@
 </div>
 <!-- end:: Page -->
 
-<% include ./partials/_layout-quick-panel %>
+<!-- include ./partials/_layout-quick-panel -->
 <% include ./partials/_layout-scrolltop %>
 
 
