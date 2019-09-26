@@ -24,16 +24,23 @@ function refreshVideoBank() {
   let limitNo = $('#limit-videoTable').val() || "10"
   let pageNo = $('#pagination-videos .kt-pagination__link--active').text().trim() || 1;
   let sort = $("#sorting-videoTable").val() || "-createdAt"
-  // let videoDatatableUrl = `/videoscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
+  // let videoDatatableUrl = `/videoscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
   let videoDatatableUrl = `/videoscopy?page=${pageNo}`;
-
 
   $.get(videoDatatableUrl, filterItems, function (data) {
     $('#pagination-videos').empty();
     for (let i = 1; i <= data.pages; i++) {
       $('#pagination-videos').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
     }
+
+    $('#pagination-videos_bottom').empty();
+    for (let i = 1; i <= data.pages; i++) {
+    $('#pagination-videos_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+    }
+
     $(`#pagination-videos li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
+
+    $(`#pagination-videos_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
     $("#videoLoop").empty();
 
@@ -55,7 +62,7 @@ function refreshVideoBank() {
           <div class="kt-portlet__body">
             <div class="kt-widget19__wrapper mb-0">
               <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-                ${video.title}
+                ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded">P</span>' : ""} ${video.title}
               </h5>
               <div class="kt-divider"><span></span></div>
               <div class="kt-widget19__content mt-2">
@@ -124,7 +131,7 @@ function refreshVideoBank() {
         <div class="kt-portlet__body">
           <div class="kt-widget19__wrapper mb-0">
             <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-              ${video.title}
+            ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded">P</span>' : ""}${video.title}
             </h5>
             <div class="kt-divider"><span></span></div>
             <div class="kt-widget19__content mt-2">
@@ -210,18 +217,24 @@ function paginationButtons() {
     $('#pagination_1').click();
   })
 
-  $('.kt-pagination__link--last').on('click', 'a', function (e) {
+/*   $('.kt-pagination__link--last').on('click', 'a', function (e) {
     e.preventDefault();
     $('#pagination-videos :last-child').click();
+  }) */
+
+  $('.kt-pagination__link--last').on('click', 'a', function (e) {
+    e.preventDefault();
+    $('#pagination-videos').children().last().click();
   })
 
   $('.kt-pagination__link--next').on('click', 'a', function (e) {
     e.preventDefault();
-    let val = $('#pagination-videos .kt-pagination__link--active').prev().click();
+    $('#pagination-videos .kt-pagination__link--active').prev().click();
   })
 
   $('.kt-pagination__link--prev').on('click', 'a', function (e) {
     e.preventDefault();
+    console.log('kt-pagination__link--prev');
     $('#pagination-videos .kt-pagination__link--active').next().click();
   })
 }
@@ -314,9 +327,23 @@ function changePaginationActiveTab() {
   $('#pagination-videos').on('click', "li", function (e) {
     e.preventDefault();
     $('#pagination-videos .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination-videos_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
     $(this).addClass('kt-pagination__link--active');
+    // console.log(this);
+    // let clickedPage = $(this).attr('id');
+    // let bottomEquivalent = `${clickedPage}_bottom`
+    // $(`#${bottomEquivalent}`).addClass('kt-pagination__link--active');
     refreshVideoBank();
   });
+
+  $('#pagination-videos_bottom').on('click', "li", function(e){
+    e.preventDefault();
+    $('#pagination-videos .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination-videos_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    let pageNoBottomVideoClicked = $(this).attr('id');
+    let pageTopId = pageNoBottomVideoClicked.replace('_bottom','');
+    $('#'+pageTopId).click();
+  })
 }
 
 function changePaginationTabto1() {

@@ -9,6 +9,7 @@ var VideoSchema = new mongoose.Schema({
     subject: [String],
     topic: String,
     url:String,
+    type:String,
     author: {
         id : {
         type: mongoose.Schema.Types.ObjectId,

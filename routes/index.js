@@ -97,8 +97,8 @@ router.post("/register", function (req, res) {
 // -----------------------------Email Verification Route-----------------------//
 // ----------------------------------------------------------------------------//
 
-router.get("/email-verification", isLoggedIn, async (req,res)=>{
-    res.render("index2", {page:'email-verification', title: 'Email-verification'});
+router.get("/email-verification", isLoggedIn, function(req,res){
+    res.render("index2_emailVerification", {page:'email-verification', title: 'Email-verification'});
 })
 
 router.put("/email-verification", isLoggedIn, async(req,res)=>{

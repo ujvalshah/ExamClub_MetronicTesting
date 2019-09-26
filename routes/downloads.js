@@ -74,21 +74,21 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
     res.redirect("back");
     }
         var attemptsButtons = {
-            "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary' },
-            "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger' },
-            "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning' },
-            "May 2021": { 'title': "May 2021", 'class': 'btn-label-success' },
-            "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark' },
+            "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
+            "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+            "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+            "May 2021": { 'title': "May 2021", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+            "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
         };
 
         examsButtons = {
-            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success' },
-            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger' },
-            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning' },
-            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info' },
-            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand' },
-            "General": { 'title': "General", 'class': 'btn-label-dark' },
-            "": { 'title': "", 'class': 'btn-label-light' },
+            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success', 'mobile':'kt-badge--unified-success' },
+            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile':'kt-badge--unified-danger' },
+            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile':'kt-badge--unified-warning' },
+            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile':'kt-badge--unified-info' },
+            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile':'kt-badge--unified-brand' },
+            "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile':'kt-badge--unified-dark' },
+            "": { 'title': "", 'class': 'btn-label-light', 'mobile':'kt-badge--unified-light' },
         };
 
     if(req.xhr){
@@ -96,6 +96,11 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
         foundDownload.pageUrl = paginateUrl;
         foundDownload.attemptsButtons = attemptsButtons;
         foundDownload.examsButtons = examsButtons;
+        if(req.user){
+            let loggedinUser = await User.findById(req.user._id);
+            foundDownload.loggedinUser = loggedinUser;
+            return res.json(foundDownload);
+        }
         return res.json(foundDownload);
     } else {
         console.log('----------');

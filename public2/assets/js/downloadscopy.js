@@ -21,23 +21,29 @@ function refreshDataTable() {
   // console.log(decodeURI(filterItems));
   let limitNo = $('#limit-downloadTable').val() || "10"
   let pageNo = $('#pagination-downloads .kt-pagination__link--active').text().trim() || 1;
-  let sort = $(".downloads-sort-active").closest('span').attr('class');
-  // console.log("pageNo");
-  // console.log(pageNo);
-  // console.log("limitNo");
-  // console.log(limitNo);
-  // console.log("sort");
-  // console.log(sort);
+  if ( $("#largeScreen-downloads").is(":hidden")){
+    var sort = $("select#sorting-mobileDownloadTable option:checked").val() || "-createdAt";
+}
+if ( $("#largeScreen-downloads").is(":visible")){
+  var sort = $(".downloads-sort-active").closest('span').attr('class');
+}
+  console.log(sort);
   let downloadDatatableUrl = `/downloadscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
   $.get(downloadDatatableUrl, filterItems, function (data) {
 
     $('#pagination-downloads').empty();
+    $('#pagination-downloads_bottom').empty();
     for (let i = 1; i <= data.pages; i++) {
       $('#pagination-downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
     }
+    for (let i = 1; i <= data.pages; i++) {
+      $('#pagination-downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+    }
     $(`#pagination-downloads li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
+    $(`#pagination-downloads_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
     $("tbody").empty();
+    $('#mobile-downloads-content').empty();
     data.docs.forEach(function (document, index) {
       $("tbody").append(`
        <tr>
@@ -51,28 +57,13 @@ function refreshDataTable() {
          <td class="align-middle text-center">${document.subject}</td>
          <td class="align-middle text-center "><span class="kt-badge kt-badge--success kt-badge--lg">${document.downloadCounter}</span></td>
          <td class="align-middle text-center text-nowrap">
-         <span class="dropdown">
-              <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
-              <div class="dropdown-menu dropdown-menu-right">
-              <div class="dropdown-item"> 
-                  <form action="/downloads/${document._id}/edit" method="GET">
-                    <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
-                  </form>
-              </div>
-                 <div class="dropdown-item"> 
-                  <form action="/downloads/${document._id}?_method=DELETE" method="POST">
-                    <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
-                  </form>
-              </div>
-              </div>
-          </span>
            <a href="/downloads/docs/${document._id}" id="${document._id}" onclick="return downloadBtn(this)" title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
            
           <form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
-                    <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id}"><i class="fas fa-bookmark"></i></button>
+                    <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.loggedinUser && data.loggedinUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
           </form>
           
-        <div class="kt-widget2__actions" id='sharingBtns'>
+        <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
           <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
             <i class="fas fa-share-alt"></i>
           </a>
@@ -112,6 +103,85 @@ function refreshDataTable() {
        `);
     });
 
+    
+    data.docs.forEach(function (document, index) {
+      $("#mobile-downloads-content").append(`
+                <div class="kt-widget4__item">
+                <div class="kt-widget4__pic kt-widget4__pic--pic">
+                <span
+                    class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.username.charAt(0).toUpperCase()}</span>
+                  <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
+                </div>
+                <div class="kt-widget4__info pr-1">
+                  <a href="#" class="kt-widget4__username">
+                    ${document.title}
+                  </a>
+                  <p class="kt-widget4__text">
+                    ${document.author.username} <br>
+                    <span
+                      class="kt-badge kt-badge--inline kt-badge--bold ${data.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
+                    <span
+                      class="kt-badge kt-badge--inline kt-badge--bold ${data.examsButtons[document.exam].mobile}">${document.exam}</span>
+                    ${(document.subject || document.subject !== "") ? `<span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-brand">${document.subject}</span>` : ""}
+                  </p>
+                </div>
+                <div class='flex-column'>
+                <div class="d-flex justify-content-center mb-3"> 
+                <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(document.createdAt).format("DD-MMM-YYYY")}</span>
+                </div>
+                <div class='text-nowrap'>
+                <a href="/downloads/docs/${document._id}" id="${document._id}"
+                    onclick="downloadBtn(this)" title="Download" target="_blank"
+                    class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i
+                    class="fas fa-file-download"></i></span></a></a>
+                    <form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)"
+                      class="d-inline-block m-0 p-0 bookmark-ajax-form"
+                      action="/user/downloads/${document._id}/bookmark" method="POST">
+                      <button type="submit" title="Bookmark"
+                        class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id}"><i
+                          class="fas fa-bookmark"></i></button>
+                    </form>
+
+                    <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
+                    <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
+                      <i class="fas fa-share-alt"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+                      <ul class="kt-nav">
+                        <li class="kt-nav__item">
+                          <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${document._id}" title="Share" target="_blank" class="kt-nav__link">
+                                  <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                                  <span class="kt-nav__link-text">Whatsapp</span>
+                          </a>
+                        </li>
+                        <li class="kt-nav__item"> 
+          
+                            <a href="tg://msg?url=http://${$(location).attr('host')}/downloads/${document._id}&text=${document.title}" class="kt-nav__link">
+                                <i class="kt-nav__link-icon socicon-telegram"></i>
+                                <span class="kt-nav__link-text">Telegram</span>
+                            </a>
+                        </li>
+                        <li class="kt-nav__item">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/downloads/${document._id}" target="_blank" class="kt-nav__link">
+                                <i class="kt-nav__link-icon socicon-facebook"></i>
+                                <span class="kt-nav__link-text">Facebook</span>
+                            </a>
+                        </li>
+                        <li class="kt-nav__item" id='inputdownloadUrl_${document._id}'>
+                        <input type="text"  class="form-control d-none" value="http://${$(location).attr('host')}/downloads/${document._id}"">
+                            <a href="javascript:;" data-link="http://${$(location).attr('host')}/downloads/${document._id}" id='downloadUrl_${document._id}' onclick="return shareLink(this)" class="kt-nav__link sharelinktrial"'>
+                                <i class="kt-nav__link-icon fa fa-link"></i>
+                                <span class="kt-nav__link-text">Copy URL</span>
+                            </a>
+                        </li>
+                        </ul>							
+                      </div>
+                  </div>
+                    </div>
+                  </div>
+          </div>
+       `);
+    });
 
 
     // $('#pagination-downloads li').first().addClass('kt-pagination__link--active')
@@ -141,7 +211,8 @@ function paginationButtons() {
 
   $('.kt-pagination__link--last').on('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination-downloads :last-child').click();
+    $('#pagination-downloads').children().last().click();
+    // $('#pagination-downloads :last-child').click();
   })
 
   $('.kt-pagination__link--next').on('click', 'a', function (e) {
@@ -169,8 +240,6 @@ function sorting() {
 function filter() {
   $('#search-document').val("")
   var filterItemsArray = $('#dataTable_filter_ajax').serializeArray();
-  // console.log('filterItemsArray')
-  // console.log(filterItemsArray)
   $('#downloads-filter-tags').empty();
   filterItemsArray.forEach(function (filter) {
     if (filter.value && filter.value !== "" && filter.value !== 'rf') {
@@ -245,7 +314,18 @@ function changePaginationActiveTab(){
   $('#pagination-downloads').on('click', "li", function (e) {
     e.preventDefault();
     $('#pagination-downloads .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination-downloads_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
     $(this).addClass('kt-pagination__link--active');
+    refreshDataTable();
+  });
+
+  $('#pagination-downloads_bottom').on('click', "li", function (e) {
+    e.preventDefault();
+    $('#pagination-downloads .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination-downloads_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    let pageNoBottomDownloadClicked = $(this).attr('id');
+    let pageTopDownloadId = pageNoBottomDownloadClicked.replace('_bottom','');
+    $('#'+pageTopDownloadId).click();
     refreshDataTable();
   });
 }
@@ -342,4 +422,19 @@ function documentBookmark(e, element){
 //   // $(this).find("i.fas.fa-bookmark").toggleClass("red")
 // });
 
-
+// Edit and Delete Buttons for Dashboard
+/* <span class="dropdown">
+<a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<div class="dropdown-item"> 
+    <form action="/downloads/${document._id}/edit" method="GET">
+      <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
+    </form>
+</div>
+   <div class="dropdown-item"> 
+    <form action="/downloads/${document._id}?_method=DELETE" method="POST">
+      <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
+    </form>
+</div>
+</div>
+</span> */

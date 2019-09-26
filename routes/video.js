@@ -151,8 +151,17 @@ router.post("/videos", isLoggedIn, function (req, res) {
     console.log(req.user);
     req.body.video.title = req.body.title;
     req.body.video.description = req.body.description;
-    var oldUrl = req.body.url;
-    req.body.video.url = oldUrl.replace("watch?v=", "embed/");
+    if(req.body.video.type == 'single'){
+        var oldUrl = req.body.url;
+        var editedOldURL = oldUrl.replace("watch?v=", "embed/");
+        var newVideoURL = editedOldURL+'?rel=0&modestbranding=1';
+    } else if (req.body.video.type == 'playlist'){
+        var oldUrl = req.body.url;
+        var editedOldURL = oldUrl.replace("watch?v=", "embed?listType=playlist&extraid=");
+        var indexEditUrl = editedOldURL.replace("&index",'&extraIndex')
+        var newVideoURL = indexEditUrl+'&rel=0&modestbranding=1';
+    }
+    req.body.video.url = newVideoURL;
     req.body.video.author = {
         username: req.user.username,
         id: req.user._id
@@ -211,7 +220,17 @@ router.put("/videos/:id", isLoggedIn, async function (req, res) {
     console.log(req.body.video.author.username);
     let authorId = foundauthor[0]._id;
     var oldUrl = req.body.url;
-    req.body.video.url = oldUrl.replace("watch?v=", "embed/");
+    if(req.body.video.type == 'single'){
+        var oldUrl = req.body.url;
+        var editedOldURL = oldUrl.replace("watch?v=", "embed/");
+        var newVideoURL = editedOldURL+'?rel=0&modestbranding=1';
+    } else if (req.body.video.type == 'playlist'){
+        var oldUrl = req.body.url;
+        var editedOldURL = oldUrl.replace("watch?v=", "embed?listType=playlist&extraid=");
+        var indexEditUrl = editedOldURL.replace("&index",'&extraIndex')
+        var newVideoURL = indexEditUrl+'&rel=0&modestbranding=1';
+    }
+    req.body.video.url = newVideoURL;
     req.body.video.author.id = authorId;
     console.log(authorId);
     Video.findByIdAndUpdate(req.params.id, req.body.video, function (err, updatedVideo) {

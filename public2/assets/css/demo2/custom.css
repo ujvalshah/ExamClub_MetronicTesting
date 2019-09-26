@@ -98,3 +98,7 @@ color: white;
 #videos-filter-tags span{
     cursor: pointer;
 }
+
+button.btn.btn-clean.red-color i.fas.fa-bookmark{
+    color: #dc3545;
+}
