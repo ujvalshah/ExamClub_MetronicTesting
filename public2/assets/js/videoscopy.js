@@ -9,6 +9,7 @@ $(document).ready(function () {
   paginationButtons();
   // sorting();
   filter();
+  searchEnterKey();
   // downloadBtn();
   // bookmarkVideo(e);
   // bookmarkVideosignup(e);
@@ -363,6 +364,15 @@ function searchOnKeyUp() {
     refreshVideoBank();
   });
 }
+
+function searchEnterKey(){
+  $('#search-video').keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+      }
+    });
+}
+
 
 function clickOnSubmitBtn() {
   $('#submit-video-form').on('click', function (e) {

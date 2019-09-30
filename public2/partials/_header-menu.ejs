@@ -39,7 +39,7 @@
             <!-- begin:: Dashboard Menu -->
             <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'dashboard_admin' || page === 'dashboard_faculty' || page === 'dashboard_student' ? 'kt-menu__item--here' : '' %>"
                 data-ktmenu-submenu-toggle="click" aria-haspopup="true">
-                <a href="/user/<%=currentUser._id%>/dashboard" class="kt-menu__link"><span
+                <a id='menu_dashboard_userURL' href="/user/<%=currentUser._id%>/dashboard" class="kt-menu__link"><span
                         class="kt-menu__link-text">Dashboard</span><i
                         class="kt-menu__ver-arrow la la-angle-right"></i></a>
                 <!-- <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">

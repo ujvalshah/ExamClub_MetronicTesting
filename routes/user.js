@@ -1,10 +1,10 @@
-const express      = require("express");
-const router       = express.Router();
-const Download     = require("../models/download.js");
-const Video     = require("../models/video.js");
-const User     = require("../models/user.js");
+const express = require("express");
+const router = express.Router();
+const Download = require("../models/download.js");
+const Video = require("../models/video.js");
+const User = require("../models/user.js");
 const middleware = require("../middleware");
-const { isLoggedIn, isAdmin, isFaculty, isStudent } = middleware;
+const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs, searchAndFilterVideoCopy } = middleware;
 // const multer  = require('multer');
 // const storage = multer.diskStorage({
 //   filename: function(req, file, callback) {
@@ -24,30 +24,31 @@ const { isLoggedIn, isAdmin, isFaculty, isStudent } = middleware;
 //----------------------------------------------------------------------------//
 //--------------------------Teacher's Index Route-----------------------------//
 //----------------------------------------------------------------------------//
-router.get("/teachers", (req, res)=>{
-    User.find({isFaculty: true}).populate({path:"downloads", select:"downloadCounter"}).exec((err, foundTeacher)=>{
-        if(err){
-          return console.log(err);
+router.get("/teachers", (req, res) => {
+    User.find({ isFaculty: true }).populate({ path: "downloads", select: "downloadCounter" }).exec((err, foundTeacher) => {
+        if (err) {
+            return console.log(err);
         }
-        res.render("index2", {teachers: foundTeacher, page:'teachersindex', title: "Facultys' Directory"});
+        res.render("index2", { teachers: foundTeacher, page: 'teachersindex', title: "Facultys' Directory" });
         // res.render("teacher/list", {teachers: foundTeacher, page:'teachersindex'});
         // res.json(foundTeacher);
-    })});
+    })
+});
 
 //----------------------------------------------------------------------------//
 //----------------------Teacher's Profile CREATE Form(GET)--------------------//
 //----------------------------------------------------------------------------//
-router.get("/teachers/new", function(req, res){
-        res.render("teacher/new");
-    });
+router.get("/teachers/new", function (req, res) {
+    res.render("teacher/new");
+});
 
 //----------------------------------------------------------------------------//
 //--------------------------Teacher's Profile Route(POST)----------------------//
 //----------------------------------------------------------------------------//
-router.post("/teachers", (req, res)=>{
+router.post("/teachers", (req, res) => {
     var newTeacher = req.body.teacher;
-    User.create(newTeacher, function(err, newlyCreated){
-        if(err){
+    User.create(newTeacher, function (err, newlyCreated) {
+        if (err) {
             console.log(err)
             return res.redirect("back");
         }
@@ -60,12 +61,12 @@ router.post("/teachers", (req, res)=>{
 //-----------------------Teacher's Profile SHOW Route(GET)--------------------//
 //----------------------------------------------------------------------------//
 router.get("/teachers/:id", (req, res) => {
-    User.findById(req.params.id).populate("downloads").populate("videos").exec(function(err, foundTeacher){
-        if(err){
-         console.log(err);
-         res.redirect("back");
-        } else 
-        res.render("index2", {teacher: foundTeacher, page:"facultyprofile", title: "Faculty's Profile"});
+    User.findById(req.params.id).populate("downloads").populate("videos").exec(function (err, foundTeacher) {
+        if (err) {
+            console.log(err);
+            res.redirect("back");
+        } else
+            res.render("index2", { teacher: foundTeacher, page: "facultyprofile", title: "Faculty's Profile" });
         // res.render("teacher/profile", {teacher: foundTeacher, page:"facultyprofile"});
     });
 })
@@ -75,244 +76,458 @@ router.get("/teachers/:id", (req, res) => {
 //--------------------------------USERS GET Dashboard-------------------------//
 //----------------------------------------------------------------------------//
 
-// ------------------------>Different Method[Populate]!!!<----------------------
-router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
-    User.findById(req.params.id, async (err,foundUser)=>{
-        if(err){
-            console.log(err);
-        } else { 
-            if(foundUser.isAdmin===true){
-              let downloads = await Download.find({}).exec();
-              let videos = await Video.find({}).exec();
-
-              let studentList = await User.find({isStudent: true}).exec();
-              console.log(studentList);
-              console.log('**********');
-              let facultyList = await User.find({isFaculty: true}).exec();
-              console.log(facultyList);
-              if(req.xhr){
-                  res.json({user:foundUser, downloads:downloads, videos:videos, students: studentList, facultys: facultyList,});
-              } else {
-              res.render("index2",{page:"dashboard_admin", user:foundUser, downloads: downloads, 
-              videos: videos, students: studentList, facultys: facultyList, title: "Dashboard"});
-            //   res.render("dashboard_admin",{page:"dashboard_admin", user:foundUser, downloads: downloads, videos: videos});
-                  }
-              }
-            
-            if(foundUser.isFaculty===true){
-               await  User.findById(req.params.id).populate("downloads").populate("videos").exec((err,foundUser)=>{
-                if(err){
-                console.log(err);
-                } else {
-                 if(req.xhr){
-                  res.json({user:foundUser});
-                }else {
-                res.render("index2",{page:"dashboard_faculty", user:foundUser, title: "Dashboard"});
-                // res.render("dashboard_faculty",{page:"dashboard_faculty", user:foundUser});
-              }    
-                }
-            });
-        } 
-        if(foundUser.isStudent===true){
-            console.log(req.user);
-               await  User.findById(req.params.id).populate("downloadBookmarks").populate("videoBookmarks").exec((err,foundUser)=>{
-                if(err){
-                console.log(err);
-                } else {
-                 if(req.xhr){
-                  res.json({user:foundUser});
-                }else {
-                    console.log(foundUser)
-                res.render("index2",{page:"dashboard_student", user:foundUser, title: "Dashboard"});
-                // res.render("dashboard_student",{page:"dashboard_student", user:foundUser});
-                
-              }    
-                }
-            });
-        } 
+// ------------------------>Different Method[Populate]!!!<----------------------//
+router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilterVideoCopy, async (req, res) => {
+    try{
+    let foundUser = await User.findById(req.params.id);
+    if (!foundUser) {
+        req.flash('error', "User not found! Please log in again!");
+        res.redirect('back');
     }
-});
-});
+    if (foundUser.isAdmin === true) {
 
-// router.get("/user/:id/dashboard", isLoggedIn, (req, res) => {
-//     const currentUser = req.user;
-//             if(currentUser && currentUser.isAdmin){
-//             res.json("dashboard_admin");               
-//             } else if(currentUser && currentUser.isFaculty){
-//              res.render("dashboard_faculty");  
-//             }else if(currentUser && currentUser.isStudent){
-//              res.render("dashboard_student", {page: "dashboard"});  
-// }
-// });
+        //--------------------------------------------Documents-----------------------------------------//
 
-// -------------------------->Different Method[ID = ID]!!!<---------------------------------
-// router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
-//     User.findById(req.params.id, (err,foundUser)=>{
-//         if(err){
-//             console.log(err);
-//         } else { 
-//         Video.find().where("author.id").equals(foundUser.id).exec((err, videos)=>{
-//                         if(err){
-//                             req.flash("error",err.message);
-//                         } else{
-//                             res.render("dashboard_faculty",{videos, user:foundUser});
-//                         }
-//                     });
-//         }
-//     });
-// });
+        const { docdbQuery, docspaginateUrl } = res.locals;
+        delete res.locals.docdbQuery;
+        var downloads = await Download.paginate(docdbQuery, {
+            page: parseInt(req.query.page) || 1,
+            limit: parseInt(req.query.limit) || 10,
+            sort: req.query.sort || '-createdAt',
+        });
+        if (!downloads) {
+            req.flash("error");
+            res.redirect("back");
+        }
 
-// // -------------------------->Different Method[Populate]!!!<---------------------------------
-// router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
-//     User.findById(req.params.id).populate("downloads").populate("videos").exec((err,foundUser)=>{
-//         if(err){
-//             console.log(err);
-//         } else { 
-//             if(foundUser.isAdmin===true){}
-//         res.render("dashboard_faculty",{user:foundUser});
-//         }
-//     });
-// });
+        var attemptsButtons = {
+            "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
+            "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+            "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+            "May 2021": { 'title': "May 2021", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+            "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+        };
+
+        var examsButtons = {
+            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
+            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+            "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+            "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
+        };
+
+        downloads.pageUrl = docspaginateUrl;
+        downloads.attemptsButtons = attemptsButtons;
+        downloads.examsButtons = examsButtons;
 
 
 
-// router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
-//     User.findById(req.params.id, (err,foundUser)=>{
-//         if(err){
-//             console.log(err);
-//         } else if (foundUser.isAdmin === true){
-//             Video.find({}, (err,videos)=>{
-//                 if(err){
-//                     console.log(err);
-//                 } else {
-//                     res.render("dashboard_admin", {videos});
-//                 }
-//             });
-//         } else if (foundUser.isFaculty === true){
-//                     Video.find().where("author.id").equals(foundUser.Id).exec((err, videos)=>{
-//                         if(err){
-//                             req.flash("error",err.message);
-//                         } else{
-//                             res.render("dashboard_faculty",{videos});
-//                         }
-//                     });
-//         } else if(foundUser.isStudent === true){
-//             res.render("dashboard_faculty")
-//         } 
-//     });
-// });
 
+        //------------------------------------------------Videos-------------------------------------------//
 
+        const { dbQuery, videospaginateUrl } = res.locals;
+        delete res.locals.dbQuery;
 
-//----------------------------------------------------------------------------//
-//-----------------------------------User Save Video--------------------------//
-//---------------------{is the writing format fine??}-------------------------//
-
-router.put("/user/:id/videos/:video_id", isStudent, async (req,res)=>{
-try{
-    let foundUser= await User.findById(req.params.id);
-    let foundVideo= await Video.findById(req.params.video_id);
-        if(foundUser.isStudent){
-            if(foundUser.videoBookmarks.includes(foundVideo.id)){
-                console.log("includes");
-                await User.findByIdAndUpdate(req.user._id, {$pull:{videoBookmarks: foundVideo.id}}); 
-                foundUser.save();
-                if(req.xhr){
-                    let message = "Successfully removed the video from your bookmarks";
-                    res.json(message);
-                } else{
-                    req.flash("success", "Successfully removed the video from your bookmarks");
-                    return res.redirect("back");
-                }
+        function sortFunction() {
+            if (req.query.sort === "Earliest") {
+                return { createdAt: 1 };
+            } else if (req.query.sort === "Latest") {
+                return { createdAt: -1 };
+            } else if (req.query.sort === "Description-Ascending") {
+                return { description: 1 };
+            } else if (req.query.sort === "Description-Descending") {
+                return { description: -1 };
             } else {
-            console.log("does not include");
-            foundUser.videoBookmarks.push(foundVideo);
-            foundUser.save();
-            if(req.xhr){
-                let message = "Successfully added the video to your bookmarks";
-                res.json(message);
-            } else {
-                req.flash("success", "Successfully added the video to your bookmarks");
-                return res.redirect("back");
-            }
-        }} else {
-            if(req.xhr){
-                let message = "You need to be signed to bookmark videos";
-                res.json(message);
-            } else {
-                req.flash("error", "You need to be signed to bookmark videos");
+                return { createdAt: -1 };
             }
         }
-}catch(err){
+        var videos = await Video.paginate(dbQuery, {
+            page: parseInt(req.query.page) || 1,
+            limit: parseInt(req.query.limit) || 10,
+            sort: req.query.sort || '-createdAt',
+        });
+        videos.pageUrl = videospaginateUrl;
+
+        //--------------------------------------FacultyList--------StudentList-----------------------------//
+        var facultyList = await User.paginate({isFaculty:true}, {
+            page: parseInt(req.query.page) || 1,
+            limit: parseInt(req.query.limit) || 10,
+            sort: req.query.sort || '-accountCreated',
+        });
+        console.log('facultyList');
+        console.log(facultyList);
+
+        var studentList = await User.paginate({isFaculty:true}, {
+            page: parseInt(req.query.page) || 1,
+            limit: parseInt(req.query.limit) || 10,
+            sort: req.query.sort || '-accountCreated',
+        });
+        // let studentList = await User.find({ isStudent: true }).exec();
+        // let facultyList = await User.find({ isFaculty: true }).exec();
+        if (req.xhr) {
+            res.json({ user: foundUser, downloads, videos, students: studentList, faculty: facultyList, });
+        } else {
+            res.render("index2", {
+                page: "dashboard_admin", user: foundUser, downloads,
+               videos, students: studentList, faculty: facultyList, title: "Dashboard"
+            });
+            //   res.render("dashboard_admin",{page:"dashboard_admin", user:foundUser, downloads: downloads, videos: videos});
+        }
+    }
+
+    if (foundUser.isFaculty === true) {
+        await User.findById(req.params.id).populate("downloads").populate("videos").exec((err, foundUser) => {
+            if (err) {
+                console.log(err);
+            } else {
+                if (req.xhr) {
+                    res.json({ user: foundUser });
+                } else {
+                    res.render("index2", { page: "dashboard_faculty", user: foundUser, title: "Dashboard" });
+                    // res.render("dashboard_faculty",{page:"dashboard_faculty", user:foundUser});
+                }
+            }
+        });
+    }
+    if (foundUser.isStudent === true) {
+        console.log(req.user);
+        await User.findById(req.params.id).populate("downloadBookmarks").populate("videoBookmarks").exec((err, foundUser) => {
+            if (err) {
+                console.log(err);
+            } else {
+                if (req.xhr) {
+                    res.json({ user: foundUser });
+                } else {
+                    console.log(foundUser)
+                    res.render("index2", { page: "dashboard_student", user: foundUser, title: "Dashboard" });
+                    // res.render("dashboard_student",{page:"dashboard_student", user:foundUser});
+
+                }
+            }
+        });
+    }
+} catch(error){
+    console.log(error);
+    req.flash('error'. error.message);
+    res.redirect('back');
+}
+});
+    // Not EDITED
+    // ------------------------>Different Method[Populate]!!!<----------------------
+    // router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs,(req,res)=>{
+    //     User.findById(req.params.id, async (err,foundUser)=>{
+    //         if(err){
+    //             console.log(err);
+    //         } else { 
+    //             if(foundUser.isAdmin===true){
+    //             const {docdbQuery, paginateUrl} = res.locals;
+    //             delete res.locals.docdbQuery;
+    //             console.log('*****docdbquery****');
+    //             console.log(docdbQuery);
+    //             var downloads = await Download.paginate(docdbQuery, {
+    //                 page: parseInt(req.query.page) || 1,
+    //                 limit: parseInt(req.query.limit) || 10,
+    //                 sort: req.query.sort || '-createdAt',
+    //             });
+    //             if(!downloads){
+    //             req.flash("error");
+    //             res.redirect("back");
+    //             }
+    //             //   let downloads = await Download.find({docdbQuery}).exec();
+    //               let videos = await Video.find({}).exec();
+
+    //               let studentList = await User.find({isStudent: true}).exec();
+    //               console.log(studentList);
+    //               console.log('**********');
+    //               let facultyList = await User.find({isFaculty: true}).exec();
+    //               console.log(facultyList);
+    //               if(req.xhr){
+    //                   res.json({user:foundUser, downloads:downloads, videos:videos, students: studentList, facultys: facultyList,});
+    //               } else {
+    //               res.render("index2",{page:"dashboard_admin", user:foundUser, downloads: downloads, 
+    //               videos: videos, students: studentList, facultys: facultyList, title: "Dashboard"});
+    //             //   res.render("dashboard_admin",{page:"dashboard_admin", user:foundUser, downloads: downloads, videos: videos});
+    //                   }
+    //               }
+
+    //             if(foundUser.isFaculty===true){
+    //                await  User.findById(req.params.id).populate("downloads").populate("videos").exec((err,foundUser)=>{
+    //                 if(err){
+    //                 console.log(err);
+    //                 } else {
+    //                  if(req.xhr){
+    //                   res.json({user:foundUser});
+    //                 }else {
+    //                 res.render("index2",{page:"dashboard_faculty", user:foundUser, title: "Dashboard"});
+    //                 // res.render("dashboard_faculty",{page:"dashboard_faculty", user:foundUser});
+    //               }    
+    //                 }
+    //             });
+    //         } 
+    //         if(foundUser.isStudent===true){
+    //             console.log(req.user);
+    //                await  User.findById(req.params.id).populate("downloadBookmarks").populate("videoBookmarks").exec((err,foundUser)=>{
+    //                 if(err){
+    //                 console.log(err);
+    //                 } else {
+    //                  if(req.xhr){
+    //                   res.json({user:foundUser});
+    //                 }else {
+    //                     console.log(foundUser)
+    //                 res.render("index2",{page:"dashboard_student", user:foundUser, title: "Dashboard"});
+    //                 // res.render("dashboard_student",{page:"dashboard_student", user:foundUser});
+
+    //               }    
+    //                 }
+    //             });
+    //         } 
+    //     }
+    // });
+    // });
+
+
+    // Untouched
+    // router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
+    //     User.findById(req.params.id, async (err,foundUser)=>{
+    //         if(err){
+    //             console.log(err);
+    //         } else { 
+    //             if(foundUser.isAdmin===true){
+    //               let downloads = await Download.find({}).exec();
+    //               let videos = await Video.find({}).exec();
+
+    //               let studentList = await User.find({isStudent: true}).exec();
+    //               console.log(studentList);
+    //               console.log('**********');
+    //               let facultyList = await User.find({isFaculty: true}).exec();
+    //               console.log(facultyList);
+    //               if(req.xhr){
+    //                   res.json({user:foundUser, downloads:downloads, videos:videos, students: studentList, facultys: facultyList,});
+    //               } else {
+    //               res.render("index2",{page:"dashboard_admin", user:foundUser, downloads: downloads, 
+    //               videos: videos, students: studentList, facultys: facultyList, title: "Dashboard"});
+    //             //   res.render("dashboard_admin",{page:"dashboard_admin", user:foundUser, downloads: downloads, videos: videos});
+    //                   }
+    //               }
+
+    //             if(foundUser.isFaculty===true){
+    //                await  User.findById(req.params.id).populate("downloads").populate("videos").exec((err,foundUser)=>{
+    //                 if(err){
+    //                 console.log(err);
+    //                 } else {
+    //                  if(req.xhr){
+    //                   res.json({user:foundUser});
+    //                 }else {
+    //                 res.render("index2",{page:"dashboard_faculty", user:foundUser, title: "Dashboard"});
+    //                 // res.render("dashboard_faculty",{page:"dashboard_faculty", user:foundUser});
+    //               }    
+    //                 }
+    //             });
+    //         } 
+    //         if(foundUser.isStudent===true){
+    //             console.log(req.user);
+    //                await  User.findById(req.params.id).populate("downloadBookmarks").populate("videoBookmarks").exec((err,foundUser)=>{
+    //                 if(err){
+    //                 console.log(err);
+    //                 } else {
+    //                  if(req.xhr){
+    //                   res.json({user:foundUser});
+    //                 }else {
+    //                     console.log(foundUser)
+    //                 res.render("index2",{page:"dashboard_student", user:foundUser, title: "Dashboard"});
+    //                 // res.render("dashboard_student",{page:"dashboard_student", user:foundUser});
+
+    //               }    
+    //                 }
+    //             });
+    //         } 
+    //     }
+    // });
+    // });
+
+    // router.get("/user/:id/dashboard", isLoggedIn, (req, res) => {
+    //     const currentUser = req.user;
+    //             if(currentUser && currentUser.isAdmin){
+    //             res.json("dashboard_admin");               
+    //             } else if(currentUser && currentUser.isFaculty){
+    //              res.render("dashboard_faculty");  
+    //             }else if(currentUser && currentUser.isStudent){
+    //              res.render("dashboard_student", {page: "dashboard"});  
+    // }
+    // });
+
+    // -------------------------->Different Method[ID = ID]!!!<---------------------------------
+    // router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
+    //     User.findById(req.params.id, (err,foundUser)=>{
+    //         if(err){
+    //             console.log(err);
+    //         } else { 
+    //         Video.find().where("author.id").equals(foundUser.id).exec((err, videos)=>{
+    //                         if(err){
+    //                             req.flash("error",err.message);
+    //                         } else{
+    //                             res.render("dashboard_faculty",{videos, user:foundUser});
+    //                         }
+    //                     });
+    //         }
+    //     });
+    // });
+
+    // // -------------------------->Different Method[Populate]!!!<---------------------------------
+    // router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
+    //     User.findById(req.params.id).populate("downloads").populate("videos").exec((err,foundUser)=>{
+    //         if(err){
+    //             console.log(err);
+    //         } else { 
+    //             if(foundUser.isAdmin===true){}
+    //         res.render("dashboard_faculty",{user:foundUser});
+    //         }
+    //     });
+    // });
+
+
+
+    // router.get("/user/:id/dashboard", isLoggedIn, (req,res)=>{
+    //     User.findById(req.params.id, (err,foundUser)=>{
+    //         if(err){
+    //             console.log(err);
+    //         } else if (foundUser.isAdmin === true){
+    //             Video.find({}, (err,videos)=>{
+    //                 if(err){
+    //                     console.log(err);
+    //                 } else {
+    //                     res.render("dashboard_admin", {videos});
+    //                 }
+    //             });
+    //         } else if (foundUser.isFaculty === true){
+    //                     Video.find().where("author.id").equals(foundUser.Id).exec((err, videos)=>{
+    //                         if(err){
+    //                             req.flash("error",err.message);
+    //                         } else{
+    //                             res.render("dashboard_faculty",{videos});
+    //                         }
+    //                     });
+    //         } else if(foundUser.isStudent === true){
+    //             res.render("dashboard_faculty")
+    //         } 
+    //     });
+    // });
+
+
+
+    //----------------------------------------------------------------------------//
+    //-----------------------------------User Save Video--------------------------//
+    //---------------------{is the writing format fine??}-------------------------//
+
+    router.put("/user/:id/videos/:video_id", isStudent, async (req, res) => {
+        try {
+            let foundUser = await User.findById(req.params.id);
+            let foundVideo = await Video.findById(req.params.video_id);
+            if (foundUser.isStudent) {
+                if (foundUser.videoBookmarks.includes(foundVideo.id)) {
+                    console.log("includes");
+                    await User.findByIdAndUpdate(req.user._id, { $pull: { videoBookmarks: foundVideo.id } });
+                    foundUser.save();
+                    if (req.xhr) {
+                        let message = "Successfully removed the video from your bookmarks";
+                        res.json(message);
+                    } else {
+                        req.flash("success", "Successfully removed the video from your bookmarks");
+                        return res.redirect("back");
+                    }
+                } else {
+                    console.log("does not include");
+                    foundUser.videoBookmarks.push(foundVideo);
+                    foundUser.save();
+                    if (req.xhr) {
+                        let message = "Successfully added the video to your bookmarks";
+                        res.json(message);
+                    } else {
+                        req.flash("success", "Successfully added the video to your bookmarks");
+                        return res.redirect("back");
+                    }
+                }
+            } else {
+                if (req.xhr) {
+                    let message = "You need to be signed to bookmark videos";
+                    res.json(message);
+                } else {
+                    req.flash("error", "You need to be signed to bookmark videos");
+                }
+            }
+        } catch (err) {
             req.flash("error", err.message);
             return res.redirect("back");
         }
-});
+    });
 
 
 
-//----------------------------------------------------------------------------//
-//------------------------------User Save Document----------------------------//
-//----------------------------------------------------------------------------//
-router.put("/user/:id/downloads/:doc_id", isStudent, async (req,res)=>{
-    try{
-        let foundUser= await User.findById(req.params.id);
-        let foundDownloads= await Downloads.findById(req.params.doc_id);
-            if(foundUser.isStudent){
-                if(foundUser.downloadsBookmarks.includes(founddownloads.id)){
+    //----------------------------------------------------------------------------//
+    //------------------------------User Save Document----------------------------//
+    //----------------------------------------------------------------------------//
+    router.put("/user/:id/downloads/:doc_id", isStudent, async (req, res) => {
+        try {
+            let foundUser = await User.findById(req.params.id);
+            let foundDownloads = await Downloads.findById(req.params.doc_id);
+            if (foundUser.isStudent) {
+                if (foundUser.downloadsBookmarks.includes(founddownloads.id)) {
                     console.log("includes");
-                    await User.findByIdAndUpdate(req.user._id, {$pull:{downloadsBookmarks: founddownloads.id}}); 
+                    await User.findByIdAndUpdate(req.user._id, { $pull: { downloadsBookmarks: founddownloads.id } });
                     foundUser.save();
                     req.flash("success", "Successfully removed the downloads from your bookmarks");
                     return res.redirect("back");
                 } else {
-                console.log("does not include");
-                foundUser.downloadsBookmarks.push(founddownloads);
-                foundUser.save();
-                req.flash("success", "Successfully added the downloads to your bookmarks");
-                return res.redirect("back");
-            }} else {
+                    console.log("does not include");
+                    foundUser.downloadsBookmarks.push(founddownloads);
+                    foundUser.save();
+                    req.flash("success", "Successfully added the downloads to your bookmarks");
+                    return res.redirect("back");
+                }
+            } else {
                 req.flash("error", "You need to be signed to bookmark downloadss");
             }
-        }catch(err){
-                req.flash("error", err.message);
-                return res.redirect("back");
-            }
+        } catch (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+        }
     });
 
 
-//----------------------------------------------------------------------------//
-//--------------------------------Follow Put Request--------------------------//
-//----------------------------------------------------------------------------//
-router.put('/follow/:id', async (req, res)=>{
-    try{
-        let user = await User.findById(req.user.id);
-        let teacher = await User.findById(req.params.id);
-        console.log(req.user._id);
-        if(!user || !teacher){
-            console.log("Some error, try again!");
-        }
-        let following = await user.following.includes(req.params.id);
-        let follower =  await teacher.followers.includes(req.user._id);
+    //----------------------------------------------------------------------------//
+    //--------------------------------Follow Put Request--------------------------//
+    //----------------------------------------------------------------------------//
+    router.put('/follow/:id', async (req, res) => {
+        try {
+            let user = await User.findById(req.user.id);
+            let teacher = await User.findById(req.params.id);
+            console.log(req.user._id);
+            if (!user || !teacher) {
+                console.log("Some error, try again!");
+            }
+            let following = await user.following.includes(req.params.id);
+            let follower = await teacher.followers.includes(req.user._id);
 
-        if(follower || following){
-            user.following.splice(req.params.id.toString(),1);
+            if (follower || following) {
+                user.following.splice(req.params.id.toString(), 1);
+                user.save();
+                teacher.followers.splice(req.user._id.toString(), 1);
+                teacher.save();
+                return res.json({ message: `Faculty ${teacher.username} has been unfollowed`, class: 'success', user, teacher });
+            }
+
+            user.following.push(req.params.id);
             user.save();
-            teacher.followers.splice(req.user._id.toString(),1);
+            teacher.followers.push(req.user._id);
             teacher.save();
-            return res.json({message:`Faculty ${teacher.username} has been unfollowed`, class:'success', user, teacher});
+            return res.json({ message: `Faculty ${teacher.username} has been followed`, class: 'danger', user, teacher });
+        } catch (error) {
+            console.log(error)
         }
-        
-        user.following.push(req.params.id);
-        user.save();
-        teacher.followers.push(req.user._id);
-        teacher.save();
-        return res.json({message:`Faculty ${teacher.username} has been followed`, class:'danger', user,teacher});
-    } catch(error){
-        console.log(error)    
-    }
-})
+    })
 
 
 
-module.exports = router;
+    module.exports = router;

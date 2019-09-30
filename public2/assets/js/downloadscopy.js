@@ -9,6 +9,7 @@ $(document).ready(function () {
   paginationButtons();
   sorting();
   filter();
+  searchEnterKey();
   downloadBtn();
 });
 
@@ -57,7 +58,7 @@ if ( $("#largeScreen-downloads").is(":visible")){
          <td class="align-middle text-center">${document.subject}</td>
          <td class="align-middle text-center "><span class="kt-badge kt-badge--success kt-badge--lg">${document.downloadCounter}</span></td>
          <td class="align-middle text-center text-nowrap">
-           <a href="/downloads/docs/${document._id}" id="${document._id}" onclick="return downloadBtn(this)" title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
+           <a href="/downloads/docs/${document._id}" id="${document._id}" onclick="return downloadBtn(this)" title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a>
            
           <form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
                     <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.loggedinUser && data.loggedinUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
@@ -348,6 +349,14 @@ function searchOnKeyUp(){
   });
 }
 
+function searchEnterKey(){
+  $('#search-document').keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+      }
+    });
+}
+
 function clickOnSubmitBtn(){
   $('#downloads_filter_submit').on('click', function (e) {
     e.preventDefault();
@@ -437,4 +446,4 @@ function documentBookmark(e, element){
     </form>
 </div>
 </div>
-</span> */
+</span>  */

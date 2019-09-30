@@ -29,7 +29,7 @@ cloudinary.config({
 //--------------------------Downloads Routes----------------------------------//
 //----------------------------------------------------------------------------//
 router.get("/downloads",searchAndFilterDocs, function(req, res){
-    const {docdbQuery, paginateUrl} = res.locals;
+    const {docdbQuery, docspaginateUrl} = res.locals;
     delete res.locals.docdbQuery;
 
     console.log('*****docdbquery****');
@@ -47,7 +47,7 @@ router.get("/downloads",searchAndFilterDocs, function(req, res){
             if (!foundDownload.length && res.locals.query) {
                 res.locals.error = 'No results match that query.';
                 }
-            res.render("index2", { downloads: foundDownload, paginateUrl, page: "downloads", title: "Downloads"});
+            res.render("index2", { downloads: foundDownload, docspaginateUrl, page: "downloads", title: "Downloads"});
             // res.render("downloads/downloads", {downloads: foundDownload, page: downloads});
         }
     });
@@ -58,7 +58,7 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
     console.log('*****Req.Query***********');   
     console.log(req.query);   
     console.log('*****Req.Query***********');   
-    const {docdbQuery, paginateUrl} = res.locals;
+    const {docdbQuery, docspaginateUrl} = res.locals;
     delete res.locals.docdbQuery;
 
     console.log('*****docdbquery****');
@@ -93,7 +93,7 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
 
     if(req.xhr){
         console.log(foundDownload.docs.length);
-        foundDownload.pageUrl = paginateUrl;
+        foundDownload.pageUrl = docspaginateUrl;
         foundDownload.attemptsButtons = attemptsButtons;
         foundDownload.examsButtons = examsButtons;
         if(req.user){

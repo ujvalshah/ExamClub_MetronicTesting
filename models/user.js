@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
+var mongoosePaginate = require('mongoose-paginate');
 
 
 
@@ -67,11 +68,13 @@ var UserSchema = new mongoose.Schema({
     		ref: 'User',
     	}
     ],
-});
+},{timestamps:true,});
 
 UserSchema.plugin(passportLocalMongoose, {
     usernameQueryFields: ["email"]
 });
 
+
+UserSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("User", UserSchema);

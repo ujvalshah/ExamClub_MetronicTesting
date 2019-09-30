@@ -217,17 +217,17 @@
     <div class="kt-pagination kt-pagination--sm kt-pagination--brand my-3">
       <ul class="kt-pagination__links">
         <li class="kt-pagination__link--first">
-          <a href="<%=paginateUrl%>1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
+          <a href="<%=docspaginateUrl%>1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
         </li>
 
         <li class="kt-pagination__link--next">
-          <a href="<%=paginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
+          <a href="<%=docspaginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
         </li>
         <div class="d-flex" id='pagination-downloads'>
           <%if(downloads.pages>1 && downloads.docs.length){%>
           <% for(let i=1; i<=downloads.pages; i++ ) {%>
           <li id="pagination_<%=i%>" class=<%= downloads.page === i ? "kt-pagination__link--active" : "" %>>
-            <a id="pagination-url_<%=i%>" href="<%=paginateUrl%><%=i%>"><%=i%></a>
+            <a id="pagination-url_<%=i%>" href="<%=docspaginateUrl%><%=i%>"><%=i%></a>
           </li>
           <%}%>
         <%}%>
@@ -237,11 +237,11 @@
         </li> -->
         <%if((downloads.page+1)<= downloads.pages){%>
         <li class="kt-pagination__link--prev">
-          <a href="<%=paginateUrl%><%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
+          <a href="<%=docspaginateUrl%><%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
         </li>
         <%}%>
         <li class="kt-pagination__link--last">
-          <a href="<%=paginateUrl%><%=downloads.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
+          <a href="<%=docspaginateUrl%><%=downloads.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
         </li>
       </ul>
 
@@ -367,7 +367,7 @@
               </span>
               <a href="/downloads/docs/<%=document._id%>" id="<%=document._id%>" onclick="downloadBtn(this)"
                 title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span
-                  class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
+                  class="pr-2"><i class="fas fa-file-download"></i></span></a>
 
               <form id="bookmark_<%=document._id%>" onsubmit="documentBookmark(event, this)"
                 class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/<%=document._id%>/bookmark"
@@ -481,28 +481,28 @@
         <div class="kt-pagination kt-pagination--sm kt-pagination--brand mb-3">
             <ul class="kt-pagination__links">
               <li class="kt-pagination__link--first">
-                <a href="<%=paginateUrl%>1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
+                <a href="<%=docspaginateUrl%>1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
               </li>
       
               <li class="kt-pagination__link--next">
-                <a href="<%=paginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
+                <a href="<%=docspaginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
               </li>
               <div class="d-flex" id='pagination-downloads_bottom'>
                 <%if(downloads.pages>1 && downloads.docs.length){%>
                 <% for(let i=1; i<=downloads.pages; i++ ) {%>
                 <li id="pagination_<%=i%>_bottom" class=<%= downloads.page === i ? "kt-pagination__link--active" : "" %>>
-                  <a id="pagination-url_<%=i%>_bottom" href="<%=paginateUrl%><%=i%>"><%=i%></a>
+                  <a id="pagination-url_<%=i%>_bottom" href="<%=docspaginateUrl%><%=i%>"><%=i%></a>
                 </li>
                 <%}%>
               <%}%>
               </div>
               <%if((downloads.page+1)<= downloads.pages){%>
               <li class="kt-pagination__link--prev">
-                <a href="<%=paginateUrl%><%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
+                <a href="<%=docspaginateUrl%><%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
               </li>
               <%}%>
               <li class="kt-pagination__link--last">
-                <a href="<%=paginateUrl%><%=downloads.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
+                <a href="<%=docspaginateUrl%><%=downloads.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
               </li>
             </ul>
             <div class="kt-pagination__toolbar">
@@ -512,3 +512,5 @@
             </div>
           </div>
           <!--end: Pagination-->
+
+          </div>

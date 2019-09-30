@@ -220,28 +220,28 @@
     <div class="kt-pagination kt-pagination--sm kt-pagination--brand my-3">
       <ul class="kt-pagination__links">
         <li class="kt-pagination__link--first">
-          <a href="<%=paginateUrl%>page=1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
+          <a href="<%=videospaginateUrl%>page=1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
         </li>
 
         <li class="kt-pagination__link--next">
-          <a href="<%=paginateUrl%>page=<%=videos.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
+          <a href="<%=videospaginateUrl%>page=<%=videos.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
         </li>
         <div class="d-flex" id='pagination-videos'>
           <%if(videos.pages>=1 && videos.docs.length){%>
           <% for(let i=1; i<=videos.pages; i++ ) {%>
           <li id="video-pagination_<%=i%>" class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
-            <a id="video-pagination-url_<%=i%>" href="<%=paginateUrl%>page=<%=i%>"><%=i%></a>
+            <a id="video-pagination-url_<%=i%>" href="<%=videospaginateUrl%>page=<%=i%>"><%=i%></a>
           </li>
           <%}%>
             <%}%>
         </div>
 
         <li class="kt-pagination__link--prev">
-          <a href="<%=paginateUrl%>page=<%=videos.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
+          <a href="<%=videospaginateUrl%>page=<%=videos.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
         </li>
 
         <li class="kt-pagination__link--last">
-          <a href="<%=paginateUrl%>page=<%=videos.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
+          <a href="<%=videospaginateUrl%>page=<%=videos.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
         </li>
       </ul>
       <div class="kt-pagination__toolbar">
@@ -399,29 +399,29 @@
     <div class="kt-pagination kt-pagination--sm kt-pagination--brand mb-5">
       <ul class="kt-pagination__links">
         <li class="kt-pagination__link--first">
-          <a href="<%=paginateUrl%>page=1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
+          <a href="<%=videospaginateUrl%>page=1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
         </li>
 
         <li class="kt-pagination__link--next">
-          <a href="<%=paginateUrl%>page=<%=videos.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
+          <a href="<%=videospaginateUrl%>page=<%=videos.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
         </li>
         <div class="d-flex" id='pagination-videos_bottom'>
           <%if(videos.pages>=1 && videos.docs.length){%>
           <% for(let i=1; i<=videos.pages; i++ ) {%>
           <li id="video-pagination_<%=i%>_bottom"
             class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
-            <a id="video-pagination-url_<%=i%>_bottom" href="<%=paginateUrl%>page=<%=i%>"><%=i%></a>
+            <a id="video-pagination-url_<%=i%>_bottom" href="<%=videospaginateUrl%>page=<%=i%>"><%=i%></a>
           </li>
           <%}%>
       <%}%>
         </div>
 
         <li class="kt-pagination__link--prev">
-          <a href="<%=paginateUrl%>page=<%=videos.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
+          <a href="<%=videospaginateUrl%>page=<%=videos.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
         </li>
 
         <li class="kt-pagination__link--last">
-          <a href="<%=paginateUrl%>page=<%=videos.pages%>"><i
+          <a href="<%=videospaginateUrl%>page=<%=videos.pages%>"><i
               class="fa fa-angle-double-right kt-font-brand"></i></a>
         </li>
       </ul>

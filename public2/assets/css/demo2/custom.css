@@ -60,6 +60,11 @@ color: white;
     background-color: white;
 }
 
+.white-container{
+    padding: 25px 50px;
+    background-color: white;
+}
+
 #_filter{
     display: none;
 }
@@ -94,6 +99,9 @@ color: white;
 #downloads-filter-tags span{
     cursor: pointer;
 }
+.filter-tags-pointer span{
+    cursor: pointer;
+}
 
 #videos-filter-tags span{
     cursor: pointer;
@@ -101,4 +109,8 @@ color: white;
 
 button.btn.btn-clean.red-color i.fas.fa-bookmark{
     color: #dc3545;
+}
+
+.full-width{
+    width: 100%;
 }

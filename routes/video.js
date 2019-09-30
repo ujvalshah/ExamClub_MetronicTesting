@@ -52,7 +52,7 @@ router.get("/videos", searchAndFilterVideo, async function (req, res) {
 
 router.get("/videoscopy", searchAndFilterVideoCopy, async function (req, res) {
     try {
-        const { dbQuery, paginateUrl } = res.locals;
+        const { dbQuery, videospaginateUrl } = res.locals;
         delete res.locals.dbQuery;
 
         function sortFunction() {
@@ -86,13 +86,13 @@ router.get("/videoscopy", searchAndFilterVideoCopy, async function (req, res) {
                 res.json({ message });
             } else {
                 if (req.user) {
-                    foundVideo.pageUrl = paginateUrl;
+                    foundVideo.pageUrl = videospaginateUrl;
                     let currentUser = await User.findById(req.user._id);
                     if (!currentUser) { console.log(err) };
                     foundVideo.currentUser = currentUser;
                     return res.json(foundVideo);
                 } else {
-                    foundVideo.pageUrl = paginateUrl;
+                    foundVideo.pageUrl = videospaginateUrl;
                     return res.json(foundVideo);
                 }
             }
