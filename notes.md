@@ -155,3 +155,17 @@ router.put("/forgot-password", async (req,res)=>{
                   </div>
                   </div>
                 </div>
+
+
+                Select Boxes using Jquery
+                https://paulund.co.uk/add-and-remove-options-in-select-using-jquery
+
+                $.each(selectValues, function(key, value) {
+     $('#mySelect')
+         .append($("<option></option>")
+         .attr("value",key)
+         .text(value));
+
+         https://tosbourn.com/edit-an-option-of-a-select-menu-using-jquery/
+         https://paulund.co.uk/add-and-remove-options-in-select-using-jquery
+});

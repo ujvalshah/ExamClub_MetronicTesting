@@ -97,11 +97,8 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" for="author">Author</label>
               </div>
-              <select class="custom-select documentGroupSelect" id="author" name="author">
+              <select class="custom-select documentGroupSelect" id="author" name="author" onchange="return filter()">
                 <option disabled <%= !docquery.author ? "selected" : "" %>>Choose...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
               </select>
             </div>
           </div>

@@ -11,6 +11,7 @@ $(document).ready(function () {
   filter();
   searchEnterKey();
   downloadBtn();
+  filterfilling ();
 });
 
 
@@ -31,7 +32,6 @@ if ( $("#largeScreen-downloads").is(":visible")){
   console.log(sort);
   let downloadDatatableUrl = `/downloadscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
   $.get(downloadDatatableUrl, filterItems, function (data) {
-
     $('#pagination-downloads').empty();
     $('#pagination-downloads_bottom').empty();
     for (let i = 1; i <= data.pages; i++) {
@@ -244,8 +244,13 @@ function filter() {
   $('#downloads-filter-tags').empty();
   filterItemsArray.forEach(function (filter) {
     if (filter.value && filter.value !== "" && filter.value !== 'rf') {
-      filtername = filter.name.slice(0, (filter.name.indexOf('[')));
-      $('#downloads-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      if(filter.name.indexOf('[') !== -1){
+        filtername = filter.name.slice(0, (filter.name.indexOf('[')));
+        $('#downloads-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      } else {
+        filtername = filter.name;
+        $('#downloads-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      }
     }
   })
   refreshDataTable();
@@ -397,6 +402,17 @@ function documentBookmark(e, element){
   })
 };
 
+
+function filterfilling() {
+  $.get('/downloadscopy',function(data){
+    console.log('data.authorFilter');
+    console.log(data.authorFilter);
+    data.authorFilter.forEach(value => {
+      $('#author').append($("<option></option>")
+      .attr("value",value.username)
+      .text(value.username))
+    });
+ })};
   
 //   console.log('bookmark url' + actionUrl);
 //   $.ajax({

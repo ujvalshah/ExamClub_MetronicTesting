@@ -186,6 +186,12 @@ $(document).ready( function(){
     <% if(page !== 'undefined' && page === 'videos_uploadform' ||  page === 'videos_updateform'){ %>
     <script src="/assets/js/v_UploadUpdateForm.js"></script>
     <%}%>
+    <% if(page !== 'undefined' && page === 'filter-form'  ||  page === 'filter-form'){ %>
+    <script src="/assets/js/filterform.js"></script>
+    <%}%>
+    <% if(page !== 'undefined' && page === 'filter-edit-form'  ||  page === 'filter-edit-form'){ %>
+    <script src="/assets/js/filtereditform.js"></script>
+    <%}%>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/assets/js/socket.js"></script>
     <script src="/assets/js/demo2/custom.js"></script>

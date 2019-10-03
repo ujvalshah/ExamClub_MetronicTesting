@@ -36,6 +36,12 @@
                     <% include ./partials/_content-videos_updateform %>
                     <%} else if (page !== 'undefined' && page === 'email-verification'){%>
                     <% include ./partials/_email-verification %>
+                    <%} else if (page !== 'undefined' && page === 'filter-form'){%>
+                    <% include ./partials/_content-filterform %>
+                    <%} else if (page !== 'undefined' && page === 'filter-edit-form'){%>
+                    <% include ./partials/_content-filtereditform %>
+                    <%} else if (page !== 'undefined' && page === 'filter-list'){%>
+                    <% include ./partials/_content-filterlist %>
                     <%} else if (page !== 'undefined' && page === 'account-details'){%>
                     <% include ./partials/_content-account-details %>
                     <% } %>

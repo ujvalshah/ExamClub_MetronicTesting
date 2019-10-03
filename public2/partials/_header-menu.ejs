@@ -120,6 +120,29 @@
                 </div> -->
             </li>
             <%}%>
+            <% if(currentUser && currentUser.isAdmin){%>
+            <!-- begin:: Dashboard Menu -->
+            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'filter-form' ? 'kt-menu__item--here' : '' %>"
+                    data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                    <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Filter Data</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                    <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                        <ul class="kt-menu__subnav">
+                            <li class="kt-menu__item " aria-haspopup="true">
+                                <a href="/filterform" class="kt-menu__link ">
+                                    <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                    <span class="kt-menu__link-text">Filter Data</span>
+                                </a>
+                            </li>
+                            <li class="kt-menu__item " aria-haspopup="true">
+                                <a href="/filterform/new" class="kt-menu__link ">
+                                    <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                    <span class="kt-menu__link-text">Add Filter Data</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            <%}%>
              <!-- begin:: Faculty's Directory -->
             <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'teachersindex' || page ==='facultyprofile' ? 'kt-menu__item--here' : '' %>"
             data-ktmenu-submenu-toggle="click" aria-haspopup="true">

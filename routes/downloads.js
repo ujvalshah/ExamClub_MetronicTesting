@@ -7,7 +7,7 @@ const multer = require('multer');
 const path = require("path");
 const middleware = require("../middleware");
 const moment = require('moment');
-const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs } = middleware;
+const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs} = middleware;
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, 'uploads/docs')
@@ -61,7 +61,7 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
     const {docdbQuery, docspaginateUrl} = res.locals;
     delete res.locals.docdbQuery;
 
-    console.log('*****docdbquery****');
+    console.log('*IMMMMMP****docdbquery****');
     console.log(docdbQuery);
 
     var foundDownload = await Download.paginate(docdbQuery, {
@@ -73,6 +73,7 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
     req.flash("error");
     res.redirect("back");
     }
+        var authorFilter = await User.find({isFaculty:true});
         var attemptsButtons = {
             "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
             "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
@@ -94,8 +95,10 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
     if(req.xhr){
         console.log(foundDownload.docs.length);
         foundDownload.pageUrl = docspaginateUrl;
+        // foundDownload.docdbQuery = docdbQuery;
         foundDownload.attemptsButtons = attemptsButtons;
         foundDownload.examsButtons = examsButtons;
+        foundDownload.authorFilter = authorFilter;
         if(req.user){
             let loggedinUser = await User.findById(req.user._id);
             foundDownload.loggedinUser = loggedinUser;

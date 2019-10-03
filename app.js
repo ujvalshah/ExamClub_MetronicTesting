@@ -23,6 +23,7 @@ const Video = require("./models/video.js");
 // const seedDB = require("./seed.js");
 const User = require("./models/user.js");
 const Teacher = require("./models/teacher.js");
+const Exam = require("./models/exam.js");
 const Subscriber = require("./models/subscribers.js");
 const Notification = require("./models/notifications.js");
 const Notificationcopy = require("./models/notificationscopy.js");

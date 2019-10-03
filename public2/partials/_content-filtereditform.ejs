@@ -1,0 +1,49 @@
+<% include ./_subheader-subheader-v2 %>
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+
+
+
+  <!--------------------------Download - Upload - CREATE Form(GET)------------------------>
+
+  <div class="container">
+    <h3 class="pb-3">Filter Data</h3>
+
+    <form action="/filterform/<%=exams._id%>?_method=PUT" method="POST">
+
+      <div class="form-group row">
+        <label for="filterForm_exam" class="col-2 col-form-label"><%=exams.exam%></label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" name="filterform[exam]" id="filterForm_exam" value="<%=exams.exam%>">
+          <!-- <span class="form-text text-muted">We'll never share your email with anyone else.</span> -->
+        </div>
+      </div>
+
+      <div id="filtereditform_subject" class="form-group row mb-1">
+        <label for="filtereditform_subject" class="col-12 col-form-label">Subjects</label>
+        <%exams.subjects.forEach(function(subject){%>
+          <div class="col-sm-10 my-2">
+              <input class="form-control" type="text" name="filterform[subjects][]" value="<%=subject%>" style="width:40%">
+          </div>
+        <%})%>
+    </div>
+
+  <div class="my-2">
+    <a href="javascript;" id="filtereditform_subject_add" class="btn btn-label-brand">Add Field</a>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+
+
+</div>
+<!-- end:: Content -->
+

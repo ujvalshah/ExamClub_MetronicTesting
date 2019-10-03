@@ -4,7 +4,7 @@ const Download = require("../models/download.js");
 const Video = require("../models/video.js");
 const User = require("../models/user.js");
 const middleware = require("../middleware");
-const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs, searchAndFilterVideoCopy } = middleware;
+const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs, searchAndFilterVideoCopy, searchAndFilterFaculty, searchAndFilterStudent } = middleware;
 // const multer  = require('multer');
 // const storage = multer.diskStorage({
 //   filename: function(req, file, callback) {
@@ -77,7 +77,7 @@ router.get("/teachers/:id", (req, res) => {
 //----------------------------------------------------------------------------//
 
 // ------------------------>Different Method[Populate]!!!<----------------------//
-router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilterVideoCopy, async (req, res) => {
+router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilterVideoCopy, searchAndFilterFaculty, searchAndFilterStudent, async (req, res) => {
     try{
     let foundUser = await User.findById(req.params.id);
     if (!foundUser) {
@@ -86,7 +86,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
     }
     if (foundUser.isAdmin === true) {
 
-        //--------------------------------------------Documents-----------------------------------------//
+        //-------------------------------------------------Documents----------------------------------------------//
 
         const { docdbQuery, docspaginateUrl } = res.locals;
         delete res.locals.docdbQuery;
@@ -95,6 +95,8 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-createdAt',
         });
+        console.log('docdbQuery');
+        console.log(docdbQuery);
         if (!downloads) {
             req.flash("error");
             res.redirect("back");
@@ -122,27 +124,11 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
         downloads.attemptsButtons = attemptsButtons;
         downloads.examsButtons = examsButtons;
 
-
-
-
         //------------------------------------------------Videos-------------------------------------------//
 
         const { dbQuery, videospaginateUrl } = res.locals;
         delete res.locals.dbQuery;
 
-        function sortFunction() {
-            if (req.query.sort === "Earliest") {
-                return { createdAt: 1 };
-            } else if (req.query.sort === "Latest") {
-                return { createdAt: -1 };
-            } else if (req.query.sort === "Description-Ascending") {
-                return { description: 1 };
-            } else if (req.query.sort === "Description-Descending") {
-                return { description: -1 };
-            } else {
-                return { createdAt: -1 };
-            }
-        }
         var videos = await Video.paginate(dbQuery, {
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
@@ -150,28 +136,41 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
         });
         videos.pageUrl = videospaginateUrl;
 
-        //--------------------------------------FacultyList--------StudentList-----------------------------//
-        var facultyList = await User.paginate({isFaculty:true}, {
+        //-------------------------------------------FacultyList------------------------------------------//
+        const {facultydbquery, facultypaginateUrl } = res.locals;
+        delete res.locals.facultydbquery;
+        console.log('facultydbquery');
+        console.log(facultydbquery);
+        var facultyList = await User.paginate(facultydbquery, {
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-accountCreated',
         });
-        console.log('facultyList');
-        console.log(facultyList);
+        facultyList.pageUrl = facultypaginateUrl;
 
-        var studentList = await User.paginate({isFaculty:true}, {
+        //-------------------------------------------StudentList------------------------------------------//
+
+        const {studentdbquery, studentpaginateUrl } = res.locals;
+        delete res.locals.studentdbquery;
+        console.log('studentdbquery');
+        console.log(studentdbquery);
+
+        var studentList = await User.paginate(studentdbquery, {
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-accountCreated',
         });
-        // let studentList = await User.find({ isStudent: true }).exec();
-        // let facultyList = await User.find({ isFaculty: true }).exec();
+
+        studentList.pageUrl = studentpaginateUrl;
+
+        //------------------------------------------------------------------------------------------------//
+
         if (req.xhr) {
-            res.json({ user: foundUser, downloads, videos, students: studentList, faculty: facultyList, });
+            res.json({ user: foundUser, downloads, videos, student: studentList, faculty: facultyList, });
         } else {
             res.render("index2", {
                 page: "dashboard_admin", user: foundUser, downloads,
-               videos, students: studentList, faculty: facultyList, title: "Dashboard"
+               videos, student: studentList, faculty: facultyList, title: "Dashboard"
             });
             //   res.render("dashboard_admin",{page:"dashboard_admin", user:foundUser, downloads: downloads, videos: videos});
         }
@@ -528,6 +527,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
         }
     })
 
+    
 
 
     module.exports = router;
