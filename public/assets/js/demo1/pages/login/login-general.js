@@ -105,7 +105,7 @@ var KTLoginGeneral = function() {
         });
     }
 
-    // var handleSignUpFormSubmit = function() {
+    var handleSignUpFormSubmit = function() {
     //     $('#kt_login_signup_submit').click(function(e) {
     //         // e.preventDefault();
 
@@ -159,7 +159,7 @@ var KTLoginGeneral = function() {
             //     }
             // });
     //     });
-    // }
+    }
 
     var handleForgotFormSubmit = function() {
         $('#kt_login_forgot_submit').click(function(e) {

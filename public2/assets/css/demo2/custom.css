@@ -89,7 +89,7 @@ color: white;
 
 }
 
-.downloads-sort-active{
+.downloads-sort-active, .faculty-sort-active, .student-sort-active{
     color: #007bff;  
 }
 .arrow-inactive{

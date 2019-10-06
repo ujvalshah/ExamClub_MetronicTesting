@@ -138,7 +138,6 @@ async searchAndFilterVideoCopy(req,res,next) {
       if(author && author !== 'rf'){
         dbQueries.push({'author.username': author});
       }
-        
       
       res.locals.dbQuery = dbQueries.length ? {$and : dbQueries} : {};
       }

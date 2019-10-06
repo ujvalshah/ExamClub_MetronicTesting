@@ -13,7 +13,7 @@ $(document).ready(function () {
   adminDashDocs_filter();
   adminDashDocs_downloadBtn();
   adminDashDocs_searchEnterKey();
-  adminDashVideos_clearDocsFilter();
+  adminDashDocs_clearDocsFilter();
   // ---------------------Video------------------
   videoBankinit();
   adminDashVideos_changePaginationActiveTab();
@@ -441,7 +441,7 @@ function documentBookmark(e, element) {
   })
 };
 
-function adminDashVideos_clearDocsFilter() {
+function adminDashDocs_clearDocsFilter() {
   $('#adminDashboardDocs-cleardocsform').on('click', function (e) {
     e.preventDefault();
     $('#adminDashboard-document-filter-tags').empty();
@@ -1274,7 +1274,7 @@ function refreshAdminFacultyTable() {
   if ($("#largeScreen-adminDashboardfaculty").is(":visible")) {
     var sort = $(".faculty-sort-active").closest('span').attr('class');
   }
-  console.log('sort');
+  console.log('sort Faculty');
   console.log(sort);
   let userURL = $('#menu_dashboard_userURL').attr('href');
   // console.log(userURL);

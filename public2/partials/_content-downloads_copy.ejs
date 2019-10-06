@@ -38,7 +38,7 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" for="exam[]">Exam</label>
               </div>
-              <select class="custom-select documentGroupSelect" id="exam" name="exam[]" onchange="return filter()">
+              <select class="custom-select documentGroupSelect" id="exam" name="exam[]" onchange="return filterDownloadsSubjectFilling(this)">
                 <option class="choose-document" disabled <%= !docquery.exam ? "selected" : "" %>>Choose...</option>
                 <option value="All">All</option>
                 <option value="rf" <%= docquery.exam && docquery.exam.includes("rf") ? "selected" : "" %>>Remove Filter
@@ -105,25 +105,13 @@
           <div class="col-md-3">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
-                <label class="input-group-text" for="documentGroupSelect04">Option</label>
-              </div>
-              <select class="custom-select documentGroupSelect" id="documentGroupSelect04">
-                <option disabled>Choose...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
                 <label class="input-group-text" for="subject[]">Subject</label>
               </div>
               <select class="custom-select documentGroupSelect" id="subject" name="subject[]"
                 onchange="return filter()">
                 <option <%= !docquery.subject ? "selected" : "" %> disabled>Choose...</option>
-                <option value="All">All</option>
+                <option disabled>Select Exam First</option>
+                <!-- <option value="All">All</option>
                 <option value="rf" <%= docquery.subject && docquery.subject.includes("rf") ? "selected" : "" %>>Remove
                   Filter
                 </option>
@@ -162,31 +150,7 @@
                   P7:Direct Tax Laws & International Taxation</option>
                 <option value="CA Final - P8: Indirect Tax Laws"
                   <%= docquery.subject && docquery.subject.includes("CA Final - P8: Indirect Tax Laws") ? "selected" : "" %>>
-                  P8:Indirect Tax Law</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="topic">Topic</label>
-              </div>
-              <select class="custom-select documentGroupSelect" id="topic" name="topic">
-                <option disabled <%= !docquery.topic ? "selected" : "" %>>Choose...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <label class="input-group-text" for="subtopic">Subtopic</label>
-              </div>
-              <select class="custom-select documentGroupSelect" id="subtopic">
-                <option>Choose...</option>
-
+                  P8:Indirect Tax Law</option> -->
               </select>
             </div>
           </div>

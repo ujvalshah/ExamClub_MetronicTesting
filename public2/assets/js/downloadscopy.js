@@ -414,6 +414,50 @@ function filterfilling() {
     });
  })};
   
+
+ function filterfilling() {
+
+  $.get('/api/filterdata', function (filterlist) {
+    console.log('filterlist filterform');
+    console.log(filterlist);
+
+    $('#exam').empty();
+    $('#exam').append(`<option value='rf'>Exam</option>`);
+    filterlist.exams.forEach(value => {
+      $('#exam').append($("<option></option>")
+        .attr("value", value.exam)
+        .text(value.exam))
+    })
+
+    $('#author').empty();
+    $('#author').append(`<option value='rf'>Faculty</option>`);
+    filterlist.teachers.forEach(faculty => {
+      $('#author').append($("<option></option>")
+        .attr("value", faculty.username)
+        .text(faculty.username))
+    });
+  })
+};
+
+async function filterDownloadsSubjectFilling(elem) {
+  let currentExam = await $(elem).val();
+  // let sectionId = await $(elem).attr("data-ref"); 
+  if (currentExam !== 'All' && currentExam !== 'rf') {
+    $.get(`/api/filterform/${currentExam}/subjects`, function (info) {
+      console.log('subjectsssssssssssssssssssssssssss');
+      console.log(info);
+      $(`#subject`).empty();
+      $(`#subject`).append(`<option value='rf'>Subject</option>`);
+      info[0].subjects.forEach(subject => {
+        $(`#subject`).append($("<option></option>")
+          .attr("value", subject)
+          .text(subject))
+      });
+    });
+  }
+  filter()
+}
+
 //   console.log('bookmark url' + actionUrl);
 //   $.ajax({
 //     url: actionUrl,

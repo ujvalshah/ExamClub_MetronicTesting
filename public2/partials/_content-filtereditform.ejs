@@ -19,11 +19,14 @@
         </div>
       </div>
 
-      <div id="filtereditform_subject" class="form-group row mb-1">
+    <div id="filtereditform_subject" class="form-group row mb-1">
         <label for="filtereditform_subject" class="col-12 col-form-label">Subjects</label>
-        <%exams.subjects.forEach(function(subject){%>
-          <div class="col-sm-10 my-2">
-              <input class="form-control" type="text" name="filterform[subjects][]" value="<%=subject%>" style="width:40%">
+        <%exams.subjects.forEach(function(subject, i){%>
+          <div class="col-sm-10 my-2 d-flex" id="inputfield_<%=i%><%=subject%>">
+              <input class="form-control" type="text" name="filterform[subjects][]" value="<%=subject%>" style="max-width:40%">
+            <div class="col-sm-2" id="_<%=i%><%=subject%>">
+              <a href="javascript;" class="btn btn-sm btn-label-danger" onclick="deleteSubjectField(event,this)">Delete</a>
+            </div>
           </div>
         <%})%>
     </div>

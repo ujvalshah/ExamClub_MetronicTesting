@@ -10,3 +10,12 @@ function addSubjectField(){
       </div>`)
     })
 }
+
+function deleteSubjectField(e, element){
+        e.preventDefault();
+        let id = $(element).parent().attr('id');
+        let mainId = `inputfield${id}`;
+        console.log(id);
+        console.log(mainId);
+        $(`#${mainId}`).empty();
+}

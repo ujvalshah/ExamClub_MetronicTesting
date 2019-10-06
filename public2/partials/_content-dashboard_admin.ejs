@@ -20,150 +20,6 @@
           </div>
         </div>
       </div>
-      <div class="kt-portlet__body">
-        <form id="adminDashboard_document_table" method="GET" action="/user/<%=currentUser._id%>/dashboard">
-          <!-- <h5>Filter</h5> -->
-          <div class="row">
-            <div class="col-md-auto mb-2">
-              <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-                <div class="kt-pagination__toolbar full-width">
-                  <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
-                    <input class="form-control pl-2" id="adminDashboardDocs-search" name="search"
-                      placeholder="Search...">
-                    <span class="kt-input-icon__icon kt-input-icon__icon--right">
-                      <span><i class="flaticon2-search-1 kt-font-success"></i></span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-auto mb-2">
-              <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-                <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success adminDashboard-exam" id="adminDashboardDocs-exam"
-                    data-ref='adminDashboardDocs-subject' name="exam[]" onchange="filterAdminDocSubjectFilling(this)">
-                    <!-- <option class="choose-document" disabled <%= !docquery.exam ? "selected" : "" %>>Exam</option> -->
-                    <option value="rf" <%= docquery.exam && docquery.exam.includes("rf") ? "selected" : "" %>>Exam
-                    </option>
-                    <option value="All">All</option>
-                    <option value="CA Final(New)"
-                      <%= docquery.exam && docquery.exam.includes("CA Final(New)") ? "selected" : "" %>>CA Final(New)
-                    </option>
-                    <option value="CA Final(Old)"
-                      <%= docquery.exam && docquery.exam.includes("CA Final(Old)") ? "selected" : "" %>>CA Final(Old)
-                    </option>
-                    <option value="CA Intermediate(New)"
-                      <%= docquery.exam && docquery.exam.includes("CA Intermediate(New)") ? "selected" : "" %>>CA
-                      Intermediate(New)</option>
-                    <option value="CA IPCC(Old)"
-                      <%= docquery.exam && docquery.exam.includes("CA IPCC(Old)") ? "selected" : "" %>>
-                      CA IPCC(Old)</option>
-                    <option value="CA Foundation(New)"
-                      <%= docquery.exam && docquery.exam.includes("CA Foundation(New)") ? "selected" : "" %>>CA
-                      Foundation(New)
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-auto mb-2">
-              <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-                <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success" id="adminDashboardDocs-attempt" name="attempt[]"
-                    onchange="adminDashDocs_filter()">
-                    <!-- <option disabled <%= !docquery.attempt ? "selected" : "" %>>Attempt</option> -->
-                    <option value="rf" <%= docquery.attempt && docquery.attempt.includes("rf") ? "selected" : "" %>>
-                      Attempt
-                    </option>
-                    <option value="All">All</option>
-                    <option value="Nov 2019"
-                      <%= docquery.attempt && docquery.attempt.includes("Nov 2019") ? "selected" : "" %>>
-                      Nov 2019</option>
-                    <option value="May 2020"
-                      <%= docquery.attempt && docquery.attempt.includes("May 2020") ? "selected" : "" %>>
-                      May 2020</option>
-                    <option value="Nov 2020"
-                      <%= docquery.attempt && docquery.attempt.includes("Nov 2020") ? "selected" : "" %>>
-                      Nov 2020</option>
-                    <option value="May 2021"
-                      <%= docquery.attempt && docquery.attempt.includes("May 2021") ? "selected" : "" %>>
-                      May 2021</option>
-                    <option value="Nov 2021"
-                      <%= docquery.attempt && docquery.attempt.includes("Nov 2021") ? "selected" : "" %>>
-                      Nov 2021</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-auto mb-2">
-              <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-                <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success adminDashboard-author" id="adminDashboardDocs-author"
-                    name="author" onchange="adminDashDocs_filter()">
-                    <option value="rf" <%= !docquery.author ? "selected" : "" %>>Author</option>
-                    <option value="All">All</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-auto mb-2">
-              <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-                <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success" id="adminDashboardDocs-subject" name="subject[]"
-                    onchange="adminDashDocs_filter()">
-                    <!-- <option <%= !docquery.subject ? "selected" : "" %> disabled>Subject</option> -->
-                    <option value="rf" <%= docquery.subject && docquery.subject.includes("rf") ? "selected" : "" %>>
-                      Subject
-                    </option>
-                    <option value="All">All</option>
-                    <option value="CA Final - P1: Financial Reporting"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P1: Financial Reporting") ? "selected" : "" %>>
-                      P1:Financial Reporting</option>
-                    <option value="CA Final - P2: Strategic Financial Management"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P2: Strategic Financial Management") ? "selected" : "" %>>
-                      P2:Strategic Financial Management</option>
-                    <option value="CA Final - P3: Advanced Auditing and Professional Ethics"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P3: Advanced Auditing and Professional Ethics") ? "selected" : "" %>>
-                      P3:Advanced Auditing and Professional Ethics</option>
-                    <option value="CA Final - P4: Corporate & Economic Laws"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P4: Corporate & Economic Laws") ? "selected" : "" %>>
-                      P4:Corporate & Economic Laws</option>
-                    <option value="CA Final - P5: Strategic Cost Management and Performance Evaluation"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P5: Strategic Cost Management and Performance Evaluation") ? "selected" : "" %>>
-                      P5:Strategic Cost Management and Performance Evaluation</option>
-                    <option value="CA Final - P6A: Risk Management"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P6A: Risk Management") ? "selected" : "" %>>
-                      P6A:Risk Management</option>
-                    <option value="CA Final - P6B: Financial Services & Capital Markets"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P6B: Financial Services & Capital Markets") ? "selected" : "" %>>
-                      P6B:Financial Services & Capital Markets</option>
-                    <option value="CA Final - P6C: International Taxation"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P6C: International Taxation") ? "selected" : "" %>>
-                      P6C:International Taxation</option>
-                    <option value="CA Final - P6E: Global Financial Reporting Standards"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P6E: Global Financial Reporting Standards") ? "selected" : "" %>>
-                      P6E:Global Financial Reporting Standards</option>
-                    <option value="CA Final - P6F: Multi-disciplinary Case Study"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P6F: Multi-disciplinary Case Study") ? "selected" : "" %>>
-                      P6F:Multi-disciplinary Case Study</option>
-                    <option value="CA Final - P7: Direct Tax Laws & International Taxation"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P7: Direct Tax Laws & International Taxation") ? "selected" : "" %>>
-                      P7:Direct Tax Laws & International Taxation</option>
-                    <option value="CA Final - P8: Indirect Tax Laws"
-                      <%= docquery.subject && docquery.subject.includes("CA Final - P8: Indirect Tax Laws") ? "selected" : "" %>>
-                      P8:Indirect Tax Law</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-auto mb-2">
-              <a class="btn btn-label-danger btn-bold btn-sm btn-font-sm" href="/downloadscopy"
-                id="adminDashboardDocs-cleardocsform">Clear
-                Filters</a>
-            </div>
-          </div>
-          <!--end: Filter-->
-      </div>
     </div>
     <!--begin: Pagination-->
     <div class="kt-pagination kt-pagination--sm kt-pagination--brand my-3">
@@ -173,7 +29,8 @@
         </li>
 
         <li class="kt-pagination__link--next">
-          <a href="<%=docspaginateUrl%>page=<%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
+          <a><i class="fa fa-angle-left kt-font-brand"></i></a>
+          <!-- <i href="<%=docspaginateUrl%>page=<%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a> -->
         </li>
         <div class="d-flex" id='adminDashboardDocsPagination'>
           <%if(downloads.pages>1 && downloads.docs.length){%>
@@ -422,7 +279,7 @@
 </div>
 </div>
 
-<div id="adminDashboardVideos-container" class="my-5">
+<div id="adminDashboard-container" class="my-5">
   <div class="kt-container kt-grid__item kt-grid__item--fluid white-container py-5">
     <h3 class="mb-4">Videos</h3>
     <div class="kt-portlet shadow" data-ktportlet="true" id="kt_portlet_tools_4">
@@ -445,7 +302,7 @@
               -----------------------------------------------Filter Form Begin----------------------------------------------
               ------------------------------------------------------------------------------------------------------------->
 
-        <form class="" id='adminDashboardVideos-form' action="/videoscopy"
+        <form class="" id='adminDashboard-form' action="/videoscopy"
           method="GET" onsubmit="return adminDashVideos_filter()">
 
           <div class="row">
@@ -453,7 +310,7 @@
               <div class="kt-pagination kt-pagination--success kt-pagination--sm">
                 <div class="kt-pagination__toolbar full-width">
                   <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
-                    <input class="form-control pl-2" id="adminDashboardVideos-search"
+                    <input class="form-control pl-2" id="adminDashboard-search"
                       style="width:100%; background:rgba(55,74,251,0.1)" placeholder="Search Videos..." name="search"
                       aria-label="Search" value="">
                     <span class="kt-input-icon__icon kt-input-icon__icon--right">
@@ -466,8 +323,8 @@
             <div class="col-md-auto mb-2">
               <div class="kt-pagination kt-pagination--success kt-pagination--sm">
                 <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success adminDashboard-exam" id="adminDashboardVideos-exam"
-                    data-ref='adminDashboardVideos-subject' name="exam[]"
+                  <select class="form-control kt-font-success adminDashboard-exam" id="adminDashboard-exam"
+                    data-ref='adminDashboard-subject' name="exam[]"
                     onchange="return filterAdminDocSubjectFilling(this)">
                     <option value="rf" <%= videoquery.exam && videoquery.exam.includes("rf") ? "selected" : "" %>>Exam
                     </option>
@@ -497,7 +354,7 @@
             <div class="col-md-auto mb-2">
               <div class="kt-pagination kt-pagination--success kt-pagination--sm">
                 <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success" id="adminDashboardVideos-attempt" name="attempt[]"
+                  <select class="form-control kt-font-success" id="adminDashboard-attempt" name="attempt[]"
                     onchange="return adminDashVideos_filter()">
                     <option value="rf" <%= videoquery.attempt && videoquery.attempt.includes("rf") ? "selected" : "" %>>
                       Attempt</option>
@@ -525,13 +382,13 @@
               <div class="kt-pagination kt-pagination--success kt-pagination--sm">
                 <div class="kt-pagination__toolbar full-width">
                   <select class="form-control kt-font-success adminDashboard-author" name="author"
-                    id="adminDashboardVideos-author" onchange="return adminDashVideos_filter()">
+                    id="adminDashboard-author" onchange="return adminDashVideos_filter()">
                     <option value='rf'
                       <%= videoquery.author && videoquery.author.includes("rf") ? "selected" : "" %></option>>Author
                       </option> </select> </div> </div> </div> <div class="col-md-auto mb-2">
                       <div class="kt-pagination kt-pagination--success kt-pagination--sm">
                         <div class="kt-pagination__toolbar full-width">
-                          <select class="form-control kt-font-success" id="adminDashboardVideos-subject"
+                          <select class="form-control kt-font-success" id="adminDashboard-subject"
                             name="subject[]" onchange="return adminDashVideos_filter() ">
                             <option value="rf"
                               <%= videoquery.subject && videoquery.subject.includes("rf") ? "selected" : "" %>>
@@ -580,7 +437,7 @@
                 <div class="col-md-auto mb-2">
                   <!-- <button type="submit" class="btn btn-label-success btn-bold mr-4" id='submit-video-form'>Submit</button> -->
                   <a class="btn btn-label-danger btn-bold btn-sm btn-font-sm" href="/videoscopy"
-                    id="adminDashboardVideos-clearvideoform">Clear
+                    id="adminDashboard-clearvideoform">Clear
                     Filters</a>
                 </div>
               </div>
@@ -592,7 +449,7 @@
             <div class="col">
               <div class="kt-section__content kt-section__content--solid">
                 <h6 class="mr-3 align-middle">Filter Tags:</h6>
-                <div id='adminDashboardVideos-filterTags' class="d-inline">
+                <div id='adminDashboard-filterTags' class="d-inline">
                   <!-- <span class="btn btn-label-warning">Primary</span> -->
                 </div>
               </div>
@@ -614,12 +471,12 @@
                   <a href="<%=docspaginateUrl%>page=<%=videos.page-1%>"><i
                       class="fa fa-angle-left kt-font-brand"></i></a>
                 </li>
-                <div class="d-flex" id='adminDashboardVideos-pagination'>
+                <div class="d-flex" id='adminDashboard-pagination'>
                   <%if(videos.pages>=1 && videos.docs.length){%>
                   <% for(let i=1; i<=videos.pages; i++ ) {%>
-                  <li id="adminDashboardVideos_<%=i%>"
+                  <li id="adminDashboard_<%=i%>"
                     class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
-                    <a id="adminDashboardVideos-url_<%=i%>" href="<%=docspaginateUrl%>page=<%=i%>"><%=i%></a>
+                    <a id="adminDashboard-url_<%=i%>" href="<%=docspaginateUrl%>page=<%=i%>"><%=i%></a>
                   </li>
                   <%}%>
             <%}%>
@@ -637,8 +494,8 @@
               </ul>
               <div class="kt-pagination__toolbar">
                 <div class="mr-3">
-                  <!-- <form id="adminDashboardVideos-sort-form" method="GET" action="#"> -->
-                  <select class="form-control kt-font-brand" id="adminDashboardVideos-sort" name="sort"
+                  <!-- <form id="adminDashboard-sort-form" method="GET" action="#"> -->
+                  <select class="form-control kt-font-brand" id="adminDashboard-sort" name="sort"
                     onchange="return adminDashVideos_filter()">
                     <option disabled <%= !videoquery.exam ? "selected" : "" %>>Sort</option>
                     <option value="-createdAt"
@@ -660,8 +517,8 @@
                   <!-- </form> -->
                 </div>
 
-                <!-- <form id="adminDashboardVideos-limit-form" method="GET" action="<%=limitUrl%>"> -->
-                <select class="form-control kt-font-brand" id="adminDashboardVideos-limit" name="limit"
+                <!-- <form id="adminDashboard-limit-form" method="GET" action="<%=limitUrl%>"> -->
+                <select class="form-control kt-font-brand" id="adminDashboard-limit" name="limit"
                   style="width: 60px;" onchange="return adminDashVideos_filter()">
                   <option value='1' <%= !videoquery.limit || videoquery.limit==="1" ? "selected" : "" %>>1</option>
                   <option value='2' <%= !videoquery.limit || videoquery.limit==="2" ? "selected" : "" %>>2</option>
@@ -685,7 +542,7 @@
   <!-- ------------------------------------------------------------------------------- -->
 
   <div class="kt-grid__item">
-    <div class="row overflow-auto" id='adminDashboardVideos-body' style="max-height: 130rem">
+    <div class="row overflow-auto" id='adminDashboard-body' style="max-height: 130rem">
       <%videos.docs.forEach(function(video){%>
       <div class="col-md-4 mb-3 px-0">
         <!--begin:: Widgets/Blog-->
@@ -783,12 +640,12 @@
               <li class="kt-pagination__link--next">
                 <a href="<%=docspaginateUrl%>page=<%=videos.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
               </li>
-              <div class="d-flex" id='adminDashboardVideos-pagination_bottom'>
+              <div class="d-flex" id='adminDashboard-pagination_bottom'>
                 <%if(videos.pages>=1 && videos.docs.length){%>
                 <% for(let i=1; i<=videos.pages; i++ ) {%>
-                <li id="adminDashboardVideos_<%=i%>_bottom"
+                <li id="adminDashboard_<%=i%>_bottom"
                   class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
-                  <a id="adminDashboardVideos-url_<%=i%>_bottom" href="<%=docspaginateUrl%>page=<%=i%>"><%=i%></a>
+                  <a id="adminDashboard-url_<%=i%>_bottom" href="<%=docspaginateUrl%>page=<%=i%>"><%=i%></a>
                 </li>
                 <%}%>
                   <%}%>
@@ -850,8 +707,7 @@
                         <select class="form-control kt-font-success adminDashboard-exam" id="adminDashboardfaculty-exam"
                           name="exam[]" onchange="adminDashFaculty_filter()">
                           <option value="rf"
-                            <%= facultyquery.exam && facultyquery.exam.includes("rf") ? "selected" : "" %>>Exam
-                          </option>
+                            <%= facultyquery.exam && facultyquery.exam.includes("rf") ? "selected" : "" %>>Exam</option>
                           <option value="All">All</option>
                           <option value="CA Final(New)"
                             <%= facultyquery.exam && facultyquery.exam.includes("CA Final(New)") ? "selected" : "" %>>CA
@@ -1020,47 +876,53 @@
                     <th class="text-center align-middle text-nowrap">No</th>
                     <th class="text-center align-middle text-nowrap">Username
                       <!-- <button type="button" class="btn btn-outline-hover-primary btn-sm btn-icon"> -->
-                      <span class="createdAt"><i
+                      <span class="username"><i
                           class="la la-arrow-up la-arrow-up-download-date arrow-inactive"></i></span>
                       <!-- </button>  -->
                       <!-- <button type="button" class="btn btn-outline-hover-primary btn-sm btn-icon"> -->
-                      <span class="-createdAt"><i
-                          class="la la-arrow-down la-arrow-down-download-date faculty-sort-active"></i></span>
+                      <span class="-username"><i
+                          class="la la-arrow-down la-arrow-down-download-date arrow-inactive"></i></span>
                       <!-- </button> -->
                     </th>
-                    <th class="text-center align-middle text-nowrap">FirstName <span class="author"><i
-                          class="la la-arrow-up ascending-download-author arrow-inactive"></i></span><span
-                        class="-author"><i
-                          class="la la-arrow-down la-arrow-down-download-author arrow-inactive"></i></span></th>
-                    <th class="text-center align-middle text-nowrap">Lastname</th>
+                    <th class="text-center align-middle text-nowrap">FirstName <span class="firstName"><i
+                          class="la la-arrow-up ascending-download-firstName arrow-inactive"></i></span><span
+                        class="-firstName"><i
+                          class="la la-arrow-down la-arrow-down-download-firstName arrow-inactive"></i></span></th>
+                    <th class="text-center align-middle text-nowrap">Lastname<span class="lastName"><i
+                      class="la la-arrow-up ascending-download-lastName arrow-inactive"></i></span><span
+                    class="-lastName"><i
+                      class="la la-arrow-down la-arrow-down-download-lastName arrow-inactive"></i></span></th>
                     <th class="text-center align-middle text-nowrap">Exam <span class="exam"><i
                           class="la la-arrow-up ascending-download-exam arrow-inactive"></i></span> <span
                         class="-exam"><i class="la la-arrow-down la-arrow-down-download-exam arrow-inactive"></i></span>
                     </th>
                     <th class="text-center align-middle text-nowrap">City
-                      <!-- <span class='attempt'><i class="la la-arrow-up ascending-download-attempt arrow-inactive"></i></span> <span class='-attempt'>
-                    <i class="la la-arrow-down la-arrow-down-download-attempt arrow-inactive"></i></span> -->
+                      <span class='city'><i class="la la-arrow-up ascending-download-city arrow-inactive"></i></span> <span class='-city'>
+                    <i class="la la-arrow-down la-arrow-down-download-city arrow-inactive"></i></span>
                     </th>
-                    <th class="text-center align-middle text-nowrap">State <span class="subject"><i
-                          class="la la-arrow-up ascending-download-subject arrow-inactive"></i></span> <span
-                        class="-subject"><i
-                          class="la la-arrow-down la-arrow-down-download-subject arrow-inactive"></i></span>
+                    <th class="text-center align-middle text-nowrap">State <span class="state"><i
+                          class="la la-arrow-up ascending-download-state arrow-inactive"></i></span> <span
+                        class="-state"><i
+                          class="la la-arrow-down la-arrow-down-download-state arrow-inactive"></i></span>
                     </th>
-                    <th class="text-center align-middle text-nowrap">Mobile <span class="subject"><i
-                          class="la la-arrow-up ascending-download-subject arrow-inactive"></i></span> <span
-                        class="-subject"><i
-                          class="la la-arrow-down la-arrow-down-download-subject arrow-inactive"></i></span>
+                    <th class="text-center align-middle text-nowrap">Mobile <span class="mobile"><i
+                          class="la la-arrow-up ascending-download-mobile arrow-inactive"></i></span> <span
+                        class="-mobile"><i
+                          class="la la-arrow-down la-arrow-down-download-mobile arrow-inactive"></i></span>
                     </th>
-                    <th class="text-center align-middle text-nowrap">Email <span class="subject"><i
-                          class="la la-arrow-up ascending-download-subject arrow-inactive"></i></span> <span
-                        class="-subject"><i
-                          class="la la-arrow-down la-arrow-down-download-subject arrow-inactive"></i></span>
+                    <th class="text-center align-middle text-nowrap">Email <span class="email"><i
+                          class="la la-arrow-up ascending-download-email arrow-inactive"></i></span> <span
+                        class="-email"><i
+                          class="la la-arrow-down la-arrow-down-download-email arrow-inactive"></i></span>
                     </th>
-                    <th class="text-center align-middle text-nowrap">Email Verified<span class="downloadCounter"><i
+                    <th class="text-center align-middle text-nowrap">Email Verified<span class="emailVerified"><i
                           class="la la-arrow-up ascending-download-number arrow-inactive"></i></span> <span
-                        class="-downloadCounter"><i
+                        class="-emailVerified"><i
                           class="la la-arrow-down la-arrow-down-download-number arrow-inactive"></i></span></th>
-                    <th class="text-center align-middle text-nowrap">Account Created</th>
+                    <th class="text-center align-middle text-nowrap">Account Created<span class="accountCreated"><i
+                      class="la la-arrow-up ascending-download-number arrow-inactive"></i></span> <span
+                    class="-accountCreated"><i
+                      class="la la-arrow-down la-arrow-down-download-number arrow-inactive"></i></span></th>
                     <th class="text-center align-middle text-nowrap">Action</th>
                   </tr>
                 </thead>
