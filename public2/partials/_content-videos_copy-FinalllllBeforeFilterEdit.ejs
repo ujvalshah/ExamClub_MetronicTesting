@@ -23,97 +23,142 @@
       <!------------------------------------------------------------------------------------------------------------
         -----------------------------------------------Filter Form Begin----------------------------------------------
         ------------------------------------------------------------------------------------------------------------->
-        <div class="row">
-      <form class="form-inline my-2" id='videoTable_filter_ajax' action="/videoscopy"
+
+      <form class="form-inline float-right my-2 my-lg-0 ml-auto" id='videoTable_filter_ajax' action="/videoscopy"
         method="GET" onsubmit="return filter()">
 
         <div class="row">
 
-          <div class="col-md-auto mb-2">
-            <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-              <div class="kt-pagination__toolbar full-width">
-                <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
-                  <input class="form-control pl-2" id="search-video" name="search" placeholder="Search Videos...">
-                  <span class="kt-input-icon__icon kt-input-icon__icon--right">
-                    <span><i class="flaticon2-search-1 kt-font-success"></i></span>
-                  </span>
+            <div class="col-md-auto mb-2">
+                <div class="kt-pagination kt-pagination--success kt-pagination--sm">
+                  <div class="kt-pagination__toolbar full-width">
+                    <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+                      <input class="form-control pl-2" id="search-video" name="search"
+                        placeholder="Search Videos...">
+                      <span class="kt-input-icon__icon kt-input-icon__icon--right">
+                        <span><i class="flaticon2-search-1 kt-font-success"></i></span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div class="col-md-auto mb-2">
-              <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-                <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success" id="exam" name="exam[]"
-                    onchange="return filterVideosSubjectFilling(this)">
-                  </select>
+              <div class="col-md-auto mb-2">
+                  <div class="kt-pagination kt-pagination--success kt-pagination--sm">
+                    <div class="kt-pagination__toolbar full-width">
+                      <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+              <select class="form-control kt-font-success" id="exam" name="exam[]" onchange="return filterVideosSubjectFilling(this)">
+              </select>
               </div>
-            </div>
-          </div>
+              </div>
+              </div>
+              </div>
 
-          <div class="col-md-auto mb-2">
-            <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-              <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success" id="attempt" name="attempt[]" onchange="return filter()">
-                    <option value="rf" <%= !videoquery.attempt ? "selected" : "" %>  selected>Attempt</option>
-                    <option value="All">All</option>
-                    <option value="Nov 2019"
-                      <%= videoquery.attempt && videoquery.attempt.includes("Nov 2019") ? "selected" : "" %>>
-                      Nov 2019</option>
-                    <option value="May 2020"
-                      <%= videoquery.attempt && videoquery.attempt.includes("May 2020") ? "selected" : "" %>>
-                      May 2020</option>
-                    <option value="Nov 2020"
-                      <%= videoquery.attempt && videoquery.attempt.includes("Nov 2020") ? "selected" : "" %>>
-                      Nov 2020</option>
-                    <option value="May 2021"
-                      <%= videoquery.attempt && videoquery.attempt.includes("May 2021") ? "selected" : "" %>>
-                      May 2021</option>
-                    <option value="Nov 2021"
-                      <%= videoquery.attempt && videoquery.attempt.includes("Nov 2021") ? "selected" : "" %>>
-                      Nov 2021</option>
-                  </select>
-                </div>
-            </div>
-          </div>
-
-          <div class="col-md-auto mb-2">
-            <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-              <div class="kt-pagination__toolbar full-width">
-                  <select class="form-control kt-font-success" name="author" id="author" onchange="return filter()">
-                    <option disabled selected>Faculty</option>
-                  </select>
-                </div>
-            </div>
-          </div>
-
-          
-          <div class="col-md-auto mb-2">
-              <div class="kt-pagination kt-pagination--success kt-pagination--sm">
-                <div class="kt-pagination__toolbar full-width">
-              <select class="form-control kt-font-success" id="subject" name="subject[]" onchange="return filter()">
-                <option <%= !videoquery.subject ? "selected" : "" %> disabled>Subject</option>
-                <option disabled>Select Exam First</option>
+              <div class="col-md-auto mb-2">
+                  <div class="kt-pagination kt-pagination--success kt-pagination--sm">
+                    <div class="kt-pagination__toolbar full-width">
+                      <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+              <select class="form-control kt-font-success" id="attempt" name="attempt[]" onchange="return filter()">
+                <option disabled <%= !videoquery.attempt ? "selected" : "" %> disabled selected>Attempt</option>
+                  <option value="All">All</option>
+                  <option value="Nov 2019"
+                    <%= videoquery.attempt && videoquery.attempt.includes("Nov 2019") ? "selected" : "" %>>
+                    Nov 2019</option>
+                  <option value="May 2020"
+                    <%= videoquery.attempt && videoquery.attempt.includes("May 2020") ? "selected" : "" %>>
+                    May 2020</option>
+                  <option value="Nov 2020"
+                    <%= videoquery.attempt && videoquery.attempt.includes("Nov 2020") ? "selected" : "" %>>
+                    Nov 2020</option>
+                  <option value="May 2021"
+                    <%= videoquery.attempt && videoquery.attempt.includes("May 2021") ? "selected" : "" %>>
+                    May 2021</option>
+                  <option value="Nov 2021"
+                    <%= videoquery.attempt && videoquery.attempt.includes("Nov 2021") ? "selected" : "" %>>
+                    Nov 2021</option>
               </select>
             </div>
           </div>
           </div>
-
-        </div>
-
-          <!-- <button type="submit" class="btn btn-label-success btn-bold mr-4" id='submit-video-form'>Submit</button> -->
-          <a class="btn btn-label-danger btn-bold btn-sm" href="/videoscopy" id="clear-video-form"
-            onclick="return clickOnClearAllFiltersBtn(event)">Clear All Filters</a>
           </div>
-            <!----------------------------Filter Tags---------------------------------------->
-            <div class="row">
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect03">Author</label>
+              </div>
+              <select class="form-control kt-font-success" name="author" id="author" onchange="return filter()">
+                <option disabled selected>Faculty</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="videoGroupSelect05">Subject</label>
+              </div>
+              <select class="form-control kt-font-success" id="subject" name="subject[]" onchange="return filter()">
+                <option <%= !videoquery.subject ? "selected" : "" %> disabled>Subject</option>
+                <option disabled>Select Exam First</option>
+                <!-- <option value="All">All</option> -->
+                <!-- <option value="rf" <%= videoquery.subject && videoquery.subject.includes("rf") ? "selected" : "" %>>
+                  Remove
+                  Filter</option>
+                <option value="CA Final - P1: Financial Reporting"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P1: Financial Reporting") ? "selected" : "" %>>
+                  P1:Financial Reporting</option>
+                <option value="CA Final - P2: Strategic Financial Management"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P2: Strategic Financial Management") ? "selected" : "" %>>
+                  P2:Strategic Financial Management</option>
+                <option value="CA Final - P3: Advanced Auditing and Professional Ethics"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P3: Advanced Auditing and Professional Ethics") ? "selected" : "" %>>
+                  P3:Advanced Auditing and Professional Ethics</option>
+                <option value="CA Final - P4: Corporate & Economic Laws"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P4: Corporate & Economic Laws") ? "selected" : "" %>>
+                  P4:Corporate & Economic Laws</option>
+                <option value="CA Final - P5: Strategic Cost Management and Performance Evaluation"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P5: Strategic Cost Management and Performance Evaluation") ? "selected" : "" %>>
+                  P5:Strategic Cost Management and Performance Evaluation</option>
+                <option value="CA Final - P6A: Risk Management"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P6A: Risk Management") ? "selected" : "" %>>
+                  P6A:Risk Management</option>
+                <option value="CA Final - P6B: Financial Services & Capital Markets"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P6B: Financial Services & Capital Markets") ? "selected" : "" %>>
+                  P6B:Financial Services & Capital Markets</option>
+                <option value="CA Final - P6C: International Taxation"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P6C: International Taxation") ? "selected" : "" %>>
+                  P6C:International Taxation</option>
+                <option value="CA Final - P6E: Global Financial Reporting Standards"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P6E: Global Financial Reporting Standards") ? "selected" : "" %>>
+                  P6E:Global Financial Reporting Standards</option>
+                <option value="CA Final - P6F: Multi-disciplinary Case Study"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P6F: Multi-disciplinary Case Study") ? "selected" : "" %>>
+                  P6F:Multi-disciplinary Case Study</option>
+                <option value="CA Final - P7: Direct Tax Laws & International Taxation"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P7: Direct Tax Laws & International Taxation") ? "selected" : "" %>>
+                  P7:Direct Tax Laws & International Taxation</option>
+                <option value="CA Final - P8: Indirect Tax Laws"
+                  <%= videoquery.subject && videoquery.subject.includes("CA Final - P8: Indirect Tax Laws") ? "selected" : "" %>>
+                  P8:Indirect Tax Law</option> -->
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-end" style="width:100%">
+          <!-- <button type="submit" class="btn btn-label-success btn-bold mr-4" id='submit-video-form'>Submit</button> -->
+          <a class="btn btn-label-danger btn-bold" href="/videoscopy" id="clear-video-form" onclick="return clickOnClearAllFiltersBtn(event)">Clear All Filters</a>
+        </div>
+        <!----------------------------Filter Tags---------------------------------------->
+        <div class='row mt-3'>
+          <div class="col">
             <div class="kt-section__content kt-section__content--solid">
               <span>Filter Tags: </span>
               <div id='videos-filter-tags' class="d-inline">
+                <!-- <span class="btn btn-label-warning">Primary</span> -->
               </div>
             </div>
-            </div>
+          </div>
+        </div>
     </div>
   </div>
 
@@ -146,8 +191,7 @@
         </li>
 
         <li class="kt-pagination__link--last">
-          <a href="<%=videospaginateUrl%>page=<%=videos.pages%>"><i
-              class="fa fa-angle-double-right kt-font-brand"></i></a>
+          <a href="<%=videospaginateUrl%>page=<%=videos.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
         </li>
       </ul>
       <div class="kt-pagination__toolbar">
@@ -299,46 +343,44 @@
               </div>
             </div>
 
-          </div>
-          <!--begin: Pagination-Bottom(sm)-->
-          <div class="kt-grid__item kt-grid__item--fluid">
-            <div class="kt-pagination kt-pagination--sm kt-pagination--brand mb-5">
-              <ul class="kt-pagination__links">
-                <li class="kt-pagination__link--first">
-                  <a href="<%=videospaginateUrl%>page=1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
-                </li>
+  </div>
+  <!--begin: Pagination-Bottom(sm)-->
+  <div class="kt-grid__item kt-grid__item--fluid">
+    <div class="kt-pagination kt-pagination--sm kt-pagination--brand mb-5">
+      <ul class="kt-pagination__links">
+        <li class="kt-pagination__link--first">
+          <a href="<%=videospaginateUrl%>page=1"><i class="fa fa-angle-double-left kt-font-brand"></i></a>
+        </li>
 
-                <li class="kt-pagination__link--next">
-                  <a href="<%=videospaginateUrl%>page=<%=videos.page-1%>"><i
-                      class="fa fa-angle-left kt-font-brand"></i></a>
-                </li>
-                <div class="d-flex" id='pagination-videos_bottom'>
-                  <%if(videos.pages>=1 && videos.docs.length){%>
-                  <% for(let i=1; i<=videos.pages; i++ ) {%>
-                  <li id="video-pagination_<%=i%>_bottom"
-                    class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
-                    <a id="video-pagination-url_<%=i%>_bottom" href="<%=videospaginateUrl%>page=<%=i%>"><%=i%></a>
-                  </li>
-                  <%}%>
+        <li class="kt-pagination__link--next">
+          <a href="<%=videospaginateUrl%>page=<%=videos.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
+        </li>
+        <div class="d-flex" id='pagination-videos_bottom'>
+          <%if(videos.pages>=1 && videos.docs.length){%>
+          <% for(let i=1; i<=videos.pages; i++ ) {%>
+          <li id="video-pagination_<%=i%>_bottom"
+            class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
+            <a id="video-pagination-url_<%=i%>_bottom" href="<%=videospaginateUrl%>page=<%=i%>"><%=i%></a>
+          </li>
+          <%}%>
       <%}%>
-                </div>
-
-                <li class="kt-pagination__link--prev">
-                  <a href="<%=videospaginateUrl%>page=<%=videos.page+1%>"><i
-                      class="fa fa-angle-right kt-font-brand"></i></a>
-                </li>
-
-                <li class="kt-pagination__link--last">
-                  <a href="<%=videospaginateUrl%>page=<%=videos.pages%>"><i
-                      class="fa fa-angle-double-right kt-font-brand"></i></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!--end: Pagination-->
         </div>
 
-        <!-- Small Screens
+        <li class="kt-pagination__link--prev">
+          <a href="<%=videospaginateUrl%>page=<%=videos.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
+        </li>
+
+        <li class="kt-pagination__link--last">
+          <a href="<%=videospaginateUrl%>page=<%=videos.pages%>"><i
+              class="fa fa-angle-double-right kt-font-brand"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--end: Pagination-->
+</div>
+
+<!-- Small Screens
 <div class="kt-container  kt-grid__item kt-grid__item--fluid d-block d-md-none">
 Hello
 </div> -->

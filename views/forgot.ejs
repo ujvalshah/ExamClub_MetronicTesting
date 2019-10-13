@@ -1,18 +1,578 @@
-<% include ./partials/header %>
-<div class="container">
-    
-    <h1 class="mb-3">Forgot Password</h1>
-<form action="/forgot-password?_method=PUT" method="POST">
-  <div class="form-group">
-    <label for="fp-email"  class="col-sm-4 col-form-label pl-0">Email address</label>
-    <input type="email" class="form-control col-sm-4" id="fp-email" name="email" aria-describedby="emailHelp" placeholder="Enter email" autofocus>
-  </div>
-  <small id="fp-email" class="form-text text-muted mb-3">
-    Enter you registered email address on which we will send you a password reset link.
-</small>
+<!DOCTYPE html>
+<html lang="en">
+<!-- begin::Head -->
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-    
-    
+<head>
+  <meta charset="utf-8" />
+  <title><%=title%></title>
+  <meta name="description" content="Latest updates and statistic charts">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!--begin::Fonts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+  <script>            WebFont.load({
+      google: {
+        "families": [
+          "Poppins:300,400,500,600,700"]
+      },
+      active: function () {
+        sessionStorage.fonts = true;
+      }
+    });        </script>
+  <!--end::Fonts -->
+  <link href="/assets/css/demo2/custom.css" rel="stylesheet" type="text/css" />
+
+  <!--begin::Global Theme Styles(used by all pages) -->
+  <link href="/assets/vendors/global/vendors.bundle.css" rel="stylesheet" type="text/css" />
+  <link href="/assets/css/demo2/style.bundle.css" rel="stylesheet" type="text/css" />
+  <!--end::Global Theme Styles -->
+
+</head>
+<!-- end::Head -->
+<!-- begin::Body -->
+
+<body
+  class="kt-page--loading-enabled kt-page--loading kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header--minimize-all kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading">
+  <!-- begin::Page loader -->
+  <div class="kt-page-loader">
+    <div class="kt-spinner kt-spinner--brand"></div>
+  </div>
+  <!-- end::Page Loader -->
+
+  <!-- begin:: Page -->
+  <!-- begin:: Header Mobile -->
+  <div id="kt_header_mobile" class="kt-header-mobile kt-header-mobile--fixed ">
+    <div class="kt-header-mobile__logo">
+      <a href="?page=index">
+        <img alt="Logo" src="/assets/media/logos/logo-2-sm.png" />
+      </a>
+      <h3 class="kt-font-light ml-3 mb-0">Examclub</h3>
+    </div>
+    <div class="kt-header-mobile__toolbar">
+      <button class="kt-header-mobile__toolbar-toggler" id="kt_header_mobile_toggler"><span></span></button>
+      <button class="kt-header-mobile__toolbar-topbar-toggler" id="kt_header_mobile_topbar_toggler"><i
+          class="flaticon-more-1"></i></button>
+    </div>
+  </div>
+  <!-- end:: Header Mobile -->
+  <div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+      <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+        <!-- begin:: Header -->
+        <div id="kt_header" class="kt-header kt-grid__item kt-header--fixed " data-ktheader-minimize="on">
+          <div class="kt-header__top">
+            <div class="kt-container kt-container--fluid ">
+              <!-- begin:: Brand -->
+              <div class="kt-header__brand kt-grid__item" id="kt_header_brand">
+                <div class="kt-header__brand-logo">
+                  <!-- <a class="" href="/index"> -->
+                  <h3 class="kt-font-light d-none d-xl-block">Examclub</h3>
+                  <!-- </a> -->
+                </div>
+              </div>
+              <!-- end:: Brand -->
+              <div class="kt-container kt-container--fluid ">
+                <!-- begin: Header Menu -->
+                <button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i
+                    class="la la-close"></i></button>
+                <div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
+
+                  <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile ">
+                    <ul class="kt-menu__nav ">
+                      <!-- begin:: Home Menu -->
+                      <% if(currentUser){%>
+                      <!-- begin:: Dashboard Menu -->
+                      <li
+                        class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'dashboard_admin' || page === 'dashboard_faculty' || page === 'dashboard_student' ? 'kt-menu__item--here' : '' %>"
+                        data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                        <a id='menu_dashboard_userURL' href="/user/<%=currentUser._id%>/dashboard"
+                          class="kt-menu__link"><span class="kt-menu__link-text">Dashboard</span><i
+                            class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                      </li>
+                      <%}%>
+            <% if(currentUser && currentUser.isAdmin){%>
+                      <!-- begin:: Dashboard Menu -->
+                      <li
+                        class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'filter-form' ? 'kt-menu__item--here' : '' %>"
+                        data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                        <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span
+                            class="kt-menu__link-text">Filter Data</span><i
+                            class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                        <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                          <ul class="kt-menu__subnav">
+                            <li class="kt-menu__item " aria-haspopup="true">
+                              <a href="/filterform" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Filter Data</span>
+                              </a>
+                            </li>
+                            <li class="kt-menu__item " aria-haspopup="true">
+                              <a href="/filterform/new" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Add Filter Data</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <%}%>
+             <!-- begin:: Faculty's Directory -->
+            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'teachersindex' || page ==='facultyprofile' ? 'kt-menu__item--here' : '' %>"
+                      data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                      <a href="/teachers" class="kt-menu__link"><span class="kt-menu__link-text">Faculty's
+                          Directory</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                      </li>
+                      <!-- begin:: Downloads Menu -->
+                      <% if(currentUser && !currentUser.isStudent) { %>
+                      <li
+                        class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'downloads' || page === 'downloads_uploadform'|| page === 'downloads_updateform' ? 'kt-menu__item--here' : '' %>"
+                        data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                        <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">CA
+                            Downloads</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                        <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                          <ul class="kt-menu__subnav">
+                            <li class="kt-menu__item " aria-haspopup="true">
+                              <a href="/downloads" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Downloads</span>
+                                <span class="kt-menu__link-badge"><span
+                                    class="kt-badge kt-badge--success">3</span></span>
+                              </a>
+                            </li>
+                            <li class="kt-menu__item " aria-haspopup="true">
+                              <a href="/downloads/upload" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Upload</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <%} else {%>
+                      <li
+                        class="kt-menu__item kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'downloads' || page === 'downloads_uploadform'|| page === 'downloads_updateform' ? 'kt-menu__item--here' : '' %>"
+                        data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                        <a href="/downloads" class="kt-menu__link">
+                          <span class="kt-menu__link-text">CA Downloads</span><i
+                            class="kt-menu__ver-arrow la la-angle-right"></i>
+                        </a>
+                      </li>
+
+                      <%}%>
+
+             <!-- begin:: Videos Menu -->
+             <% if(currentUser && !currentUser.isStudent) { %>
+                      <li
+                        class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'videos' ? 'kt-menu__item--here' : '' %>"
+                        data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                        <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">CA
+                            Video
+                            Bank</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                        <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                          <ul class="kt-menu__subnav">
+                            <li class="kt-menu__item " aria-haspopup="true">
+                              <a href="/videos" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Videos</span>
+                                <span class="kt-menu__link-badge"><span
+                                    class="kt-badge kt-badge--success">3</span></span>
+                              </a>
+                            </li>
+                            <li class="kt-menu__item " aria-haspopup="true">
+                              <a href="/videos/new" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">Upload</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      <%} else {%>
+                      <li
+                        class="kt-menu__item kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'videos' ? 'kt-menu__item--here' : '' %>"
+                        aria-haspopup="true">
+                        <a href="/videos" class="kt-menu__link"><span class="kt-menu__link-text">CA Video Bank</span><i
+                            class="kt-menu__ver-arrow la la-angle-right"></i></a>
+                      </li>
+                      <%}%>
+        </ul>
+    </div>
 </div>
+<!-- end: Header Menu -->
+                </div>
+<!-- begin:: Header Topbar -->
+<div class="kt-header__topbar">
+    <!--begin: Notifications -->
+    <% if(currentUser){%>
+                      <div class="kt-header__topbar-item dropdown">
+                        <div class="text-nowrap my-auto" data-toggle="dropdown" id="quickpanel" title="Notifications"
+                          data-placement="left" data-offset="10px,10px">
+                          <div>
+                            <button type="button" class="btn btn-brand">
+                              Notifications <span id="notification-btn-badge"
+                                class="kt-badge kt-badge kt-badge--danger"></span>
+                            </button>
+                          </div>
+                        </div>
+                        <div
+                          class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
+                          <form>
+                            <!--begin: Head -->
+                            <div class="kt-head kt-head--skin-dark kt-head--fit-x kt-head--fit-b"
+                              style="background-image: url(/assets/media/misc/bg-1.jpg)">
+                              <h3 class="kt-head__title">
+                                User Notifications &nbsp; <span class="btn btn-success btn-sm btn-bold btn-font-md"
+                                  id="notificationNo"></span>
+                              </h3>
+                              <ul
+                                class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-success kt-notification-item-padding-x"
+                                role="tablist">
+                                <li class="nav-item">
+                                  <a class="nav-link active show" data-toggle="tab"
+                                    href="#topbar_notifications_notifications" role="tab" aria-selected="true">
+                                    <%= currentUser && currentUser.exam ? currentUser.exam : "Notifications" %>
+                                    <span id='subNotificationNo' class="kt-badge kt-badge kt-badge--danger"></span>
+                                  </a>
+                                </li>
+                                <li class="nav-item"> <a class="nav-link" data-toggle="tab"
+                                    href="#topbar_notifications_allnotifications" role="tab"
+                                    aria-selected="false">All</a> </li>
+                                <li class="nav-item"> <a class="nav-link" data-toggle="tab"
+                                    href="#topbar_notifications_logs" role="tab" aria-selected="false">Logs</a> </li>
+                              </ul>
+                            </div>
+                            <!--end: Head -->
+                            <div class="tab-content">
+                              <div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
+                                <div id='notification_sockets'
+                                  class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll" data-scroll="true"
+                                  data-height="300" data-mobile-height="200">
+                                </div>
+                              </div>
+                              <div class="tab-pane" id="topbar_notifications_allnotifications" role="tabpanel">
+                                <div id='notification_all'
+                                  class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll" data-scroll="true"
+                                  data-height="300" data-mobile-height="200">
+                                </div>
+                              </div>
+                              <div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
+                                <div class="kt-grid kt-grid--ver" style="min-height: 200px;">
+                                  <div
+                                    class="kt-grid kt-grid--hor kt-grid__item kt-grid__item--fluid kt-grid__item--middle">
+                                    <div class="kt-grid__item kt-grid__item--middle kt-align-center">
+                                      All caught up!
+                                      <br>
+                                      No new notifications.
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <%}%>
+    <!--end: Notifications -->
+
+    <% if(currentUser){%>
+                      <!--begin: User bar -->
+                      <div class="kt-header__topbar-item kt-header__topbar-item--user">
+                        <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,10px"
+                          aria-expanded="false">
+                          <span class="kt-header__topbar-welcome">Hi,</span><span
+                            class="kt-header__topbar-username text-nowrap"><%=currentUser.firstName.charAt(0).toUpperCase()%><%=currentUser.firstName.substring(1).toLowerCase()%>
+                            <%=currentUser.lastName.charAt(0).toUpperCase()%><%=currentUser.lastName.substring(1).toLowerCase()%></span>
+                          <span
+                            class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold kt-hidden-"><%=currentUser.firstName.charAt(0).toUpperCase()%></span>
+                        </div>
+                        <div
+                          class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
+                          <!--begin: Head -->
+                          <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x"
+                            style="background-image: url(/assets/media/misc/bg-1.jpg)">
+                            <div class="kt-user-card__avatar">
+                              <span
+                                class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success"><%=currentUser.username.charAt(0).toUpperCase()%></span>
+                            </div>
+                            <div class="kt-user-card__name"> <%=currentUser.username%> </div>
+                          </div>
+                          <!--end: Head -->
+                          <!--begin: Navigation -->
+                          <div class="kt-notification">
+                            <a href="/account-details/<%=currentUser._id%>/edit" class="kt-notification__item">
+                              <div class="kt-notification__item-icon"> <i
+                                  class="flaticon2-calendar-3 kt-font-success"></i> </div>
+                              <div class="kt-notification__item-details">
+                                <div class="kt-notification__item-title kt-font-bold"> My Profile </div>
+                                <div class="kt-notification__item-time"> Account settings and more </div>
+                              </div>
+                            </a>
+                            <div class="kt-notification__custom kt-space-between"> <a href="/logout"
+                                class="btn btn-label btn-label-brand btn-sm btn-bold">Sign Out</a></div>
+                          </div>
+                          <!--end: Navigation -->
+
+                        </div>
+                      </div>
+                      <!--end: User bar -->
+                      <%} else {%>
+                      <a href="/register" class="btn btn-label-warning btn-bold btn-icon-h kt-margin-l-10 my-auto">
+                        Register</a>
+                      <a href="/login" class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10 my-auto">
+                        Login</a>
+                      <%}%>
+</div>
+            </div>
+        </div>
+</div>
+<!-- end:: Header -->
+
+<!-- begin:: alert -->
+            <div id='alert-notifications'>
+                    <% if(error && error.length > 0) { %>
+                      <div
+                        class="alert alert-bold alert-solid-danger alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3"
+                        style='width:90%' role="alert">
+                        <div class='alert-text'><%= error %></div>
+                        <div class="alert-close">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      </div>
+                      <% } %>
+                      <% if(success && success.length > 0) { %>
+                      <div
+                        class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3"
+                        style='width:90%' role="alert">
+                        <div class='alert-text'><%= success %></div>
+                        <div class="alert-close">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      </div>
+                      <% } %>
+                      <% if(warning && warning.length > 0) { %>
+                      <div
+                        class="alert alert-bold alert-solid-warning alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3"
+                        style='width:90%' role="alert">
+                        <div class='alert-text'><%= warning %></div>
+                        <div class="alert-close">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                      </div>
+                      <% } %>
+                      <% if(emailVerification && emailVerification.length > 0) { %>
+                      <div
+                        class="alert alert-bold alert-danger alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3"
+                        style='width:90%' role="alert">
+                        <span><%= emailVerification[0].message %></span>
+                      </div>
+                      <% } %>
+                  </div>
+                  <!-- end:: alert -->
+
+                  <div class="kt-body kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch"
+                    id="kt_body">
+                    <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+                      <!-- begin:: Content Head -->
+                      <div class="kt-subheader kt-grid__item" id="kt_subheader">
+                        <div class="kt-container ">
+                          <div class="kt-subheader__main">
+                            <h3 class="kt-subheader__title">
+                              <% if(typeof title !== 'undefined'){%>
+                              <%=title%>
+                              <%}%>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span> 
+            <% if(currentUser && !currentUser.isStudent){%>
+                              <a href="/downloads/upload"
+                                class="btn btn-label-brand btn-bold btn-icon-h kt-margin-l-10"> Add Notes</a>
+                              <a href="/videos/new" class="btn btn-label-brand btn-bold btn-icon-h kt-margin-l-10"> Add
+                                Videos</a>
+                              <button type="button" id="notificationModalBtn"
+                                class="btn btn-bold btn-label-warning btn-sm kt-margin-l-10" data-toggle="modal"
+                                data-target="#kt_modal_4">Send Notification</button>
+                              <%}%>
+                <% if(currentUser && currentUser.isAdmin){%>
+                              <a href="/filterform/new"
+                                class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10"> Add Filter Data</a>
+                              <%}%>
+        </div>
+        <% if(typeof page !== 'undefined' && page === "videos"){%>
+                              <div style="padding: 0 1rem; margin-top:0.25rem">
+                                <form action="/videos" method="GET">
+                                  <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
+                                    <input type="text" class="form-control" placeholder="Search videos..."
+                                      id="generalSearch">
+                                    <span class="kt-input-icon__icon kt-input-icon__icon--right">
+                                      <span><i class="flaticon2-search-1"></i></span>
+                                    </span>
+                                  </div>
+                                </form>
+                              </div>
+                              <%}%>
+    </div>
+</div>
+    <!-- end:: Content Head -->
+    <!--begin::Modal-->
+<div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form  action="/notification" method="POST">
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Sender:</label>
+                        <% if(currentUser){%>
+                              <input type="text" class="form-control" id="notification-sender-name"
+                                name="notification-sender-name" value="<%=currentUser.username%>" readonly>
+                              <%} else if (!currentUser) { %>
+                              <input type="text" class="form-control" id="notification-sender-name"
+                                name="notification-sender-name">
+                              <%}%>
+                    </div>
+                    <div class="form-group">
+                        <label for="notificationMessage" class="form-control-label">Message:</label>
+                        <textarea class="form-control" name="notificationMessage" id="notificationMessage"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="notificationExamData">Applicable to exam:</label>
+                        <select class="form-control" id="notificationExamData" name="notificationExamData">
+                            <option disabled selected  value="">Choose Exam..</option>
+                            <option value="CA Final(New)">CA Final(New)</option>
+                            <option value="CA Final(Old)">CA Final(Old)</option>
+                            <option value="CA Intermediate(New)">CA Intermediate(New)</option>
+                            <option value="CA IPCC(Old)">CA IPCC(Old)</option>
+                            <option value="CA Foundation(New)">CA Foundation(New)</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer" id="notificationFooter">
+                        <button type="button" id="notificationBtn-close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="notificationBtn" class="btn btn-primary">Send message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </div> -->
+<!--end::Modal-->
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+
+  <div class="mt-5">
+  <form action="/forgot-password?_method=PUT" method="POST">
+      <div class="kt-form kt-form--label-right">
+          <div class="kt-form__body">
+              <div class="kt-section kt-section--first">
+                  <div class="kt-section__body">
+                      <div class="row">
+                          <div class="col-lg-9 col-xl-6">
+                              <h3 class="kt-section__title kt-section__title-sm">Recover
+                                  Your Password:</h3>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <label for="fp-email" class="col-lg-2 col-xl-2 col-form-label text-center">Email Address</label>
+                          <div class="col-lg-4 col-xl-4">
+                              <div class="input-group">
+                                  <div class="input-group-prepend"><span class="input-group-text"><i
+                                              class="la la-at"></i></span></div>
+                                  <input type="text" id="fp-email" name="email" class="form-control" value=""
+                                      placeholder="Enter Email ID" aria-describedby="basic-addon1">
+                              </div>
+                              <span class="form-text text-muted">Enter your registered email address on which we will
+                                  send you a password reset link.</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="kt-separator kt-separator--space-lg kt-separator--fit kt-separator--border-solid">
+          </div>
+          <div class="kt-form__actions">
+              <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-lg-9 col-xl-6">
+                      <button type="submit" class="btn btn-label-brand btn-bold">Submit</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </form>
+</div>
+</div>
+<!-- end:: Content -->
+</div>
+</div>
+<!-- begin:: Footer -->
+<div class="kt-footer kt-footer--extended kt-grid__item" id="kt_footer">
+    <div class="kt-footer__bottom">
+        <div class="kt-container ">
+            <div class="kt-footer__wrapper">
+                <div class="kt-footer__logo">
+                    <div class="kt-footer__copyright">2019&nbsp;&copy;&nbsp; <a href="" target="_blank">ExamClub.com</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end:: Footer -->
+</div>
+</div>
+</div>
+<!-- end:: Page -->
+
+<!-- begin::Scrolltop -->
+  <div id="kt_scrolltop" class="kt-scrolltop"><i class="fa fa-arrow-up"></i></div>
+<!-- end::Scrolltop -->
+<!-- begin::Global Config(global config for global JS sciprts) -->
+          <script>            var KTAppOptions = {
+              "colors": {
+                "state": {
+                  "brand": "#374afb",
+                  "light": "#ffffff",
+                  "dark": "#282a3c",
+                  "primary": "#5867dd",
+                  "success": "#34bfa3",
+                  "info": "#36a3f7",
+                  "warning": "#ffb822",
+                  "danger": "#fd3995"
+                },
+                "base": {
+                  "label": [
+                    "#c5cbe3",
+                    "#a1a8c3",
+                    "#3d4465",
+                    "#3e4466"],
+                  "shape": [
+                    "#f0f3ff",
+                    "#d9dffa",
+                    "#afb4d4",
+                    "#646c9a"]
+                }
+              }
+            };        </script>
+          <!-- end::Global Config -->
+          <!--begin::Global Theme Bundle(used by all pages) -->
+          <script src="/assets/vendors/global/vendors.bundle.js" type="text/javascript"></script>
+          <script src="/assets/js/demo2/scripts.bundle.js" type="text/javascript"></script>
+          <!--end::Global Theme Bundle -->
+          <!--begin::Page Scripts(used by this page) -->
+          <script src="/assets/js/demo2/pages/dashboard.js" type="text/javascript"></script>
+          <script src="/socket.io/socket.io.js"></script>
+          <script src="/assets/js/socket.js"></script>
+          <script src="/assets/js/demo2/custom.js"></script>
+
+</body>
+<!-- end::Body -->
+
+</html>

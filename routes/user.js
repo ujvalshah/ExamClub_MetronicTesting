@@ -84,6 +84,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
         req.flash('error', "User not found! Please log in again!");
         res.redirect('back');
     }
+
     if (foundUser.isAdmin === true) {
 
         //-------------------------------------------------Documents----------------------------------------------//
@@ -166,47 +167,117 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
         //------------------------------------------------------------------------------------------------//
 
         if (req.xhr) {
-            res.json({ user: foundUser, downloads, videos, student: studentList, faculty: facultyList, });
+            return res.json({ user: foundUser, downloads, videos, student: studentList, faculty: facultyList, });
         } else {
-            res.render("index2", {
+            return res.render("index2", {
                 page: "dashboard_admin", user: foundUser, downloads,
                videos, student: studentList, faculty: facultyList, title: "Dashboard"
             });
             //   res.render("dashboard_admin",{page:"dashboard_admin", user:foundUser, downloads: downloads, videos: videos});
         }
-    }
 
-    
-    if (foundUser.isFaculty === true) {
-        await User.findById(req.params.id).populate("downloads").populate("videos").exec((err, foundUser) => {
-            if (err) {
-                console.log(err);
-            } else {
-                if (req.xhr) {
-                    res.json({ user: foundUser });
-                } else {
-                    res.render("index2", { page: "dashboard_faculty", user: foundUser, title: "Dashboard" });
-                    // res.render("dashboard_faculty",{page:"dashboard_faculty", user:foundUser});
-                }
-            }
+
+
+
+    } else if (foundUser.isFaculty === true) {
+
+        let facultyId={
+            '_id': req.params.id,
+        }
+
+
+        var foundFaculty = await User.paginate(facultyId, {
+            populate:[
+            {path:'downloads', model: 'Download',  options: { sort: req.query.sort} }, 
+            {path:'videos', model: 'Video', options: { sort: req.query.sort} },
+            ],
+            sort: req.query.sort || '-accountCreated',
         });
-    }
+
+        if (!foundFaculty) {
+            req.flash("error");
+            res.redirect("back");
+        }
+
+        var attemptsButtons = {
+            "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
+            "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+            "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+            "May 2021": { 'title': "May 2021", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+            "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+        };
+
+        var examsButtons = {
+            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
+            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+            "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+            "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
+        };
+
+        foundFaculty.attemptsButtons = attemptsButtons;
+        foundFaculty.examsButtons = examsButtons;
+        
+
+        console.log(foundUser);
+        if (req.xhr) {
+            return res.json({ faculty:foundFaculty });
+        } else {
+             return res.render("index2", { page: "dashboard_faculty", faculty:foundFaculty, title: "Dashboard" });
+        }
 
 
-    if (foundUser.isStudent === true) {
+        // await User.findById(req.params.id).populate("downloads").populate("videos").exec((err, foundUser) => {
+        //     if (err) {
+        //         return console.log(err);
+        //     } else {
+        //         if (req.xhr) {
+        //             res.json({ user: foundUser });
+        //         } else {
+        //             return res.render("index2", { page: "dashboard_faculty", user: foundUser, title: "Dashboard" });
+        //             // res.render("dashboard_faculty",{page:"dashboard_faculty", user:foundUser});
+        //         }
+        //     }
+        // });
+
+
+
+
+
+
+
+    } else if (foundUser.isStudent === true) {
         // const { docdbQuery, docspaginateUrl } = res.locals;
         // delete res.locals.docdbQuery;
 
+        let studentId={
+            '_id': req.params.id,
+        }
+        // let limits = req.query.limit ?  parseInt(req.query.limit) : 10;
+        // let pages = req.query.page ? parseInt(req.query.page) : 1;
+        // let sorts = req.query.sort ? req.query.sort : '-createdAt';
 
-        var foundStudent = await User.paginate(req.params.id, {
-            populate:'downloadBookmarks',
-            populate:'videoBookmarks',
-            page: parseInt(req.query.page) || 1,
-            limit: parseInt(req.query.limit) || 10,
-            sort: req.query.sort || '-createdAt',
+
+        var foundStudent = await User.paginate(studentId, {
+            populate:[
+            {path:'downloadBookmarks', model: 'Download',  options: { sort: req.query.sort} }, 
+            {path:'videoBookmarks', model: 'Video', options: { sort: req.query.sort} }
+            ],
+            // page: parseInt(req.query.page) || 1,
+            // limit: parseInt(req.query.limit) || 10,
+            // sort: req.query.sort || '-createdAt',
         });
-        console.log('foundStudent');
-        console.log(foundStudent);
+
+        // console.log('page');
+        // console.log(req.query.page);
+        // console.log('limit');
+        // console.log(req.query.limit);
+        // console.log('sort');
+        // console.log(req.query.sort);
+        // let foundStudent = await User.findById(req.user.id).populate('downloadBookmarks').populate('videoBookmarks').exec();
+        
         if (!foundStudent) {
             req.flash("error");
             res.redirect("back");
@@ -232,26 +303,14 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
 
         foundStudent.attemptsButtons = attemptsButtons;
         foundStudent.examsButtons = examsButtons;
+        
 
+        console.log(foundUser);
         if (req.xhr) {
-            res.json({ student:foundStudent });
+            return res.json({ student:foundStudent });
         } else {
-             res.render("index2", { page: "dashboard_student", user: foundUser, title: "Dashboard" });
+             return res.render("index2", { page: "dashboard_student", student:foundStudent, title: "Dashboard" });
         }
-
-
-
-        //------------------------------------------------Videos-------------------------------------------//
-
-        const { dbQuery, videospaginateUrl } = res.locals;
-        delete res.locals.dbQuery;
-
-        var videos = await Video.paginate(dbQuery, {
-            page: parseInt(req.query.page) || 1,
-            limit: parseInt(req.query.limit) || 10,
-            sort: req.query.sort || '-createdAt',
-        });
-        videos.pageUrl = videospaginateUrl;
     }
 
     // if (foundUser.isStudent === true) {
@@ -273,6 +332,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
     // }
 
 } catch(error){
+    console.log('DummmmmError');
     console.log(error);
     req.flash('error'. error.message);
     res.redirect('back');

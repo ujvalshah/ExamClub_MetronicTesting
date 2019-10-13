@@ -1,0 +1,310 @@
+<% include ./_subheader-subheader-v2 %>
+<!-- begin:: Content -->
+<div id="studentDashboardDocs-container">
+	<!--begin: Filter-->
+	<div class="kt-container  kt-grid__item kt-grid__item--fluid white-container py-4">
+		<!-- <h3 class="mb-4">Bookmark Table</h3> -->
+		<h5>Document Bookmarks</h5>
+
+		<!--begin: Pagination-->
+		<div class="kt-pagination kt-pagination--sm kt-pagination--brand my-3 justify-content-center">
+
+			<div class="kt-pagination__toolbar">
+				<div class="mr-3 d-block d-lg-none">
+					<select class="form-control kt-font-brand" id="studentDashboardDocs-sorting-mobile"
+						name="sortDashboard" onchange="return studentDashDocs_filter();">
+						<option disabled>Sort</option>
+						<option value="-createdAt">
+							Lastest
+						</option>
+						<option value="createdAt">
+							Earliest
+						</option>
+						<option value="-exam">
+							Exam-Desc
+						</option>
+						<option value="exam">
+							Exam-Asc
+						</option>
+						<option value="-attempt">
+							Attempt-Desc
+						</option>
+						<option value="attempt">
+							Attempt-Asc
+						</option>
+						<option value="-author">
+							Author-Desc
+						</option>
+						<option value="author">
+							Author-Asc
+						</option>
+					</select>
+					<!-- </form> -->
+				</div>
+				<div>
+					<span id="noOfDocBookmarks" class="pagination__desc align-items-center">
+						Showing <%= student.docs[0].downloadBookmarks.length%> bookmarks
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!--begin: Table-->
+		<div id='largeScreen-studentDashboardDocs' class="d-none d-lg-block">
+
+			<div class="table-responsive overflow-auto" style="height: 40rem">
+				<table id="studentDashboardDocs-download" class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr id="studentDashboardDocs-tableHeader">
+							<th class="text-center align-middle text-nowrap">No</th>
+							<th class="text-center align-middle text-nowrap">Date of Upload
+								<span class="createdAt"><i
+										class="la la-arrow-up la-arrow-up-download-date arrow-inactive"></i></span>
+								<span class="-createdAt"><i
+										class="la la-arrow-down la-arrow-down-download-date student-sort-active"></i></span>
+							</th>
+							<th class="text-center align-middle text-nowrap">Author <span class="author"><i
+										class="la la-arrow-up ascending-download-author arrow-inactive"></i></span><span
+									class="-author"><i
+										class="la la-arrow-down la-arrow-down-download-author arrow-inactive"></i></span>
+							</th>
+							<th class="text-center align-middle text-nowrap">Title</th>
+							<th class="text-center align-middle text-nowrap">Exam <span class="exam"><i
+										class="la la-arrow-up ascending-download-exam arrow-inactive"></i></span> <span
+									class="-exam"><i
+										class="la la-arrow-down la-arrow-down-download-exam arrow-inactive"></i></span>
+							</th>
+							<th class="text-center align-middle text-nowrap">Attempt
+								<i class="la la-arrow-down la-arrow-down-download-attempt arrow-inactive"></i></span>
+							</th>
+							<th class="text-center align-middle text-nowrap">Subject <span class="subject"><i
+										class="la la-arrow-up ascending-download-subject arrow-inactive"></i></span>
+								<span class="-subject"><i
+										class="la la-arrow-down la-arrow-down-download-subject arrow-inactive"></i></span>
+							</th>
+							<th class="text-center align-middle text-nowrap">No of Downloads <span
+									class="downloadCounter"><i
+										class="la la-arrow-up ascending-download-number arrow-inactive"></i></span>
+								<span class="-downloadCounter"><i
+										class="la la-arrow-down la-arrow-down-download-number arrow-inactive"></i></span>
+							</th>
+							<th class="text-center align-middle text-nowrap">Action</th>
+						</tr>
+					</thead>
+					<tbody id="studentDashboardDocs-tableBody">
+						<%student.docs[0].downloadBookmarks.forEach(function(document,index){%>
+						<tr>
+							<td class="align-middle text-center"><%=index +1 %></td>
+							<td class="align-middle text-center"><%=document.createdAt.toDateString()%></td>
+							<td class="align-middle text-center text-capitalize"><%=document.author.username%></td>
+							<td class="align-middle text-center"><%=document.title%></td>
+							<td class="align-middle text-center"><span class=""><%=document.exam%></span>
+							</td>
+							<td class="align-middle text-center"><span class="text-nowrap"><%=document.attempt%></span>
+							</td>
+							<td class="align-middle text-center"><%=document.subject%></td>
+							<td class="align-middle text-center"><span
+									class="kt-badge kt-badge--success kt-badge--lg"><%=document.downloadCounter%></span>
+							</td>
+							<td class="align-middle text-center">
+								<a href="/downloads/docs/<%=document._id%>" id="<%=document._id%>"
+									onclick="adminDashDocs_downloadBtn(this)" title="Download" target="_blank"
+									class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span
+										class="pr-2"><i class="fas fa-file-download"></i></span></a>
+
+								<form id="bookmark_<%=document._id%>" onsubmit="documentBookmark(event, this)"
+									class="d-inline-block m-0 p-0 bookmark-ajax-form"
+									action="/user/downloads/<%=document._id%>/bookmark" method="POST">
+									<button type="submit" title="Bookmark"
+										class="btn btn-sm btn-clean btn-icon btn-icon-md <%=document._id%>"><i
+											class="fas fa-bookmark"></i></button>
+								</form>
+
+								<a href="https://web.whatsapp.com/send?text=/downloads/<%=document._id%>" title="Share"
+									target="_blank"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i
+											class="fas fa-share-alt"></i></span></a>
+							</td>
+						</tr>
+						<%})%>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th class="text-center align-middle">No</th>
+							<th class="text-center align-middle">Date of Upload</th>
+							<th class="text-center align-middle">Author</th>
+							<th class="text-center align-middle">Title</th>
+							<th class="text-center align-middle">Exam</th>
+							<th class="text-center align-middle">Attempt</th>
+							<th class="text-center align-middle">Subject</th>
+							<th class="text-center align-middle">No of Downloads</th>
+							<th class="text-center align-middle">Action</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+		<!--end: Table-->
+
+		<div id="smallScreen-studentDashboardDocs" class="d-block d-lg-none full-width overflow-auto">
+			<div class="row">
+				<!--begin:: Widgets/New Users-->
+				<div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+					<div class="kt-portlet__head">
+						<div class="kt-portlet__head-label">
+							<h3 class="kt-portlet__head-title">
+								Downloads
+							</h3>
+						</div>
+						<div class="kt-portlet__head-toolbar">
+						</div>
+					</div>
+					<div class="kt-portlet__body">
+						<div class="tab-content">
+							<div class="kt-widget4" id="smallScreen-studentDashboardDocs-content">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end:: Widgets/New Users-->
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+<div id="studentDashboardVideos-container" class="my-5">
+	<div class="kt-container kt-grid__item kt-grid__item--fluid white-container py-5">
+		<h5>Video Bookmarks</h5>
+		<div class="kt-portlet__body">
+			<div id="noOfVideoBookmarks" class="pagination__desc pagination__desc-video text-center font-weigth-500">
+			</div>
+			<div class="kt-grid__item kt-grid__item--fluid mt-5">
+				<div class="kt-pagination kt-pagination--sm kt-pagination--brand my-3">
+					<div class="kt-pagination__toolbar">
+						<div class="mr-3">
+							<select class="form-control kt-font-brand" id="studentDashboardVideos-sort" name="sort"
+								onchange="return studentDashVideos_filter()">
+								<option disabled>Sort</option>
+								<option value="-createdAt">
+									Lastest Uploads
+								</option>
+								<option value="createdAt">
+									Earliest Uploads
+								</option>
+								<option value="-author">
+									Author-Desc</option>
+								<option value="author">
+									Author-Asc</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+			<div class="kt-grid__item">
+				<div class="row overflow-auto" id='studentDashboardVideos-body' style="max-height: 130rem">
+					<!-- <%student.docs[0].videoBookmarks.forEach(function(video){%> -->
+					<!-- <div class="col-md-4 mb-3 px-0"> -->
+					<!--begin:: Widgets/Blog-->
+					<!-- <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
+                    <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
+                        <div class="kt-widget19__pic kt-portlet-fit--top kt-portlet-fit--sides">
+                            <div class="embed-responsive embed-responsive-16by9 card-img-top">
+                                <iframe width="560" height="315" class="embed-responsive-item"
+                                    src="<%=video.url%>" frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget19__wrapper mb-0">
+                            <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
+                                <%if(video.type && video.type === 'playlist'){%>
+                                <span title="This is a playlist"
+                                    class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-">P</span>
+                                <%}%> <%=video.title%>
+                            </h5>
+                            <div class="kt-divider"><span></span></div>
+                            <div class="kt-widget19__content mt-2">
+                                <div class="kt-widget19__userpic">
+                                    <span
+                                        class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.username.charAt(0).toUpperCase()%></span>
+                                </div>
+                                <div class="kt-widget19__info">
+                                    <a href="/teachers/<%=video.author.id%>" class="kt-widget19__username">
+                                        <%=video.author.username%>
+                                    </a>
+                                    <span class="kt-widget19__time small">
+                                        CA Faculty/Author
+                                    </span>
+                                </div>
+                                <span class="kt-badge kt-badge--info kt-badge--inline float-right"
+                                    data-toggle="tooltip" data-placement="left"
+                                    title="Date of Upload"><%=video.createdAt.toDateString()%></span>
+                            </div>
+                            <div class="mb-3 small font-weight-bold"> Applicable: <span
+                                    class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
+                                    data-toggle="tooltip" data-placement="bottom"
+                                    title="Applicable Exam"><%=video.exam%></span>
+                                <span
+                                    class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
+                                    data-toggle="tooltip" data-placement="bottom"
+                                    title="Applicaple Attempt"><%=video.attempt%></span>
+                            </div>
+                            <div><small><span class="font-weight-bold">Description:</span>
+                                    <%=video.description%></small></div>
+                            <div class="kt-widget19__text mb-2">
+                            </div>
+                        </div>
+                        <div class="kt-divider"><span></span></div>
+                        <div class="kt-widget19__action"> -->
+					<!--Ownership Criteria of Videos-->
+					<!-- <% if(currentUser && (currentUser.isFaculty || currentUser.isAdmin) && (JSON.stringify(currentUser._id) === JSON.stringify(video.author.id))) {%>
+                            <div class="float-right align-bottom">
+                                <a class="btn btn-sm btn-label-brand btn-bold ml-4"
+                                    href="/videos/<%=video._id %>/edit" role="button">Edit</a>delete
+                                <form class="d-inline-block delete-video-form"
+                                    action="/videos/<%=video._id%>?_method=DELETE" method="POST"
+                                    onsubmit="return deleteFacultyVideo(event,this)">
+                                    <button type="submit"
+                                        class="btn btn-sm btn-label-danger btn-bold ml-1">Delete</button>
+                                </form>
+                            </div>
+                            <%}else if(currentUser && currentUser.isStudent){%>
+                            <div class="float-right">
+                                <form id="save-video-form" class="d-inline float-right"
+                                    action="/user/<%=currentUser._id%>/videos/<%=video._id%>?_method=PUT"
+                                    method="POST" onsubmit='return bookmarkVideo(event, this)'>
+                                    <button type="submit"
+                                        class="btn btn-sm ml-1 <%=currentUser.videoBookmarks.includes(video.id) ? "btn-info": "btn-warning" %>">
+                                        <%=currentUser.videoBookmarks.includes(video.id) ? "Bookmarked" : "Bookmark?" %></button>
+                                </form>
+                            </div>
+                            <%} else if(!currentUser){%>
+                            <div class="float-right">
+                                <form id=" bookmarkForm_<%=video._id %>"
+                                    class="d-inline float-right save-video-form-signup"
+                                    action="javascript:;"
+                                    onsubmit='return bookmarkVideosignup(event, this)'>
+                                    <button type="submit"
+                                        class="btn btn-sm btn-warning btn-bold student-alert">Bookmark</button>
+                                </form>
+                            </div>
+                            <%}%>
+                        </div>
+                   </div>
+                </div> -->
+					<!--end:: Widgets/Blog-->
+					<!-- </div> -->
+					<!-- <%})%> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end:: Content -->

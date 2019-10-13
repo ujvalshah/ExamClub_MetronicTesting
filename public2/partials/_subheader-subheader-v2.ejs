@@ -20,8 +20,8 @@
                     <a href="/filterform/new" class="btn btn-label-primary btn-bold btn-icon-h kt-margin-l-10"> Add Filter Data</a>
                     <%}%>
         </div>
-        <div style="padding: 0 1rem; margin-top:0.25rem" >
-            <% if(typeof page !== 'undefined' && page === "videos"){%>
+        <% if(typeof page !== 'undefined' && page === "videos"){%>
+            <div style="padding: 0 1rem; margin-top:0.25rem" >
             <form action="/videos" method="GET">
                 <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
                     <input type="text" class="form-control" placeholder="Search videos..." id="generalSearch">
@@ -30,7 +30,42 @@
                     </span>
                 </div>
             </form>
+        </div>
             <%}%>
+            <!-- <% if(typeof page !== 'undefined' && page === "account-details"){%>
+            <div class="kt-subheader__toolbar">
+                    <a href="#" class="btn btn-default btn-bold">
+                        Back </a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-brand btn-bold">
+                            Save Changes </button>
+                        <button type="button" class="btn btn-brand btn-bold dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="kt-nav">
+                                <li class="kt-nav__item">
+                                    <a href="#" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-writing"></i>
+                                        <span class="kt-nav__link-text">Save &amp; continue</span>
+                                    </a>
+                                </li>
+                                <li class="kt-nav__item">
+                                    <a href="#" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-medical-records"></i>
+                                        <span class="kt-nav__link-text">Save &amp; add new</span>
+                                    </a>
+                                </li>
+                                <li class="kt-nav__item">
+                                    <a href="#" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon flaticon2-hourglass-1"></i>
+                                        <span class="kt-nav__link-text">Save &amp; exit</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <%}%> -->
         <!-- <form action="/notification" method="POST">
             <div class="kt-input-icon kt-input-icon--right kt-subheader__search">
                 <input type="text" class="form-control" name="notificationMessage" id="notificationMessage">
@@ -38,7 +73,6 @@
             <button id="notificationButton" class="btn btn-small btn-primary btn-bold">Send
                 notification</button>
         </form> -->
-        </div>
     <!-- <div class="kt-subheader__toolbar">
             <div class="kt-subheader__wrapper">
                 <a href="#" class="btn kt-subheader__btn-daterange" id="kt_dashboard_daterangepicker" data-toggle="kt-tooltip" title="Select dashboard daterange" data-placement="left"> <span class="kt-subheader__btn-daterange-title" id="kt_dashboard_daterangepicker_title">Today</span>&nbsp; <span class="kt-subheader__btn-daterange-date" id="kt_dashboard_daterangepicker_date">Aug 16</span> <i class="flaticon2-calendar-1"></i> </a>

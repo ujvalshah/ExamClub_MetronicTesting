@@ -117,7 +117,7 @@ router.put("/email-verification", isLoggedIn, async (req, res) => {
         await user.save();
         await sendEmailVerificationMail(userEmail, user.username, host, token);
         req.flash("success", `An e-mail has been sent to verify ${userEmail}.`);
-        res.redirect("/email-verification");
+        res.redirect("back");
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);
@@ -147,7 +147,7 @@ router.get("/email-verification/:token", async (req, res) => {
         res.redirect("/");
     } catch (err) {
         req.flash("err", err.message);
-        return res.redirect("/forgot-password");
+        return res.redirect("back");
     }
 });
 
@@ -159,9 +159,10 @@ router.get("/email-verification/:token", async (req, res) => {
 
 router.get("/login", function (req, res) {
     req.flash("error");
-
     res.render("login", { page: 'login', title: "Login" });
 })
+
+//-----------------------------Faculty Verification---------------------------//
 
 router.get("/faculty-validation", async (req, res) => {
     if (req.user.isFaculty === true && req.user.isFacultyVerified === false) {
@@ -198,8 +199,11 @@ router.get("/logout", function (req, res) {
 //-------------------------------Forgot Password------------------------------//
 //----------------------------------------------------------------------------//
 router.get("/forgot-password", (req, res) => {
-    res.render("forgot");
+    res.render("forgot", {page: 'forgot-password', title: 'Forgot Password'});
 });
+// router.get("/forgot-password2", (req, res) => {
+//     res.render("index2", {page: 'forgot-password', title: 'Forgot Password'});
+// });
 
 
 router.put("/forgot-password", async (req, res) => {
@@ -216,7 +220,7 @@ router.put("/forgot-password", async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000; //1hr
         await user.save();
         await sendPasswordResetMail(email, user.username, host, token);
-        req.flash("success", `An e-mail has been sent to ${user.email} with further instructions.`);
+        req.flash("success", `An e-mail has been sent to ${user.email} with further instructions. Please check your spam for the email as well.`);
         res.redirect("/forgot-password");
     } catch (err) {
         console.log(err);
@@ -237,7 +241,7 @@ router.get("/reset/:token", async (req, res) => {
             req.flash("error", "User does not exist/The link must have expired. Please try again");
             return res.redirect("/forgot-password");
         }
-        res.render("reset", { token });
+        res.render("reset", { token, title:'Reset Password', page:'reset-password' });
     } catch (err) {
         req.flash("err", err.message);
         return res.redirect("/forgot-password");
@@ -277,7 +281,7 @@ router.put("/reset/:token", async (req, res) => {
         return res.redirect("/login");
     }
 });
-
+//----------------------------------------------------------------------------//
 
 router.get("/metronic", (req, res) => {
     res.render("index2", { page: "metronic", title: "Home" });
@@ -293,16 +297,70 @@ router.post('/newsletter/subscription', async (req, res) => {
     res.redirect("back");
 })
 
+//----------------------------------------------------------------------------//
+//-------------------------------Change Password------------------------------//
+//----------------------------------------------------------------------------//
+
+router.put('/change-password/:id', isLoggedIn, async function(req,res){
+   try{
+       let user = await User.findById(req.params.id);
+        if(!user){
+           req.flash('error', "Error! Try again");
+           return res.redirect('back'); 
+        } 
+        if (req.body.newpassword === req.body.confirm) {
+            await user.setPassword(req.body.newpassword);
+            await user.save();
+            const login = util.promisify(req.login.bind(req));
+            await login(user);
+        } else {
+            req.flash("error", "Password do not match.");
+            return res.redirect(`back`);
+        }
+        await sendPasswordResetConfirmationMail(user.email, user.username);
+        req.flash("success", `Password successfully changed`);
+        return res.redirect("back");
+   } catch(error){
+       req.flash('error', "Error! Please try again!");
+       res.redirect('back');
+   }
+})
+
 
 //----------------------------------------------------------------------------//
 //------------------------------Edit User Details-----------------------------//
 //----------------------------------------------------------------------------//
-router.get('/account-details', isLoggedIn, async (req, res) => {
+router.get('/account-details/:id/edit', isLoggedIn, async (req, res) => {
     let user = await User.findById(req.user._id);
-    res.render('index2', { page: 'account-details', title: 'Account Details', user });
+    let exams = await Exam.find({});
+    res.render('index2', { page: 'account-details', title: 'Account Details', user,exams });
 });
 
+router.put('/account-details/:id', isLoggedIn, async(req,res)=>{
+try{
+    let updatedProfileItems = req.body.updateProfile;
+    if( updatedProfileItems.email &&  updatedProfileItems.email === req.user.email){
+        console.log('Email Id is the same!');
+    }
+    if( updatedProfileItems.email &&  updatedProfileItems.email !== req.user.email){
+        console.log('Email Id is different!');
+        updatedProfileItems.emailVerified = false;
+    }
+    let userUpdate = await User.findByIdAndUpdate(req.params.id, updatedProfileItems,{ new: true } );
+    console.log(userUpdate);
+    if(!userUpdate){
+        req.flash('error', "Facing some error, please try again!");
+        res.redirect('back');
+    }
+    req.flash('success', 'Changes successfully saved!');
+    res.redirect(`/account-details/${req.user.id}/edit`);
 
+} catch(error){
+    console.log(error);
+    req.flash('error', error.message);
+    res.redirect('back');
+}
+})
 
 
 

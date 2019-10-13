@@ -7,7 +7,7 @@ const multer = require('multer');
 const path = require("path");
 const middleware = require("../middleware");
 const moment = require('moment');
-const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs} = middleware;
+const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs } = middleware;
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, 'uploads/docs')
@@ -28,8 +28,8 @@ cloudinary.config({
 //----------------------------------------------------------------------------//
 //--------------------------Downloads Routes----------------------------------//
 //----------------------------------------------------------------------------//
-router.get("/downloads",searchAndFilterDocs, function(req, res){
-    const {docdbQuery, docspaginateUrl} = res.locals;
+router.get("/downloads", searchAndFilterDocs, function (req, res) {
+    const { docdbQuery, docspaginateUrl } = res.locals;
     delete res.locals.docdbQuery;
 
     console.log('*****docdbquery****');
@@ -43,37 +43,37 @@ router.get("/downloads",searchAndFilterDocs, function(req, res){
             console.log(res.locals.docquery);
             console.log('----------');
             console.log(foundDownload.length);
-            
+
             if (!foundDownload.length && res.locals.query) {
                 res.locals.error = 'No results match that query.';
-                }
-            res.render("index2", { downloads: foundDownload, docspaginateUrl, page: "downloads", title: "Downloads"});
+            }
+            res.render("index2", { downloads: foundDownload, docspaginateUrl, page: "downloads", title: "Downloads" });
             // res.render("downloads/downloads", {downloads: foundDownload, page: downloads});
         }
     });
 });
 
-router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
-    try{
-    console.log('*****Req.Query***********');   
-    console.log(req.query);   
-    console.log('*****Req.Query***********');   
-    const {docdbQuery, docspaginateUrl} = res.locals;
-    delete res.locals.docdbQuery;
+router.get("/downloadscopy", searchAndFilterDocs, async function (req, res) {
+    try {
+        console.log('*****Req.Query***********');
+        console.log(req.query);
+        console.log('*****Req.Query***********');
+        const { docdbQuery, docspaginateUrl } = res.locals;
+        delete res.locals.docdbQuery;
 
-    console.log('*IMMMMMP****docdbquery****');
-    console.log(docdbQuery);
+        console.log('*IMMMMMP****docdbquery****');
+        console.log(docdbQuery);
 
-    var foundDownload = await Download.paginate(docdbQuery, {
-        page: parseInt(req.query.page) || 1,
-        limit: parseInt(req.query.limit) || 10,
-        sort: req.query.sort || '-createdAt',
-    });
-    if(!foundDownload){
-    req.flash("error");
-    res.redirect("back");
-    }
-        var authorFilter = await User.find({isFaculty:true});
+        var foundDownload = await Download.paginate(docdbQuery, {
+            page: parseInt(req.query.page) || 1,
+            limit: parseInt(req.query.limit) || 10,
+            sort: req.query.sort || '-createdAt',
+        });
+        if (!foundDownload) {
+            req.flash("error");
+            res.redirect("back");
+        }
+        var authorFilter = await User.find({ isFaculty: true });
         var attemptsButtons = {
             "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
             "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
@@ -83,42 +83,42 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
         };
 
         examsButtons = {
-            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success', 'mobile':'kt-badge--unified-success' },
-            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile':'kt-badge--unified-danger' },
-            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile':'kt-badge--unified-warning' },
-            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile':'kt-badge--unified-info' },
-            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile':'kt-badge--unified-brand' },
-            "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile':'kt-badge--unified-dark' },
-            "": { 'title': "", 'class': 'btn-label-light', 'mobile':'kt-badge--unified-light' },
+            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
+            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+            "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+            "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
         };
 
-    if(req.xhr){
-        console.log(foundDownload.docs.length);
-        foundDownload.pageUrl = docspaginateUrl;
-        // foundDownload.docdbQuery = docdbQuery;
-        foundDownload.attemptsButtons = attemptsButtons;
-        foundDownload.examsButtons = examsButtons;
-        foundDownload.authorFilter = authorFilter;
-        if(req.user){
-            let loggedinUser = await User.findById(req.user._id);
-            foundDownload.loggedinUser = loggedinUser;
-            return res.json(foundDownload);
-        }
-        return res.json(foundDownload);
-    } else {
-        console.log('----------');
-        console.log(res.locals.docquery);
-        console.log('----------');
-        console.log(foundDownload.docs.length);
-        console.log('----------');
-        if (!foundDownload.length && res.locals.query) {
-            res.locals.error = 'No results match that query.';
+        if (req.xhr) {
+            console.log(foundDownload.docs.length);
+            foundDownload.pageUrl = docspaginateUrl;
+            // foundDownload.docdbQuery = docdbQuery;
+            foundDownload.attemptsButtons = attemptsButtons;
+            foundDownload.examsButtons = examsButtons;
+            foundDownload.authorFilter = authorFilter;
+            if (req.user) {
+                let loggedinUser = await User.findById(req.user._id);
+                foundDownload.loggedinUser = loggedinUser;
+                return res.json(foundDownload);
             }
-        res.render("index2", { downloads: foundDownload, attemptsButtons, examsButtons, page: "downloadscopy", title: "Downloads"});
+            return res.json(foundDownload);
+        } else {
+            console.log('----------');
+            console.log(res.locals.docquery);
+            console.log('----------');
+            console.log(foundDownload.docs.length);
+            console.log('----------');
+            if (!foundDownload.length && res.locals.query) {
+                res.locals.error = 'No results match that query.';
+            }
+            res.render("index2", { downloads: foundDownload, attemptsButtons, examsButtons, page: "downloadscopy", title: "Downloads" });
+        }
+    } catch (error) {
+        console.log(error);
     }
-} catch(error){
-    console.log(error);
-}
 });
 
 
@@ -143,7 +143,7 @@ router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
 //             console.log(res.locals.docquery);
 //             console.log('----------');
 //             console.log(foundDownload.length);
-            
+
 //             if (!foundDownload.length && res.locals.query) {
 //                 res.locals.error = 'No results match that query.';
 //                 }
@@ -406,13 +406,13 @@ router.put("/download/:id/counter", (req, res) => {
                         userDownloadData = {
                             id: foundUser,
                         };
-                        Download.findByIdAndUpdate(foundDownload, 
-                            { $inc: { 'downloadCounter': 1 }, $addToSet: {downloadStudents: { id: foundUser, username: foundUser.username } } }, {new:true},function (err, res) {
-                            if (err) {
-                                console.log(err);
-                                return res.send(err);
-                            } else (console.log("success"));
-                        });
+                        Download.findByIdAndUpdate(foundDownload,
+                            { $inc: { 'downloadCounter': 1 }, $addToSet: { downloadStudents: { id: foundUser, username: foundUser.username } } }, { new: true }, function (err, res) {
+                                if (err) {
+                                    console.log(err);
+                                    return res.send(err);
+                                } else (console.log("success"));
+                            });
                         res.json([{ foundDownload }, { foundUser }]);
                     };
                 });
@@ -430,28 +430,26 @@ router.put("/user/downloads/:id/bookmark", async (req, res) => {
         var exists = foundUser.downloadBookmarks.indexOf(req.params.id);
         console.log(exists);
         if (exists !== -1 || undefined) {
-            if (req.xhr) {
-                res.json([{ msg: `${foundDownload.title} is already in your bookmarks. To remove please visit your dashboard.` }])
-            }
-            else {
-                User.findByIdAndUpdate(req.user.id,
-                    { $pull: { downloadBookmarks: req.params.id } }, (err, result) => {
-                        if (err) {
-                            console.log(err);
+            User.findByIdAndUpdate(req.user.id,
+                { $pull: { downloadBookmarks: req.params.id } }, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        if (req.xhr) {
+                            res.json([{ msg: `${foundDownload.title} is removed from your bookmarks` }]);
                         } else {
                             req.flash("success", "Bookmark was succesfully removed")
                             res.redirect("back");
-                        }
-                    })
-            }
-        }
-        else {
+                        };
+                    };
+                });
+        } else {
             // let foundDownload = await Download.findById(req.params.id);
             if (!foundDownload) { res.json([{ msg: "We encountered some issue. Please try again!" }]); }
             foundUser.downloadBookmarks.push(foundDownload);
             foundUser.save();
             if (req.xhr) {
-                res.json([{ msg: `${foundDownload.title} added to your bookmarks` }]);
+                res.json([{ msg: `${foundDownload.title}  is added to your bookmarks` }]);
             } else {
                 res.redirect("back");
             }
@@ -556,36 +554,35 @@ router.get("/downloads/docs/:id", isLoggedIn, (req, res) => {
 //----------------------------------------------------------------------------//
 //----------------------Downloads - Share-Landing Page------------------------//
 //----------------------------------------------------------------------------//
-router.get('/downloads/:id', async(req, res)=>{
-    try
-    {
+router.get('/downloads/:id', async (req, res) => {
+    try {
         var document = await Download.findById(req.params.id);
         console.log(document.author.id);
         var authorid = await User.findById(document.author.id);
         // res.redirect('/teachers/'+authorid)
-    // var author = User.findById(document.author.id);
-    if(!document){
-        req.flash('error', 'Please try again');
+        // var author = User.findById(document.author.id);
+        if (!document) {
+            req.flash('error', 'Please try again');
+            res.redirect('/downloads');
+        }
+        // res.redirect('/teachers/' + author.id);
+        var documentName = document.file[0].url.slice(13);
+        var fileFormat = document.file[0].url.slice(-4);
+        var fileName = documentName.substring(0, documentName.indexOf('_'));
+        var documentLocation = path.join('uploads', 'docs', documentName)
+        console.log(fileFormat);
+        console.log(documentName);
+        console.log(fileName);
+        console.log(documentLocation);
+        var file = fs.createReadStream(documentLocation);
+        res.setHeader('Content-Disposition', 'attachment; filename="' + fileName + '' + fileFormat + '" ');
+        file.pipe(res);
+    } catch (error) {
+        req.flash('error', error.message);
         res.redirect('/downloads');
     }
-    // res.redirect('/teachers/' + author.id);
-    var documentName = document.file[0].url.slice(13);
-    var fileFormat = document.file[0].url.slice(-4);
-    var fileName = documentName.substring(0, documentName.indexOf('_'));
-    var documentLocation = path.join('uploads', 'docs', documentName)
-    console.log(fileFormat);
-    console.log(documentName);
-    console.log(fileName);
-    console.log(documentLocation);
-    var file = fs.createReadStream(documentLocation);
-    res.setHeader('Content-Disposition', 'attachment; filename="' + fileName + '' + fileFormat + '" ');
-    file.pipe(res);
-} catch(error){
-    req.flash('error',error.message);
-    res.redirect('/downloads');
-}
-    
-    
+
+
 })
 
 module.exports = router;

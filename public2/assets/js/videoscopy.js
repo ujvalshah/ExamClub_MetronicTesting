@@ -105,7 +105,7 @@ function refreshVideoBank() {
               <!--Ownership Criteria of Videos-->
                <div class="float-right">
                  <form id=" bookmarkForm_${video._id}" class="d-inline float-right save-video-form-signup" action="javascript:;" onsubmit='return bookmarkVideosignup(event, this)'>
-                   <button type="submit" class="btn btn-sm btn-warning btn-bold student-alert">Bookmark</button>
+                   <button type="submit" class="btn btn-sm btn-label-warning btn-bold student-alert">Bookmark</button>
                  </form>
                </div>
           </div>
@@ -183,9 +183,9 @@ function refreshVideoBank() {
             </div>` : (data.currentUser && data.currentUser.isStudent) ?
               `<div class="float-right">
               <form class="d-inline float-right save-video-form id=${video._id}"
-                action="/user/${data.currentUser._id}/videos/${video._id}?_method=PUT" method="POST" onsubmit='return bookmarkVideo(event,this)'>
+                action="/user/${data.currentUser._id}/videos/${video._id}" method="POST" data-title="${video.title}"onsubmit='return bookmarkVideo(event,this)'>
                 <button type="submit" id="video-bookmark-button"
-                  class="btn btn-sm ml-1 ${data.currentUser.videoBookmarks.includes(video._id) ? "btn-info" : "btn-warning"}">
+                  class="btn btn-sm ml-1 ${data.currentUser.videoBookmarks.includes(video._id) ? "btn-label-danger" : "btn-label-warning"}">
                   ${data.currentUser.videoBookmarks.includes(video._id) ? "Bookmarked" : "Bookmark"}</button>
               </form>
             </div>` : ""
@@ -483,7 +483,7 @@ function clickOnClearAllFiltersBtn(e) {
                   <!--Ownership Criteria of Videos-->
                    <div class="float-right">
                      <form id=" bookmarkForm_${video._id}" class="d-inline float-right save-video-form-signup" action="javascript:;" onsubmit='return bookmarkVideosignup(event, this)'>
-                       <button type="submit" class="btn btn-sm btn-warning btn-bold student-alert">Bookmark</button>
+                       <button type="submit" class="btn btn-sm btn-label-warning btn-bold student-alert">Bookmark</button>
                      </form>
                    </div>
               </div>
@@ -561,9 +561,9 @@ function clickOnClearAllFiltersBtn(e) {
                 </div>` : (data.currentUser && data.currentUser.isStudent) ?
                   `<div class="float-right">
                   <form class="d-inline float-right save-video-form id=${video._id}"
-                    action="/user/${data.currentUser._id}/videos/${video._id}?_method=PUT" method="POST" onsubmit='return bookmarkVideo(event,this)'>
+                    action="/user/${data.currentUser._id}/videos/${video._id}" method="POST" data-title="${video.title}" onsubmit='return bookmarkVideo(event,this)'>
                     <button type="submit" id="video-bookmark-button"
-                      class="btn btn-sm ml-1 ${data.currentUser.videoBookmarks.includes(video._id) ? "btn-info" : "btn-warning"}">
+                      class="btn btn-sm ml-1 ${data.currentUser.videoBookmarks.includes(video._id) ? "btn-label-danger" : "btn-label-warning"}">
                       ${data.currentUser.videoBookmarks.includes(video._id) ? "Bookmarked" : "Bookmark"}</button>
                   </form>
                 </div>` : ""
@@ -622,29 +622,24 @@ function documentBookmark(e, element) {
 };
 
 function bookmarkVideo(e, elem){
-    e.preventDefault();
-    let videoBookmarkActionURL = $(elem).attr('action');
-    // // let includes = data.currentUser.videoBookmarks.includes(video.id);
-    // let userBookmarkID = data.currentUser.videoBookmarks;
-    // let videoID = $(elem).attr('id');
-    // console.log('userBookmarkID');
-    // console.log(userBookmarkID);
-    // console.log('videoID');
-    // console.log(videoID);
-    // if(userBookmarkID.includes(videoID)){
-    //   console.log('includes');
-    // }
-    // else {console.log('not included');};
-    
-    $.ajax({
-      url: videoBookmarkActionURL,
-      type: "PUT",
-      success: function (data) {
-        console.log(data);
-        alert(`${data}`)
-      }
-    });
-    refreshVideoBank();
+    let videoTitle = $(elem).attr('data-title');
+    console.log('videoTitleeeeeeeeeeeeee');
+    console.log(videoTitle);
+    let answer = confirm(`Do you really want to remove ${videoTitle} from your bookmarks?`);
+    if(!answer){ return e.preventDefault()}
+    else {
+      e.preventDefault();
+      let videoBookmarkActionURL = $(elem).attr('action');
+      $.ajax({
+        url: videoBookmarkActionURL,
+        type: "PUT",
+        success: function (data) {
+          console.log(data);
+          alert(`${data}`)
+        }
+      });
+      refreshVideoBank();
+    }
     $(this).find("button").blur();
 }
 

@@ -4,6 +4,58 @@
     <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
         <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
             <% include ./partials/_header-base %>
+
+<!-- begin:: alert -->
+            <div id='alert-notifications'>
+                    <% if(error && error.length > 0) { %>
+                    <div class="alert alert-bold alert-solid-danger alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+                        <div class='alert-text'><%= error %></div>
+                            <div class="alert-close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                    </div>
+                    <% } %>
+                    <% if(success && success.length > 0) { %>
+                        <div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+                                <div class='alert-text'><%= success %></div>
+                                    <div class="alert-close">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                            </div>
+                    <% } %>
+                    <% if(warning && warning.length > 0) { %>
+                        <div class="alert alert-bold alert-solid-warning alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+                                <div class='alert-text'><%= warning %></div>
+                                    <div class="alert-close">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                            </div>
+                    <% } %>
+                    <% if(emailVerification && emailVerification.length > 0) { %>
+                        <!-- <div class="alert alert-danger fade show  mx-auto my-3" style='width:90%' role="alert">
+                            <div class="alert-text">
+                                <h4 class="alert-heading">Alert</h4>
+                                <p><%= emailVerification[0].message %></p>
+                                <hr>
+                                <p class="mb-0">You need to verify your email id to access all the features of this website.
+                                    Already a link has been sent to ujvalshah.best@gmail.com.
+                                    If not then please click on resend button to resend the verification email.
+                                    </p>
+                            </div>
+                        </div> -->
+                    <div class="alert alert-bold alert-danger alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+                        <span><%= emailVerification[0].message %></span>
+                    </div>
+                    <% } %>
+                </div>
+<!-- end:: alert -->
+
             <div class="kt-body kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-grid--stretch" id="kt_body">
                 <div class="kt-content kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
                     <% if(page !== 'undefined' && page === 'downloads'){%>
@@ -44,6 +96,8 @@
                     <% include ./partials/_content-filterlist %>
                     <%} else if (page !== 'undefined' && page === 'account-details'){%>
                     <% include ./partials/_content-account-details %>
+                    <%} else if (page !== 'undefined' && page === 'forgot-password'){%>
+                    <% include ./partials/_content-forgot_password %>
                     <% } %>
                 </div>
             </div>

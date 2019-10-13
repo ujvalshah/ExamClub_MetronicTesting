@@ -20,68 +20,26 @@
         });        </script>
     <!--end::Fonts -->
     <link href="/assets/css/demo2/custom.css" rel="stylesheet" type="text/css" />
-    <% if(page !== 'undefined' && page === 'dashboard_admin' || page === 'downloads'){%>
+    <% if(page !== 'undefined' && page === 'dashboard_admin'){%>
     <link href="/assets/vendors/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
     <%}%>
+    <% if(page !== 'undefined' && page === 'account-details'){%>
+    <!--begin::Page Custom Styles(used by this page) -->
+    <link href="/assets/css/demo2/pages/wizard/wizard-4.css" rel="stylesheet" type="text/css" />
+    <!--end::Page Custom Styles -->
+    <%}%>
 
-        <!--begin::Global Theme Styles(used by all pages) -->
-        <link href="/assets/vendors/global/vendors.bundle.css" rel="stylesheet" type="text/css" />
-        <link href="/assets/css/demo2/style.bundle.css" rel="stylesheet" type="text/css" />
-        <!--end::Global Theme Styles -->
+    <!--begin::Global Theme Styles(used by all pages) -->
+    <link href="/assets/vendors/global/vendors.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/demo2/style.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Global Theme Styles -->
 
     </head>
     <!-- end::Head -->
     <!-- begin::Body -->
     <body class="kt-page--loading-enabled kt-page--loading kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header--minimize-all kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-page--loading" >
     <% include ../public2/partials/_layout-page-loader %>
-    <div id='alert-notifications'>
-        <% if(error && error.length > 0) { %>
-        <div class="alert alert-bold alert-solid-danger alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
-            <div class='alert-text'><%= error %></div>
-                <div class="alert-close">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-        </div>
-        <% } %>
-        <% if(success && success.length > 0) { %>
-            <div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
-                    <div class='alert-text'><%= success %></div>
-                        <div class="alert-close">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                </div>
-        <% } %>
-        <% if(warning && warning.length > 0) { %>
-            <div class="alert alert-bold alert-solid-warning alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
-                    <div class='alert-text'><%= warning %></div>
-                        <div class="alert-close">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                </div>
-        <% } %>
-        <% if(emailVerification && emailVerification.length > 0) { %>
-            <!-- <div class="alert alert-danger fade show  mx-auto my-3" style='width:90%' role="alert">
-                <div class="alert-text">
-                    <h4 class="alert-heading">Alert</h4>
-                    <p><%= emailVerification[0].message %></p>
-                    <hr>
-                    <p class="mb-0">You need to verify your email id to access all the features of this website.
-                        Already a link has been sent to ujvalshah.best@gmail.com.
-                        If not then please click on resend button to resend the verification email.
-                        </p>
-                </div>
-            </div> -->
-        <div class="alert alert-bold alert-danger alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
-            <span><%= emailVerification[0].message %></span>
-        </div>
-        <% } %>
-    </div>
+
     <% include ../public2/_layout %>
     <!-- begin::Global Config(global config for global JS sciprts) -->
     <script>            var KTAppOptions = {
@@ -141,55 +99,31 @@
     <% if(page !== 'undefined' && page === 'videoscopy'){ %>
     <script src="/assets/js/videoscopy.js"></script>
     <%}%>
-    
-
-    <% if(page !== 'undefined' && page === 'videos'){ %>
-    <!-- <script type="text/javascript" src="scripts/main.js"></script> -->
-    <!--end::Page Scripts -->
-    <!-- <script>
-$(document).ready( function(){
-  <%if(!currentUser) {%>
-  $(".student-alert").on("click", function(e){
-    e.preventDefault();
-    alert("You need to sign up as a student to bookmark these videos!");
-    $(this).blur();
-  });
-  <%}%>
-  
-  <%if(currentUser && currentUser.isStudent) {%>
-  $(document).ready(function(){ 
-   $("#save-video-form").on("submit", function(e){
-    $("#video-bookmark-button").toggleClass(function(i, class){
-     return class === "btn-warning" ? "btn-info" : "btn-warning";
-    }).text(function(i, text){
-      return text=== "Bookmarked" ? "Bookmark" : "Bookmarked";
-    }).blur();
-  });
-})
-  <%}%>
-   });
-
-    </script> -->
-    <%}%>
     <% if(page !== 'undefined' && page === 'dashboard_student'){ %>
-    <script src="/assets/js/stdDashboard.js"></script>
+    <script src="/assets/js/studentDashboard.js"></script>
     <%}%>
     <% if(page !== 'undefined' && page === 'dashboard_admin'){ %>
     <script src="/assets/js/adminDashboard.js"></script>
     <%}%>
+    <% if(page !== 'undefined' && page === 'dashboard_faculty'){ %>
+    <script src="/assets/js/facultyDashboard.js"></script>
+    <%}%>
     <% if(page !== 'undefined' && page === 'homepage'){ %>
     <script src="/assets/js/homepage.js"></script>
     <%}%>
-    <% if(page !== 'undefined' && page === 'downloads_uploadform' || page === 'downloads_updateform'){ %>
+    <% if(page !== 'undefined' && page === 'downloads_uploadform'){ %>
     <script src="/assets/js/d_UploadUpdateForm.js"></script>
     <%}%>
-    <% if(page !== 'undefined' && page === 'videos_uploadform' ||  page === 'videos_updateform'){ %>
+    <% if(page !== 'undefined' && page === 'videos_uploadform'){ %>
     <script src="/assets/js/v_UploadUpdateForm.js"></script>
     <%}%>
-    <% if(page !== 'undefined' && page === 'filter-form'  ||  page === 'filter-form'){ %>
+    <% if(page !== 'undefined' && page === 'account-details'){ %>
+    <script src="/assets/js/account_details.js"></script>
+    <%}%>
+    <% if(page !== 'undefined' && page === 'filter-form'){ %>
     <script src="/assets/js/filterform.js"></script>
     <%}%>
-    <% if(page !== 'undefined' && page === 'filter-edit-form'  ||  page === 'filter-edit-form'){ %>
+    <% if(page !== 'undefined' && page === 'filter-edit-form'){ %>
     <script src="/assets/js/filtereditform.js"></script>
     <%}%>
     <script src="/socket.io/socket.io.js"></script>

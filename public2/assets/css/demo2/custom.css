@@ -114,3 +114,15 @@ button.btn.btn-clean.red-color i.fas.fa-bookmark{
 .full-width{
     width: 100%;
 }
+.font-weigth-500{
+    font-weight: 500;
+}
+
+.kt-portlet .kt-portlet__head.filterHeaderHeight{
+    min-height: 1.5rem;
+}
+
+.kt-portlet__head-group .btn.btn-sm.btn-icon.filterToggleSize{
+    height: 1.5rem; width: 1.5rem;
+}
+

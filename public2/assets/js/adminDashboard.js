@@ -320,7 +320,7 @@ function adminDashDocs_filter() {
         $('#adminDashboard-document-filter-tags').append(`<span id="adminDashboardDocs-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
       }
     }
-    if(filter.name.indexOf('[') !== -1){
+    if (filter.name.indexOf('[') !== -1) {
       if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit' && filter.name !== 'sort' && filter.name !== 'sortDashboard' && filter.name !== 'page') {
         filtername = filter.name.slice(0, (filter.name.indexOf('[')));
         $('#adminDashboard-document-filter-tags').append(`<span id="adminDashboardDocs-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
@@ -422,7 +422,7 @@ function adminDashDocs_downloadBtn(elem) {
     }
   });
   $(this).find("button").blur();
-}
+};
 
 function documentBookmark(e, element) {
   e.preventDefault();
@@ -888,17 +888,17 @@ function adminDashVideos_filter() {
   filterItemsArray.forEach(function (filter) {
     if (filter.name.indexOf('[') === -1) {
       if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit'
-      && filter.name !== 'sort' && filter.name !== 'page') {
-      filtername = filter.name;
-      $('#adminDashboardVideos-filterTags').append(`<span id="adminDashboardVideos-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
-    }
+        && filter.name !== 'sort' && filter.name !== 'page') {
+        filtername = filter.name;
+        $('#adminDashboardVideos-filterTags').append(`<span id="adminDashboardVideos-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      }
     }
     if (filter.name.indexOf('[') !== -1) {
       if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit'
-      && filter.name !== 'sort' && filter.name !== 'page') {
-      filtername = filter.name.slice(0, (filter.name.indexOf('[')));
-      $('#adminDashboardVideos-filterTags').append(`<span id="adminDashboardVideos-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
-    }
+        && filter.name !== 'sort' && filter.name !== 'page') {
+        filtername = filter.name.slice(0, (filter.name.indexOf('[')));
+        $('#adminDashboardVideos-filterTags').append(`<span id="adminDashboardVideos-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      }
     }
 
 
@@ -2382,7 +2382,7 @@ function filterfilling() {
 
 async function filterAdminDocSubjectFilling(elem) {
   let currentExam = await $(elem).val();
-  let sectionId = await $(elem).attr("data-ref"); 
+  let sectionId = await $(elem).attr("data-ref");
   if (currentExam !== 'All' && currentExam !== 'rf') {
     $.get(`/api/filterform/${currentExam}/subjects`, function (info) {
       console.log('subjectsssssssssssssssssssssssssss');
@@ -2397,10 +2397,10 @@ async function filterAdminDocSubjectFilling(elem) {
       });
     });
   }
-  if(sectionId === 'adminDashboardDocs-subject') {
+  if (sectionId === 'adminDashboardDocs-subject') {
     console.log('docs');
-   adminDashDocs_filter();
-  } else if(sectionId === 'adminDashboardVideos-subject'){
+    adminDashDocs_filter();
+  } else if (sectionId === 'adminDashboardVideos-subject') {
     console.log('videos');
     adminDashVideos_filter();
   }
