@@ -40,7 +40,9 @@ const middleware = require("./middleware");
 const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin } = middleware;
 
 mongoose.set('debug', true);
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/examclub"    
+mongoose.connect(url, {useNewUrlParser: true});
+// mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
 mongoose.Promise = Promise;
