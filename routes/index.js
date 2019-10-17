@@ -23,9 +23,10 @@ router.get("/", isEmailVerified, function (req, res) {
 //--------------------------Registration Form Route---------------------------//
 //----------------------------------------------------------------------------//
 
-router.get("/register", function (req, res) {
+router.get("/register", async function (req, res) {
+    let exams = await Exam.find({});
     req.flash("error");
-    res.render("register", { page: 'register' });
+    res.render("register", { page: 'register', exams });
 })
 
 //----------------------------------------------------------------------------//
@@ -37,8 +38,11 @@ router.post("/register", function (req, res) {
         username: req.body.username,
         firstName: req.body.user.firstName,
         lastName: req.body.user.lastName,
+        dob: req.body.user.dob,
         email: req.body.user.email,
         mobile: req.body.user.mobile,
+        city: req.body.user.city,
+        exam: req.body.user.exam,
     });
     if (req.body.actype === "isStudent") {
         newUser.isStudent = true;

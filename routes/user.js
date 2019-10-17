@@ -35,42 +35,100 @@ router.get("/teachers", (req, res) => {
     })
 });
 
-//----------------------------------------------------------------------------//
-//----------------------Teacher's Profile CREATE Form(GET)--------------------//
-//----------------------------------------------------------------------------//
-router.get("/teachers/new", function (req, res) {
-    res.render("teacher/new");
-});
+// //----------------------------------------------------------------------------//
+// //----------------------Teacher's Profile CREATE Form(GET)--------------------//
+// //----------------------------------------------------------------------------//
+// router.get("/teachers/new", function (req, res) {
+//     res.render("teacher/new");
+// });
 
-//----------------------------------------------------------------------------//
-//--------------------------Teacher's Profile Route(POST)----------------------//
-//----------------------------------------------------------------------------//
-router.post("/teachers", (req, res) => {
-    var newTeacher = req.body.teacher;
-    User.create(newTeacher, function (err, newlyCreated) {
-        if (err) {
-            console.log(err)
-            return res.redirect("back");
-        }
-        res.redirect("/teachers/" + newlyCreated.id)
-    })
-})
+// //----------------------------------------------------------------------------//
+// //--------------------------Teacher's Profile Route(POST)----------------------//
+// //----------------------------------------------------------------------------//
+// router.post("/teachers", (req, res) => {
+//     var newTeacher = req.body.teacher;
+//     User.create(newTeacher, function (err, newlyCreated) {
+//         if (err) {
+//             console.log(err)
+//             return res.redirect("back");
+//         }
+//         res.redirect("/teachers/" + newlyCreated.id)
+//     })
+// })
 
 
 //----------------------------------------------------------------------------//
 //-----------------------Teacher's Profile SHOW Route(GET)--------------------//
 //----------------------------------------------------------------------------//
-router.get("/teachers/:id", (req, res) => {
-    User.findById(req.params.id).populate("downloads").populate("videos").exec(function (err, foundTeacher) {
-        if (err) {
-            console.log(err);
-            res.redirect("back");
-        } else
-            res.render("index2", { teacher: foundTeacher, page: "facultyprofile", title: "Faculty's Profile" });
-        // res.render("teacher/profile", {teacher: foundTeacher, page:"facultyprofile"});
-    });
-})
+// router.get("/teachers/:id", (req, res) => {
+//     User.findById(req.params.id).populate("downloads").populate("videos").exec(function (err, foundTeacher) {
+//         if (err) {
+//             console.log(err);
+//             res.redirect("back");
+//         } else
+//             res.render("index2", { teacher: foundTeacher, page: "facultyprofile", title: "Faculty's Profile" });
+//         // res.render("teacher/profile", {teacher: foundTeacher, page:"facultyprofile"});
+//     });
+// })
 
+router.get("/teachers/:id", async (req,res)=>{
+
+    let facultyId={
+        '_id': req.params.id,
+    }
+
+    if (req.user){
+        var currentUser = await User.findById(req.user._id);
+    }
+    if(!req.user){
+        var currentUser = 'none'
+     }
+    
+    var facultyProfile = await User.paginate(facultyId, {
+        populate:[
+        {path:'downloads', model: 'Download',  options: { sort: req.query.sort} }, 
+        {path:'videos', model: 'Video', options: { sort: req.query.sort} },
+        ],
+        sort: req.query.sort || '-accountCreated',
+    });
+    console.log('facultyProfile1');
+    console.log(facultyProfile);
+
+    // if (!facultyProfile) {
+    //     req.flash("error");
+    //     return res.redirect("back");
+    // }
+
+    var attemptsButtons = {
+        "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
+        "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+        "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+        "May 2021": { 'title': "May 2021", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+        "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+    };
+
+    var examsButtons = {
+        "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+        "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+        "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+        "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
+        "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+        "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+        "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
+    };
+
+    facultyProfile.attemptsButtons = attemptsButtons;
+    facultyProfile.examsButtons = examsButtons;
+    facultyProfile.currentUser = currentUser;
+    
+
+    if (req.xhr) {
+        return res.json({ faculty:facultyProfile});
+    } else {
+         return res.render("index2", { page: "facultyprofile", faculty:facultyProfile, teacher:facultyProfile, title: "Faculty's Profile" });
+    }
+
+});
 
 //----------------------------------------------------------------------------//
 //--------------------------------USERS GET Dashboard-------------------------//

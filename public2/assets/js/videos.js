@@ -26,10 +26,9 @@ function refreshVideoBank() {
   // console.log(decodeURI(filterItems));
   let limitNo = $('#limit-videoTable').val() || "10"
   let pageNo = $('#pagination-videos .kt-pagination__link--active').text().trim() || 1;
-  let sort = $("#sorting-videoTable").val() || "-createdAt"
-  // let videoDatatableUrl = `/videoscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
-  let videoDatatableUrl = `/videoscopy?page=${pageNo}`;
-
+  let sort = $("#sorting-videoTable").val() || "-createdAt";
+  // let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
+  let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
   $.get(videoDatatableUrl, filterItems, function (data) {
     $('#pagination-videos').empty();
     for (let i = 1; i <= data.pages; i++) {
@@ -394,7 +393,6 @@ function clickOnSubmitBtn() {
 }
 function clickOnClearAllFiltersBtn(e) {
     e.preventDefault();
-    alert('clicked');
     $('#search-document').val("");
     $('#exam').val("rf");
     $('#attempt').val("rf");
@@ -405,8 +403,8 @@ function clickOnClearAllFiltersBtn(e) {
       let limitNo = $('#limit-videoTable').val() || "10"
       let pageNo = $('#pagination-videos .kt-pagination__link--active').text().trim() || 1;
       let sort = $("#sorting-videoTable").val() || "-createdAt"
-      // let videoDatatableUrl = `/videoscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
-      let videoDatatableUrl = `/videoscopy?page=${pageNo}`;
+      // let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
+      let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
     
       $.get(videoDatatableUrl, function (data) {
         $('#pagination-videos').empty();
@@ -622,12 +620,6 @@ function documentBookmark(e, element) {
 };
 
 function bookmarkVideo(e, elem){
-    let videoTitle = $(elem).attr('data-title');
-    console.log('videoTitleeeeeeeeeeeeee');
-    console.log(videoTitle);
-    let answer = confirm(`Do you really want to remove ${videoTitle} from your bookmarks?`);
-    if(!answer){ return e.preventDefault()}
-    else {
       e.preventDefault();
       let videoBookmarkActionURL = $(elem).attr('action');
       $.ajax({
@@ -636,10 +628,9 @@ function bookmarkVideo(e, elem){
         success: function (data) {
           console.log(data);
           alert(`${data}`)
+          refreshVideoBank();  
         }
       });
-      refreshVideoBank();
-    }
     $(this).find("button").blur();
 }
 

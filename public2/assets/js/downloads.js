@@ -1,330 +1,516 @@
-// Page =  Downloads
-function format(d) {
-    // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-        '<tr>' +
-        '<td class="font-weight-bold">Description:</td>' +
-        '<td><span class="dataTableText">' + d.description + '</span></td>' +
-        '</tr>' +
-        // '<tr>'+
-        //     '<td class="font-weight-bold">Title:</td>'+
-        //     '<td><small>'+d.title+'</small></td>'+
-        // '</tr>'+
-        // '<tr>'+
-        //     '<td class="font-weight-bold">Extra info:</td>'+
-        //     '<td><small>And any further details here (images etc)...</small></td>'+
-        // '</tr>'+
-        '</table>';
-}
 
 $(document).ready(function () {
-
-    // $('#example tfoot th').each(function () {
-    //     var title = $(this).text();
-    //     $(this).html('<input type="text" class="form-control form-control-sm search-table-download column_search" placeholder="Search ' + title + '" />');
-    // });
-
-    $('#example thead tr:eq(1) th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" class="form-control form-control-sm search-table-download column_search" id = "' + title + '_filter" placeholder="Search ' + title + '" />' );
-    } );
-
-    $.fn.dataTable.moment('LL', "en-gb");
-    //Datatable
-    
-    var t = $('#example').DataTable(
-        // {
-            // "dom": 'itpfl'
-        // } ,
-
-        {
-            "columnDefs": [
-                {
-                    targets: -1,
-                    orderable: false,
-                    "className": "align-middle text-center actionbuttons",
-                    render: function (data, type, row, full, meta) {
-                        return `
-                        <span class="dropdown">
-                        <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                        <div class="dropdown-item"> 
-                            <form action="/downloads/`+ row._id + `/edit" method="GET">
-                              <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
-                            </form>
-                        </div>
-                           <div class="dropdown-item"> 
-                            <form action="/downloads/`+ row._id + `?_method=DELETE" method="POST">
-                              <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
-                            </form>
-                        </div>
-                        </div>
-                        </span>
-                     <a href="/downloads/docs/`+ row._id + `" id="` + row._id + `" title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
-                     
-                    <form id="bookmark_`+ row._id + `" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/` + row._id + `/bookmark" method="POST">
-                              <button type="submit" title="Bookmark" class="btn btn-sm btn-clean btn-icon btn-icon-md`+ row._id + `"><i class="fas fa-bookmark"></i></button>
-                    </form>
-                    <a href="https://web.whatsapp.com/send?text=/downloads/`+row._id+`" title="Share" target="_blank"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i class="fas fa-share-alt"></i></span></a>`
-                },
-                // Old Download Method
-                //  <a href="`+ data + `" id="` + row._id + `" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a></a>
-
-                },
-                {
-                    "targets": 0,
-                    "searchable": false,
-                    "orderable": false,
-                    "width": "3%",
-                    "render": function (data, type, full, meta) {
-                        return '<span class=""> <i class="fas fa-plus-circle"></i> </span>'
-                    },
-                },
-                {
-                    "targets": 1,
-                    "searchable": false,
-                    "orderable": false,
-                    "width": "3%",
-                    className: "align-middle text-center",
-                    //  "render": function(data, type, full, meta){
-                    //   return '<span class="text-center">' + data + '</span>'   
-                    // },
-                },
-                {
-                    targets: 2,
-                    className: "align-middle text-center",
-                    render: function (data, type, full, meta) {
-                        // const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                        // let current_datetime = new Date(data);
-                        // let formatted_date = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear();
-                        // let finalData = moment(formatted_date).format("DD-MMM-YYYY");
-                        let testData = moment(data).format("DD-MMM-YYYY");
-                        //let finalData = d.toDateString();
-                        return '<span class="dataTableText">' + testData + '</span>';
-                    },
-                },
-                {
-                    targets: 3,
-                    className: "align-middle text-center",
-                    render: function (data, type, full, meta) {
-                        return '<span class="text-capitalize dataTableText">' + data + '</span>';
-                    },
-                },
-                {
-                    targets: 4,
-                    className: "align-middle text-center",
-                    render: function (data, type, full, meta) {
-                        return '<span class="dataTableText">' + data + '</span>';
-                    },
-                },
-                {
-                    targets: 5,
-                    className: "align-middle text-center",
-                    render: function (data, type, full, meta) {
-                        var exams = {
-                            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success' },
-                            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger' },
-                            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning' },
-                            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info' },
-                            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand' },
-                            "General": { 'title': "General", 'class': 'btn-label-dark' },
-                        };
-                        var dataExam = data.split(",");
-                        var txtExam = '';
-                        dataExam.forEach(function (item) {
-                            if (txtExam.length > 0) {
-                                txtExam += " "
-                            }
-                            txtExam += '<span class="btn btn-bold btn-sm btn-font-sm ' + exams[item].class + ' ">' + exams[item].title + '</span>';
-                        });
-                          
-                        return txtExam;
-
-                        if (typeof exams[data] === 'undefined') {
-                            return data;
-                        }
-                    },
-                },
-                {
-                    targets: 6,
-                    className: "align-middle text-center",
-                    render: function (data, type, full, meta) {
-                        var attempts = {
-                            "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary' },
-                            "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger' },
-                            "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning' },
-                            "May 2021": { 'title': "May 2021", 'class': 'btn-label-success' },
-                            "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-info' },
-                        };
-                        var datas = data.split(",");
-                        var txt = '';
-                        datas.forEach(function (item) {
-                            if (txt.length > 0) {
-                                txt += " "
-                            }
-                            txt += '<span class="btn btn-bold btn-sm btn-font-sm btn-pill ' + attempts[item].class + ' ">' + attempts[item].title + '</span>';
-                        });
-                        return txt;
-
-                        if (typeof attempts[data] === 'undefined') {
-                            return data;
-                        }
-                    },
-                },
-                {
-                    targets: 7,
-                    className: "align-middle text-center",
-                    render: function (data, type, full, meta) {
-                        return '<span class="dataTableText">' + data + '</span>';
-                    },
-                },
-                { "visible": false, "targets": [8] },
-                {
-                    targets: 9,
-                    className: "align-middle text-center",
-                    render: function (data, type, full, meta) {
-                        return '<span class="kt-badge kt-badge--success kt-badge--lg">' + data + '</span>';
-                    },
-                },
-            ],
-            "dom": `<'row'<'col-sm-12 col-md-5'li><'col-sm-12 col-md-7 dataTables_pager'p><'col-sm-12'tr>>
-			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'p>>`,
-            "order": [[1, 'dsc']],
-            "scrollX": true,
-            "orderCellsTop": true,
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            "responsive": true,
-            "ajax": {
-                "url": "/api/downloads/",
-                "dataSrc": ''
-            },
-
-            "columns": [
-                {
-                    "className": 'details-control text-center align-middle',
-                    "orderable": false,
-                    "data": null,
-                    "defaultContent": ''
-                },
-                { data: 'date' },
-                { data: 'date' },
-                { data: 'author.username' },
-                { data: 'title' },
-                { data: 'exam[,]' },
-                { data: 'attempt[,]' },
-                { data: 'subject[,]' },
-                { data: '_id' },
-                { data: 'downloadCounter' },
-                { data: 'file.0.url', responsivePriority: -1 },
-            ]
-        });
-    t.on('order.dt search.dt', function () {
-        t.column(1, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-            cell.innerHTML = '<span class="dataTableText">' + (i + 1) + '</span>';
-        });
-    }).draw();
-
-    // Apply the search
-
-    // $('#example thead').on('keyup change', ".column_search",function(){
-    //     t.column($(this).index())
-    //         .search(this.value)
-    //         .draw();
-    //     });
-
-    $('#filter').on('keyup', ".column_search",function(){
-        t.column($(this).parent().index())
-        .search(this.value)
-        .draw();
-    });
-    
-    // t.columns().every(function () {
-    //     var that = this;
-    //     $('input', this.footer()).on('keyup change', function () {
-    //         if (that.search() !== this.value) {
-    //             that
-    //                 .search(this.value)
-    //                 .draw();
-    //         }
-    //     });
-    // });
-
-
-
-    //alert("connected");
-    // Add event listener for opening and closing details
-    $('#example tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = t.row(tr);
-
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-            $('td.details-control').html('<i class="fas fa-plus-circle"></i>');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            $('tr.shown td.details-control').html('<i class="fas fa-minus-circle"></i>');
-        }
-    });
-
-
-    $("td.details-control").on("click", function () {
-        $(this).html('<i class="fas fa-minus-circle"></i>');
-    });
-
-    $("shown td.details-control").on("click", function () {
-        $(this).html('<i class="fas fa-minus-circle"></i>');
-    });
-
-
-
-
-
-
-    // $('#example tbody').on( 'click', 'tr', function () {
-    //     alert( 'Row index: '+t.row( this ).index() );
-    // } );
-
-    $("#example tbody").on("click", 'td.actionbuttons .download_button', function (e) {
-        e.stopPropagation();
-        var buttonid = $(this).attr("id");
-        // alert(`Button with ${buttonid} was clicked`);
-        var actionUrl = `/download/${buttonid}/counter`;
-        console.log(actionUrl);
-        
-        $.ajax({
-            url: actionUrl,
-            type: "PUT",
-            success: function (data) {
-                t.ajax.reload();
-                console.log(data);
-            }
-        });
-        $(this).find("button").blur();
-    });
-
-    $("#example tbody").on("click", 'td.actionbuttons .bookmark-ajax-form', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var formid = $(this).attr("id").slice(9);
-        // var actionUrl = `/download/${formid}/counter`;
-        var actionUrl = 'http://localhost:3000' + $(this).attr('action');
-        // alert(`Bookmark with ${formid} was clicked and with the following ${actionUrl}`); 
-        $.ajax({
-            url: actionUrl,
-            type: "PUT",
-            success: function (data) {
-                t.ajax.reload();
-                console.log(data);
-                alert(`${data[0].msg}`);
-            }
-        });
-        $(this).find("button").blur();
-        // $(this).find("i.fas.fa-bookmark").toggleClass("red")
-    });
-
+  datatableinit();
+  changePaginationActiveTab()
+  changePaginationTabto1()
+  removeFilterTags();
+  searchOnKeyUp()
+  clickOnSubmitBtn()
+  paginationButtons();
+  sorting();
+  filter();
+  searchEnterKey();
+  downloadBtn();
+  filterfilling ();
 });
+
+
+function refreshDataTable() {
+  var filterItems = $('#dataTable_filter_ajax').serialize();
+  var filterItemsArray = $('#dataTable_filter_ajax').serializeArray();
+  // console.log(filterItems);
+  console.log(filterItemsArray);
+  // console.log(decodeURI(filterItems));
+  let limitNo = $('#limit-downloadTable').val() || "10"
+  let pageNo = $('#pagination-downloads .kt-pagination__link--active').text().trim() || 1;
+  if ( $("#largeScreen-downloads").is(":hidden")){
+    var sort = $("select#sorting-mobileDownloadTable option:checked").val() || "-createdAt";
+}
+if ( $("#largeScreen-downloads").is(":visible")){
+  var sort = $(".downloads-sort-active").closest('span').attr('class');
+}
+  console.log(sort);
+  let downloadDatatableUrl = `/downloads?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
+  $.get(downloadDatatableUrl, filterItems, function (data) {
+    $('#pagination-downloads').empty();
+    $('#pagination-downloads_bottom').empty();
+    for (let i = 1; i <= data.pages; i++) {
+      $('#pagination-downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
+    }
+    for (let i = 1; i <= data.pages; i++) {
+      $('#pagination-downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+    }
+    $(`#pagination-downloads li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
+    $(`#pagination-downloads_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
+
+    $("tbody").empty();
+    $('#mobile-downloads-content').empty();
+    data.docs.forEach(function (document, index) {
+      $("tbody").append(`
+       <tr>
+         <td class="align-middle text-center">${index + 1}</td>
+         <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
+         <td class="align-middle text-center text-capitalize">${document.author.username}</td>
+         <td class="align-middle text-center dataTableText">${document.title}</td>
+         <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.examsButtons[document.exam].class}">${document.exam}</span></td>
+         <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
+            ${data.attemptsButtons[document.attempt[0]].class} text-nowrap">${document.attempt}</span></td>
+         <td class="align-middle text-center">${document.subject}</td>
+         <td class="align-middle text-center "><span class="kt-badge kt-badge--success kt-badge--lg">${document.downloadCounter}</span></td>
+         <td class="align-middle text-center text-nowrap">
+           <a href="/downloads/docs/${document._id}" id="${document._id}" onclick="return downloadBtn(this)" title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a>
+           ${data.currentUser && data.currentUser.isStudent ?  
+         `<form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
+                    <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.currentUser && data.currentUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
+          </form>` : (!data.currentUser) ? `<form id="bookmark_${document._id}" onsubmit="return documentSignupBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
+                    <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.currentUser && data.currentUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
+          </form>` : ""
+    }
+        <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
+          <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
+            <i class="fas fa-share-alt"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+            <ul class="kt-nav">
+              <li class="kt-nav__item">
+                <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${document._id}" title="Share" target="_blank" class="kt-nav__link">
+                        <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                        <span class="kt-nav__link-text">Whatsapp</span>
+                </a>
+              </li>
+              <li class="kt-nav__item"> 
+
+                  <a href="tg://msg?url=http://${$(location).attr('host')}/downloads/${document._id}&text=${document.title}" class="kt-nav__link">
+                      <i class="kt-nav__link-icon socicon-telegram"></i>
+                      <span class="kt-nav__link-text">Telegram</span>
+                  </a>
+              </li>
+              <li class="kt-nav__item">
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/downloads/${document._id}" target="_blank" class="kt-nav__link">
+                      <i class="kt-nav__link-icon socicon-facebook"></i>
+                      <span class="kt-nav__link-text">Facebook</span>
+                  </a>
+              </li>
+              <li class="kt-nav__item" id='inputdownloadUrl_${document._id}'>
+              <input type="text"  class="form-control d-none" value="http://${$(location).attr('host')}/downloads/${document._id}"">
+                  <a href="javascript:;" data-link="http://${$(location).attr('host')}/downloads/${document._id}" id='downloadUrl_${document._id}' onclick="return shareLink(this)" class="kt-nav__link sharelinktrial"'>
+                      <i class="kt-nav__link-icon fa fa-link"></i>
+                      <span class="kt-nav__link-text">Copy URL</span>
+                  </a>
+              </li>
+              </ul>							
+            </div>
+        </div>
+        </td>
+       </tr>
+       `);
+    });
+
+    
+    data.docs.forEach(function (document, index) {
+      $("#mobile-downloads-content").append(`
+                <div class="kt-widget4__item">
+                <div class="kt-widget4__pic kt-widget4__pic--pic">
+                <span
+                    class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.username.charAt(0).toUpperCase()}</span>
+                  <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
+                </div>
+                <div class="kt-widget4__info pr-1">
+                  <a href="#" class="kt-widget4__username">
+                    ${document.title}
+                  </a>
+                  <p class="kt-widget4__text">
+                    ${document.author.username} <br>
+                    <span
+                      class="kt-badge kt-badge--inline kt-badge--bold ${data.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
+                    <span
+                      class="kt-badge kt-badge--inline kt-badge--bold ${data.examsButtons[document.exam].mobile}">${document.exam}</span>
+                    ${(document.subject || document.subject !== "") ? `<span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-brand">${document.subject}</span>` : ""}
+                  </p>
+                </div>
+                <div class='flex-column'>
+                <div class="d-flex justify-content-center mb-3"> 
+                <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(document.createdAt).format("DD-MMM-YYYY")}</span>
+                </div>
+                <div class='text-nowrap'>
+                <a href="/downloads/docs/${document._id}" id="${document._id}"
+                    onclick="downloadBtn(this)" title="Download" target="_blank"
+                    class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i
+                    class="fas fa-file-download"></i></span>
+                </a>
+                ${data.currentUser && data.currentUser.isStudent ?  
+                  `<form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
+                             <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.currentUser && data.currentUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
+                   </form>` : (!data.currentUser) ? `<form id="bookmark_${document._id}" onsubmit="return documentSignupBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
+                             <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.currentUser && data.currentUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
+                   </form>` : ""
+             }
+
+                    <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
+                    <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
+                      <i class="fas fa-share-alt"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+                      <ul class="kt-nav">
+                        <li class="kt-nav__item">
+                          <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${document._id}" title="Share" target="_blank" class="kt-nav__link">
+                                  <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                                  <span class="kt-nav__link-text">Whatsapp</span>
+                          </a>
+                        </li>
+                        <li class="kt-nav__item"> 
+          
+                            <a href="tg://msg?url=http://${$(location).attr('host')}/downloads/${document._id}&text=${document.title}" class="kt-nav__link">
+                                <i class="kt-nav__link-icon socicon-telegram"></i>
+                                <span class="kt-nav__link-text">Telegram</span>
+                            </a>
+                        </li>
+                        <li class="kt-nav__item">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/downloads/${document._id}" target="_blank" class="kt-nav__link">
+                                <i class="kt-nav__link-icon socicon-facebook"></i>
+                                <span class="kt-nav__link-text">Facebook</span>
+                            </a>
+                        </li>
+                        <li class="kt-nav__item" id='inputdownloadUrl_${document._id}'>
+                        <input type="text"  class="form-control d-none" value="http://${$(location).attr('host')}/downloads/${document._id}"">
+                            <a href="javascript:;" data-link="http://${$(location).attr('host')}/downloads/${document._id}" id='downloadUrl_${document._id}' onclick="return shareLink(this)" class="kt-nav__link sharelinktrial"'>
+                                <i class="kt-nav__link-icon fa fa-link"></i>
+                                <span class="kt-nav__link-text">Copy URL</span>
+                            </a>
+                        </li>
+                        </ul>							
+                      </div>
+                  </div>
+                    </div>
+                  </div>
+          </div>
+       `);
+    });
+
+
+    // $('#pagination-downloads li').first().addClass('kt-pagination__link--active')
+    let curPage = $('#pagination-downloads .kt-pagination__link--active').text().trim();
+    let currentPage = parseInt(curPage);
+    // console.log(curPage);
+    let limit = data.limit;
+    let totalEntries = data.total;
+    let probsecondNumber = limit * currentPage;
+    let secondNumber = Math.min(probsecondNumber, totalEntries);
+    let firstNumber = probsecondNumber - (limit - 1);
+    $(".pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+  })
+};
+
+function datatableinit() {
+  //  var filterItems = $('#dataTable_filter_ajax').serialize();
+  refreshDataTable();
+  $('#pagination-downloads li').first().addClass('kt-pagination__link--active')
+};
+
+function paginationButtons() {
+  $('.kt-pagination__link--first').on('click', 'a', function (e) {
+    e.preventDefault();
+    $('#pagination_1').click();
+  })
+
+  $('.kt-pagination__link--last').on('click', 'a', function (e) {
+    e.preventDefault();
+    $('#pagination-downloads').children().last().click();
+    // $('#pagination-downloads :last-child').click();
+  })
+
+  $('.kt-pagination__link--next').on('click', 'a', function (e) {
+    e.preventDefault();
+    let val = $('#pagination-downloads .kt-pagination__link--active').prev().click();
+  })
+
+  $('.kt-pagination__link--prev').on('click', 'a', function (e) {
+    e.preventDefault();
+    $('#pagination-downloads .kt-pagination__link--active').next().click();
+  })
+}
+
+function sorting() {
+  $('#download-header i').on("click", function () {
+    $('.downloads-sort-active').addClass('arrow-inactive');
+    $('.downloads-sort-active').removeClass('downloads-sort-active');
+    $(this).removeClass('arrow-inactive');
+    $(this).addClass('downloads-sort-active');
+    let para = $(this).closest('span').attr('class');
+    refreshDataTable();
+  })
+}
+
+function filter() {
+  $('#search-document').val("")
+  var filterItemsArray = $('#dataTable_filter_ajax').serializeArray();
+  $('#downloads-filter-tags').empty();
+  filterItemsArray.forEach(function (filter) {
+    if (filter.value && filter.value !== "" && filter.value !== 'rf') {
+      if(filter.name.indexOf('[') !== -1){
+        filtername = filter.name.slice(0, (filter.name.indexOf('[')));
+        $('#downloads-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      } else {
+        filtername = filter.name;
+        $('#downloads-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      }
+    }
+  })
+  refreshDataTable();
+}
+
+function removeFilterTags() {
+  $('#downloads-filter-tags').on('click', 'span', function () {
+    let filterKey = $(this).attr('id');
+    let filterText = $(this).text();
+    $(`#${filterKey}`).val('rf').change();
+    // $(`#${filterKey}`).val('rf').trigger('change');
+    // $(`#${filterKey}>option:eq(2)`).attr('selected', true);
+    // filter();
+  })
+}
+
+function shareLink(elem) {
+  var val = $(elem).closest('li').attr('id');
+  var url = $(elem).attr('data-link');
+  console.log(val);
+  console.log(url);
+  var $input = $("<input>");
+  $('#'+val).append($input);
+  $input.val(url).select();
+  document.execCommand("copy");
+  $input.remove();
+
+     $('#alert-notifications').append(
+     `<div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+      <div class='alert-text'>Link successfully copied!</div>
+      <div class="alert-close">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      </div>`
+   )
+
+   $('html, body').animate({ scrollTop: 0 }, 'fast');
+
+  // let href = $('a').attr('id');
+  // // let val = 'input' + href;
+  // let url = $('.sharelinktrial').attr('data-link');
+  // alert('clicked' + url);
+  // console.log(`Data lINK is ${url}`);
+  // console.log(`HREF is ${href}`);
+
+  // // let url = $('#'+val).val()
+  // console.log(url);
+  // var copyText = document.getElementById(val);
+  // copyText.select();
+  // copyText.setSelectionRange(0, 99999)
+  // document.execCommand("copy");
+  // console.log(copyText);
+
+  //  $('#alert-notifications').append(
+  //    `<div class="alert alert-warning alert-dismissible fade show kt-alert kt-alert--outline m-0" role="alert">
+  //    <span>Link copied to clipboard succesfully</span>
+  //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  //         <span aria-hidden="true">&times;</span>
+  //     </button>
+  //     </div>`
+  //  )
+}
+
+function changePaginationActiveTab(){
+  $('#pagination-downloads').on('click', "li", function (e) {
+    e.preventDefault();
+    $('#pagination-downloads .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination-downloads_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $(this).addClass('kt-pagination__link--active');
+    refreshDataTable();
+  });
+
+  $('#pagination-downloads_bottom').on('click', "li", function (e) {
+    e.preventDefault();
+    $('#pagination-downloads .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination-downloads_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    let pageNoBottomDownloadClicked = $(this).attr('id');
+    let pageTopDownloadId = pageNoBottomDownloadClicked.replace('_bottom','');
+    $('#'+pageTopDownloadId).click();
+    refreshDataTable();
+  });
+}
+
+function changePaginationTabto1(){
+  $('#limit-downloadTable').on('keyup change', function () {
+    refreshDataTable()
+    $("#pagination-downloads li:first-child").click();
+  })
+
+  $("#limit-downloadTable i").on('click', function () {
+    refreshDataTable()
+    $("#pagination-downloads li:first-child").click();
+  })
+}
+
+function searchOnKeyUp(){
+  $('#search-document').on('keyup change', function () {
+    refreshDataTable();
+  });
+}
+
+function searchEnterKey(){
+  $('#search-document').keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+      }
+    });
+}
+
+function clickOnSubmitBtn(){
+  $('#downloads_filter_submit').on('click', function (e) {
+    e.preventDefault();
+    $('#search-document').val("")
+    filter();
+  })
+}
+
+function downloadBtn(elem){
+
+  var buttonid = $(elem).attr('id');
+  var actionUrl = `/download/${buttonid}/counter`;
+  $.ajax({
+    url: actionUrl,
+    type: "PUT",
+    success: function (data) {
+      refreshDataTable();
+        console.log(data);
+    }
+});
+$(this).find("button").blur();
+}
+
+function documentBookmark(e, element){
+  e.preventDefault();
+  var actionUrl = $(element).attr("action");
+  console.log(actionUrl);
+  var formid = $(element).attr("id").slice(9);
+  console.log(formid);
+  $.ajax({
+    url: actionUrl,
+        type: "PUT",
+        success: function (data) {
+          refreshDataTable();
+            console.log(data);
+            alert(`${data[0].msg}`);
+        }
+  })
+};
+
+function documentSignupBookmark(e, element) {
+  e.preventDefault();
+  return alert('Please sign in to bookmark documents!');
+  };
+
+function filterfilling() {
+  $.get('/downloads',function(data){
+    console.log('data.authorFilter');
+    console.log(data.authorFilter);
+    data.authorFilter.forEach(value => {
+      $('#author').append($("<option></option>")
+      .attr("value",value.username)
+      .text(value.username))
+    });
+ })};
+  
+
+ function filterfilling() {
+
+  $.get('/api/filterdata', function (filterlist) {
+    console.log('filterlist filterform');
+    console.log(filterlist);
+
+    $('#exam').empty();
+    $('#exam').append(`<option value='rf'>Exam</option>`);
+    filterlist.exams.forEach(value => {
+      $('#exam').append($("<option></option>")
+        .attr("value", value.exam)
+        .text(value.exam))
+    })
+
+    $('#author').empty();
+    $('#author').append(`<option value='rf'>Faculty</option>`);
+    filterlist.teachers.forEach(faculty => {
+      $('#author').append($("<option></option>")
+        .attr("value", faculty.username)
+        .text(faculty.username))
+    });
+  })
+};
+
+async function filterDownloadsSubjectFilling(elem) {
+  let currentExam = await $(elem).val();
+  // let sectionId = await $(elem).attr("data-ref"); 
+  if (currentExam !== 'All' && currentExam !== 'rf') {
+    $.get(`/api/filterform/${currentExam}/subjects`, function (info) {
+      console.log('subjectsssssssssssssssssssssssssss');
+      console.log(info);
+      $(`#subject`).empty();
+      $(`#subject`).append(`<option value='rf'>Subject</option>`);
+      info[0].subjects.forEach(subject => {
+        $(`#subject`).append($("<option></option>")
+          .attr("value", subject)
+          .text(subject))
+      });
+    });
+  }
+  filter()
+}
+
+//   console.log('bookmark url' + actionUrl);
+//   $.ajax({
+//     url: actionUrl,
+//     type: "PUT",
+//     success: function (data) {
+//       refreshDataTable();
+//         console.log(data);
+//         alert(`${data[0].msg}`);
+//     }
+// });
+// $(this).find("button").blur();
+// }
+
+// $("#example tbody").on("click", 'td.actionbuttons .bookmark-ajax-form', function (e) {
+//   e.stopPropagation();
+//   e.preventDefault();
+//   var formid = $(this).attr("id").slice(9);
+//   // var actionUrl = `/download/${formid}/counter`;
+//   var actionUrl = 'http://localhost:3000' + $(this).attr('action');
+//   // alert(`Bookmark with ${formid} was clicked and with the following ${actionUrl}`); 
+//   $.ajax({
+//       url: actionUrl,
+//       type: "PUT",
+//       success: function (data) {
+//           t.ajax.reload();
+//           console.log(data);
+//           alert(`${data[0].msg}`);
+//       }
+//   });
+//   $(this).find("button").blur();
+//   // $(this).find("i.fas.fa-bookmark").toggleClass("red")
+// });
+
+// Edit and Delete Buttons for Dashboard
+/* <span class="dropdown">
+<a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
+<div class="dropdown-menu dropdown-menu-right">
+<div class="dropdown-item"> 
+    <form action="/downloads/${document._id}/edit" method="GET">
+      <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
+    </form>
+</div>
+   <div class="dropdown-item"> 
+    <form action="/downloads/${document._id}?_method=DELETE" method="POST">
+      <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
+    </form>
+</div>
+</div>
+</span>  */

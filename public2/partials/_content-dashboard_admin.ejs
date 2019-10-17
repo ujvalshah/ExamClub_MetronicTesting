@@ -253,7 +253,7 @@
             <%downloads.docs.forEach(function(document,index){%>
             <tr>
               <td class="align-middle text-center"><%=index +1 %></td>
-              <td class="align-middle text-center"><%=document.createdAt.toDateString()%></td>
+              <td class="align-middle text-center"><%=document.createdAt ? document.createdAt.toDateString() : document.accountCreated.toDateString()%></td>
               <td class="align-middle text-center text-capitalize"><%=document.author.username%></td>
               <td class="align-middle text-center"><%=document.title%></td>
               <td class="align-middle text-center"><span class=""><%=document.exam%></span>
@@ -668,7 +668,7 @@
                   </span>
                 </div>
                 <span class="kt-badge kt-badge--info kt-badge--inline float-right" data-toggle="tooltip"
-                  data-placement="left" title="Date of Upload"><%=video.createdAt.toDateString()%></span>
+                  data-placement="left" title="Date of Upload"><%= video.createdAt ? video.createdAt.toDateString() : video.accountCreated.toDateString()%></span>
               </div>
               <div class="mb-3 small font-weight-bold"> Applicable: <span
                   class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold" data-toggle="tooltip"
@@ -926,10 +926,10 @@
                 <select class="form-control kt-font-brand" id="adminDashboardfaculty-sort-mobile" name="sortDashboard"
                   onchange="return adminDashFaculty_filter()">
                   <option disabled>Sort</option>
-                  <option value="-accountCreated">
+                  <option value="-createdAt">
                     Lastest
                   </option>
-                  <option value="accountCreated">
+                  <option value="createdAt">
                     Earliest
                   </option>
                   <option value="-exam">
@@ -956,8 +956,8 @@
 
           <!--begin: Table-->
           <div id='largeScreen-adminDashboardfaculty' class="d-none d-lg-block">
-            <h5>Document Table</h5>
-            <div class="table-responsive overflow-auto" style="height: 55rem">
+            <h5>Faculty's List</h5>
+            <div class="table-responsive overflow-auto" style="max-height: 55rem">
               <table id="adminDashboardfaculty-table"
                 class="table table-striped table-bordered table-hover overflow-auto">
                 <thead>
@@ -1009,9 +1009,9 @@
                           class="la la-arrow-up ascending-download-number arrow-inactive"></i></span> <span
                         class="-emailVerified"><i
                           class="la la-arrow-down la-arrow-down-download-number arrow-inactive"></i></span></th>
-                    <th class="text-center align-middle text-nowrap">Account Created<span class="accountCreated"><i
+                    <th class="text-center align-middle text-nowrap">Account Created<span class="createdAt"><i
                           class="la la-arrow-up ascending-download-number arrow-inactive"></i></span> <span
-                        class="-accountCreated"><i
+                        class="-createdAt"><i
                           class="la la-arrow-down la-arrow-down-download-number arrow-inactive"></i></span></th>
                     <th class="text-center align-middle text-nowrap">Action</th>
                   </tr>
@@ -1032,7 +1032,7 @@
                     <td class="align-middle text-center"><%=teacher.mobile%></td>
                     <td class="align-middle text-center"><%=teacher.email%></td>
                     <td class="align-middle text-center"><%=teacher.emailVerified%></td>
-                    <td class="align-middle text-center"><%=teacher.accountCreated.toDateString()%></td>
+                    <td class="align-middle text-center"><%= teacher.createdAt ? teacher.createdAt.toDateString() : teacher.accountCreated.toDateString() %></td>
                     <td class="align-middle text-center">
                       <span class="dropdown">
                         <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown"
@@ -1326,10 +1326,10 @@
             <select class="form-control kt-font-brand" id="adminDashboardstudent-sort-mobile" name="sortDashboard"
               onchange="return adminDashStudent_filter()">
               <option disabled>Sort</option>
-              <option value="-accountCreated">
+              <option value="-createdAt">
                 Lastest
               </option>
-              <option value="accountCreated">
+              <option value="createdAt">
                 Earliest
               </option>
               <option value="-exam">
@@ -1357,7 +1357,7 @@
       <!--begin: Table-->
       <div id='largeScreen-adminDashboardstudent' class="d-none d-lg-block">
         <h5>Student's List</h5>
-        <div class="table-responsive overflow-auto" style="height: 55rem">
+        <div class="table-responsive overflow-auto" style="max-height: 55rem">
           <table id="adminDashboardstudent-table" class="table table-striped table-bordered table-hover overflow-auto">
             <thead>
               <tr id="adminDashboardstudent-table--header">
@@ -1373,6 +1373,9 @@
                 <th class="text-center align-middle text-nowrap">Last Name <span class="lastName"><i
                       class="la la-arrow-up arrow-inactive"></i></span><span class="-lastName"><i
                       class="la la-arrow-down arrow-inactive"></i></span></th>
+                <th class="text-center align-middle text-nowrap">DOB <span class="dob"><i
+                      class="la la-arrow-up arrow-inactive"></i></span><span class="-dob"><i
+                      class="la la-arrow-down arrow-inactive"></i></span></th>
                 <th class="text-center align-middle text-nowrap">Exam <span class="exam"><i
                       class="la la-arrow-up arrow-inactive"></i></span> <span class="-exam"><i
                       class="la la-arrow-down arrow-inactive"></i></span></th>
@@ -1380,17 +1383,13 @@
                       class="la la-arrow-up arrow-inactive"></i></span> <span class="-city"><i
                       class="la la-arrow-down arrow-inactive"></i></span></th>
                 </th>
-                <th class="text-center align-middle text-nowrap">State <span class="state"><i
-                      class="la la-arrow-up arrow-inactive"></i></span> <span class="-state"><i
-                      class="la la-arrow-down arrow-inactive"></i></span></th>
-                </th>
                 <th class="text-center align-middle text-nowrap">Mobile</th>
                 <th class="text-center align-middle">Email</th>
                 <th class="text-center align-middle text-nowrap">Email Verified <span class="emailVerified"><i
                       class="la la-arrow-up arrow-inactive"></i></span><span class="-emailVerified"><i
                       class="la la-arrow-down arrow-inactive"></i></span></th>
-                <th class="text-center align-middle text-nowrap">Account Created<span class="accountCreated"><i
-                      class="la la-arrow-up arrow-inactive"></i></span><span class="-accountCreated"><i
+                <th class="text-center align-middle text-nowrap">Account Created<span class="createdAt"><i
+                      class="la la-arrow-up arrow-inactive"></i></span><span class="-createdAt"><i
                       class="la la-arrow-down arrow-inactive"></i></span></th>
                 <th class="text-center align-middle">Action</th>
               </tr>
@@ -1411,7 +1410,7 @@
                 <td class="align-middle text-center"><%=stud.mobile%></td>
                 <td class="align-middle text-center"><%=stud.email%></td>
                 <td class="align-middle text-center"><%=stud.emailVerified%></td>
-                <td class="align-middle text-center"><%=stud.accountCreated.toDateString()%></td>
+                <td class="align-middle text-center"><%= stud.createdAt ? stud.createdAt.toDateString() : stud.accountCreated.toDateString()%></td>
                 <td class="align-middle text-center">
                   <span class="dropdown">
                     <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown"
@@ -1430,22 +1429,6 @@
                       </div>
                     </div>
                   </span>
-                  <a href="/student/docs/<%=stud._id%>" id="<%=stud._id%>" onclick="adminDashstudent_filter(this)"
-                    title="Download" target="_blank"
-                    class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i
-                        class="fas fa-file-download"></i></span></a>
-
-                  <form id="adminDashboardstudent-bookmark_<%=stud._id%>" onsubmit="documentBookmark(event, this)"
-                    class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/student/<%=stud._id%>/bookmark"
-                    method="POST">
-                    <button type="submit" title="Bookmark"
-                      class="btn btn-sm btn-clean btn-icon btn-icon-md <%=stud._id%>"><i
-                        class="fas fa-bookmark"></i></button>
-                  </form>
-
-                  <a href="https://web.whatsapp.com/send?text=/student/<%=stud._id%>" title="Share"
-                    target="_blank"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i
-                        class="fas fa-share-alt"></i></span></a>
                 </td>
               </tr>
               <%})%>
@@ -1456,9 +1439,9 @@
                 <th class="text-center align-middle">Username</th>
                 <th class="text-center align-middle">FirstName</th>
                 <th class="text-center align-middle">LastName</th>
+                <th class="text-center align-middle">DOB</th>
                 <th class="text-center align-middle">Exam</th>
                 <th class="text-center align-middle">City</th>
-                <th class="text-center align-middle">State</th>
                 <th class="text-center align-middle">Mobile</th>
                 <th class="text-center align-middle">Email</th>
                 <th class="text-center align-middle">Email-Verified</th>

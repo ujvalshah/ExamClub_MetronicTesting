@@ -1,64 +1,65 @@
 <% include ./_subheader-subheader-v2 %>
 <!-- begin:: Content -->
 <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-    <div class="kt-portlet kt-portlet--tabs">
-        <div class="kt-portlet__head">
-            <div class="kt-portlet__head-toolbar">
-                <ul class="nav nav-tabs nav-tabs-space-xl nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand"
-                    role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#userProfileEditForm" role="tab">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <polygon id="Bound" points="0 0 24 0 24 24 0 24" />
-                                    <path
-                                        d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z"
-                                        id="Shape" fill="#000000" fill-rule="nonzero" />
-                                    <path
-                                        d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z"
-                                        id="Path" fill="#000000" opacity="0.3" />
-                                </g>
-                            </svg> Profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#changePasswordForm" role="tab">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect id="bound" x="0" y="0" width="24" height="24" />
-                                    <path
-                                        d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z"
-                                        id="Path-50" fill="#000000" opacity="0.3" />
-                                    <path
-                                        d="M12,11 C10.8954305,11 10,10.1045695 10,9 C10,7.8954305 10.8954305,7 12,7 C13.1045695,7 14,7.8954305 14,9 C14,10.1045695 13.1045695,11 12,11 Z"
-                                        id="Mask" fill="#000000" opacity="0.3" />
-                                    <path
-                                        d="M7.00036205,16.4995035 C7.21569918,13.5165724 9.36772908,12 11.9907452,12 C14.6506758,12 16.8360465,13.4332455 16.9988413,16.5 C17.0053266,16.6221713 16.9988413,17 16.5815,17 C14.5228466,17 11.463736,17 7.4041679,17 C7.26484009,17 6.98863236,16.6619875 7.00036205,16.4995035 Z"
-                                        id="Mask-Copy" fill="#000000" opacity="0.3" />
-                                </g>
-                            </svg> Change Password
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="kt-portlet__body">
-            <div class="tab-content">
-                <div class="tab-pane active" id="userProfileEditForm" role="tabpanel">
-                    <form action="/account-details/<%=user._id%>?_method=PUT" method="POST" onsubmit="return submitProfileEdit(event)">
-                        <div class="kt-form kt-form--label-right">
-                            <div class="kt-form__body">
-                                <div class="kt-section kt-section--first">
-                                    <div class="kt-section__body">
-                                        <!-- <div class="row">
+	<div class="kt-portlet kt-portlet--tabs">
+		<div class="kt-portlet__head">
+			<div class="kt-portlet__head-toolbar">
+				<ul class="nav nav-tabs nav-tabs-space-xl nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand"
+					role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#userProfileEditForm" role="tab">
+							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+								height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<polygon id="Bound" points="0 0 24 0 24 24 0 24" />
+									<path
+										d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z"
+										id="Shape" fill="#000000" fill-rule="nonzero" />
+									<path
+										d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z"
+										id="Path" fill="#000000" opacity="0.3" />
+								</g>
+							</svg> Profile
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#changePasswordForm" role="tab">
+							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+								height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+									<rect id="bound" x="0" y="0" width="24" height="24" />
+									<path
+										d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z"
+										id="Path-50" fill="#000000" opacity="0.3" />
+									<path
+										d="M12,11 C10.8954305,11 10,10.1045695 10,9 C10,7.8954305 10.8954305,7 12,7 C13.1045695,7 14,7.8954305 14,9 C14,10.1045695 13.1045695,11 12,11 Z"
+										id="Mask" fill="#000000" opacity="0.3" />
+									<path
+										d="M7.00036205,16.4995035 C7.21569918,13.5165724 9.36772908,12 11.9907452,12 C14.6506758,12 16.8360465,13.4332455 16.9988413,16.5 C17.0053266,16.6221713 16.9988413,17 16.5815,17 C14.5228466,17 11.463736,17 7.4041679,17 C7.26484009,17 6.98863236,16.6619875 7.00036205,16.4995035 Z"
+										id="Mask-Copy" fill="#000000" opacity="0.3" />
+								</g>
+							</svg> Change Password
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="kt-portlet__body">
+			<div class="tab-content">
+				<div class="tab-pane active" id="userProfileEditForm" role="tabpanel">
+					<form action="/account-details/<%=user._id%>?_method=PUT" method="POST"
+						onsubmit="return submitProfileEdit(event)">
+						<div class="kt-form kt-form--label-right">
+							<div class="kt-form__body">
+								<div class="kt-section kt-section--first">
+									<div class="kt-section__body">
+										<!-- <div class="row">
                                             <label class="col-xl-3"></label>
                                             <div class="col-lg-9 col-xl-6">
                                                 <h3 class="kt-section__title kt-section__title-sm">Customer Info:</h3>
                                             </div>
                                         </div> -->
-                                        <!-- <div class="form-group row">
+										<!-- <div class="form-group row">
                                             <label class="col-xl-3 col-lg-3 col-form-label">Avatar</label>
                                             <div class="col-lg-9 col-xl-6">
                                                 <div class="kt-avatar kt-avatar--outline kt-avatar--circle-" id="kt_apps_user_add_avatar">
@@ -73,47 +74,45 @@
                                                 </div>
                                             </div>
                                         </div> -->
-                                        <div class="row">
-                                            <label class="col-xl-3"></label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <h3 class="kt-section__title kt-section__title-sm">Account:</h3>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">Username</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <input class="form-control" type="text" value="<%=user.username%>"
-                                                    disabled>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">First Name</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <input class="form-control" type="text" name="updateProfile[firstName]"
-                                                    value="<%=user.firstName%>">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">Last Name</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <input class="form-control" type="text" name="updateProfile[lastName]"
-                                                    value="<%=user.lastName%>">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">Account Type</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <div class="input-group">
-                                                    <input class="form-control" type="text"
-                                                        value=" <%=user.isStudent ? 'Student' : user.isFaculty ? 'Faculty' : user.isAdmin ? 'Admin' : '' %>"
-                                                        disabled>
-                                                    <% if(user.isFaculty && user.isFacultyVerified){%>
-                                                    <button type="button"
-                                                        class="btn btn-elevate ml-2 btn-success">Verified</button>
-                                                    <%} else if(user.isFaculty && !user.isFacultyVerified){%>
-                                                    <button type="submit" class="btn btn-elevate ml-2 btn-danger">Not
-                                                        Verified</button>
-                                                    <%}%>
+										<div class="row">
+											<label class="col-xl-3"></label>
+											<div class="col-lg-9 col-xl-6">
+												<h3 class="kt-section__title kt-section__title-sm">Account:</h3>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-xl-3 col-lg-3 col-form-label">Username</label>
+											<div class="col-lg-9 col-xl-6">
+												<input class="form-control" type="text" value="<%=user.username%>" disabled>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-xl-3 col-lg-3 col-form-label">First Name</label>
+											<div class="col-lg-9 col-xl-6">
+												<input class="form-control" type="text" name="updateProfile[firstName]"
+													value="<%=user.firstName%>">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-xl-3 col-lg-3 col-form-label">Last Name</label>
+											<div class="col-lg-9 col-xl-6">
+												<input class="form-control" type="text" name="updateProfile[lastName]"
+													value="<%=user.lastName%>">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-xl-3 col-lg-3 col-form-label">Account Type</label>
+											<div class="col-lg-9 col-xl-6">
+												<div class="input-group">
+													<input class="form-control" type="text"
+														value=" <%=user.isStudent ? 'Student' : user.isFaculty ? 'Faculty' : user.isAdmin ? 'Admin' : '' %>"
+														disabled>
+													<% if(user.isFaculty && user.isFacultyVerified){%>
+													<button type="button" class="btn btn-elevate ml-2 btn-success">Verified</button>
+													<%} else if(user.isFaculty && !user.isFacultyVerified){%>
+													<button type="submit" class="btn btn-elevate ml-2 btn-danger">Not
+														Verified</button>
+													<%}%>
                                                 </div>
                                                 </div>
                                             </div>
@@ -124,143 +123,842 @@
                                                     <div class="input-group">
                                                         <div class="input-group-prepend"><span class="input-group-text"><i class="la la-phone"></i></span></div>
                                                         <input type="text" class="form-control" name="updateProfile[mobile]" value="<%=user.mobile%>"
-                                                    placeholder="Phone" aria-describedby="basic-addon1">
-                                                </div>
-                                                <!-- <span class="form-text text-muted">We'll never share your email with anyone else.</span> -->
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">Email Address</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <div class="input-group" id="emailGroup">
-                                                    <div class="input-group-prepend"><span class="input-group-text"><i
-                                                                class="la la-at"></i></span></div>
-                                                    <input id="userEmailEdit" type="text" class="form-control"
-                                                        value="<%=user.email%>" placeholder="Email"
-                                                        name="updateProfile[email]" aria-describedby="basic-addon1"
-                                                        disabled>
-                                                    <% if(user.emailVerified){%>
-                                                    <button type="button"
-                                                        class="btn btn-elevate ml-2 btn-success">Verified</button>
-                                                    <%} else if(!user.emailVerified){%>
-                                                    <form action="/email-verification?_method=PUT" method="POST">
-                                                        <button type="submit" class="btn btn-elevate ml-2 btn-danger"
-                                                            title="Click to send a verification email">Verify</button>
-                                                    </form>
-                                                    <%}%>
+													placeholder="Phone" aria-describedby="basic-addon1">
+												</div>
+												<!-- <span class="form-text text-muted">We'll never share your email with anyone else.</span> -->
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-xl-3 col-lg-3 col-form-label">Email Address</label>
+											<div class="col-lg-9 col-xl-6">
+												<div class="input-group" id="emailGroup">
+													<div class="input-group-prepend"><span class="input-group-text"><i
+																class="la la-at"></i></span></div>
+													<input id="userEmailEdit" type="text" class="form-control" value="<%=user.email%>"
+														placeholder="Email" name="updateProfile[email]" aria-describedby="basic-addon1" disabled>
+													<% if(user.emailVerified){%>
+													<button type="button" class="btn btn-elevate ml-2 btn-success">Verified</button>
+													<%} else if(!user.emailVerified){%>
+													<form action="/email-verification?_method=PUT" method="POST">
+														<button type="submit" class="btn btn-elevate ml-2 btn-danger"
+															title="Click to send a verification email">Verify</button>
+													</form>
+													<%}%>
                                                     <a href="javascript;" id="email-address-edit" class="btn btn-elevate ml-2 btn-warning"
                                                             title="Click to change the email address" onclick="return emailEdit(event)">Edit</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <%if(user && user.isStudent){%>
-                                        <div
-                                            class="kt-separator kt-separator--border-dashed kt-separator--portlet-fit kt-separator--space-lg">
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-xl-3"></label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <h3 class="kt-section__title kt-section__title-sm">Exam
-                                                    Details:</h3>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">Exam</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <select class="form-control userEditForm-Exam"
-                                                    name="updateProfile[exam]">
-                                                    <option value=""
-                                                        <%= !user.exam ? "selected" : "" %>disabled>Select
-                                                        Exam</option>
-                                                    <% exams.forEach(function(exam){%>
-                                                    <option value="<%=exam.exam%>"
-                                                        <%= user.exam && user.exam.includes(exam.exam) ? "selected" : "" %>>
-                                                        <%=exam.exam%></option>
-                                                    <%})%>
-                                                    <option value="General"
-                                                        <%= user.exam && user.exam.includes("General") ? "selected" : "" %>>
-                                                        General</option>
-                                                </select>
-                                                <span class="form-text text-muted">Select the next exam you
-                                                    will be appering for. According to this we will send you
-                                                    exam related notifications.</span>
-                                            </div>
-                                        </div>
-                                                <%}%>
-                                            <div class="kt-separator kt-separator--border-dashed kt-separator--portlet-fit kt-separator--space-lg"></div>
-                                            <div class="row">
-                                                <label class="col-xl-3"></label>
-                                                <div class="col-lg-9 col-xl-6">
-                                                    <h3 class="kt-section__title kt-section__title-sm">Address Details:</h3>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-xl-3 col-lg-3 col-form-label">Address</label>
-                                                <div class="col-lg-9 col-xl-6">
-                                                    <input class="form-control" type="text" name="updateProfile[address]" value="<%=user.address%>">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-xl-3 col-lg-3 col-form-label">City</label>
-                                                <div class="col-lg-9 col-xl-6">
-                                                    <input class="form-control" type="text" name="updateProfile[city]"
-                                                        value="<%=user.city%>">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-xl-3 col-lg-3 col-form-label">State</label>
-                                                <div class="col-lg-9 col-xl-6">
-                                                    <input class="form-control" type="text" name="updateProfile[state]"
-                                                        value="<%=user.state%>">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-xl-3 col-lg-3 col-form-label">Pincode</label>
-                                                <div class="col-lg-9 col-xl-6">
-                                                    <input class="form-control" type="text"
-                                                        name="updateProfile[pincode]" value="<%=user.pincode%>">
-                                                </div>
-                                            </div>
-                                            <!-- <div class="form-group row">
+													<div
+														class="kt-separator kt-separator--border-dashed kt-separator--portlet-fit kt-separator--space-lg">
+													</div>
+													<div class="row">
+														<label class="col-xl-3"></label>
+														<div class="col-lg-9 col-xl-6">
+															<h3 class="kt-section__title kt-section__title-sm">Exam
+																Details:</h3>
+														</div>
+													</div>
+													<div class="form-group row">
+														<label class="col-xl-3 col-lg-3 col-form-label">Exam</label>
+														<div class="col-lg-9 col-xl-6">
+															<select class="form-control userEditForm-Exam" name="updateProfile[exam]">
+																<option value="" <%= !user.exam || user.exam==="" ? "selected" : "" %> disabled>Select
+																	Exam</option>
+																<% exams.forEach(function(exam){%>
+																<option value="<%=exam.exam%>"
+																	<%= user.exam && user.exam.includes(exam.exam) ? "selected" : "" %>>
+																	<%=exam.exam%></option>
+																<%})%>
+																<option value="General"
+																	<%= user.exam && user.exam.includes("General") ? "selected" : "" %>>
+																	General</option>
+															</select>
+															<span class="form-text text-muted">Select the next exam you
+																will be appering for. According to this we will send you
+																exam related notifications.</span>
+														</div>
+													</div>
+													<%}%>
+
+                                            <% if(user && user.isFaculty){%>
+													<div
+														class="kt-separator kt-separator--border-dashed kt-separator--portlet-fit kt-separator--space-lg">
+													</div>
+													<div class="row">
+														<label class="col-xl-3"></label>
+														<div class="col-lg-9 col-xl-6">
+															<h3 class="kt-section__title kt-section__title-sm">Faculty
+																Profile:</h3>
+																<span class="form-text text-muted pb-3">The information in
+																		this 'Faculty Profile' section can be seen by the users in the
+																		'Faculty's Index' Tab of the website.
+															</span>
+														</div>
+													</div>
+													<!-- <div class="form-group row">
+														<label class="col-xl-3 col-lg-3 col-form-label">Faculty Profile</label>
+														<div class="col-lg-9 col-xl-6">
+															<input class="form-control" type="text" name="updateProfile[workprofile]"
+																value="<%=user.workprofile%>">
+																<span class="form-text text-muted">Please state for which CA Exams do you tutor/teach and  which subject that you teach.</span>
+																<span class="form-text text-muted pb-3">Eg:- CA Final - P2: Strategic Financial Management || Intermediate -P8A: Financial Management </span>
+														</div>
+													</div> -->
+													<div class="form-group row">
+														<label class="col-xl-3 col-lg-3 col-form-label">Work
+															Email</label>
+														<div class="col-lg-9 col-xl-6">
+															<input class="form-control" type="email" name="updateProfile[workemail]"
+																value="<%=user.workemail%>">
+														</div>
+													</div>
+													<div class="form-group row">
+														<label class="col-xl-3 col-lg-3 col-form-label">Work Mobile
+															No</label>
+														<div class="col-lg-9 col-xl-6">
+															<input class="form-control" type="number" name="updateProfile[workmobile]"
+																value="<%=user.workmobile%>">
+														</div>
+													</div>
+													<div class="form-group row">
+														<label class="col-xl-3 col-lg-3 col-form-label">Description</label>
+														<div class="col-lg-9 col-xl-6">
+															<textarea class="form-control" name="updateProfile[description]"
+																maxlength="150"><%=user.description%></textarea>
+															<span class="form-text text-muted">Max 150 Characters
+															</span>
+															<span class="form-text text-muted pb-3">Do provide some information relating to the levels of CA Exam you teach and the subjects you teach. 
+															</span>
+														</div>
+													</div>
+													<%}%>
+
+												<div class="kt-separator kt-separator--border-dashed kt-separator--portlet-fit kt-separator--space-lg"></div>
+												<div class="row">
+														<label class="col-xl-3"></label>
+														<div class="col-lg-9 col-xl-6">
+																<h3 class="kt-section__title kt-section__title-sm">Address Details:</h3>
+														</div>
+												</div>
+												<div class="form-group row">
+														<label class="col-xl-3 col-lg-3 col-form-label">Address</label>
+														<div class="col-lg-9 col-xl-6">
+														<input class="form-control" type="text" name="updateProfile[address]" value="<%=user.address%>">
+													</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-xl-3 col-lg-3 col-form-label">City</label>
+												<div class="col-lg-9 col-xl-6">
+													<select class="form-control" id="updateProfile[city]" name="updateProfile[city]" required>
+														<option disabled <%= !user.city || user.city === "" ? "selected" : "" %>>
+															Your City</option>
+
+														<optgroup label="Major Cities">
+															<option style="padding:.3em" value="Mumbai"
+																<%= user.city && user.city === "Mumbai" ? "selected" : "" %>>
+																Mumbai</option>
+															<option style="padding:.3em" value="New Delhi"
+																<%= user.city && user.city === "New Delhi" ? "selected" : "" %>>
+																New Delhi</option>
+															<option style="padding:.3em" value="Ahmedabad"
+																<%= user.city && user.city === "Ahmedabad" ? "selected" : "" %>>
+																Ahmedabad
+															</option>
+															<option style="padding:.3em" value="Bangalore"
+																<%= user.city && user.city === "Bangalore" ? "selected" : "" %>>
+																Bangalore
+															</option>
+															<option style="padding:.3em" value="Chennai"
+																<%= user.city && user.city === "Chennai" ? "selected" : "" %>>
+																Chennai</option>
+															<option style="padding:.3em" value="Jaipur"
+																<%= user.city && user.city === "Jaipur" ? "selected" : "" %>>
+																Jaipur</option>
+															<option style="padding:.3em" value="Hyderabad"
+																<%= user.city && user.city === "Hyderabad" ? "selected" : "" %>>
+																Hyderabad
+															</option>
+															<option style="padding:.3em" value="Kolkata"
+																<%= user.city && user.city === "Kolkata" ? "selected" : "" %>>
+																Kolkata</option>
+														</optgroup>
+
+														<optgroup label="Andaman and Nicobar Islands">
+															<option value="Port Blair"
+																<%= user.city && user.city === "Port Blair" ? "selected" : "" %>>
+																Port Blair</option>
+														</optgroup>
+
+														<optgroup label="Andhra Pradesh">
+															<option value="Visakhapatnam"
+																<%= user.city && user.city === "Visakhapatnam" ? "selected" : "" %>>
+																Visakhapatnam</option>
+															<option value="Guntur" <%= user.city && user.city === "Guntur" ? "selected" : "" %>>
+																Guntur</option>
+															<option value="Prakasam" <%= user.city && user.city === "Prakasam" ? "selected" : "" %>>
+																Prakasam</option>
+															<option value="East" <%= user.city && user.city === "East" ? "selected" : "" %>>
+																East Godavari</option>
+															<option value="Nellore" <%= user.city && user.city === "Nellore" ? "selected" : "" %>>
+																Nellore</option>
+															<option value="Krishna" <%= user.city && user.city === "Krishna" ? "selected" : "" %>>
+																Krishna</option>
+															<option value="Vizianagaram"
+																<%= user.city && user.city === "Vizianagaram" ? "selected" : "" %>>
+																Vizianagaram</option>
+															<option value="Chittoor" <%= user.city && user.city === "Chittoor" ? "selected" : "" %>>
+																Chittoor</option>
+															<option value="Kadapa" <%= user.city && user.city === "Kadapa" ? "selected" : "" %>>
+																Kadapa</option>
+															<option value="Srikakulam"
+																<%= user.city && user.city === "Srikakulam" ? "selected" : "" %>>
+																Srikakulam</option>
+															<option value="Kurnool" <%= user.city && user.city === "Kurnool" ? "selected" : "" %>>
+																Kurnool</option>
+															<option value="Ananthapur"
+																<%= user.city && user.city === "Ananthapur" ? "selected" : "" %>>
+																Ananthapur</option>
+															<option value="Vijayawada"
+																<%= user.city && user.city === "Vijayawada" ? "selected" : "" %>>
+																Vijayawada</option>
+															<option value="Tirupati" <%= user.city && user.city === "Tirupati" ? "selected" : "" %>>
+																Tirupati</option>
+															<option value="Kakinada" <%= user.city && user.city === "Kakinada" ? "selected" : "" %>>
+																Kakinada</option>
+															<option value="Rajahmundhry"
+																<%= user.city && user.city === "Rajahmundhry" ? "selected" : "" %>>
+																Rajahmundhry</option>
+														</optgroup>
+
+														<optgroup label="Arunachal Pradesh">
+															<option value="Itanagar" <%= user.city && user.city === "Itanagar" ? "selected" : "" %>>
+																Itanagar</option>
+														</optgroup>
+
+														<optgroup label="Assam">
+															<option value="Guwahati" <%= user.city && user.city === "Guwahati" ? "selected" : "" %>>
+																Guwahati</option>
+														</optgroup>
+
+														<optgroup label="Bihar">
+															<option value="Patna" <%= user.city && user.city === "Patna" ? "selected" : "" %>>
+																Patna</option>
+														</optgroup>
+
+														<optgroup label="Chandigarh">
+															<option value="Chandigarh"
+																<%= user.city && user.city === "Chandigarh" ? "selected" : "" %>>
+																Chandigarh</option>
+														</optgroup>
+
+														<optgroup label="Chhattisgarh">
+															<option value="Raipur" <%= user.city && user.city === "Raipur" ? "selected" : "" %>>
+																Raipur</option>
+															<option value="Durg" <%= user.city && user.city === "Durg" ? "selected" : "" %>>
+																Durg</option>
+															<option value="Bilaspur" <%= user.city && user.city === "Bilaspur" ? "selected" : "" %>>
+																Bilaspur</option>
+															<option value="Bhilai" <%= user.city && user.city === "Bhilai" ? "selected" : "" %>>
+																Bhilai</option>
+														</optgroup>
+
+														<optgroup label="Dadra and Nagar Haveli">
+															<option value="Nagar Haveli"
+																<%= user.city && user.city === "Nagar Haveli" ? "selected" : "" %>>
+																Nagar Haveli</option>
+														</optgroup>
+
+														<optgroup label="Daman and Diu">
+															<option value="Daman" <%= user.city && user.city === "Daman" ? "selected" : "" %>>
+																Daman</option>
+														</optgroup>
+
+														<optgroup label="Goa">
+															<option value="North Goa" <%= user.city && user.city === "North Goa" ? "selected" : "" %>>
+																North Goa</option>
+														</optgroup>
+
+														<optgroup label="Gujarat">
+															<option value="Surat" <%= user.city && user.city === "Surat" ? "selected" : "" %>>
+																Surat</option>
+															<option value="Rajkot" <%= user.city && user.city === "Rajkot" ? "selected" : "" %>>
+																Rajkot</option>
+															<option value="Gandhi Nagar" <%= user.city && user.city === "Gandhi" ? "selected" : "" %>>
+																Gandhi Nagar</option>
+															<option value="Mehsana" <%= user.city && user.city === "Mehsana" ? "selected" : "" %>>
+																Mehsana</option>
+															<option value="Vadodara" <%= user.city && user.city === "Vadodara" ? "selected" : "" %>>
+																Vadodara</option>
+															<option value="Anand" <%= user.city && user.city === "Anand" ? "selected" : "" %>>
+																Anand</option>
+															<option value="Bhavnagar" <%= user.city && user.city === "Bhavnagar" ? "selected" : "" %>>
+																Bhavnagar</option>
+															<option value="Kachchh" <%= user.city && user.city === "Kachchh" ? "selected" : "" %>>
+																Kachchh</option>
+															<option value="Sabarkantha"
+																<%= user.city && user.city === "Sabarkantha" ? "selected" : "" %>>
+																Sabarkantha</option>
+															<option value="Junagadh" <%= user.city && user.city === "Junagadh" ? "selected" : "" %>>
+																Junagadh</option>
+															<option value="Jamnagar" <%= user.city && user.city === "Jamnagar" ? "selected" : "" %>>
+																Jamnagar</option>
+														</optgroup>
+
+														<optgroup label="Haryana">
+															<option value="Gurgaon" <%= user.city && user.city === "Gurgaon" ? "selected" : "" %>>
+																Gurgaon</option>
+															<option value="Rohtak" <%= user.city && user.city === "Rohtak" ? "selected" : "" %>>
+																Rohtak</option>
+															<option value="Faridabad" <%= user.city && user.city === "Faridabad" ? "selected" : "" %>>
+																Faridabad</option>
+															<option value="Sonepat" <%= user.city && user.city === "Sonepat" ? "selected" : "" %>>
+																Sonepat</option>
+															<option value="Hisar" <%= user.city && user.city === "Hisar" ? "selected" : "" %>>
+																Hisar</option>
+															<option value="Ambala" <%= user.city && user.city === "Ambala" ? "selected" : "" %>>
+																Ambala</option>
+															<option value="Yamuna Nagar" <%= user.city && user.city === "Yamuna" ? "selected" : "" %>>
+																Yamuna Nagar</option>
+															<option value="Bhiwani" <%= user.city && user.city === "Bhiwani" ? "selected" : "" %>>
+																Bhiwani</option>
+															<option value="Karnal" <%= user.city && user.city === "Karnal" ? "selected" : "" %>>
+																Karnal</option>
+															<option value="Kurukshetra"
+																<%= user.city && user.city === "Kurukshetra" ? "selected" : "" %>>
+																Kurukshetra</option>
+															<option value="Mahendragarh"
+																<%= user.city && user.city === "Mahendragarh" ? "selected" : "" %>>
+																Mahendragarh</option>
+															<option value="Sirsa" <%= user.city && user.city === "Sirsa" ? "selected" : "" %>>
+																Sirsa</option>
+															<option value="Panipat" <%= user.city && user.city === "Panipat" ? "selected" : "" %>>
+																Panipat</option>
+															<option value="Jind" <%= user.city && user.city === "Jind" ? "selected" : "" %>>
+																Jind</option>
+															<option value="Jhajjar" <%= user.city && user.city === "Jhajjar" ? "selected" : "" %>>
+																Jhajjar</option>
+															<option value="Rewari" <%= user.city && user.city === "Rewari" ? "selected" : "" %>>
+																Rewari</option>
+														</optgroup>
+
+														<optgroup label="Himachal Pradesh">
+															<option value="Solan" <%= user.city && user.city === "Solan" ? "selected" : "" %>>
+																Solan</option>
+															<option value="Shimla" <%= user.city && user.city === "Shimla" ? "selected" : "" %>>
+																Shimla</option>
+															<option value="Kangra" <%= user.city && user.city === "Kangra" ? "selected" : "" %>>
+																Kangra</option>
+															<option value="Hamirpur" <%= user.city && user.city === "Hamirpur" ? "selected" : "" %>>
+																Hamirpur</option>
+															<option value="Mandi" <%= user.city && user.city === "Mandi" ? "selected" : "" %>>
+																Mandi</option>
+														</optgroup>
+
+														<optgroup label="Jammu and Kashmir">
+															<option value="Jammu" <%= user.city && user.city === "Jammu" ? "selected" : "" %>>
+																Jammu</option>
+															<option value="Srinagar" <%= user.city && user.city === "Srinagar" ? "selected" : "" %>>
+																Srinagar</option>
+														</optgroup>
+
+														<optgroup label="Jharkhand">
+															<option value="Ranchi" <%= user.city && user.city === "Ranchi" ? "selected" : "" %>>
+																Ranchi</option>
+															<option value="Jamshedpur"
+																<%= user.city && user.city === "Jamshedpur" ? "selected" : "" %>>
+																Jamshedpur</option>
+														</optgroup>
+
+														<optgroup label="Karnataka">
+															<option value="Mangalore" <%= user.city && user.city === "Mangalore" ? "selected" : "" %>>
+																Mangalore</option>
+															<option value="Mysore" <%= user.city && user.city === "Mysore" ? "selected" : "" %>>
+																Mysore</option>
+															<option value="Belgaum" <%= user.city && user.city === "Belgaum" ? "selected" : "" %>>
+																Belgaum</option>
+															<option value="Gulbarga" <%= user.city && user.city === "Gulbarga" ? "selected" : "" %>>
+																Gulbarga</option>
+															<option value="Tumkur" <%= user.city && user.city === "Tumkur" ? "selected" : "" %>>
+																Tumkur</option>
+															<option value="Bijapur" <%= user.city && user.city === "Bijapur" ? "selected" : "" %>>
+																Bijapur</option>
+															<option value="Davanagere"
+																<%= user.city && user.city === "Davanagere" ? "selected" : "" %>>
+																Davanagere</option>
+															<option value="Dharwad" <%= user.city && user.city === "Dharwad" ? "selected" : "" %>>
+																Dharwad</option>
+															<option value="Shimoga" <%= user.city && user.city === "Shimoga" ? "selected" : "" %>>
+																Shimoga</option>
+															<option value="Udupi" <%= user.city && user.city === "Udupi" ? "selected" : "" %>>
+																Udupi</option>
+															<option value="Hassan" <%= user.city && user.city === "Hassan" ? "selected" : "" %>>
+																Hassan</option>
+															<option value="Bidar" <%= user.city && user.city === "Bidar" ? "selected" : "" %>>
+																Bidar</option>
+															<option value="Hubli" <%= user.city && user.city === "Hubli" ? "selected" : "" %>>
+																Hubli</option>
+															<option value="Kolar" <%= user.city && user.city === "Kolar" ? "selected" : "" %>>
+																Kolar</option>
+															<option value="Bagalkot" <%= user.city && user.city === "Bagalkot" ? "selected" : "" %>>
+																Bagalkot</option>
+															<option value="Kannada" <%= user.city && user.city === "Kannada" ? "selected" : "" %>>
+																Kannada</option>
+															<option value="Chitradurga"
+																<%= user.city && user.city === "Chitradurga" ? "selected" : "" %>>
+																Chitradurga</option>
+															<option value="Mandya" <%= user.city && user.city === "Mandya" ? "selected" : "" %>>
+																Mandya</option>
+															<option value="Gadag" <%= user.city && user.city === "Gadag" ? "selected" : "" %>>
+																Gadag</option>
+															<option value="Bellary" <%= user.city && user.city === "Bellary" ? "selected" : "" %>>
+																Bellary</option>
+															<option value="Raichur" <%= user.city && user.city === "Raichur" ? "selected" : "" %>>
+																Raichur</option>
+
+														</optgroup>
+														<optgroup label="Kerala">
+															<option value="Thiruvananthapuram"
+																<%= user.city && user.city === "Thiruvananthapuram" ? "selected" : "" %>>
+																Thiruvananthapuram</option>
+															<option value="Thrissur" <%= user.city && user.city === "Thrissur" ? "selected" : "" %>>
+																Thrissur</option>
+															<option value="Ernakulam" <%= user.city && user.city === "Ernakulam" ? "selected" : "" %>>
+																Ernakulam</option>
+															<option value="Malappuram"
+																<%= user.city && user.city === "Malappuram" ? "selected" : "" %>>
+																Malappuram</option>
+															<option value="Kochi" <%= user.city && user.city === "Kochi" ? "selected" : "" %>>
+																Kochi</option>
+															<option value="Kottayam" <%= user.city && user.city === "Kottayam" ? "selected" : "" %>>
+																Kottayam</option>
+															<option value="Kannur" <%= user.city && user.city === "Kannur" ? "selected" : "" %>>
+																Kannur</option>
+															<option value="Kozhikode" <%= user.city && user.city === "Kozhikode" ? "selected" : "" %>>
+																Kozhikode</option>
+															<option value="Kollam" <%= user.city && user.city === "Kollam" ? "selected" : "" %>>
+																Kollam</option>
+															<option value="Palakkad" <%= user.city && user.city === "Palakkad" ? "selected" : "" %>>
+																Palakkad</option>
+															<option value="Pathanamthitta"
+																<%= user.city && user.city === "Pathanamthitta" ? "selected" : "" %>>
+																Pathanamthitta</option>
+															<option value="Calicut" <%= user.city && user.city === "Calicut" ? "selected" : "" %>>
+																Calicut</option>
+															<option value="Trivandrum"
+																<%= user.city && user.city === "Trivandrum" ? "selected" : "" %>>
+																Trivandrum</option>
+															<option value="Alappuzha" <%= user.city && user.city === "Alappuzha" ? "selected" : "" %>>
+																Alappuzha</option>
+															<option value="Kasaragod" <%= user.city && user.city === "Kasaragod" ? "selected" : "" %>>
+																Kasaragod</option>
+														</optgroup>
+
+														<optgroup label="Madhya Pradesh">
+															<option value="Bhopal" <%= user.city && user.city === "Bhopal" ? "selected" : "" %>>
+																Bhopal</option>
+															<option value="Indore" <%= user.city && user.city === "Indore" ? "selected" : "" %>>
+																Indore</option>
+															<option value="Gwalior" <%= user.city && user.city === "Gwalior" ? "selected" : "" %>>
+																Gwalior</option>
+															<option value="Jabalpur" <%= user.city && user.city === "Jabalpur" ? "selected" : "" %>>
+																Jabalpur</option>
+															<option value="Ujjain" <%= user.city && user.city === "Ujjain" ? "selected" : "" %>>
+																Ujjain</option>
+															<option value="Sagar" <%= user.city && user.city === "Sagar" ? "selected" : "" %>>
+																Sagar</option>
+															<option value="Chhatarpur"
+																<%= user.city && user.city === "Chhatarpur" ? "selected" : "" %>>
+																Chhatarpur</option>
+														</optgroup>
+
+														<optgroup label="Maharashtra">
+															<option value="Pune" <%= user.city && user.city === "Pune" ? "selected" : "" %>>
+																Pune</option>
+															<option value="Nagpur" <%= user.city && user.city === "Nagpur" ? "selected" : "" %>>
+																Nagpur</option>
+															<option value="Aurangabad"
+																<%= user.city && user.city === "Aurangabad" ? "selected" : "" %>>
+																Aurangabad</option>
+															<option value="Nashik" <%= user.city && user.city === "Nashik" ? "selected" : "" %>>
+																Nashik</option>
+															<option value="Kolhapur" <%= user.city && user.city === "Kolhapur" ? "selected" : "" %>>
+																Kolhapur</option>
+															<option value="Ahmed Nagar"
+																<%= user.city && user.city === "Ahmed Nagar" ? "selected" : "" %>>
+																Ahmed Nagar</option>
+															<option value="Thane" <%= user.city && user.city === "Thane" ? "selected" : "" %>>
+																Thane</option>
+															<option value="Jalgaon" <%= user.city && user.city === "Jalgaon" ? "selected" : "" %>>
+																Jalgaon</option>
+															<option value="Solapur" <%= user.city && user.city === "Solapur" ? "selected" : "" %>>
+																Solapur</option>
+															<option value="Sangli" <%= user.city && user.city === "Sangli" ? "selected" : "" %>>
+																Sangli</option>
+															<option value="Amravati" <%= user.city && user.city === "Amravati" ? "selected" : "" %>>
+																Amravati</option>
+															<option value="Satara" <%= user.city && user.city === "Satara" ? "selected" : "" %>>
+																Satara</option>
+															<option value="Navi Mumbai" <%= user.city && user.city === "Navi" ? "selected" : "" %>>
+																Navi Mumbai</option>
+															<option value="Beed" <%= user.city && user.city === "Beed" ? "selected" : "" %>>
+																Beed</option>
+															<option value="Dhule" <%= user.city && user.city === "Dhule" ? "selected" : "" %>>
+																Dhule</option>
+															<option value="Wardha" <%= user.city && user.city === "Wardha" ? "selected" : "" %>>
+																Wardha</option>
+															<option value="Raigarh" <%= user.city && user.city === "Raigarh" ? "selected" : "" %>>
+																Raigarh</option>
+															<option value="Ratnagiri" <%= user.city && user.city === "Ratnagiri" ? "selected" : "" %>>
+																Ratnagiri</option>
+															<option value="Latur" <%= user.city && user.city === "Latur" ? "selected" : "" %>>
+																Latur</option>
+															<option value="Yavatmal" <%= user.city && user.city === "Yavatmal" ? "selected" : "" %>>
+																Yavatmal</option>
+															<option value="Chandrapur"
+																<%= user.city && user.city === "Chandrapur" ? "selected" : "" %>>
+																Chandrapur</option>
+															<option value="Nanded" <%= user.city && user.city === "Nanded" ? "selected" : "" %>>
+																Nanded</option>
+															<option value="Akola" <%= user.city && user.city === "Akola" ? "selected" : "" %>>
+																Akola</option>
+														</optgroup>
+
+														<optgroup label="Manipur">
+															<option value="Imphal" <%= user.city && user.city === "Imphal" ? "selected" : "" %>>
+																Imphal</option>
+														</optgroup>
+
+														<optgroup label="Meghalaya">
+															<option value="Shillong" <%= user.city && user.city === "Shillong" ? "selected" : "" %>>
+																Shillong</option>
+														</optgroup>
+
+														<optgroup label="Mizoram">
+															<option value="Aizawl" <%= user.city && user.city === "Aizawl" ? "selected" : "" %>>
+																Aizawl</option>
+														</optgroup>
+
+														<optgroup label="Nagaland">
+															<option value="Dimapur" <%= user.city && user.city === "Dimapur" ? "selected" : "" %>>
+																Dimapur</option>
+														</optgroup>
+
+														<optgroup label="Orissa">
+															<option value="Bhubaneswar"
+																<%= user.city && user.city === "Bhubaneswar" ? "selected" : "" %>>
+																Bhubaneswar</option>
+															<option value="Cuttack" <%= user.city && user.city === "Cuttack" ? "selected" : "" %>>
+																Cuttack</option>
+														</optgroup>
+
+														<optgroup label="Puducherry">
+															<option value="Pondicherry"
+																<%= user.city && user.city === "Pondicherry" ? "selected" : "" %>>
+																Pondicherry</option>
+														</optgroup>
+
+														<optgroup label="Punjab">
+															<option value="Patiala" <%= user.city && user.city === "Patiala" ? "selected" : "" %>>
+																Patiala</option>
+															<option value="Mohali" <%= user.city && user.city === "Mohali" ? "selected" : "" %>>
+																Mohali</option>
+															<option value="Ludhiana" <%= user.city && user.city === "Ludhiana" ? "selected" : "" %>>
+																Ludhiana</option>
+															<option value="Amritsar" <%= user.city && user.city === "Amritsar" ? "selected" : "" %>>
+																Amritsar</option>
+															<option value="Jalandhar" <%= user.city && user.city === "Jalandhar" ? "selected" : "" %>>
+																Jalandhar</option>
+															<option value="Bathinda" <%= user.city && user.city === "Bathinda" ? "selected" : "" %>>
+																Bathinda</option>
+															<option value="Hoshiarpur"
+																<%= user.city && user.city === "Hoshiarpur" ? "selected" : "" %>>
+																Hoshiarpur</option>
+															<option value="Sangrur" <%= user.city && user.city === "Sangrur" ? "selected" : "" %>>
+																Sangrur</option>
+															<option value="Gurdaspur" <%= user.city && user.city === "Gurdaspur" ? "selected" : "" %>>
+																Gurdaspur</option>
+															<option value="Moga" <%= user.city && user.city === "Moga" ? "selected" : "" %>>
+																Moga</option>
+															<option value="Firozpur" <%= user.city && user.city === "Firozpur" ? "selected" : "" %>>
+																Firozpur</option>
+															<option value="Fatehgarh" <%= user.city && user.city === "Fatehgarh" ? "selected" : "" %>>
+																Fatehgarh Sahib</option>
+															<option value="Kapurthala"
+																<%= user.city && user.city === "Kapurthala" ? "selected" : "" %>>
+																Kapurthala</option>
+														</optgroup>
+
+														<optgroup label="Rajasthan">
+															<option value="Udaipur" <%= user.city && user.city === "Udaipur" ? "selected" : "" %>>
+																Udaipur</option>
+															<option value="Alwar" <%= user.city && user.city === "Alwar" ? "selected" : "" %>>
+																Alwar</option>
+															<option value="Jodhpur" <%= user.city && user.city === "Jodhpur" ? "selected" : "" %>>
+																Jodhpur</option>
+															<option value="Ajmer" <%= user.city && user.city === "Ajmer" ? "selected" : "" %>>
+																Ajmer</option>
+															<option value="Sikar" <%= user.city && user.city === "Sikar" ? "selected" : "" %>>
+																Sikar</option>
+															<option value="Kota" <%= user.city && user.city === "Kota" ? "selected" : "" %>>
+																Kota</option>
+															<option value="Ganganagar"
+																<%= user.city && user.city === "Ganganagar" ? "selected" : "" %>>
+																Ganganagar</option>
+															<option value="Bikaner" <%= user.city && user.city === "Bikaner" ? "selected" : "" %>>
+																Bikaner</option>
+															<option value="Jhunjhunu" <%= user.city && user.city === "Jhunjhunu" ? "selected" : "" %>>
+																Jhunjhunu</option>
+															<option value="Hanumangarh"
+																<%= user.city && user.city === "Hanumangarh" ? "selected" : "" %>>
+																Hanumangarh</option>
+														</optgroup>
+
+														<optgroup label="Sikkim">
+															<option value="Gangtok" <%= user.city && user.city === "Gangtok" ? "selected" : "" %>>
+																Gangtok</option>
+														</optgroup>
+
+														<optgroup label="Tamil Nadu">
+															<option value="Coimbatore"
+																<%= user.city && user.city === "Coimbatore" ? "selected" : "" %>>
+																Coimbatore</option>
+															<option value="Namakkal" <%= user.city && user.city === "Namakkal" ? "selected" : "" %>>
+																Namakkal</option>
+															<option value="Kanyakumari"
+																<%= user.city && user.city === "Kanyakumari" ? "selected" : "" %>>
+																Kanyakumari</option>
+															<option value="Salem" <%= user.city && user.city === "Salem" ? "selected" : "" %>>
+																Salem</option>
+															<option value="Madurai" <%= user.city && user.city === "Madurai" ? "selected" : "" %>>
+																Madurai</option>
+															<option value="Vellore" <%= user.city && user.city === "Vellore" ? "selected" : "" %>>
+																Vellore</option>
+															<option value="Kanchipuram"
+																<%= user.city && user.city === "Kanchipuram" ? "selected" : "" %>>
+																Kanchipuram</option>
+															<option value="Erode" <%= user.city && user.city === "Erode" ? "selected" : "" %>>
+																Erode</option>
+															<option value="Tirunelveli"
+																<%= user.city && user.city === "Tirunelveli" ? "selected" : "" %>>
+																Tirunelveli</option>
+															<option value="Thanjavur" <%= user.city && user.city === "Thanjavur" ? "selected" : "" %>>
+																Thanjavur</option>
+															<option value="Villupuram"
+																<%= user.city && user.city === "Villupuram" ? "selected" : "" %>>
+																Villupuram</option>
+															<option value="Dindigul" <%= user.city && user.city === "Dindigul" ? "selected" : "" %>>
+																Dindigul</option>
+															<option value="Trichy" <%= user.city && user.city === "Trichy" ? "selected" : "" %>>
+																Trichy</option>
+															<option value="Tiruvannamalai"
+																<%= user.city && user.city === "Tiruvannamalai" ? "selected" : "" %>>
+																Tiruvannamalai</option>
+															<option value="Cuddalore" <%= user.city && user.city === "Cuddalore" ? "selected" : "" %>>
+																Cuddalore</option>
+															<option value="Thiruchirapalli"
+																<%= user.city && user.city === "Thiruchirapalli" ? "selected" : "" %>>
+																Thiruchirapalli</option>
+															<option value="Thiruvallur"
+																<%= user.city && user.city === "Thiruvallur" ? "selected" : "" %>>
+																Thiruvallur</option>
+															<option value="Pudukkottai"
+																<%= user.city && user.city === "Pudukkottai" ? "selected" : "" %>>
+																Pudukkottai</option>
+															<option value="Dharmapuri"
+																<%= user.city && user.city === "Dharmapuri" ? "selected" : "" %>>
+																Dharmapuri</option>
+															<option value="Thiruchirapalli"
+																<%= user.city && user.city === "Thiruchirapalli" ? "selected" : "" %>>
+																Thiruchirapalli</option>
+															<option value="Thoothukudi"
+																<%= user.city && user.city === "Thoothukudi" ? "selected" : "" %>>
+																Thoothukudi</option>
+															<option value="Sivaganga" <%= user.city && user.city === "Sivaganga" ? "selected" : "" %>>
+																Sivaganga</option>
+															<option value="Perambalur"
+																<%= user.city && user.city === "Perambalur" ? "selected" : "" %>>
+																Perambalur</option>
+															<option value="Virudhunagar"
+																<%= user.city && user.city === "Virudhunagar" ? "selected" : "" %>>
+																Virudhunagar</option>
+															<option value="Tiruppur" <%= user.city && user.city === "Tiruppur" ? "selected" : "" %>>
+																Tiruppur</option>
+															<option value="Nagapattinam"
+																<%= user.city && user.city === "Nagapattinam" ? "selected" : "" %>>
+																Nagapattinam</option>
+															<option value="Karur" <%= user.city && user.city === "Karur" ? "selected" : "" %>>
+																Karur</option>
+														</optgroup>
+
+														<optgroup label="Telangana">
+															<option value="Rangareddi"
+																<%= user.city && user.city === "Rangareddi" ? "selected" : "" %>>
+																Rangareddi</option>
+															<option value="Warangal" <%= user.city && user.city === "Warangal" ? "selected" : "" %>>
+																Warangal</option>
+															<option value="Nalgonda" <%= user.city && user.city === "Nalgonda" ? "selected" : "" %>>
+																Nalgonda</option>
+															<option value="Karim Nagar"
+																<%= user.city && user.city === "Karim Nagar" ? "selected" : "" %>>
+																Karim Nagar</option>
+															<option value="Khammam" <%= user.city && user.city === "Khammam" ? "selected" : "" %>>
+																Khammam</option>
+															<option value="Secunderabad"
+																<%= user.city && user.city === "Secunderabad" ? "selected" : "" %>>
+																Secunderabad</option>
+															<option value="Mahabub Nagar"
+																<%= user.city && user.city === "Mahabub Nagar" ? "selected" : "" %>>
+																Mahabub Nagar</option>
+															<option value="Nizamabad" <%= user.city && user.city === "Nizamabad" ? "selected" : "" %>>
+																Nizamabad</option>
+															<option value="Medak" <%= user.city && user.city === "Medak" ? "selected" : "" %>>
+																Medak</option>
+														</optgroup>
+
+														<optgroup label="Tripura">
+															<option value="Agartala" <%= user.city && user.city === "Agartala" ? "selected" : "" %>>
+																Agartala</option>
+														</optgroup>
+
+														<optgroup label="Uttar Pradesh">
+															<option value="Lucknow" <%= user.city && user.city === "Lucknow" ? "selected" : "" %>>
+																Lucknow</option>
+															<option value="Meerut" <%= user.city && user.city === "Meerut" ? "selected" : "" %>>
+																Meerut</option>
+															<option value="Ghaziabad" <%= user.city && user.city === "Ghaziabad" ? "selected" : "" %>>
+																Ghaziabad</option>
+															<option value="Noida" <%= user.city && user.city === "Noida" ? "selected" : "" %>>
+																Noida</option>
+															<option value="Kanpur" <%= user.city && user.city === "Kanpur" ? "selected" : "" %>>
+																Kanpur</option>
+															<option value="Allahabad" <%= user.city && user.city === "Allahabad" ? "selected" : "" %>>
+																Allahabad</option>
+															<option value="Agra" <%= user.city && user.city === "Agra" ? "selected" : "" %>>
+																Agra</option>
+															<option value="Greater Noida"
+																<%= user.city && user.city === "Greater Noida" ? "selected" : "" %>>
+																Greater Noida</option>
+															<option value="Varanasi" <%= user.city && user.city === "Varanasi" ? "selected" : "" %>>
+																Varanasi</option>
+															<option value="Bareilly" <%= user.city && user.city === "Bareilly" ? "selected" : "" %>>
+																Bareilly</option>
+															<option value="Mathura" <%= user.city && user.city === "Mathura" ? "selected" : "" %>>
+																Mathura</option>
+															<option value="Aligarh" <%= user.city && user.city === "Aligarh" ? "selected" : "" %>>
+																Aligarh</option>
+															<option value="Moradabad" <%= user.city && user.city === "Moradabad" ? "selected" : "" %>>
+																Moradabad</option>
+															<option value="Saharanpur"
+																<%= user.city && user.city === "Saharanpur" ? "selected" : "" %>>
+																Saharanpur</option>
+															<option value="Bijnor" <%= user.city && user.city === "Bijnor" ? "selected" : "" %>>
+																Bijnor</option>
+															<option value="Jaunpur" <%= user.city && user.city === "Jaunpur" ? "selected" : "" %>>
+																Jaunpur</option>
+															<option value="Gorakhpur" <%= user.city && user.city === "Gorakhpur" ? "selected" : "" %>>
+																Gorakhpur</option>
+															<option value="Muzaffarnagar"
+																<%= user.city && user.city === "Muzaffarnagar" ? "selected" : "" %>>
+																Muzaffarnagar</option>
+															<option value="Sultanpur" <%= user.city && user.city === "Sultanpur" ? "selected" : "" %>>
+																Sultanpur</option>
+														</optgroup>
+
+														<optgroup label="Uttarakhand">
+															<option value="Dehradun" <%= user.city && user.city === "Dehradun" ? "selected" : "" %>>
+																Dehradun</option>
+															<option value="Haridwar" <%= user.city && user.city === "Haridwar" ? "selected" : "" %>>
+																Haridwar</option>
+															<option value="Nainital" <%= user.city && user.city === "Nainital" ? "selected" : "" %>>
+																Nainital</option>
+															<option value="Roorkee" <%= user.city && user.city === "Roorkee" ? "selected" : "" %>>
+																Roorkee</option>
+															<option value="Garhwal" <%= user.city && user.city === "Garhwal" ? "selected" : "" %>>
+																Garhwal</option>
+														</optgroup>
+
+														<optgroup label="West Bengal">
+															<option value="Bardhaman" <%= user.city && user.city === "Bardhaman" ? "selected" : "" %>>
+																Bardhaman</option>
+															<option value="Murshidabad"
+																<%= user.city && user.city === "Murshidabad" ? "selected" : "" %>>
+																Murshidabad</option>
+															<option value="Hooghly" <%= user.city && user.city === "Hooghly" ? "selected" : "" %>>
+																Hooghly</option>
+															<option value="Medinipur" <%= user.city && user.city === "Medinipur" ? "selected" : "" %>>
+																Medinipur</option>
+															<option value="North 24 Parganas"
+																<%= user.city && user.city === "North 24 Parganas" ? "selected" : "" %>24 Parganas">
+																North 24 Parganas</option>
+															<option value="Nadia" <%= user.city && user.city === "Nadia" ? "selected" : "" %>>
+																Nadia</option>
+															<option value="Midnapore" <%= user.city && user.city === "Midnapore" ? "selected" : "" %>>
+																Midnapore</option>
+															<option value="Durgapur" <%= user.city && user.city === "Durgapur" ? "selected" : "" %>>
+																Durgapur</option>
+															<option value="Howrah" <%= user.city && user.city === "Howrah" ? "selected" : "" %>>
+																Howrah</option>
+														</optgroup>
+													</select>
+													<!-- <input class="form-control" type="text" name="updateProfile[city]"
+                                                        value="<%=user.city%>"> -->
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-xl-3 col-lg-3 col-form-label">State</label>
+												<div class="col-lg-9 col-xl-6">
+													<input class="form-control" type="text" name="updateProfile[state]" value="<%=user.state%>">
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-xl-3 col-lg-3 col-form-label">Pincode</label>
+												<div class="col-lg-9 col-xl-6">
+													<input class="form-control" type="text" name="updateProfile[pincode]"
+														value="<%=user.pincode%>">
+												</div>
+											</div>
+											<!-- <div class="form-group row">
                                                 <label class="col-xl-3 col-lg-3 col-form-label">State</label>
                                                 <div class="col-lg-9 col-xl-6">
                                                     <input class="form-control" type="text" name="" value="<%=user.state%>">
                                                     <span class="form-text text-muted">If you want your invoices addressed to a company. Leave blank to use your full name.</span>
                                                 </div>
                                             </div> -->
-                                            <div
-                                                class="kt-separator kt-separator--space-lg kt-separator--fit kt-separator--border-solid">
-                                            </div>
-                                            <div class="kt-form__actions">
-                                                <div class="row">
-                                                    <div class="col-xl-3"></div>
-                                                    <div class="col-lg-9 col-xl-6">
-                                                        <button type='submit' class="btn btn-label-brand btn-bold">Save
-                                                            changes</button>
-                                                        <!-- <a href="#" class="btn btn-clean btn-bold">Cancel</a> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </form>
-                </div>
-                <div class="tab-pane" id="changePasswordForm" role="tabpanel">
-                    <form action="/change-password/<%=user._id%>?_method=PUT" method="POST" onsubmit="return submitProfileEdit(event)">
-                        <div class="kt-form kt-form--label-right">
-                            <div class="kt-form__body">
-                                <div class="kt-section kt-section--first">
-                                    <div class="kt-section__body">
-                                        <div class="row">
-                                            <label class="col-xl-3"></label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <h3 class="kt-section__title kt-section__title-sm">Change Or Recover
-                                                    Your Password:</h3>
-                                            </div>
-                                        </div>
-                                        <!-- <div class="form-group row">
+											<div class="kt-separator kt-separator--space-lg kt-separator--fit kt-separator--border-solid">
+											</div>
+											<div class="kt-form__actions">
+												<div class="row">
+													<div class="col-xl-3"></div>
+													<div class="col-lg-9 col-xl-6">
+														<button type='submit' class="btn btn-label-brand btn-bold">Save
+															changes</button>
+														<!-- <a href="#" class="btn btn-clean btn-bold">Cancel</a> -->
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</form>
+				</div>
+				<div class="tab-pane" id="changePasswordForm" role="tabpanel">
+					<form action="/change-password/<%=user._id%>?_method=PUT" method="POST"
+						onsubmit="return submitProfileEdit(event)">
+						<div class="kt-form kt-form--label-right">
+							<div class="kt-form__body">
+								<div class="kt-section kt-section--first">
+									<div class="kt-section__body">
+										<div class="row">
+											<label class="col-xl-3"></label>
+											<div class="col-lg-9 col-xl-6">
+												<h3 class="kt-section__title kt-section__title-sm">Change Or Recover
+													Your Password:</h3>
+											</div>
+										</div>
+										<!-- <div class="form-group row">
                                             <label class="col-xl-3 col-lg-3 col-form-label">Current Password</label>
                                             <div class="col-lg-9 col-xl-6">
                                                 <input type="password" class="form-control" value=""
@@ -269,42 +967,42 @@
                                                     password ?</a>
                                             </div>
                                         </div> -->
-                                        <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">New Password</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <input type="password" class="form-control" name="newpassword" value=""
-                                                    placeholder="New password">
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="form-group form-group-last row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">Verify Password</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <input type="password" class="form-control" name="confirm" value=""
-                                                    placeholder="Verify password">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="kt-separator kt-separator--space-lg kt-separator--fit kt-separator--border-solid">
-                            </div>
-                            <div class="kt-form__actions">
-                                <div class="row">
-                                    <div class="col-xl-3"></div>
-                                    <div class="col-lg-9 col-xl-6">
-                                        <button type="submit" class="btn btn-label-brand btn-bold">Save changes</button>
-                                        <!-- <a href="#" class="btn btn-clean btn-bold">Cancel</a> -->
-                                        <a href="/forgot-password" class="btn btn-label-warning btn-bold ml-2 float-right">Forgot Password</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+										<div class="form-group row">
+											<label class="col-xl-3 col-lg-3 col-form-label">New Password</label>
+											<div class="col-lg-9 col-xl-6">
+												<input type="password" class="form-control" name="newpassword" value=""
+													placeholder="New password">
+
+											</div>
+										</div>
+										<div class="form-group form-group-last row">
+											<label class="col-xl-3 col-lg-3 col-form-label">Verify Password</label>
+											<div class="col-lg-9 col-xl-6">
+												<input type="password" class="form-control" name="confirm" value=""
+													placeholder="Verify password">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="kt-separator kt-separator--space-lg kt-separator--fit kt-separator--border-solid">
+							</div>
+							<div class="kt-form__actions">
+								<div class="row">
+									<div class="col-xl-3"></div>
+									<div class="col-lg-9 col-xl-6">
+										<button type="submit" class="btn btn-label-brand btn-bold">Save changes</button>
+										<!-- <a href="#" class="btn btn-clean btn-bold">Cancel</a> -->
+										<a href="/forgot-password" class="btn btn-label-warning btn-bold ml-2 float-right">Forgot
+											Password</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- end:: Content -->

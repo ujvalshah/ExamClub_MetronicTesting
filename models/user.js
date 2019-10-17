@@ -9,6 +9,7 @@ var UserSchema = new mongoose.Schema({
     password: String,
     firstName:{type:String, required: true},
     lastName:{type:String, required: true},
+    dob:{type: Date},
     exam:{type:String},
     image: String,
     description: String,
@@ -18,10 +19,13 @@ var UserSchema = new mongoose.Schema({
     state: {type:String},
     pincode: {type:String},
     mobile: { type: String},
+    workmobile: { type: String},
     email: {type:String, unique: true, required: true},
+    workemail: {type:String},
     emailVerified : {type: Boolean, default: false},
     emailverificationToken : String,
     emailVerificationexpiry: Date,
+    workprofile: String,
     subject: [String],
     videos:[
         { 

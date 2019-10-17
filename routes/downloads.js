@@ -28,7 +28,7 @@ cloudinary.config({
 //----------------------------------------------------------------------------//
 //--------------------------Downloads Routes----------------------------------//
 //----------------------------------------------------------------------------//
-router.get("/downloads", searchAndFilterDocs, function (req, res) {
+router.get("/downloadscopy", searchAndFilterDocs, function (req, res) {
     const { docdbQuery, docspaginateUrl } = res.locals;
     delete res.locals.docdbQuery;
 
@@ -53,7 +53,7 @@ router.get("/downloads", searchAndFilterDocs, function (req, res) {
     });
 });
 
-router.get("/downloadscopy", searchAndFilterDocs, async function (req, res) {
+router.get("/downloads", searchAndFilterDocs, async function (req, res) {
     try {
         console.log('*****Req.Query***********');
         console.log(req.query);
@@ -100,8 +100,8 @@ router.get("/downloadscopy", searchAndFilterDocs, async function (req, res) {
             foundDownload.examsButtons = examsButtons;
             foundDownload.authorFilter = authorFilter;
             if (req.user) {
-                let loggedinUser = await User.findById(req.user._id);
-                foundDownload.loggedinUser = loggedinUser;
+                let currentUser = await User.findById(req.user._id);
+                foundDownload.currentUser = currentUser;
                 return res.json(foundDownload);
             }
             return res.json(foundDownload);
@@ -114,7 +114,7 @@ router.get("/downloadscopy", searchAndFilterDocs, async function (req, res) {
             if (!foundDownload.length && res.locals.query) {
                 res.locals.error = 'No results match that query.';
             }
-            res.render("index2", { downloads: foundDownload, attemptsButtons, examsButtons, page: "downloadscopy", title: "Downloads" });
+            res.render("index2", { downloads: foundDownload, attemptsButtons, examsButtons, page: "downloads", title: "Downloads" });
         }
     } catch (error) {
         console.log(error);

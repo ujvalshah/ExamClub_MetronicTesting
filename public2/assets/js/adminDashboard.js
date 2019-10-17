@@ -1325,47 +1325,6 @@ function refreshAdminFacultyTable() {
               </div>
               </div>
           </span> 
-           <a href="/downloads/docs/${teacher._id}" id="${teacher._id}" onclick="return adminDashFaculty_downloadBtn(this)" title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a>
-           
-          <form id="bookmark_${teacher._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${teacher._id}/bookmark" method="POST">
-                    <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${teacher._id} ${data.loggedinUser && data.loggedinUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
-          </form>
-          
-        <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
-          <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
-            <i class="fas fa-share-alt"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
-            <ul class="kt-nav">
-              <li class="kt-nav__item">
-                <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${teacher._id}" title="Share" target="_blank" class="kt-nav__link">
-                        <i class="kt-nav__link-icon socicon-whatsapp"></i>
-                        <span class="kt-nav__link-text">Whatsapp</span>
-                </a>
-              </li>
-              <li class="kt-nav__item"> 
-
-                  <a href="tg://msg?url=http://${$(location).attr('host')}/downloads/${teacher._id}&text=${teacher.title}" class="kt-nav__link">
-                      <i class="kt-nav__link-icon socicon-telegram"></i>
-                      <span class="kt-nav__link-text">Telegram</span>
-                  </a>
-              </li>
-              <li class="kt-nav__item">
-                  <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/downloads/${teacher._id}" target="_blank" class="kt-nav__link">
-                      <i class="kt-nav__link-icon socicon-facebook"></i>
-                      <span class="kt-nav__link-text">Facebook</span>
-                  </a>
-              </li>
-              <li class="kt-nav__item" id='inputdownloadUrl_${teacher._id}'>
-              <input type="text"  class="form-control d-none" value="http://${$(location).attr('host')}/downloads/${teacher._id}"">
-                  <a href="javascript:;" data-link="http://${$(location).attr('host')}/downloads/${teacher._id}" id='downloadUrl_${teacher._id}' onclick="return shareLink(this)" class="kt-nav__link sharelinktrial"'>
-                      <i class="kt-nav__link-icon fa fa-link"></i>
-                      <span class="kt-nav__link-text">Copy URL</span>
-                  </a>
-              </li>
-              </ul>							
-            </div>
-        </div>
         </td>
        </tr>
        `);
@@ -1395,7 +1354,7 @@ function refreshAdminFacultyTable() {
         </div>
         <div class='flex-column'>
         <div class="d-flex justify-content-center mb-3"> 
-        <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(teacher.accountCreated).format("DD-MMM-YYYY")}</span>
+        <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(teacher.createdAt).format("DD-MMM-YYYY")}</span>
         </div>
         <div class=''>
         <span class="dropdown">
@@ -1413,53 +1372,6 @@ function refreshAdminFacultyTable() {
         </div>
         </div>
           </span> 
-        <a href="/downloads/docs/${teacher._id}" id="${teacher._id}"
-            onclick="downloadBtn(this)" title="Download" target="_blank"
-            class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i
-            class="fas fa-file-download"></i></span></a></a>
-            <form id="bookmark_${teacher._id}" onsubmit="teacherBookmark(event, this)"
-              class="d-inline-block m-0 p-0 bookmark-ajax-form"
-              action="/user/downloads/${teacher._id}/bookmark" method="POST">
-              <button type="submit" title="Bookmark"
-                class="btn btn-sm btn-clean btn-icon btn-icon-md ${teacher._id}"><i
-                  class="fas fa-bookmark"></i></button>
-            </form>
-
-            <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
-            <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
-              <i class="fas fa-share-alt"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
-              <ul class="kt-nav">
-                <li class="kt-nav__item">
-                  <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${teacher._id}" title="Share" target="_blank" class="kt-nav__link">
-                          <i class="kt-nav__link-icon socicon-whatsapp"></i>
-                          <span class="kt-nav__link-text">Whatsapp</span>
-                  </a>
-                </li>
-                <li class="kt-nav__item"> 
-  
-                    <a href="tg://msg?url=http://${$(location).attr('host')}/downloads/${teacher._id}&text=${teacher.title}" class="kt-nav__link">
-                        <i class="kt-nav__link-icon socicon-telegram"></i>
-                        <span class="kt-nav__link-text">Telegram</span>
-                    </a>
-                </li>
-                <li class="kt-nav__item">
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/downloads/${teacher._id}" target="_blank" class="kt-nav__link">
-                        <i class="kt-nav__link-icon socicon-facebook"></i>
-                        <span class="kt-nav__link-text">Facebook</span>
-                    </a>
-                </li>
-                <li class="kt-nav__item" id='inputdownloadUrl_${teacher._id}'>
-                <input type="text"  class="form-control d-none" value="http://${$(location).attr('host')}/downloads/${teacher._id}"">
-                    <a href="javascript:;" data-link="http://${$(location).attr('host')}/downloads/${teacher._id}" id='downloadUrl_${teacher._id}' onclick="return shareLink(this)" class="kt-nav__link sharelinktrial"'>
-                        <i class="kt-nav__link-icon fa fa-link"></i>
-                        <span class="kt-nav__link-text">Copy URL</span>
-                    </a>
-                </li>
-                </ul>							
-              </div>
-          </div>
             </div>
           </div>
   </div>
@@ -1716,7 +1628,7 @@ function adminDashFacultyTable_clearFilter() {
           </div>
           <div class='flex-column'>
           <div class="d-flex justify-content-center mb-3"> 
-          <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(teacher.accountCreated).format("DD-MMM-YYYY")}</span>
+          <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(teacher.createdAt).format("DD-MMM-YYYY")}</span>
           </div>
           <div class=''>
           <span class="dropdown">
@@ -1846,13 +1758,13 @@ function refreshAdminstudentTable() {
          <td class="align-middle text-center">${stud.username}</td>
          <td class="align-middle text-center">${stud.firstName}</td>
          <td class="align-middle text-center">${stud.lastName}</td>
+         <td class="align-middle text-center">${moment(stud.dob).format("DD-MMM-YYYY")}</td>
          <td class="align-middle text-center">${stud.exam}</td>
          <td class="align-middle text-center">${stud.city}</td>
-         <td class="align-middle text-center">${stud.state}</td>
          <td class="align-middle text-center">${stud.mobile}</td>
          <td class="align-middle text-center">${stud.email}</td>
          <td class="align-middle text-center">${stud.emailVerified}</td>
-         <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
+         <td class="align-middle text-center">${moment(stud.createdAt).format("DD-MMM-YYYY")}</td>
          <td class="align-middle text-center text-nowrap">
          <span class="dropdown">
               <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
@@ -1869,47 +1781,6 @@ function refreshAdminstudentTable() {
               </div>
               </div>
           </span> 
-           <a href="/downloads/docs/${stud._id}" id="${stud._id}" onclick="return adminDashstudent_downloadBtn(this)" title="Download" target="_blank" class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i class="fas fa-file-download"></i></span></a>
-           
-          <form id="bookmark_${stud._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${stud._id}/bookmark" method="POST">
-                    <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${stud._id} ${data.loggedinUser && data.loggedinUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
-          </form>
-          
-        <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
-          <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
-            <i class="fas fa-share-alt"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
-            <ul class="kt-nav">
-              <li class="kt-nav__item">
-                <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${stud._id}" title="Share" target="_blank" class="kt-nav__link">
-                        <i class="kt-nav__link-icon socicon-whatsapp"></i>
-                        <span class="kt-nav__link-text">Whatsapp</span>
-                </a>
-              </li>
-              <li class="kt-nav__item"> 
-
-                  <a href="tg://msg?url=http://${$(location).attr('host')}/downloads/${stud._id}&text=${stud.title}" class="kt-nav__link">
-                      <i class="kt-nav__link-icon socicon-telegram"></i>
-                      <span class="kt-nav__link-text">Telegram</span>
-                  </a>
-              </li>
-              <li class="kt-nav__item">
-                  <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/downloads/${stud._id}" target="_blank" class="kt-nav__link">
-                      <i class="kt-nav__link-icon socicon-facebook"></i>
-                      <span class="kt-nav__link-text">Facebook</span>
-                  </a>
-              </li>
-              <li class="kt-nav__item" id='inputdownloadUrl_${stud._id}'>
-              <input type="text"  class="form-control d-none" value="http://${$(location).attr('host')}/downloads/${stud._id}"">
-                  <a href="javascript:;" data-link="http://${$(location).attr('host')}/downloads/${stud._id}" id='downloadUrl_${stud._id}' onclick="return shareLink(this)" class="kt-nav__link sharelinktrial"'>
-                      <i class="kt-nav__link-icon fa fa-link"></i>
-                      <span class="kt-nav__link-text">Copy URL</span>
-                  </a>
-              </li>
-              </ul>							
-            </div>
-        </div>
         </td>
        </tr>
        `);
@@ -1939,7 +1810,7 @@ function refreshAdminstudentTable() {
         </div>
         <div class='flex-column'>
         <div class="d-flex justify-content-center mb-3"> 
-        <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(stud.accountCreated).format("DD-MMM-YYYY")}</span>
+        <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(stud.createdAt).format("DD-MMM-YYYY")}</span>
         </div>
         <div class=''>
         <span class="dropdown">
@@ -1957,53 +1828,6 @@ function refreshAdminstudentTable() {
         </div>
         </div>
           </span> 
-        <a href="/downloads/docs/${stud._id}" id="${stud._id}"
-            onclick="downloadBtn(this)" title="Download" target="_blank"
-            class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i
-            class="fas fa-file-download"></i></span></a></a>
-            <form id="bookmark_${stud._id}" onsubmit="studBookmark(event, this)"
-              class="d-inline-block m-0 p-0 bookmark-ajax-form"
-              action="/user/downloads/${stud._id}/bookmark" method="POST">
-              <button type="submit" title="Bookmark"
-                class="btn btn-sm btn-clean btn-icon btn-icon-md ${stud._id}"><i
-                  class="fas fa-bookmark"></i></button>
-            </form>
-
-            <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
-            <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
-              <i class="fas fa-share-alt"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
-              <ul class="kt-nav">
-                <li class="kt-nav__item">
-                  <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${stud._id}" title="Share" target="_blank" class="kt-nav__link">
-                          <i class="kt-nav__link-icon socicon-whatsapp"></i>
-                          <span class="kt-nav__link-text">Whatsapp</span>
-                  </a>
-                </li>
-                <li class="kt-nav__item"> 
-  
-                    <a href="tg://msg?url=http://${$(location).attr('host')}/downloads/${stud._id}&text=${stud.title}" class="kt-nav__link">
-                        <i class="kt-nav__link-icon socicon-telegram"></i>
-                        <span class="kt-nav__link-text">Telegram</span>
-                    </a>
-                </li>
-                <li class="kt-nav__item">
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/downloads/${stud._id}" target="_blank" class="kt-nav__link">
-                        <i class="kt-nav__link-icon socicon-facebook"></i>
-                        <span class="kt-nav__link-text">Facebook</span>
-                    </a>
-                </li>
-                <li class="kt-nav__item" id='inputdownloadUrl_${stud._id}'>
-                <input type="text"  class="form-control d-none" value="http://${$(location).attr('host')}/downloads/${stud._id}"">
-                    <a href="javascript:;" data-link="http://${$(location).attr('host')}/downloads/${stud._id}" id='downloadUrl_${stud._id}' onclick="return shareLink(this)" class="kt-nav__link sharelinktrial"'>
-                        <i class="kt-nav__link-icon fa fa-link"></i>
-                        <span class="kt-nav__link-text">Copy URL</span>
-                    </a>
-                </li>
-                </ul>							
-              </div>
-          </div>
             </div>
           </div>
   </div>
@@ -2266,7 +2090,7 @@ function adminDashStudentTable_clearFilter() {
           </div>
           <div class='flex-column'>
           <div class="d-flex justify-content-center mb-3"> 
-          <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(stud.accountCreated).format("DD-MMM-YYYY")}</span>
+          <span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-danger text-nowrap x-auto">${moment(stud.createdAt).format("DD-MMM-YYYY")}</span>
           </div>
           <div class=''>
           <span class="dropdown">

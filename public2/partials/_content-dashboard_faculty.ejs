@@ -2,6 +2,96 @@
 <!-- begin:: Content -->
 <div id="facultyDashboardDocs-container" class="mx-2">
   <!--begin: Filter-->
+  <div class="kt-container  kt-grid__item kt-grid__item--fluid mb-2 px-0">
+    <!--Begin::Section-->
+    <div class="row">
+        <h5 class="ml-3"><%=faculty.docs[0].username%>'s Profile</h5>
+        <span class="ml-2 text-muted">The following profile will be visible to the users. </span>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+    
+          <!--begin:: Widgets/Applications/User/Profile3-->
+          <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__body">
+              <div class="kt-widget kt-widget--user-profile-3">
+                <div class="kt-widget__top">
+                  <%if(faculty.docs[0].image){%>
+                  <div class="kt-widget__media kt-hidden-">
+                    <img src="./assets/media/users/100_1.jpg" alt="image">
+                  </div>
+                  <%} else {%>
+                  <div class="kt-widget__pic kt-widget__pic--success kt-font-success kt-font-boldest kt-font-light">
+                    <%=faculty.docs[0].firstName.charAt(0).toUpperCase()%><%=faculty.docs[0].lastName.charAt(0).toUpperCase()%>
+                  </div>
+                  <%}%>
+                <div class="kt-widget__content">
+                <div class="kt-widget__head">
+                  <a href="#" class="kt-widget__username">
+                  <%=faculty.docs[0].firstName.charAt(0).toUpperCase()%><%=faculty.docs[0].firstName.substring(1).toLowerCase()%>
+                  <%=faculty.docs[0].lastName.charAt(0).toUpperCase()%><%=faculty.docs[0].lastName.substring(1).toLowerCase()%>
+                  <i class="flaticon2-correct"></i>
+                  </a>
+                  <div class="kt-widget__action">
+                      <a href="/account-details/<%=faculty.docs[0]._id%>/edit" class="btn btn-label-brand btn-sm btn-upper">Edit</a>&nbsp;
+                      <!-- <button type="button" class="btn btn-brand btn-sm btn-upper">hire</button> -->
+                  </div>
+                </div>
+                <div class="kt-widget__subhead">
+                  <a href="#"><i class="flaticon2-calendar-3"></i>CA Faculty</a>
+                  <a href="#"><i class="flaticon2-new-email" title="Email"></i><%=faculty.docs[0].workemail%></a>
+                  <a href="#"><i class="flaticon2-phone" title="Mobile"></i><%= faculty.docs[0].workmobile || faculty.docs[0].workmobile !== "" ? faculty.docs[0].workmobile : `-` %></a>
+                  <a href="#"><i class="flaticon2-placeholder" title="Location"></i><%=faculty.docs[0].city%></a>
+                </div>
+                <div class="kt-widget__info">
+                  <div class="kt-widget__desc">
+                    <%=faculty.docs[0].description%>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="kt-widget__bottom">
+              <div class="kt-widget__item" title="This states the total no of times the aggregate documents of this faculty was downloaded.">
+                <div class="kt-widget__icon">
+                  <i class="kt-font-brand flaticon2-avatar"></i>
+                </div>
+                <div class="kt-widget__details">
+                  <span class="kt-widget__title">Agg Download Counter</span>
+                  <span class="kt-font-brand kt-widget__value">
+                    <%=faculty.docs[0].downloads.reduce(function (accumulator, download) {return accumulator + download.downloadCounter}, 0)%>
+                    times</span>
+                </div>
+              </div>
+    
+              <div class="kt-widget__item" title="This states the total no of documents uploaded by the faculty.">
+                <div class="kt-widget__icon">
+                  <i class="kt-font-warning flaticon2-file"></i>
+                </div>
+                <div class="kt-widget__details">
+                  <span class="kt-widget__title"> Notes Upload</span>
+                  <span class="kt-font-warning kt-widget__value"><%=faculty.docs[0].downloads.length%></span>
+                </div>
+              </div>
+              <div class="kt-widget__item" title="This states the total no of videos uploaded by the faculty.">
+                <div class="kt-widget__icon">
+                  <i class="kt-font-danger flaticon2-digital-marketing"></i>
+                </div>
+                <div class="kt-widget__details">
+                  <span class="kt-widget__title">Video Uploads</span>
+                  <span class="kt-font-danger kt-widget__value"><%=faculty.docs[0].videos.length%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!--end:: Widgets/Applications/User/Profile3-->
+    </div>
+    <!--End::Section-->
+  </div>
+
   <div class="kt-container  kt-grid__item kt-grid__item--fluid white-container py-4">
     <h5>Document Uploaded</h5>
 

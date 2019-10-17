@@ -11,7 +11,7 @@ var { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilt
 
 //----------------------------CA Videos Route----------------------------------//
 
-router.get("/videos", searchAndFilterVideo, async function (req, res) {
+router.get("/videoscopy", searchAndFilterVideo, async function (req, res) {
     const { dbQuery } = res.locals;
     delete res.locals.dbQuery;
     // res.locals.query=req.query;  
@@ -43,31 +43,18 @@ router.get("/videos", searchAndFilterVideo, async function (req, res) {
             if (req.xhr) {
                 res.json({ videos: foundVideo });
             }
-            res.render("index2", { videos: foundVideo, page: "videos", title: "Video Bank" });
+            res.render("index2", { videos: foundVideo, page: "videoscopy", title: "Video Bank" });
             // res.render("videos/videos", {videos: foundVideo, page:"videos"});
         }
     });
 });
 
 
-router.get("/videoscopy", searchAndFilterVideoCopy, async function (req, res) {
+router.get("/videos", searchAndFilterVideoCopy, async function (req, res) {
     try {
         const { dbQuery, videospaginateUrl } = res.locals;
         delete res.locals.dbQuery;
 
-        function sortFunction() {
-            if (req.query.sort === "Earliest") {
-                return { createdAt: 1 };
-            } else if (req.query.sort === "Latest") {
-                return { createdAt: -1 };
-            } else if (req.query.sort === "Description-Ascending") {
-                return { description: 1 };
-            } else if (req.query.sort === "Description-Descending") {
-                return { description: -1 };
-            } else {
-                return { createdAt: -1 };
-            }
-        }
         console.log('***req.query.sort****');
         console.log(req.query.sort);
         var foundVideo = await Video.paginate(dbQuery, {
@@ -101,7 +88,7 @@ router.get("/videoscopy", searchAndFilterVideoCopy, async function (req, res) {
                 req.flash('error', "Sorry, no videos were found! Please try again or search with different Parameters!");
                 res.redirect('back');
             } else {
-                res.render("index2", { videos: foundVideo, page: "videoscopy", title: "Video Bank" });
+                res.render("index2", { videos: foundVideo, page: "videos", title: "Video Bank" });
             }
         };
     }
