@@ -1,66 +1,121 @@
 <% include ./_subheader-subheader-v2 %>
 <!-- begin:: Content -->
 <div class="kt-container  kt-grid__item kt-grid__item--fluid">
-  
+
 
     <div class="container my-4">
-      <div class="row">
-      <%exams.forEach(function(exam){%>
-        <div class="col-4">
-            <div class="kt-portlet kt-portlet--height-fluid">
-                <div class="kt-portlet__head kt-portlet__head--noborder">
-                    <div class="kt-portlet__head-label">
-                    </div>
-                </div>
-                <div class="kt-portlet__body">
-                    <!--begin::Widget -->
-                    <div class="kt-widget kt-widget--user-profile-2">
-                        <div class="kt-widget__head">
-                            <div class="kt-widget__info pl-0">
-                                <a href="#" class="kt-widget__username">
-                                  <%=exam.exam%>
-                                </a>
-                            </div>
-                        </div>
-            
-                        <div class="kt-widget__body">
-                            <div class="kt-widget__item">
-                                <div class="kt-widget__contact">
-                                    <span class="kt-widget__label">Subjects:</span>
+        <h5>Faculty</h5>
+        <div class="row">
+            <div class="col-12 col-md-5">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <!-- <div class="kt-portlet__head kt-portlet__head--noborder">
+                                <div class="kt-portlet__head-label">
                                 </div>
-                                <%exam.subjects.forEach(function(subject){%>
-                                <div class="kt-widget__contact">
-                                    <span class="kt-widget__data"><%=subject%></span>
+                            </div> -->
+                    <div class="kt-portlet__body overflow-auto" style="max-height: 30rem;">
+                        <!--begin::Widget -->
+                        <div class="kt-widget kt-widget--user-profile-2">
+                            <div class="kt-widget__body">
+                                <div class="kt-widget__item">
+                                    <div class="kt-widget__contact">
+                                        <span class="kt-widget__label">Faculty List:</span>
+                                    </div>
+                                    <%teachers.forEach(function(teacher){%>
+                                    <div class="row kt-widget__contact">
+                                        <div class="col-7">
+                                            <span class="kt-widget__data"><%=teacher.displayName%></span>
+                                            <%if(!teacher.byAdmin){%>
+                                            <i class="flaticon2-correct kt-font-success"></i>
+                                            <%}%>
+                                        </div>
+                                        <!-- <div class=""> -->
+                                        <div class="col-5">
+                                            <div class="float-right">
+                                                <form action="/teacherform/<%=teacher.id%>?_method=DELETE" method="POST"
+                                                    class="float-right" onsubmit= "return ">
+                                                    <button type="submit"
+                                                        class="btn btn-label-danger btn-sm btn-upper">Delete</button>
+                                                </form>
+                                                    <a href='/teacherform/<%=teacher.id%>/edit'
+                                                class="btn btn-label-success btn-sm btn-upper float-right mr-2">Edit
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                        <!-- </div> -->
+                                    </div>
+                                    <%})%>
                                 </div>
-                                <%})%>
                             </div>
                         </div>
-            
-                        <div class="kt-widget__footer">
-                          <div class="row">
-                            <div class="col">
-                              <a href='/filterform/<%=exam.id%>/edit' class="btn btn-label-success btn-lg btn-upper">Edit</a>
-                            </div>
-                            <div class="col">
-                            <form action="/filterform/<%=exam.id%>?_method=DELETE" method="POST">
-                              <button type="submit" class="btn btn-label-danger btn-lg btn-upper">Delete</button>
-                            </form>
-                            </div>
-                          </div>
-                        </div>
+                        <!--end::Widget -->
                     </div>
-                    <!--end::Widget -->
                 </div>
             </div>
         </div>
+    </div>
 
-    <%})%>
+    <div class="container my-4">
+        <h5>Exams and Subjects</h5>
+        <div class="row">
+            <%exams.forEach(function(exam){%>
+            <div class="col-md-4">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head kt-portlet__head--noborder">
+                        <div class="kt-portlet__head-label">
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <!--begin::Widget -->
+                        <div class="kt-widget kt-widget--user-profile-2">
+                            <div class="kt-widget__head">
+                                <div class="kt-widget__info pl-0">
+                                    <a href="#" class="kt-widget__username">
+                                        <%=exam.exam%>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="kt-widget__body">
+                                <div class="kt-widget__item">
+                                    <div class="kt-widget__contact">
+                                        <span class="kt-widget__label">Subjects:</span>
+                                    </div>
+                                    <%exam.subjects.forEach(function(subject){%>
+                                    <div class="kt-widget__contact">
+                                        <span class="kt-widget__data"><%=subject%></span>
+                                    </div>
+                                    <%})%>
+                                </div>
+                            </div>
+
+                            <div class="kt-widget__footer">
+                                <div class="row">
+                                    <div class="col">
+                                        <a href='/filterform/<%=exam.id%>/edit'
+                                            class="btn btn-label-success btn-lg btn-upper">Edit</a>
+                                    </div>
+                                    <div class="col">
+                                        <form action="/filterform/<%=exam.id%>?_method=DELETE" method="POST">
+                                            <button type="submit"
+                                                class="btn btn-label-danger btn-lg btn-upper">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Widget -->
+                    </div>
+                </div>
+            </div>
+            <%})%>
+        </div>
     </div>
 
 
 
-</div>
+
+
+
 </div>
 <!-- end:: Content -->
-
-

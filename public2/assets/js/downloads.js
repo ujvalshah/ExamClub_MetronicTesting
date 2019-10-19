@@ -440,8 +440,8 @@ function filterfilling() {
     $('#author').append(`<option value='rf'>Faculty</option>`);
     filterlist.teachers.forEach(faculty => {
       $('#author').append($("<option></option>")
-        .attr("value", faculty.username)
-        .text(faculty.username))
+        .attr("value", faculty.name)
+        .text(faculty.name))
     });
   })
 };

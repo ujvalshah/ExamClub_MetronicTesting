@@ -1009,6 +1009,10 @@
                           class="la la-arrow-up ascending-download-number arrow-inactive"></i></span> <span
                         class="-emailVerified"><i
                           class="la la-arrow-down la-arrow-down-download-number arrow-inactive"></i></span></th>
+                    <th class="text-center align-middle text-nowrap">Faculty Verification<span class="isFacultyVerified"><i
+                          class="la la-arrow-up ascending-download-number arrow-inactive"></i></span> <span
+                        class="-isFacultyVerified"><i
+                          class="la la-arrow-down la-arrow-down-download-number arrow-inactive"></i></span></th>
                     <th class="text-center align-middle text-nowrap">Account Created<span class="createdAt"><i
                           class="la la-arrow-up ascending-download-number arrow-inactive"></i></span> <span
                         class="-createdAt"><i
@@ -1032,7 +1036,8 @@
                     <td class="align-middle text-center"><%=teacher.mobile%></td>
                     <td class="align-middle text-center"><%=teacher.email%></td>
                     <td class="align-middle text-center"><%=teacher.emailVerified%></td>
-                    <td class="align-middle text-center"><%= teacher.createdAt ? teacher.createdAt.toDateString() : teacher.accountCreated.toDateString() %></td>
+                    <td class="align-middle text-center"><%=teacher.isFacultyVerified%></td>
+                    <td class="align-middle text-center"><%=teacher.createdAt ? teacher.createdAt.toDateString() : teacher.accountCreated.toDateString() %></td>
                     <td class="align-middle text-center">
                       <span class="dropdown">
                         <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown"
@@ -1084,6 +1089,7 @@
                     <th class="text-center align-middle">Mobile</th>
                     <th class="text-center align-middle">Email</th>
                     <th class="text-center align-middle">Email-Verified</th>
+                    <th class="text-center align-middle">Faculty-Verification</th>
                     <th class="text-center align-middle">Account Created</th>
                     <th class="text-center align-middle">Action</th>
                   </tr>

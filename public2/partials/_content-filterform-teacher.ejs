@@ -1,0 +1,33 @@
+<% include ./_subheader-subheader-v2 %>
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+
+
+  
+  <!--------------------------Download - Upload - CREATE Form(GET)------------------------>
+
+  <div class="container">
+    <h3 class="pb-3">Filter Data</h3>
+
+    <form action="/teacherform" method="POST">
+
+      <div class="form-group row">
+        <label for="teacherFilterForm_exam" class="col-2 col-form-label">Faculty Name</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" name="teacher[displayName]" id="teacherFilterForm_exam">
+          <!-- <span class="form-text text-muted">We'll never share your email with anyone else.</span> -->
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+<!-- end:: Content -->

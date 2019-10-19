@@ -149,7 +149,9 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
 
         const { docdbQuery, docspaginateUrl } = res.locals;
         delete res.locals.docdbQuery;
-        var downloads = await Download.paginate(docdbQuery, {
+        var downloads = await Download.paginate(docdbQuery,
+            {
+            populate:{path:'author.id', model: 'User', select: 'firstName lastName' },
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-createdAt',
@@ -327,7 +329,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
             // limit: parseInt(req.query.limit) || 10,
             // sort: req.query.sort || '-createdAt',
         });
-
+        
         // console.log('page');
         // console.log(req.query.page);
         // console.log('limit');
@@ -392,8 +394,6 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
 } catch(error){
     console.log('DummmmmError');
     console.log(error);
-    req.flash('error'. error.message);
-    res.redirect('back');
 }
 });
     // Not EDITED

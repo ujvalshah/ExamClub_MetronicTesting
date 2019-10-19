@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const util = require('util');
 var User = require("../models/user.js");
 var Exam = require("../models/exam.js");
+var Teacher = require("../models/teacher.js");
 var Notification = require("../models/notifications.js");
 var Subscriber = require("../models/subscribers.js");
 const { sendPasswordResetMail, sendPasswordResetConfirmationMail, sendEmailVerificationMail } = require("../middleware/email.js");
@@ -43,6 +44,7 @@ router.post("/register", function (req, res) {
         mobile: req.body.user.mobile,
         city: req.body.user.city,
         exam: req.body.user.exam,
+        displayName: `${req.body.user.firstName} ${req.body.user.lastName}`
     });
     if (req.body.actype === "isStudent") {
         newUser.isStudent = true;
@@ -52,12 +54,14 @@ router.post("/register", function (req, res) {
         newUser.isAdmin = true;
     }
 
-    User.register(newUser, req.body.password, function (err, user) {
+    User.register(newUser, req.body.password, async function (err, user) {
         if (err) {
             console.log(err);
             req.flash("error", err.message);
             return res.redirect("/register");
         }
+
+
         passport.authenticate("local")(req, res, async function () {
             try {
                 const user = await User.findOne({ _id: req.user._id });
@@ -97,6 +101,7 @@ router.post("/register", function (req, res) {
         });
     });
 });
+
 
 // ----------------------------------------------------------------------------//
 // -----------------------------Email Verification Route-----------------------//
@@ -166,8 +171,34 @@ router.get("/login", function (req, res) {
     res.render("login", { page: 'login', title: "Login" });
 })
 
-//-----------------------------Faculty Verification---------------------------//
 
+// ----------------------------------------------------------------------------//
+// -----------------------------Faculty Verification Route---------------------//
+// ----------------------------------------------------------------------------//
+router.put('/facultyVerification/:id',  async function(req, res){
+    
+    let foundFaculty = await User.findById(req.params.id);
+
+    let updateFaculty = await User.findByIdAndUpdate(req.params.id, {isFacultyVerified: true}, { new: true });
+        console.log(updateFaculty);
+        if(updateFaculty.isFaculty){
+            let newTeacherData = {
+                name:`${updateFaculty.firstName} ${updateFaculty.lastName}`,
+                firstName:foundFaculty.firstName,
+                lastName:foundFaculty.lastName,
+                username:foundFaculty.username,
+                displayName: foundFaculty.displayName,
+            }
+            let newTeacher = await Teacher.create(newTeacherData);
+            console.log(newTeacher);
+        }
+    res.json("success!");
+})
+
+
+//----------------------------------------------------------------------------//
+//-------------------------------Faculty Validation---------------------------//
+//----------------------------------------------------------------------------//
 router.get("/faculty-validation", async (req, res) => {
     if (req.user.isFaculty === true && req.user.isFacultyVerified === false) {
         req.logout();
@@ -375,17 +406,17 @@ try{
 router.get('/filterform', isLoggedIn, isAdmin, async function (req, res) {
     try {
         let filterList = await Exam.find({}).exec();
+        let teacherList = await Teacher.find({}).exec();
         if(req.xhr){
-           return res.json({exams:filterList});
+           return res.json({exams:filterList, teachers:teacherList});
         }
-        res.render('index2', { page: 'filter-list', title: 'Filter List', exams: filterList });
+        res.render('index2', { page: 'filter-list', title: 'Filter List', exams: filterList, teachers: teacherList });
     } catch (error) {
         console.log(error);
         req.flash('error', error.message);
         res.redirect('back');
     }
 })
-
 
 router.get('/filterform/:id/edit', isLoggedIn, isAdmin, async function (req, res) {
     try {
@@ -452,13 +483,12 @@ router.delete('/filterform/:id', isLoggedIn, isAdmin, async function (req, res) 
     }
 });
 
-
-
 router.get('/api/filterdata', async function (req, res) {
     try {
         let filterList = await Exam.find({}).exec();
-        let teachers = await User.find({isFaculty:true});
-        if(!filterList || !teachers){
+        let teachers = await Teacher.find({});
+        // let teachers = await User.find({isFaculty:true});
+        if(!filterList){
             return console.log('Some issue. Try again')
         }
         res.json({exams:filterList, teachers});
@@ -480,6 +510,111 @@ router.get('/api/filterform/:exam/subjects', async function(req,res){
         console.log(error);  
     }
 });
+
+
+
+//----------------------------------------------------------------------------//
+//-----------------------Filter Form-Teachers Details-------------------------//
+//----------------------------------------------------------------------------//
+
+
+
+// router.get('/teacherform', isLoggedIn, isAdmin, async function (req, res) {
+//     try {
+//         let teacherList = await Teacher.find({}).exec();
+//         if(req.xhr){
+//            return res.json({exams:teacherList});
+//         }
+//         res.render('index2', { page: 'filter-list', title: 'Filter List', exams: teacherList });
+//     } catch (error) {
+//         console.log(error);
+//         req.flash('error', error.message);
+//         res.redirect('back');
+//     }
+// })
+
+
+router.get('/teacherform/:id/edit', isLoggedIn, isAdmin, async function (req, res) {
+    try {
+        let editFilterData = await Teacher.findById(req.params.id);
+        console.log(editFilterData);
+        res.render('index2', { page: 'filter-edit-form-teacher', title: 'Teacher List', teacher: editFilterData });
+
+    } catch (error) {
+        console.log(error);
+        req.flash('error', error.message);
+        res.redirect('back');
+    }
+})
+
+router.get('/teacherform/new', isLoggedIn, isAdmin, async function (req, res) {
+    try {
+        res.render('index2', { page: 'filter-form-teacher', title: 'Teacher Form'});
+    } catch (error) {
+        console.log(error);
+        req.flash('error', error.message);
+        res.redirect('/teacherform');
+    }
+});
+
+router.post('/teacherform', isLoggedIn, isAdmin, async function (req, res) {
+    try {
+        req.body.teacher.byAdmin=true;
+        console.log(req.body.teacher);
+        let examField = await Teacher.create(req.body.teacher);
+        console.log(examField);
+        req.flash('success', 'Your entry was successfully added in the Database');
+        res.redirect('/filterform');
+    } catch (error) {
+        console.log(error);
+        req.flash('error', error.message);
+        res.redirect('/filterform');
+    }
+});
+
+router.put('/teacherform/:id',  isLoggedIn, isAdmin, async function (req, res) {
+    try {
+        let foundTeacher = await Teacher.findByIdAndUpdate(req.params.id, req.body.teacher, { new: true });
+        console.log(foundTeacher);
+        req.flash('success', 'The data was successfully edited.');
+        res.redirect('/filterform');
+    } catch (error) {
+        console.log(error);
+        req.flash('error', error.message);
+        res.redirect('/filterform');
+    }
+})
+
+router.delete('/teacherform/:id', isLoggedIn, isAdmin, async function (req, res) {
+    try {
+        let deleteExamData = await Teacher.findByIdAndDelete(req.params.id);
+        req.flash('success', 'The data was successfully deleted.');
+        res.redirect('/filterform');
+    } catch (error) {
+        console.log(error);
+        req.flash('error', error.message);
+        res.redirect('/filterform');
+    }
+});
+
+
+
+router.get('/api/teacherdata', async function (req, res) {
+    try {
+        let teachers = await Teacher.find({}).exec();
+        if(!teachers){
+            return console.log('Some issue. Try again')
+        }
+        res.json({teachers});
+    } catch (error) {
+        console.log(error);
+        req.flash('error', error.message);
+        res.redirect('back');
+    }
+})
+
+
+
 
 // router.post('/notification/id', (req,res)=>{
 //     io.getIO().emit('notification')

@@ -94,7 +94,7 @@ function refreshDataTable() {
        <tr>
          <td class="align-middle text-center">${index + 1}</td>
          <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
-         <td class="align-middle text-center text-capitalize">${document.author.username}</td>
+         <td class="align-middle text-center text-capitalize">${document.author.id.firstName} ${document.author.id.lastName}</td>
          <td class="align-middle text-center dataTableText">${document.title}</td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.downloads.examsButtons[document.exam].class}">${document.exam}</span></td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
@@ -671,8 +671,8 @@ function refreshVideoBank() {
   let limitNo = $('#adminDashboardVideos-limit').val() || "10"
   let pageNo = $('#adminDashboardVideos-pagination .kt-pagination__link--active').text().trim() || 1;
   let sort = $("#adminDashboardVideos-sort").val() || "-createdAt"
-  // let videoDatatableUrl = `/videoscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
-  let videoDatatableUrl = `/videoscopy?page=${pageNo}`;
+  // let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
+  let videoDatatableUrl = `/videos?page=${pageNo}`;
 
   $.get(videoDatatableUrl, filterItems, function (data) {
     $('#adminDashboardVideos-pagination').empty();
@@ -1069,7 +1069,7 @@ function adminDashVideos_clearVideoFilter() {
     e.preventDefault();
     $('#adminDashboardVideos-filterTags').empty();
     let pageNo = $('#adminDashboardVideos-pagination .kt-pagination__link--active').text().trim() || 1;
-    let videoDatatableUrl = `/videoscopy?page=${pageNo}`;
+    let videoDatatableUrl = `/videos?page=${pageNo}`;
 
     $('#adminDashboardVideos-search').val("");
     $('#adminDashboardVideos-exam').val('rf');
@@ -1308,6 +1308,11 @@ function refreshAdminFacultyTable() {
          <td class="align-middle text-center">${teacher.mobile}</td>
          <td class="align-middle text-center">${teacher.email}</td>
          <td class="align-middle text-center">${teacher.emailVerified}</td>
+         <td class="align-middle text-center">${teacher.isFacultyVerified ? 
+          `<span class="btn btn-label-success btn-sm">Verified</span>`:`<form id="facultyVerification${teacher._id}" onsubmit="facultyVerification(event, this)" class="d-inline-block m-0 p-0" 
+          action="/facultyVerification/${teacher._id}?_method=PUT" method="POST">
+          <button type="submit" class="btn btn-label-danger btn-sm">Verify</button>
+          </form>` }</td>
          <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
          <td class="align-middle text-center text-nowrap">
          <span class="dropdown">
@@ -1341,10 +1346,10 @@ function refreshAdminFacultyTable() {
         </div>
         <div class="kt-widget4__info pr-1">
           <a href="#" class="kt-widget4__username">
-            ${teacher.username}
+            ${teacher.username} 
           </a>
           <p class="kt-widget4__text">
-            ${teacher.username} <br>
+            ${teacher.username}  <br> 
             <span
               class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-success text-nowrap">${teacher.exam}</span>
             <span
@@ -1369,6 +1374,13 @@ function refreshAdminFacultyTable() {
             <form action="/downloads/${teacher._id}?_method=DELETE" method="POST">
             <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
             </form>
+        </div>
+        <div class="dropdown-item"> 
+        ${teacher.isFacultyVerified ? 
+          ``:`<form id="facultyVerification${teacher._id}" onsubmit="facultyVerification(event, this)" class="d-inline-block m-0 p-0" 
+          action="/facultyVerification/${teacher._id}?_method=PUT" method="POST">
+          <button type="submit" class="btn btn-label-warning btn-sm"><i class="far fa-vote-yea"></i>Verify</button>
+          </form>` }
         </div>
         </div>
           </span> 
@@ -1541,6 +1553,11 @@ function adminDashFacultyTable_clearFilter() {
           <td class="align-middle text-center">${teacher.mobile}</td>
           <td class="align-middle text-center">${teacher.email}</td>
           <td class="align-middle text-center">${teacher.emailVerified}</td>
+          <td class="align-middle text-center">${teacher.isFacultyVerified ? 
+            `<span class="btn btn-label-success btn-sm">Verified</span>`:`<form id="facultyVerification${teacher._id}" onsubmit="facultyVerification(event, this)" class="d-inline-block m-0 p-0" 
+            action="/facultyVerification/${teacher._id}?_method=PUT" method="POST">
+            <button type="submit" class="btn btn-label-danger btn-sm">Verify</button>
+            </form>` }</td>
           <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
           <td class="align-middle text-center text-nowrap">
           <span class="dropdown">
@@ -1563,7 +1580,6 @@ function adminDashFacultyTable_clearFilter() {
            <form id="bookmark_${teacher._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${teacher._id}/bookmark" method="POST">
                      <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${teacher._id} ${data.loggedinUser && data.loggedinUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
            </form>
-           
          <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
            <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
              <i class="fas fa-share-alt"></i>
@@ -1644,6 +1660,13 @@ function adminDashFacultyTable_clearFilter() {
               <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
               </form>
           </div>
+          <div class="dropdown-item"> 
+          ${teacher.isFacultyVerified ? 
+            ``:`<form id="facultyVerification${teacher._id}" onsubmit="facultyVerification(event, this)" class="d-inline-block m-0 p-0" 
+            action="/facultyVerification/${teacher._id}?_method=PUT" method="POST">
+            <button type="submit" class="btn btn-label-warning btn-sm"><i class="far fa-vote-yea"></i>Verify</button>
+            </form>` }
+          </div>
           </div>
             </span> 
           <a href="/downloads/docs/${teacher._id}" id="${teacher._id}"
@@ -1713,6 +1736,21 @@ function adminDashFacultyTable_clearFilter() {
   })
 };
 
+function facultyVerification(e, elem){
+  e.preventDefault();
+  let actionUrl = $(elem).attr('action');
+  console.log(actionUrl);
+  $.ajax({
+    url: actionUrl,
+    type: "PUT",
+    success: function (data) {
+      console.log('facultyVerification-DAAATA');
+      console.log(data);
+      refreshAdminFacultyTable();
+      console.log('refreshed!');
+    }
+  });
+}
 // ----------------------------------------------------------------------------------------------------//
 // --------------------------------------------Student'S List------------------------------------------//
 // ----------------------------------------------------------------------------------------------------//
@@ -2199,7 +2237,7 @@ function filterfilling() {
     filterlist.teachers.forEach(faculty => {
       $('.adminDashboard-author').append($("<option></option>")
         .attr("value", faculty.username)
-        .text(faculty.username))
+        .text(faculty.name))
     });
   })
 };
