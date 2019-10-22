@@ -23,9 +23,11 @@
                                     <%teachers.forEach(function(teacher){%>
                                     <div class="row kt-widget__contact">
                                         <div class="col-7">
-                                            <span class="kt-widget__data"><%=teacher.displayName%></span>
                                             <%if(!teacher.byAdmin){%>
+                                            <span class="kt-widget__data"><%=teacher.registeredUser.displayName%></span>
                                             <i class="flaticon2-correct kt-font-success"></i>
+                                            <%} else if(teacher.byAdmin){%>
+                                            <span class="kt-widget__data"><%=teacher.displayName%></span>
                                             <%}%>
                                         </div>
                                         <!-- <div class=""> -->

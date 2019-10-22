@@ -14,7 +14,11 @@
       <div class="form-group row">
         <label for="teacherFilterEditForm_exam" class="col-2 col-form-label">Faculty Name</label>
         <div class="col-sm-4">
-          <input class="form-control" type="text" name="teacher[displayName]" value="<%=teacher.displayName%>" id="teacherFilterEditForm_exam">
+          <% if(teacher.byAdmin){%>
+            <input class="form-control" type="text" name="teacher[displayName]" value="<%=teacher.displayName%>" id="teacherFilterEditForm_exam">
+          <%} else if (!teacher.byAdmin){%>
+            <input class="form-control" type="text" name="teacher[displayName]" value="<%=teacher.registeredUser.displayName%>" id="teacherFilterEditForm_exam">
+          <%}%>
           <!-- <span class="form-text text-muted">We'll never share your email with anyone else.</span> -->
         </div>
       </div>

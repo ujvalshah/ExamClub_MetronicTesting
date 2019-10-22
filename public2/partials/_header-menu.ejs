@@ -150,11 +150,12 @@
                 </li>
             <%}%>
              <!-- begin:: Faculty's Directory -->
-            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'teachersindex' || page ==='facultyprofile' ? 'kt-menu__item--here' : '' %>"
+            <!-- <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'teachersindex' || page ==='facultyprofile' ? 'kt-menu__item--here' : '' %>"
             data-ktmenu-submenu-toggle="click" aria-haspopup="true">
             <a href="/teachers" class="kt-menu__link"><span class="kt-menu__link-text">Faculty's Directory</span><i
                     class="kt-menu__ver-arrow la la-angle-right"></i></a>
-            </li>
+            </li> -->
+             <!-- begin:: Faculty's Directory -->
             <!-- begin:: Downloads Menu -->
             <% if(currentUser && !currentUser.isStudent) { %>
             <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'downloads' || page === 'downloads_uploadform'|| page === 'downloads_updateform' ? 'kt-menu__item--here' : '' %>"
@@ -240,7 +241,7 @@
             <li class="kt-menu__item kt-menu__item--rel <%= typeof page !== 'undefined' && page === 'downloads' || page === 'downloads_uploadform'|| page === 'downloads_updateform' ? 'kt-menu__item--here' : '' %>"
                 data-ktmenu-submenu-toggle="click" aria-haspopup="true">
                 <a href="/downloads" class="kt-menu__link">
-                    <span class="kt-menu__link-text">CA Downloads</span><i
+                    <span class="kt-menu__link-text">CA Notes</span><i
                         class="kt-menu__ver-arrow la la-angle-right"></i>
                 </a>
             </li>

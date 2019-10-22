@@ -14,9 +14,9 @@ const io = require("../utils/sockets.js");
 //----------------------------------------------------------------------------//
 //--------------------------Index Route Of Application------------------------//
 //----------------------------------------------------------------------------//
-router.get("/", isEmailVerified, function (req, res) {
-    // res.redirect("/downloads");
-    res.render("index2", { page: "homepage", title: "Home" });
+router.get("/", function (req, res) {
+    res.redirect("/downloads");
+    // res.render("index2", { page: "homepage", title: "Home" });
 });
 
 
@@ -183,11 +183,8 @@ router.put('/facultyVerification/:id',  async function(req, res){
         console.log(updateFaculty);
         if(updateFaculty.isFaculty){
             let newTeacherData = {
-                name:`${updateFaculty.firstName} ${updateFaculty.lastName}`,
-                firstName:foundFaculty.firstName,
-                lastName:foundFaculty.lastName,
-                username:foundFaculty.username,
-                displayName: foundFaculty.displayName,
+                registeredUser: foundFaculty._id,
+                username: foundFaculty.username,
             }
             let newTeacher = await Teacher.create(newTeacherData);
             console.log(newTeacher);
@@ -406,7 +403,11 @@ try{
 router.get('/filterform', isLoggedIn, isAdmin, async function (req, res) {
     try {
         let filterList = await Exam.find({}).exec();
-        let teacherList = await Teacher.find({}).exec();
+        let teacherList = await Teacher.find({}).populate({ path: 'registeredUser', select: 'displayName' }).exec();
+        console.log('teacherList');
+        console.log(teacherList);
+        console.log('teacherList.registeredUser');
+        console.log(teacherList.registeredUser);
         if(req.xhr){
            return res.json({exams:filterList, teachers:teacherList});
         }
@@ -448,7 +449,8 @@ router.get('/filterform/new', isLoggedIn, isAdmin, async function (req, res) {
 router.post('/filterform', isLoggedIn, isAdmin, async function (req, res) {
     try {
         console.log(req.body.filterform);
-        let examField = await Exam.create(req.body.filterform);
+        req.body.filterform.username =  req.body.filterform.displayName;
+        let newExam = await Exam.create(req.body.filterform);
         req.flash('success', 'Your entry was successfully added in the Database');
         res.redirect('/filterform');
     } catch (error) {
@@ -486,11 +488,13 @@ router.delete('/filterform/:id', isLoggedIn, isAdmin, async function (req, res) 
 router.get('/api/filterdata', async function (req, res) {
     try {
         let filterList = await Exam.find({}).exec();
-        let teachers = await Teacher.find({});
+        let teachers = await Teacher.find({}).populate({path:'registeredUser', select:'displayName'});
         // let teachers = await User.find({isFaculty:true});
         if(!filterList){
             return console.log('Some issue. Try again')
         }
+        console.log('teachers');
+        console.log(teachers);
         res.json({exams:filterList, teachers});
     } catch (error) {
         console.log(error);
@@ -536,9 +540,10 @@ router.get('/api/filterform/:exam/subjects', async function(req,res){
 
 router.get('/teacherform/:id/edit', isLoggedIn, isAdmin, async function (req, res) {
     try {
-        let editFilterData = await Teacher.findById(req.params.id);
-        console.log(editFilterData);
-        res.render('index2', { page: 'filter-edit-form-teacher', title: 'Teacher List', teacher: editFilterData });
+        let adminAuthor = await Teacher.findById(req.params.id).populate({ path: 'registeredUser', select: 'displayName' }).exec();
+        console.log('adminAuthor');
+        console.log(adminAuthor);
+        res.render('index2', { page: 'filter-edit-form-teacher', title: 'Teacher List', teacher: adminAuthor });
 
     } catch (error) {
         console.log(error);
@@ -560,9 +565,10 @@ router.get('/teacherform/new', isLoggedIn, isAdmin, async function (req, res) {
 router.post('/teacherform', isLoggedIn, isAdmin, async function (req, res) {
     try {
         req.body.teacher.byAdmin=true;
+        req.body.teacher.username= req.body.teacher.displayName;
         console.log(req.body.teacher);
-        let examField = await Teacher.create(req.body.teacher);
-        console.log(examField);
+        let adminAauthor = await Teacher.create(req.body.teacher);
+        console.log(adminAauthor);
         req.flash('success', 'Your entry was successfully added in the Database');
         res.redirect('/filterform');
     } catch (error) {

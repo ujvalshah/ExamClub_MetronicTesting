@@ -58,6 +58,7 @@ router.get("/videos", searchAndFilterVideoCopy, async function (req, res) {
         console.log('***req.query.sort****');
         console.log(req.query.sort);
         var foundVideo = await Video.paginate(dbQuery, {
+            populate:{path:'author.id', model: 'User',  select: 'displayName' },
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-createdAt',

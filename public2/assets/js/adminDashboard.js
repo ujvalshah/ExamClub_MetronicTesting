@@ -94,7 +94,7 @@ function refreshDataTable() {
        <tr>
          <td class="align-middle text-center">${index + 1}</td>
          <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
-         <td class="align-middle text-center text-capitalize">${document.author.id.firstName} ${document.author.id.lastName}</td>
+         <td class="align-middle text-center text-capitalize">${document.author.id.displayName}</td>
          <td class="align-middle text-center dataTableText">${document.title}</td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.downloads.examsButtons[document.exam].class}">${document.exam}</span></td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
@@ -177,7 +177,7 @@ function refreshDataTable() {
                     ${document.title}
                   </a>
                   <p class="kt-widget4__text">
-                    ${document.author.username} <br>
+                  ${document.author.id.displayName} <br>
                     <span
                       class="kt-badge kt-badge--inline kt-badge--bold ${data.downloads.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
                     <span
@@ -314,16 +314,22 @@ function adminDashDocs_filter() {
   var filterItemsArray = $('#adminDashboard_document_table').serializeArray();
   $('#adminDashboard-document-filter-tags').empty();
   filterItemsArray.forEach(function (filter) {
+
+    let filtername = filter.name;
+    let filterId = $(`select[name="${filtername}"]`).attr('id');
+    let filterText = $(`#${filterId} option:selected`).text().trim();
+
+
     if (filter.name.indexOf('[') === -1) {
       if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit' && filter.name !== 'sort' && filter.name !== 'sortDashboard' && filter.name !== 'page') {
         filtername = filter.name;
-        $('#adminDashboard-document-filter-tags').append(`<span id="adminDashboardDocs-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+        $('#adminDashboard-document-filter-tags').append(`<span id="adminDashboardDocs-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filterText}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
       }
     }
     if (filter.name.indexOf('[') !== -1) {
       if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit' && filter.name !== 'sort' && filter.name !== 'sortDashboard' && filter.name !== 'page') {
         filtername = filter.name.slice(0, (filter.name.indexOf('[')));
-        $('#adminDashboard-document-filter-tags').append(`<span id="adminDashboardDocs-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+        $('#adminDashboard-document-filter-tags').append(`<span id="adminDashboardDocs-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filterText}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
       }
     }
 
@@ -479,7 +485,7 @@ function adminDashDocs_clearDocsFilter() {
        <tr>
          <td class="align-middle text-center">${index + 1}</td>
          <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
-         <td class="align-middle text-center text-capitalize">${document.author.username}</td>
+         <td class="align-middle text-center text-capitalize">${document.author.id.displayName}</td>
          <td class="align-middle text-center dataTableText">${document.title}</td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.downloads.examsButtons[document.exam].class}">${document.exam}</span></td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
@@ -562,7 +568,7 @@ function adminDashDocs_clearDocsFilter() {
                     ${document.title}
                   </a>
                   <p class="kt-widget4__text">
-                    ${document.author.username} <br>
+                    ${document.author.id.displayName} <br>
                     <span
                       class="kt-badge kt-badge--inline kt-badge--bold ${data.downloads.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
                     <span
@@ -672,9 +678,14 @@ function refreshVideoBank() {
   let pageNo = $('#adminDashboardVideos-pagination .kt-pagination__link--active').text().trim() || 1;
   let sort = $("#adminDashboardVideos-sort").val() || "-createdAt"
   // let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
-  let videoDatatableUrl = `/videos?page=${pageNo}`;
+  
+  let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
 
   $.get(videoDatatableUrl, filterItems, function (data) {
+
+    console.log('videovideovideo');
+    console.log(data);
+
     $('#adminDashboardVideos-pagination').empty();
     for (let i = 1; i <= data.pages; i++) {
       $('#adminDashboardVideos-pagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
@@ -720,7 +731,7 @@ function refreshVideoBank() {
                 </div>
                 <div class="kt-widget19__info">
                   <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                    ${video.author.username}
+                    ${video.author.id.displayName}
                   </a>
                   <span class="kt-widget19__time small">
                     CA Faculty/Author
@@ -789,7 +800,7 @@ function refreshVideoBank() {
               </div>
               <div class="kt-widget19__info">
                 <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                  ${video.author.username}
+                  ${video.author.id.displayName}
                 </a>
                 <span class="kt-widget19__time small">
                   CA Faculty/Author
@@ -880,24 +891,32 @@ function adminDashVideos_paginationButtons() {
   })
 }
 
-function adminDashVideos_filter() {
+function adminDashVideos_filter(elem) {
   $('#adminDashboardVideos-search').val("")
   var filterItemsArray = $('#adminDashboardVideos-form').serializeArray();
   console.log('filterItemsArray');
   $('#adminDashboardVideos-filterTags').empty();
   filterItemsArray.forEach(function (filter) {
+
+    let filtername = filter.name;
+    if(filtername.indexOf('[')!== -1){
+      var filterId = filtername.slice(0, (filtername.indexOf('[')));
+    } else {
+      var filterId = filtername;
+    }
+    let filterText = $(`#adminDashboardVideos-${filterId} option:selected`).text().trim();
     if (filter.name.indexOf('[') === -1) {
       if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit'
         && filter.name !== 'sort' && filter.name !== 'page') {
-        filtername = filter.name;
-        $('#adminDashboardVideos-filterTags').append(`<span id="adminDashboardVideos-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+        let filtername = filter.name;
+        $('#adminDashboardVideos-filterTags').append(`<span id="adminDashboardVideos-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filterText}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
       }
     }
     if (filter.name.indexOf('[') !== -1) {
       if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit'
         && filter.name !== 'sort' && filter.name !== 'page') {
-        filtername = filter.name.slice(0, (filter.name.indexOf('[')));
-        $('#adminDashboardVideos-filterTags').append(`<span id="adminDashboardVideos-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+        let filtername = filter.name.slice(0, (filter.name.indexOf('[')));
+        $('#adminDashboardVideos-filterTags').append(`<span id="adminDashboardVideos-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filterText}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
       }
     }
 
@@ -1069,7 +1088,7 @@ function adminDashVideos_clearVideoFilter() {
     e.preventDefault();
     $('#adminDashboardVideos-filterTags').empty();
     let pageNo = $('#adminDashboardVideos-pagination .kt-pagination__link--active').text().trim() || 1;
-    let videoDatatableUrl = `/videos?page=${pageNo}`;
+    let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
 
     $('#adminDashboardVideos-search').val("");
     $('#adminDashboardVideos-exam').val('rf');
@@ -1125,7 +1144,7 @@ function adminDashVideos_clearVideoFilter() {
                 </div>
                 <div class="kt-widget19__info">
                   <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                    ${video.author.username}
+                    ${video.author.id.displayName}
                   </a>
                   <span class="kt-widget19__time small">
                     CA Faculty/Author
@@ -1194,7 +1213,7 @@ function adminDashVideos_clearVideoFilter() {
               </div>
               <div class="kt-widget19__info">
                 <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                  ${video.author.username}
+                  ${video.author.id.displayName}
                 </a>
                 <span class="kt-widget19__time small">
                   CA Faculty/Author
@@ -1445,13 +1464,22 @@ function adminDashFaculty_filter() {
   var filterItemsArray = $('#adminDashboardfaculty-form').serializeArray();
   $('#adminDashboardfaculty-filterTags').empty();
   filterItemsArray.forEach(function (filter) {
+
+    let filtername = filter.name;
+    if(filtername.indexOf('[')!== -1){
+      var filterId = filtername.slice(0, (filtername.indexOf('[')));
+    } else {
+      var filterId = filtername;
+    }
+    let filterText = $(`#adminDashboardfaculty-${filterId} option:selected`).text().trim();
+    
     if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit' && filter.name !== 'sort' && filter.name !== 'sortDashboard' && filter.name !== 'page') {
       if (filter.name.indexOf('[') !== -1) {
         filtername = filter.name.slice(0, (filter.name.indexOf('[')));
       } else {
         filtername = filter.name;
       }
-      $('#adminDashboardfaculty-filterTags').append(`<span id="adminDashboardfaculty-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      $('#adminDashboardfaculty-filterTags').append(`<span id="adminDashboardfaculty-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filterText}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
     }
   })
   refreshAdminFacultyTable();
@@ -1927,13 +1955,23 @@ function adminDashStudent_filter() {
   var filterItemsArray = $('#adminDashboardstudent-form').serializeArray();
   $('#adminDashboardstudent-filterTags').empty();
   filterItemsArray.forEach(function (filter) {
+
+    let filtername = filter.name;
+    if(filtername.indexOf('[')!== -1){
+      var filterId = filtername.slice(0, (filtername.indexOf('[')));
+    } else {
+      var filterId = filtername;
+    }
+    let filterText = $(`#adminDashboardstudent-${filterId} option:selected`).text().trim();
+
+
     if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit' && filter.name !== 'sort' && filter.name !== 'sortDashboard' && filter.name !== 'page') {
       if (filter.name.indexOf('[') !== -1) {
         filtername = filter.name.slice(0, (filter.name.indexOf('[')));
       } else {
         filtername = filter.name;
       }
-      $('#adminDashboardstudent-filterTags').append(`<span id="adminDashboardstudent-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      $('#adminDashboardstudent-filterTags').append(`<span id="adminDashboardstudent-${filtername}" class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-warning">${filterText}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
     }
   })
   refreshAdminstudentTable();
@@ -2232,12 +2270,18 @@ function filterfilling() {
     })
 
     $('.adminDashboard-author').empty();
-    $('.adminDashboard-author').append(`<option value='rf'>Faculty</option> 
-    <option value='All'>All</option>`);
+    $('.adminDashboard-author').append(`<option value='rf'>Faculty</option>`);
     filterlist.teachers.forEach(faculty => {
-      $('.adminDashboard-author').append($("<option></option>")
-        .attr("value", faculty.username)
-        .text(faculty.name))
+      if (!faculty.byAdmin) {
+        $('.adminDashboard-author').append($("<option></option>")
+          .attr("value", faculty.username)
+          .text(faculty.registeredUser.displayName))
+      }
+      if (faculty.byAdmin) {
+        $('.adminDashboard-author').append($("<option></option>")
+          .attr("value", faculty.username)
+          .text(faculty.displayName))
+      }
     });
   })
 };

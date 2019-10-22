@@ -6,7 +6,7 @@
     <!--Begin::Section-->
     <div class="row">
         <h5 class="ml-3"><%=faculty.docs[0].username%>'s Profile</h5>
-        <span class="ml-2 text-muted">The following profile will be visible to the users. </span>
+        <!-- <span class="ml-2 text-muted">The following profile will be visible to the users. </span> -->
     </div>
     <div class="row">
         <div class="col-xl-12">
@@ -51,33 +51,33 @@
               </div>
             </div>
             <div class="kt-widget__bottom">
-              <div class="kt-widget__item" title="This states the total no of times the aggregate documents of this faculty was downloaded.">
+              <div class="kt-widget__item" title="This states the no of times your documents/notes have been downloaded in aggregate.">
                 <div class="kt-widget__icon">
                   <i class="kt-font-brand flaticon2-avatar"></i>
                 </div>
                 <div class="kt-widget__details">
-                  <span class="kt-widget__title">Agg Download Counter</span>
+                  <span class="kt-widget__title">Agg Download Counter <span title="This states the no of times your documents/notes have been downloaded in aggregate."><i class="flaticon2-information"></i></span></span>
                   <span class="kt-font-brand kt-widget__value">
                     <%=faculty.docs[0].downloads.reduce(function (accumulator, download) {return accumulator + download.downloadCounter}, 0)%>
                     times</span>
                 </div>
               </div>
     
-              <div class="kt-widget__item" title="This states the total no of documents uploaded by the faculty.">
+              <div class="kt-widget__item" title="This states the no of documents/notes uploaded by you.">
                 <div class="kt-widget__icon">
                   <i class="kt-font-warning flaticon2-file"></i>
                 </div>
                 <div class="kt-widget__details">
-                  <span class="kt-widget__title"> Notes Upload</span>
+                  <span class="kt-widget__title"> Notes Upload <span title="This states the no of documents/notes uploaded by you."><i class="flaticon2-information"></i></span></span>
                   <span class="kt-font-warning kt-widget__value"><%=faculty.docs[0].downloads.length%></span>
                 </div>
               </div>
-              <div class="kt-widget__item" title="This states the total no of videos uploaded by the faculty.">
+              <div class="kt-widget__item" title="This states the no of videos uploaded by you.">
                 <div class="kt-widget__icon">
                   <i class="kt-font-danger flaticon2-digital-marketing"></i>
                 </div>
                 <div class="kt-widget__details">
-                  <span class="kt-widget__title">Video Uploads</span>
+                  <span class="kt-widget__title">Video Uploads <span title="This states the no of videos uploaded by you."><i class="flaticon2-information"></i></span></span>
                   <span class="kt-font-danger kt-widget__value"><%=faculty.docs[0].videos.length%></span>
                 </div>
               </div>
@@ -93,7 +93,7 @@
   </div>
 
   <div class="kt-container  kt-grid__item kt-grid__item--fluid white-container py-4">
-    <h5>Document Uploaded</h5>
+    <h5>Your Document Uploads</h5>
 
     <!--begin: Pagination-->
     <div class="kt-pagination kt-pagination--sm kt-pagination--brand my-3 justify-content-center">
@@ -275,7 +275,7 @@
 
 <div id="facultyDashboardVideos-container" class="my-5 mx-2">
   <div class="kt-container kt-grid__item kt-grid__item--fluid white-container py-5">
-    <h5>Videos Uploaded</h5>
+    <h5>Your Video Uploads</h5>
     <div class="kt-portlet__body">
       <div id="noOfVideoUploads" class="pagination__desc pagination__desc-video text-center font-weigth-500">
       </div>

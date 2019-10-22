@@ -151,7 +151,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
         delete res.locals.docdbQuery;
         var downloads = await Download.paginate(docdbQuery,
             {
-            populate:{path:'author.id', model: 'User', select: 'firstName lastName' },
+            populate:{path:'author.id', model: 'User',  select: 'displayName' },
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-createdAt',
@@ -162,7 +162,6 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
             req.flash("error");
             res.redirect("back");
         }
-
         var attemptsButtons = {
             "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
             "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
@@ -191,12 +190,14 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
         delete res.locals.dbQuery;
 
         var videos = await Video.paginate(dbQuery, {
+            populate:{path:'author.id', model: 'User',  select: 'displayName' },
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-createdAt',
         });
         videos.pageUrl = videospaginateUrl;
-
+        console.log('videos');
+        console.log(videos);
         //-------------------------------------------FacultyList------------------------------------------//
         const {facultydbquery, facultypaginateUrl } = res.locals;
         delete res.locals.facultydbquery;

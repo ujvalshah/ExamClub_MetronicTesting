@@ -47,7 +47,7 @@ $(document).ready(function () {
          <tr>
            <td class="align-middle text-center">${index + 1}</td>
            <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
-           <td class="align-middle text-center text-capitalize">${document.author.username}</td>
+           <td class="align-middle text-center text-capitalize">${document.author.id.displayName}</td>
            <td class="align-middle text-center dataTableText">${document.title}</td>
            <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.examsButtons[document.exam].class}">${document.exam}</span></td>
            <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
@@ -122,7 +122,7 @@ $(document).ready(function () {
                   <div class="kt-widget4__item">
                   <div class="kt-widget4__pic kt-widget4__pic--pic">
                   <span
-                      class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.username.charAt(0).toUpperCase()}</span>
+                      class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.usernameid.displayNamecharAt(0).toUpperCase()}</span>
                     <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
                   </div>
                   <div class="kt-widget4__info pr-1">
@@ -130,7 +130,7 @@ $(document).ready(function () {
                       ${document.title}
                     </a>
                     <p class="kt-widget4__text">
-                      ${document.author.username} <br>
+                      ${document.author.id.displayName} <br>
                       <span
                         class="kt-badge kt-badge--inline kt-badge--bold ${data.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
                       <span

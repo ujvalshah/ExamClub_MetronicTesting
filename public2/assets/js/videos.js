@@ -254,18 +254,23 @@ function filter() {
   // console.log(filterItemsArray);
   $('#videos-filter-tags').empty();
   filterItemsArray.forEach(function (filter) {
+
+    var filtername = filter.name;
+    var filterId = $(`select[name="${filtername}"]`).attr('id');
+    var filterText = $(`#${filterId} option:selected`).text().trim();
+    
     if (filter.name.indexOf('[') === -1) {
       if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit'
       && filter.name !== 'sort' && filter.name !== 'page') {
       filtername = filter.name;
-      $('#videos-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      $('#videos-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filterText}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
     }
   }
   if (filter.name.indexOf('[') !== -1) {
     if (filter.value && filter.value !== "" && filter.value !== 'rf' && filter.name !== 'limit'
       && filter.name !== 'sort' && filter.name !== 'page') {
       filtername = filter.name.slice(0, (filter.name.indexOf('[')));
-      $('#videos-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filter.value}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
+      $('#videos-filter-tags').append(`<span id="${filtername}" class="btn btn-label-warning btn-sm">${filterText}<span class='ml-2'><i class="fas fa-times fa-sm"></i></span></span>&nbsp;`);
     }
   }
   })
@@ -689,9 +694,16 @@ function filterfilling() {
     $('#author').empty();
     $('#author').append(`<option value='rf'>Faculty</option>`);
     filterlist.teachers.forEach(faculty => {
-      $('#author').append($("<option></option>")
-        .attr("value", faculty.name)
-        .text(faculty.name))
+      if (!faculty.byAdmin) {
+        $('#author').append($("<option></option>")
+          .attr("value", faculty.username)
+          .text(faculty.registeredUser.displayName))
+      }
+      if (faculty.byAdmin) {
+        $('#author').append($("<option></option>")
+          .attr("value", faculty.username)
+          .text(faculty.displayName))
+      }
     });
   })
 };

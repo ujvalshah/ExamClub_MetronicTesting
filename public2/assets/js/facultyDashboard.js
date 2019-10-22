@@ -1,10 +1,10 @@
 
 $(document).ready(function () {
 
-	datatableinit();
+  datatableinit();
   videoBankinit();
   facultyDashDocs_sorting();
-  
+
   downloadBtn();
 
 });
@@ -13,25 +13,25 @@ $(document).ready(function () {
 // -------------------------------------------------Documents------------------------------------------//
 // ----------------------------------------------------------------------------------------------------//
 function refreshDataTable() {
-	var filterItems = $('#facultyDashboardDocs-form').serialize();
-	var filterItemsArray = $('#facultyDashboardDocs-form').serializeArray();
-	console.log(filterItemsArray);
-	if ($("#largeScreen-facultyDashboardDocs").is(":hidden")) {
-		var sort = $("select#facultyDashboardDocs-sorting-mobile option:checked").val() || '-createdAt';
-	}
-	if ($("#largeScreen-facultyDashboardDocs").is(":visible")) {
-		var sort = $(".faculty-sort-active").closest('span').attr('class');
-	}
-	console.log('sort');
-	console.log(sort);
-	let userURL = $('#menu_dashboard_userURL').attr('href');
-	let adminDashboardDownloadTableURL = `${userURL}?sort=${sort}`;
-	console.log(adminDashboardDownloadTableURL);
-	$.get(adminDashboardDownloadTableURL, filterItems, function (data) {
-		$("#facultyDashboardDocs-tableBody").empty();
-		$('#smallScreen-facultyDashboardDocs-content').empty();
-		data.faculty.docs[0].downloads.forEach(function (document, index) {
-			$("#facultyDashboardDocs-tableBody").append(`
+  var filterItems = $('#facultyDashboardDocs-form').serialize();
+  var filterItemsArray = $('#facultyDashboardDocs-form').serializeArray();
+  console.log(filterItemsArray);
+  if ($("#largeScreen-facultyDashboardDocs").is(":hidden")) {
+    var sort = $("select#facultyDashboardDocs-sorting-mobile option:checked").val() || '-createdAt';
+  }
+  if ($("#largeScreen-facultyDashboardDocs").is(":visible")) {
+    var sort = $(".faculty-sort-active").closest('span').attr('class');
+  }
+  console.log('sort');
+  console.log(sort);
+  let userURL = $('#menu_dashboard_userURL').attr('href');
+  let adminDashboardDownloadTableURL = `${userURL}?sort=${sort}`;
+  console.log(adminDashboardDownloadTableURL);
+  $.get(adminDashboardDownloadTableURL, filterItems, function (data) {
+    $("#facultyDashboardDocs-tableBody").empty();
+    $('#smallScreen-facultyDashboardDocs-content').empty();
+    data.faculty.docs[0].downloads.forEach(function (document, index) {
+      $("#facultyDashboardDocs-tableBody").append(`
          <tr>
            <td class="align-middle text-center">${index + 1}</td>
            <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
@@ -98,11 +98,11 @@ function refreshDataTable() {
           </td>
          </tr>
          `);
-		});
+    });
 
 
-		data.faculty.docs[0].downloads.forEach(function (document, index) {
-			$("#smallScreen-facultyDashboardDocs-content").append(`
+    data.faculty.docs[0].downloads.forEach(function (document, index) {
+      $("#smallScreen-facultyDashboardDocs-content").append(`
                   <div class="kt-widget4__item">
                   <div class="kt-widget4__pic kt-widget4__pic--pic">
                   <span
@@ -186,47 +186,50 @@ function refreshDataTable() {
                     </div>
             </div>
          `);
-		});
+    });
 
-
-		$("#noOfDocUploads").text(`Showing ${data.faculty.docs[0].downloads.length} documents uploads`)
-	})
+    if (data.faculty.docs[0].downloads.length == 0) {
+      $("#noOfDocUploads").text(`You have not uploaded any documents yet!`)
+    } else {
+      $("#noOfDocUploads").text(`You have uploaded ${data.faculty.docs[0].downloads.length} documents`)
+    }
+  })
 };
 
 function datatableinit() {
-	refreshDataTable();
-	// $('#facultyDashboardDocsPagination li').first().addClass('kt-pagination__link--active')
+  refreshDataTable();
+  // $('#facultyDashboardDocsPagination li').first().addClass('kt-pagination__link--active')
 };
 
 function facultyDashDocs_filter() {
-	refreshDataTable();
+  refreshDataTable();
 }
 
 function facultyDashDocs_sorting() {
-	$('#facultyDashboardDocs-tableHeader i').on("click", function () {
-		$('.faculty-sort-active').addClass('arrow-inactive');
-		$('.faculty-sort-active').removeClass('faculty-sort-active');
-		$(this).removeClass('arrow-inactive');
-		$(this).addClass('faculty-sort-active');
-		let para = $(this).closest('span').attr('class');
-		console.log(para);
-		refreshDataTable();
-	})
+  $('#facultyDashboardDocs-tableHeader i').on("click", function () {
+    $('.faculty-sort-active').addClass('arrow-inactive');
+    $('.faculty-sort-active').removeClass('faculty-sort-active');
+    $(this).removeClass('arrow-inactive');
+    $(this).addClass('faculty-sort-active');
+    let para = $(this).closest('span').attr('class');
+    console.log(para);
+    refreshDataTable();
+  })
 }
 
 function shareLink(elem) {
-	var val = $(elem).closest('li').attr('id');
-	var url = $(elem).attr('data-link');
-	console.log(val);
-	console.log(url);
-	var $input = $("<input>");
-	$('#' + val).append($input);
-	$input.val(url).select();
-	document.execCommand("copy");
-	$input.remove();
+  var val = $(elem).closest('li').attr('id');
+  var url = $(elem).attr('data-link');
+  console.log(val);
+  console.log(url);
+  var $input = $("<input>");
+  $('#' + val).append($input);
+  $input.val(url).select();
+  document.execCommand("copy");
+  $input.remove();
 
-	$('#alert-notifications').append(
-		`<div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+  $('#alert-notifications').append(
+    `<div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
     <div class='alert-text'>Link successfully copied!</div>
     <div class="alert-close">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -234,24 +237,24 @@ function shareLink(elem) {
     </button>
     </div>
     </div>`
-	)
+  )
 
-	$('html, body').animate({ scrollTop: 0 }, 'fast');
+  $('html, body').animate({ scrollTop: 0 }, 'fast');
 }
 
 function downloadBtn(elem) {
 
-	var buttonid = $(elem).attr('id');
-	var actionUrl = `/download/${buttonid}/counter`;
-	$.ajax({
-		url: actionUrl,
-		type: "PUT",
-		success: function (data) {
-			refreshDataTable();
-			console.log(data);
-		}
-	});
-	$(this).find("button").blur();
+  var buttonid = $(elem).attr('id');
+  var actionUrl = `/download/${buttonid}/counter`;
+  $.ajax({
+    url: actionUrl,
+    type: "PUT",
+    success: function (data) {
+      refreshDataTable();
+      console.log(data);
+    }
+  });
+  $(this).find("button").blur();
 }
 
 // function documentBookmark(e, element) {
@@ -292,23 +295,23 @@ function downloadBtn(elem) {
 // ----------------------------------------------------------------------------------------------------//
 
 function refreshVideoBank() {
-	var filterItems = $('#facultyDashboardVideos-form').serialize();
-	var filterItemsArray = $('#facultyDashboardVideos-form').serializeArray();
-	console.log(filterItemsArray);
-	let sort = $("#facultyDashboardVideos-sort").val() || "-createdAt";
-	console.log('sortssssss');
-	console.log(sort);
-	// let videoDatatableUrl = `/videoscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
-	let userURL = $('#menu_dashboard_userURL').attr('href');
-	let videoDatatableUrl = `${userURL}?sort=${sort}`;
-	console.log('videoDatatableUrl');
-	console.log(videoDatatableUrl);
-	$.get(videoDatatableUrl, filterItems, function (data) {
+  var filterItems = $('#facultyDashboardVideos-form').serialize();
+  var filterItemsArray = $('#facultyDashboardVideos-form').serializeArray();
+  console.log(filterItemsArray);
+  let sort = $("#facultyDashboardVideos-sort").val() || "-createdAt";
+  console.log('sortssssss');
+  console.log(sort);
+  // let videoDatatableUrl = `/videoscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
+  let userURL = $('#menu_dashboard_userURL').attr('href');
+  let videoDatatableUrl = `${userURL}?sort=${sort}`;
+  console.log('videoDatatableUrl');
+  console.log(videoDatatableUrl);
+  $.get(videoDatatableUrl, filterItems, function (data) {
 
-		$("#facultyDashboardVideos-body").empty();
+    $("#facultyDashboardVideos-body").empty();
 
-		data.faculty.docs[0].videos.forEach(function (video) {
-			$("#facultyDashboardVideos-body").append(`
+    data.faculty.docs[0].videos.forEach(function (video) {
+      $("#facultyDashboardVideos-body").append(`
         <div class="col-md-4 mb-3 px-1">
         <!--begin:: Widgets/Blog-->
         <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
@@ -375,18 +378,22 @@ function refreshVideoBank() {
       </div>
       <!--end:: Widgets/Blog-->
   </div>`);
-		});
+    });
 
-		$("#noOfVideoUploads").text(`Showing ${data.faculty.docs[0].videos.length} video uploads `)
-	})
+    if(data.faculty.docs[0].videos.length == 0){
+      $("#noOfVideoUploads").text(`You haven'd added any Videos yet!`)
+    } else {
+    $("#noOfVideoUploads").text(`Showing ${data.faculty.docs[0].videos.length} video uploads`)
+    }
+  })
 };
 
 function videoBankinit() {
-	refreshVideoBank();
+  refreshVideoBank();
 };
 
 function facultyDashVideos_filter() {
-	refreshVideoBank();
+  refreshVideoBank();
 };
 
 // function bookmarkVideo(e, elem) {

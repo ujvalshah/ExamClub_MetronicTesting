@@ -174,8 +174,11 @@ function refreshDataTable() {
          `);
 		});
 
-
-		$("#noOfDocBookmarks").text(`Showing ${data.student.docs[0].downloadBookmarks.length} bookmarks`)
+    if(data.student.docs[0].downloadBookmarks.length== 0){
+      $("#noOfDocBookmarks").text(`You don't have any bookmarks yet!`)
+    } else{
+    $("#noOfDocBookmarks").text(`Showing ${data.student.docs[0].downloadBookmarks.length} bookmarks`)
+    }
 	})
 };
 
@@ -364,9 +367,13 @@ function refreshVideoBank() {
       </div>
       <!--end:: Widgets/Blog-->
   </div>`);
-		});
-
-		$("#noOfVideoBookmarks").text(`Showing ${data.student.docs[0].videoBookmarks.length} Video bookmarks `)
+    });
+    
+    if(data.student.docs[0].videoBookmarks.length== 0){
+      $("#noOfVideoBookmarks").text(`You don't have any bookmarks yet!`)
+    } else {
+    $("#noOfVideoBookmarks").text(`Showing ${data.student.docs[0].videoBookmarks.length} bookmarks`)
+    }
 	})
 };
 

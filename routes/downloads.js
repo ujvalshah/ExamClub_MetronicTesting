@@ -65,6 +65,7 @@ router.get("/downloads", searchAndFilterDocs, async function (req, res) {
         console.log(docdbQuery);
 
         var foundDownload = await Download.paginate(docdbQuery, {
+            populate:{path:'author.id', model: 'User',  select: 'displayName' }, 
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-createdAt',
@@ -73,7 +74,7 @@ router.get("/downloads", searchAndFilterDocs, async function (req, res) {
             req.flash("error");
             res.redirect("back");
         }
-        var authorFilter = await User.find({ isFaculty: true });
+        // var authorFilter = await User.find({ isFaculty: true });
         var attemptsButtons = {
             "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
             "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
@@ -98,7 +99,7 @@ router.get("/downloads", searchAndFilterDocs, async function (req, res) {
             // foundDownload.docdbQuery = docdbQuery;
             foundDownload.attemptsButtons = attemptsButtons;
             foundDownload.examsButtons = examsButtons;
-            foundDownload.authorFilter = authorFilter;
+            // foundDownload.authorFilter = authorFilter;
             if (req.user) {
                 let currentUser = await User.findById(req.user._id);
                 foundDownload.currentUser = currentUser;

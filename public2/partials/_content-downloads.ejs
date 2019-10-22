@@ -162,11 +162,9 @@
       <!-- <li>
           <a href="#">2</a>
         </li> -->
-      <%if((downloads.page+1)<= downloads.pages){%>
       <li class="kt-pagination__link--prev">
         <a href="<%=docspaginateUrl%><%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
       </li>
-      <%}%>
         <li class="kt-pagination__link--last">
           <a href="<%=docspaginateUrl%><%=downloads.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
       </li>
@@ -206,10 +204,10 @@
             Attempt-Asc
           </option>
           <option value="-author">
-            Author-Desc
+            Faculty-Desc
           </option>
           <option value="author">
-            Author-Asc
+            Faculty-Asc
           </option>
         </select>
         <!-- </form> -->
@@ -239,7 +237,7 @@
                     class="la la-arrow-down la-arrow-down-download-date downloads-sort-active"></i></span>
                 <!-- </button> -->
               </th>
-              <th class="text-center align-middle text-nowrap">Author <span class='author'><i
+              <th class="text-center align-middle text-nowrap">Faculty <span class='author'><i
                     class="la la-arrow-up ascending-download-author arrow-inactive"></i></span><span class='-author'><i
                     class="la la-arrow-down la-arrow-down-download-author arrow-inactive"></i></span></th>
               <th class="text-center align-middle text-nowrap">Title</th>
@@ -266,7 +264,11 @@
             <tr>
               <td class="align-middle text-center"><%=index +1 %></td>
               <td class="align-middle text-center"><%=document.createdAt.toDateString()%></td>
-              <td class="align-middle text-center text-capitalize"><%=document.author.username%></td>
+              <%if(document.byAdmin){%>
+                <td class="align-middle text-center text-capitalize"><%=document.author.displayName%></td>
+              <%} else if(document.byAdmin === false) {%>
+                <td class="align-middle text-center text-capitalize"><%=document.author.registeredUser.displayName%></td>
+              <%}%>
               <td class="align-middle text-center dataTableText"><%=document.title%></td>
               <td class="align-middle text-center"><span
                   class="btn btn-bold btn-sm btn-font-sm <%=examsButtons[document.exam].class%>"><%=document.exam%></span>
@@ -318,7 +320,7 @@
             <tr>
               <th class="text-center align-middle">No</th>
               <th class="text-center align-middle">Date of Upload</th>
-              <th class="text-center align-middle">Author</th>
+              <th class="text-center align-middle">Faculty</th>
               <th class="text-center align-middle">Title</th>
               <th class="text-center align-middle">Exam</th>
               <th class="text-center align-middle">Attempt</th>
@@ -369,7 +371,11 @@
                     <%=document.title%>
                   </a>
                   <p class="kt-widget4__text">
-                    <%=document.author.username%> <br>
+                      <%if(document.byAdmin){%>
+                        <%=document.author.displayName%> <br>
+                      <%} else if(document.byAdmin===false) {%>
+                        <%=document.author.registeredUser.displayName%> <br>
+                      <%}%>
                     <span
                       class="kt-badge kt-badge--inline kt-badge--bold <%=attemptsButtons[document.attempt[0]].mobile%> text-nowrap"><%=document.attempt%></span>
                     <span
@@ -426,11 +432,9 @@
           <%}%>
               <%}%>
         </div>
-        <%if((downloads.page+1)<= downloads.pages){%>
         <li class="kt-pagination__link--prev">
           <a href="<%=docspaginateUrl%><%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
         </li>
-        <%}%>
               <li class="kt-pagination__link--last">
                 <a href="<%=docspaginateUrl%><%=downloads.pages%>"><i
           class="fa fa-angle-double-right kt-font-brand"></i></a>
