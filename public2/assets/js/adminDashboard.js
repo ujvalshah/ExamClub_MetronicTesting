@@ -58,8 +58,8 @@ $(document).ready(function () {
 function refreshDataTable() {
   var filterItems = $('#adminDashboard_document_table').serialize();
   var filterItemsArray = $('#adminDashboard_document_table').serializeArray();
-  console.log('DOC Filters');
-  console.log(filterItemsArray);
+  // console.log('DOC Filters');
+  // console.log(filterItemsArray);
   let limitNo = $('#limit-adminDashboardDownloadTable').val() || "10"
   let pageNo = $('#adminDashboardDocsPagination .kt-pagination__link--active').text().trim() || 1;
   if ($("#largeScreen-adminDashboardDocTable").is(":hidden")) {
@@ -68,14 +68,14 @@ function refreshDataTable() {
   if ($("#largeScreen-adminDashboardDocTable").is(":visible")) {
     var sort = $(".downloads-sort-active").closest('span').attr('class');
   }
-  console.log('sort');
-  console.log(sort);
+  // console.log('sort');
+  // console.log(sort);
   let userURL = $('#menu_dashboard_userURL').attr('href');
   // console.log(userURL);
   let adminDashboardDownloadTableURL = `${userURL}?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
-  console.log(adminDashboardDownloadTableURL);
+  // console.log(adminDashboardDownloadTableURL);
   $.get(adminDashboardDownloadTableURL, filterItems, function (data) {
-    console.log(data);
+    // console.log(data);
     $('#adminDashboardDocsPagination').empty();
     $('#adminDashboardDocsPagination_bottom').empty();
     for (let i = 1; i <= data.downloads.pages; i++) {
@@ -304,7 +304,7 @@ function adminDashDocs_sorting() {
     $(this).removeClass('arrow-inactive');
     $(this).addClass('downloads-sort-active');
     let para = $(this).closest('span').attr('class');
-    console.log(para);
+    // console.log(para);
     refreshDataTable();
   })
 }
@@ -347,8 +347,8 @@ function adminDashDocs_removeFilterTags() {
 function shareLink(elem) {
   var val = $(elem).closest('li').attr('id');
   var url = $(elem).attr('data-link');
-  console.log(val);
-  console.log(url);
+  // console.log(val);
+  // console.log(url);
   var $input = $("<input>");
   $('#' + val).append($input);
   $input.val(url).select();
@@ -424,7 +424,7 @@ function adminDashDocs_downloadBtn(elem) {
     type: "PUT",
     success: function (data) {
       refreshDataTable();
-      console.log(data);
+      // console.log(data);
     }
   });
   $(this).find("button").blur();
@@ -433,15 +433,15 @@ function adminDashDocs_downloadBtn(elem) {
 function documentBookmark(e, element) {
   e.preventDefault();
   var actionUrl = $(element).attr("action");
-  console.log(actionUrl);
+  // console.log(actionUrl);
   var formid = $(element).attr("id").slice(9);
-  console.log(formid);
+  // console.log(formid);
   $.ajax({
     url: actionUrl,
     type: "PUT",
     success: function (data) {
       refreshDataTable();
-      console.log(data);
+      // console.log(data);
       alert(`${data[0].msg}`);
     }
   })
@@ -671,8 +671,8 @@ function refreshVideoBank() {
   var filterItems = $('#adminDashboardVideos-form').serialize();
   var filterItemsArray = $('#adminDashboardVideos-form').serializeArray();
   // console.log(filterItems);
-  console.log('Video FILTERS');
-  console.log(filterItemsArray);
+  // console.log('Video FILTERS');
+  // console.log(filterItemsArray);
   // console.log(decodeURI(filterItems));
   let limitNo = $('#adminDashboardVideos-limit').val() || "10"
   let pageNo = $('#adminDashboardVideos-pagination .kt-pagination__link--active').text().trim() || 1;
@@ -683,8 +683,8 @@ function refreshVideoBank() {
 
   $.get(videoDatatableUrl, filterItems, function (data) {
 
-    console.log('videovideovideo');
-    console.log(data);
+    // console.log('videovideovideo');
+    // console.log(data);
 
     $('#adminDashboardVideos-pagination').empty();
     for (let i = 1; i <= data.pages; i++) {
@@ -886,7 +886,7 @@ function adminDashVideos_paginationButtons() {
 
   $('.kt-pagination__link--prev').on('click', 'a', function (e) {
     e.preventDefault();
-    console.log('kt-pagination__link--prev');
+    // console.log('kt-pagination__link--prev');
     $('#adminDashboardVideos-pagination .kt-pagination__link--active').next().click();
   })
 }
@@ -894,7 +894,7 @@ function adminDashVideos_paginationButtons() {
 function adminDashVideos_filter(elem) {
   $('#adminDashboardVideos-search').val("")
   var filterItemsArray = $('#adminDashboardVideos-form').serializeArray();
-  console.log('filterItemsArray');
+  // console.log('filterItemsArray');
   $('#adminDashboardVideos-filterTags').empty();
   filterItemsArray.forEach(function (filter) {
 
@@ -935,8 +935,8 @@ function adminDashVideos_removeFilterTags() {
 function shareLink(elem) {
   var val = $(elem).closest('li').attr('id');
   var url = $(elem).attr('data-link');
-  console.log(val);
-  console.log(url);
+  // console.log(val);
+  // console.log(url);
   var $input = $("<input>");
   $('#' + val).append($input);
   $input.val(url).select();
@@ -1019,7 +1019,7 @@ function downloadBtn(elem) {
     type: "PUT",
     success: function (data) {
       refreshVideoBank();
-      console.log(data);
+      // console.log(data);
     }
   });
   $(this).find("button").blur();
@@ -1028,15 +1028,15 @@ function downloadBtn(elem) {
 function documentBookmark(e, element) {
   e.preventDefault();
   var actionUrl = $(element).attr("action");
-  console.log(actionUrl);
+  // console.log(actionUrl);
   var formid = $(element).attr("id").slice(9);
-  console.log(formid);
+  // console.log(formid);
   $.ajax({
     url: actionUrl,
     type: "PUT",
     success: function (data) {
       refreshVideoBank();
-      console.log(data);
+      // console.log(data);
       alert(`${data[0].msg}`);
     }
   })
@@ -1050,7 +1050,7 @@ function bookmarkVideo(e, elem) {
     url: videoBookmarkActionURL,
     type: "PUT",
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       alert(`${data}`)
     }
   });
@@ -1072,7 +1072,7 @@ function deleteFacultyVideo(e, elem) {
       url: acurl,
       type: 'DELETE',
       success: function (data) {
-        console.log(data);
+        // console.log(data);
         alert(data);
         refreshVideoBank();
       }
@@ -1283,8 +1283,8 @@ function adminDashVideos_clearVideoFilter() {
 function refreshAdminFacultyTable() {
   var filterItems = $('#adminDashboardfaculty-form').serialize();
   var filterItemsArray = $('#adminDashboardfaculty-form').serializeArray();
-  console.log(filterItems);
-  console.log(filterItemsArray);
+  // console.log(filterItems);
+  // console.log(filterItemsArray);
   let limitNo = $('#adminDashboardfaculty-limit').val() || "10"
   let pageNo = $('#adminDashboardfacultyPagination .kt-pagination__link--active').text().trim() || 1;
   if ($("#largeScreen-adminDashboardfaculty").is(":hidden")) {
@@ -1293,14 +1293,14 @@ function refreshAdminFacultyTable() {
   if ($("#largeScreen-adminDashboardfaculty").is(":visible")) {
     var sort = $(".faculty-sort-active").closest('span').attr('class');
   }
-  console.log('sort Faculty');
-  console.log(sort);
+  // console.log('sort Faculty');
+  // console.log(sort);
   let userURL = $('#menu_dashboard_userURL').attr('href');
   // console.log(userURL);
   let adminDashboardFacultyTableURL = `${userURL}?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
-  console.log(adminDashboardFacultyTableURL);
+  // console.log(adminDashboardFacultyTableURL);
   $.get(adminDashboardFacultyTableURL, filterItems, function (data) {
-    console.log(data);
+    // console.log(data);
     $('#adminDashboardfacultyPagination').empty();
     $('#adminDashboardfacultyPagination_bottom').empty();
     for (let i = 1; i <= data.faculty.pages; i++) {
@@ -1338,12 +1338,12 @@ function refreshAdminFacultyTable() {
               <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
               <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-item"> 
-                  <form action="/downloads/${teacher._id}/edit" method="GET">
+                  <form action="/user/${teacher._id}/edit" method="GET">
                   <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
                   </form>
               </div>
               <div class="dropdown-item"> 
-                  <form action="/downloads/${teacher._id}?_method=DELETE" method="POST">
+                  <form action="/user/${teacher._id}?_method=DELETE" method="POST">
                   <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
                   </form>
               </div>
@@ -1385,12 +1385,12 @@ function refreshAdminFacultyTable() {
         <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
         <div class="dropdown-item"> 
-            <form action="/downloads/${teacher._id}/edit" method="GET">
+            <form action="/user/${teacher._id}/edit" method="GET">
             <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
             </form>
         </div>
         <div class="dropdown-item"> 
-            <form action="/downloads/${teacher._id}?_method=DELETE" method="POST">
+            <form action="/user/${teacher._id}?_method=DELETE" method="POST">
             <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
             </form>
         </div>
@@ -1454,7 +1454,7 @@ function adminDashFaculty_sorting() {
     $(this).removeClass('arrow-inactive');
     $(this).addClass('faculty-sort-active');
     let para = $(this).closest('span').attr('class');
-    console.log(para);
+    // console.log(para);
     refreshAdminFacultyTable();
   })
 }
@@ -1553,7 +1553,7 @@ function adminDashFacultyTable_clearFilter() {
     $('#adminDashboardfaculty-filterTags').empty();
     let userURL = $('#menu_dashboard_userURL').attr('href');
     let adminDashboardFacultyTableURL = `${userURL}?page=${pageNo}&limit=${limitNo}&sort=-createdAt`;
-    console.log(adminDashboardFacultyTableURL);
+    // console.log(adminDashboardFacultyTableURL);
     $.get(adminDashboardFacultyTableURL, function (data) {
       $('#adminDashboardfacultyPagination').empty();
       $('#adminDashboardfacultyPagination_bottom').empty();
@@ -1592,12 +1592,12 @@ function adminDashFacultyTable_clearFilter() {
                <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
                <div class="dropdown-menu dropdown-menu-right">
                <div class="dropdown-item"> 
-                   <form action="/downloads/${teacher._id}/edit" method="GET">
+                   <form action="/user/${teacher._id}/edit" method="GET">
                    <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
                    </form>
                </div>
                <div class="dropdown-item"> 
-                   <form action="/downloads/${teacher._id}?_method=DELETE" method="POST">
+                   <form action="/user/${teacher._id}?_method=DELETE" method="POST">
                    <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
                    </form>
                </div>
@@ -1679,12 +1679,12 @@ function adminDashFacultyTable_clearFilter() {
           <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
           <div class="dropdown-menu dropdown-menu-right">
           <div class="dropdown-item"> 
-              <form action="/downloads/${teacher._id}/edit" method="GET">
+              <form action="/user/${teacher._id}/edit" method="GET">
               <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
               </form>
           </div>
           <div class="dropdown-item"> 
-              <form action="/downloads/${teacher._id}?_method=DELETE" method="POST">
+              <form action="/user/${teacher._id}?_method=DELETE" method="POST">
               <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
               </form>
           </div>
@@ -1767,15 +1767,15 @@ function adminDashFacultyTable_clearFilter() {
 function facultyVerification(e, elem){
   e.preventDefault();
   let actionUrl = $(elem).attr('action');
-  console.log(actionUrl);
+  // console.log(actionUrl);
   $.ajax({
     url: actionUrl,
     type: "PUT",
     success: function (data) {
-      console.log('facultyVerification-DAAATA');
-      console.log(data);
+      // console.log('facultyVerification-DAAATA');
+      // console.log(data);
       refreshAdminFacultyTable();
-      console.log('refreshed!');
+      // console.log('refreshed!');
     }
   });
 }
@@ -1785,9 +1785,9 @@ function facultyVerification(e, elem){
 function refreshAdminstudentTable() {
   var filterItems = $('#adminDashboardstudent-form').serialize();
   var filterItemsArray = $('#adminDashboardstudent-form').serializeArray();
-  console.log('StudentTable');
-  console.log(filterItems);
-  console.log(filterItemsArray);
+  // console.log('StudentTable');
+  // console.log(filterItems);
+  // console.log(filterItemsArray);
   let limitNo = $('#adminDashboardstudent-limit').val() || "10"
   let pageNo = $('#adminDashboardstudentPagination .kt-pagination__link--active').text().trim() || 1;
   if ($("#largeScreen-adminDashboardstudent").is(":hidden")) {
@@ -1796,14 +1796,14 @@ function refreshAdminstudentTable() {
   if ($("#largeScreen-adminDashboardstudent").is(":visible")) {
     var sort = $(".student-sort-active").closest('span').attr('class');
   }
-  console.log('sort');
-  console.log(sort);
+  // console.log('sort');
+  // console.log(sort);
   let userURL = $('#menu_dashboard_userURL').attr('href');
   // console.log(userURL);
   let adminDashboardstudentTableURL = `${userURL}?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
-  console.log(adminDashboardstudentTableURL);
+  // console.log(adminDashboardstudentTableURL);
   $.get(adminDashboardstudentTableURL, filterItems, function (data) {
-    console.log(data);
+    // console.log(data);
     $('#adminDashboardstudentPagination').empty();
     $('#adminDashboardstudentPagination_bottom').empty();
     for (let i = 1; i <= data.student.pages; i++) {
@@ -1836,12 +1836,12 @@ function refreshAdminstudentTable() {
               <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
               <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-item"> 
-                  <form action="/downloads/${stud._id}/edit" method="GET">
+                  <form action="/user/${stud._id}/edit" method="GET">
                   <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
                   </form>
               </div>
               <div class="dropdown-item"> 
-                  <form action="/downloads/${stud._id}?_method=DELETE" method="POST">
+                  <form action="/user/${stud._id}?_method=DELETE" method="POST">
                   <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
                   </form>
               </div>
@@ -1883,12 +1883,12 @@ function refreshAdminstudentTable() {
         <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown" aria-expanded="true"> <i class="fas fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
         <div class="dropdown-item"> 
-            <form action="/downloads/${stud._id}/edit" method="GET">
+            <form action="/user/${stud._id}/edit" method="GET">
             <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
             </form>
         </div>
         <div class="dropdown-item"> 
-            <form action="/downloads/${stud._id}?_method=DELETE" method="POST">
+            <form action="/user/${stud._id}?_method=DELETE" method="POST">
             <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
             </form>
         </div>
@@ -1945,7 +1945,7 @@ function adminDashStudent_sorting() {
     $(this).removeClass('arrow-inactive');
     $(this).addClass('student-sort-active');
     let para = $(this).closest('span').attr('class');
-    console.log(para);
+    // console.log(para);
     refreshAdminstudentTable();
   })
 }
@@ -2051,7 +2051,7 @@ function adminDashStudentTable_clearFilter() {
     $('#adminDashboardstudent-filterTags').empty();
     let userURL = $('#menu_dashboard_userURL').attr('href');
     let adminDashboardstudentTableURL = `${userURL}?page=${pageNo}&limit=${limitNo}&sort=-createdAt`;
-    console.log(adminDashboardstudentTableURL);
+    // console.log(adminDashboardstudentTableURL);
     $.get(adminDashboardstudentTableURL, function (data) {
       $('#adminDashboardstudentPagination').empty();
       $('#adminDashboardstudentPagination_bottom').empty();
@@ -2257,8 +2257,8 @@ function adminDashStudentTable_clearFilter() {
 function filterfilling() {
 
   $.get('/api/filterdata', function (filterlist) {
-    console.log('filterlist filterform');
-    console.log(filterlist);
+    // console.log('filterlist filterform');
+    // console.log(filterlist);
 
     $('.adminDashboard-exam').empty();
     $('.adminDashboard-exam').append(`<option value='rf'>Exam</option> 
@@ -2291,8 +2291,8 @@ async function filterAdminDocSubjectFilling(elem) {
   let sectionId = await $(elem).attr("data-ref");
   if (currentExam !== 'All' && currentExam !== 'rf') {
     $.get(`/api/filterform/${currentExam}/subjects`, function (info) {
-      console.log('subjectsssssssssssssssssssssssssss');
-      console.log(info);
+      // console.log('subjects');
+      // console.log(info);
       $(`#${sectionId}`).empty();
       $(`#${sectionId}`).append(`<option value='rf'>Subject</option> 
       <option value='All'>All</option>`);
@@ -2304,10 +2304,10 @@ async function filterAdminDocSubjectFilling(elem) {
     });
   }
   if (sectionId === 'adminDashboardDocs-subject') {
-    console.log('docs');
+    // console.log('docs');
     adminDashDocs_filter();
   } else if (sectionId === 'adminDashboardVideos-subject') {
-    console.log('videos');
+    // console.log('videos');
     adminDashVideos_filter();
   }
 }

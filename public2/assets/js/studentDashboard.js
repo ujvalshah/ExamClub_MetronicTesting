@@ -15,24 +15,24 @@ $(document).ready(function () {
 function refreshDataTable() {
 	var filterItems = $('#studentDashboardDocs-form').serialize();
 	var filterItemsArray = $('#studentDashboardDocs-form').serializeArray();
-	console.log(filterItemsArray);
+	// console.log(filterItemsArray);
 	if ($("#largeScreen-studentDashboardDocs").is(":hidden")) {
 		var sort = $("select#studentDashboardDocs-sorting-mobile option:checked").val() || '-createdAt';
 	}
 	if ($("#largeScreen-studentDashboardDocs").is(":visible")) {
 		var sort = $(".student-sort-active").closest('span').attr('class');
 	}
-	console.log('sort');
-	console.log(sort);
+	// console.log('sort');
+	// console.log(sort);
 	let userURL = $('#menu_dashboard_userURL').attr('href');
 	let adminDashboardDownloadTableURL = `${userURL}?sort=${sort}`;
-	console.log(adminDashboardDownloadTableURL);
+	// console.log(adminDashboardDownloadTableURL);
 	$.get(adminDashboardDownloadTableURL, filterItems, function (data) {
-		console.log('data**********');
-		console.log(data);
-		console.log(data.student);
-		console.log(data.student.docs);
-		console.log(data.student.pages);
+		// console.log('data**********');
+		// console.log(data);
+		// console.log(data.student);
+		// console.log(data.student.docs);
+		// console.log(data.student.pages);
 		$("#studentDashboardDocs-tableBody").empty();
 		$('#smallScreen-studentDashboardDocs-content').empty();
 		data.student.docs[0].downloadBookmarks.forEach(function (document, index) {
@@ -261,7 +261,7 @@ function documentBookmark(e, element) {
 			type: "PUT",
 			success: function (data) {
 				refreshDataTable();
-				console.log(data);
+				// console.log(data);
 				alert(`${data[0].msg}`);
 			}
 		})
@@ -393,12 +393,12 @@ function bookmarkVideo(e, elem) {
 	} else {
 		e.preventDefault();
 		let videoBookmarkActionURL = $(elem).attr('action');
-		console.log(videoBookmarkActionURL);
+		// console.log(videoBookmarkActionURL);
 		$.ajax({
 			url: videoBookmarkActionURL,
 			type: "PUT",
 			success: function (data) {
-				console.log(data);
+				// console.log(data);
 				alert(`${data}`);
 			}
 		});

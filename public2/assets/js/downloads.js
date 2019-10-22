@@ -19,7 +19,7 @@ function refreshDataTable() {
   var filterItems = $('#dataTable_filter_ajax').serialize();
   var filterItemsArray = $('#dataTable_filter_ajax').serializeArray();
   // console.log(filterItems);
-  console.log(filterItemsArray);
+  // console.log(filterItemsArray);
   // console.log(decodeURI(filterItems));
   let limitNo = $('#limit-downloadTable').val() || "10"
   let pageNo = $('#pagination-downloads .kt-pagination__link--active').text().trim() || 1;
@@ -29,11 +29,11 @@ function refreshDataTable() {
   if ($("#largeScreen-downloads").is(":visible")) {
     var sort = $(".downloads-sort-active").closest('span').attr('class');
   }
-  console.log(sort);
+  // console.log(sort);
   let downloadDatatableUrl = `/downloads?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
   $.get(downloadDatatableUrl, filterItems, function (data) {
-    console.log('data');
-    console.log(data);
+    // console.log('data');
+    // console.log(data);
     $('#pagination-downloads').empty();
     $('#pagination-downloads_bottom').empty();
     for (let i = 1; i <= data.pages; i++) {
@@ -298,8 +298,8 @@ function removeFilterTags() {
 function shareLink(elem) {
   var val = $(elem).closest('li').attr('id');
   var url = $(elem).attr('data-link');
-  console.log(val);
-  console.log(url);
+  // console.log(val);
+  // console.log(url);
   var $input = $("<input>");
   $('#' + val).append($input);
   $input.val(url).select();
@@ -407,7 +407,7 @@ function downloadBtn(elem) {
     type: "PUT",
     success: function (data) {
       refreshDataTable();
-      console.log(data);
+      // console.log(data);
     }
   });
   $(this).find("button").blur();
@@ -416,15 +416,15 @@ function downloadBtn(elem) {
 function documentBookmark(e, element) {
   e.preventDefault();
   var actionUrl = $(element).attr("action");
-  console.log(actionUrl);
+  // console.log(actionUrl);
   var formid = $(element).attr("id").slice(9);
-  console.log(formid);
+  // console.log(formid);
   $.ajax({
     url: actionUrl,
     type: "PUT",
     success: function (data) {
       refreshDataTable();
-      console.log(data);
+      // console.log(data);
       alert(`${data[0].msg}`);
     }
   })
@@ -450,8 +450,8 @@ function documentSignupBookmark(e, element) {
 function filterfilling() {
 
   $.get('/api/filterdata', function (filterlist) {
-    console.log('filterlist filterform');
-    console.log(filterlist);
+    // console.log('filterlist filterform');
+    // console.log(filterlist);
 
     $('#exam').empty();
     $('#exam').append(`<option value='rf'>Exam</option>`);
@@ -483,8 +483,8 @@ async function filterDownloadsSubjectFilling(elem) {
   // let sectionId = await $(elem).attr("data-ref"); 
   if (currentExam !== 'All' && currentExam !== 'rf') {
     $.get(`/api/filterform/${currentExam}/subjects`, function (info) {
-      console.log('subjectsssssssssssssssssssssssssss');
-      console.log(info);
+      // console.log('subjects');
+      // console.log(info);
       $(`#subject`).empty();
       $(`#subject`).append(`<option value='rf'>Subject</option>`);
       info[0].subjects.forEach(subject => {

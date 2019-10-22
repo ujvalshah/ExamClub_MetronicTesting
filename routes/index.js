@@ -90,7 +90,7 @@ router.post("/register", function (req, res) {
                     res.redirect('/login');
                 } else {
                     req.flash("success", `An e-mail has been sent to verify ${userEmail}.`);
-                    res.redirect("/");
+                    res.redirect("/downloads");
                 };
 
             } catch (err) {
@@ -108,8 +108,11 @@ router.post("/register", function (req, res) {
 // ----------------------------------------------------------------------------//
 
 router.get("/email-verification", isLoggedIn, function (req, res) {
-    res.render("index2_emailVerification", { page: 'email-verification', title: 'Email-verification' });
+    res.render("index2", { page: 'email-verification', title: 'Email-verification' });
 })
+// router.get("/email-verification", isLoggedIn, function (req, res) {
+//     res.render("index2_emailVerification", { page: 'email-verification', title: 'Email-verification' });
+// })
 
 router.put("/email-verification", isLoggedIn, async (req, res) => {
     try {
@@ -222,8 +225,8 @@ router.post('/login', passport.authenticate('local', {
 
 router.get("/logout", function (req, res) {
     req.logout();
-    req.flash("success", "Successfully logged out");
-    res.redirect("/");
+    req.flash("success", "You have successfully logged out!");
+    res.redirect("/downloads");
 })
 
 
@@ -306,7 +309,7 @@ router.put("/reset/:token", async (req, res) => {
         }
         await sendPasswordResetConfirmationMail(user.email, user.username);
         req.flash("success", `Password successfully updated`);
-        return res.redirect("/");
+        return res.redirect("/downloads");
     } catch (err) {
         console.log(err);
         req.flash("error", err);

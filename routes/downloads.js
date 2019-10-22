@@ -351,9 +351,8 @@ router.put("/downloads/:id", isLoggedIn, upload.single('document'), async functi
 router.delete("/downloads/:id", isLoggedIn, async function (req, res) {
     var loggedUser = User.findById(req.user._id);
     let docs = await Download.findById(req.params.id);
+    console.log(docs);
     console.log(req.user._id);
-    console.log(docs.author.id);
-    console.log(docs.file[0].url);
     if (req.user._id.toString() === docs.author.id.toString() || loggedUser.isAdmin === true) {
         await fs.unlink(docs.file[0].url, (err) => {
             if (err) {

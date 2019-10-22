@@ -53,6 +53,39 @@
                         <span><%= emailVerification[0].message %></span>
                     </div>
                     <% } %>
+                    <% if(emailVerification && emailVerification.length > 0) { %>
+                        <!-- <div class="alert alert-danger fade show  mx-auto my-3" style='width:90%' role="alert">
+                            <div class="alert-text">
+                                <h4 class="alert-heading">Alert</h4>
+                                <p><%= emailVerification[0].message %></p>
+                                <hr>
+                                <p class="mb-0">You need to verify your email id to access all the features of this website.
+                                    Already a link has been sent to ujvalshah.best@gmail.com.
+                                    If not then please click on resend button to resend the verification email.
+                                    </p>
+                            </div>
+                        </div> -->
+                    <div class="alert alert-bold alert-danger alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+                        <span><%= emailVerification[0].message %></span>
+                    </div>
+                    <% } %>
+                    <%if(currentUser && currentUser.emailVerified === false){%>
+                        <div class="alert alert-bold alert-solid-warning alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+                                <div class='alert-text'>You need to verify your email id to access all the features of this website. <br> 
+                                    A verification-link has already been sent to <span class="font-weight-bold"><%=currentUser.email%></span>.<br>
+                                    If you did not receive it then please click on the 'resend' button to resend the verification email.
+                                    <form action="/email-verification?_method=PUT" method="POST">
+                                        <button type="submit" class="btn btn-label-info btn-sm mt-3">Resend Email</button>
+                                    </form>
+                                </div>
+                
+                                    <div class="alert-close">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"  style="height: 100%;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                            </div>
+                    <%}%>
                 </div>
 <!-- end:: alert -->
 
@@ -98,6 +131,8 @@
                     <% include ./partials/_content-account-details %>
                     <%} else if (page !== 'undefined' && page === 'forgot-password'){%>
                     <% include ./partials/_content-forgot_password %>
+                    <%} else if (page !== 'undefined' && page === 'email-verification'){%>
+                    <% include ./partials/_email-verification %>
                     <% } %>
                 </div>
             </div>

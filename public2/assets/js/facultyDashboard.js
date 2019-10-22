@@ -15,18 +15,18 @@ $(document).ready(function () {
 function refreshDataTable() {
   var filterItems = $('#facultyDashboardDocs-form').serialize();
   var filterItemsArray = $('#facultyDashboardDocs-form').serializeArray();
-  console.log(filterItemsArray);
+  // console.log(filterItemsArray);
   if ($("#largeScreen-facultyDashboardDocs").is(":hidden")) {
     var sort = $("select#facultyDashboardDocs-sorting-mobile option:checked").val() || '-createdAt';
   }
   if ($("#largeScreen-facultyDashboardDocs").is(":visible")) {
     var sort = $(".faculty-sort-active").closest('span').attr('class');
   }
-  console.log('sort');
-  console.log(sort);
+  // console.log('sort');
+  // console.log(sort);
   let userURL = $('#menu_dashboard_userURL').attr('href');
   let adminDashboardDownloadTableURL = `${userURL}?sort=${sort}`;
-  console.log(adminDashboardDownloadTableURL);
+  // console.log(adminDashboardDownloadTableURL);
   $.get(adminDashboardDownloadTableURL, filterItems, function (data) {
     $("#facultyDashboardDocs-tableBody").empty();
     $('#smallScreen-facultyDashboardDocs-content').empty();
@@ -212,7 +212,7 @@ function facultyDashDocs_sorting() {
     $(this).removeClass('arrow-inactive');
     $(this).addClass('faculty-sort-active');
     let para = $(this).closest('span').attr('class');
-    console.log(para);
+    // console.log(para);
     refreshDataTable();
   })
 }
@@ -220,8 +220,8 @@ function facultyDashDocs_sorting() {
 function shareLink(elem) {
   var val = $(elem).closest('li').attr('id');
   var url = $(elem).attr('data-link');
-  console.log(val);
-  console.log(url);
+  // console.log(val);
+  // console.log(url);
   var $input = $("<input>");
   $('#' + val).append($input);
   $input.val(url).select();
@@ -251,7 +251,7 @@ function downloadBtn(elem) {
     type: "PUT",
     success: function (data) {
       refreshDataTable();
-      console.log(data);
+      // console.log(data);
     }
   });
   $(this).find("button").blur();
@@ -297,15 +297,15 @@ function downloadBtn(elem) {
 function refreshVideoBank() {
   var filterItems = $('#facultyDashboardVideos-form').serialize();
   var filterItemsArray = $('#facultyDashboardVideos-form').serializeArray();
-  console.log(filterItemsArray);
+  // console.log(filterItemsArray);
   let sort = $("#facultyDashboardVideos-sort").val() || "-createdAt";
-  console.log('sortssssss');
-  console.log(sort);
+  // console.log('sortssssss');
+  // console.log(sort);
   // let videoDatatableUrl = `/videoscopy?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
   let userURL = $('#menu_dashboard_userURL').attr('href');
   let videoDatatableUrl = `${userURL}?sort=${sort}`;
-  console.log('videoDatatableUrl');
-  console.log(videoDatatableUrl);
+  // console.log('videoDatatableUrl');
+  // console.log(videoDatatableUrl);
   $.get(videoDatatableUrl, filterItems, function (data) {
 
     $("#facultyDashboardVideos-body").empty();

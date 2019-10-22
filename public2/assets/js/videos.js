@@ -22,7 +22,7 @@ function refreshVideoBank() {
   var filterItems = $('#videoTable_filter_ajax').serialize();
   var filterItemsArray = $('#videoTable_filter_ajax').serializeArray();
   // console.log(filterItems);
-  console.log(filterItemsArray);
+  // console.log(filterItemsArray);
   // console.log(decodeURI(filterItems));
   let limitNo = $('#limit-videoTable').val() || "10"
   let pageNo = $('#pagination-videos .kt-pagination__link--active').text().trim() || 1;
@@ -236,7 +236,7 @@ function paginationButtons() {
 
   $('.kt-pagination__link--prev').on('click', 'a', function (e) {
     e.preventDefault();
-    console.log('kt-pagination__link--prev');
+    // console.log('kt-pagination__link--prev');
     $('#pagination-videos .kt-pagination__link--active').next().click();
   })
 }
@@ -250,7 +250,7 @@ function paginationButtons() {
 function filter() {
   $('#search-video').val("")
   var filterItemsArray = $('#videoTable_filter_ajax').serializeArray();
-  console.log('filterItemsArray');
+  // console.log('filterItemsArray');
   // console.log(filterItemsArray);
   $('#videos-filter-tags').empty();
   filterItemsArray.forEach(function (filter) {
@@ -280,9 +280,9 @@ function filter() {
 function removeFilterTags() {
   $('#videos-filter-tags').on('click', 'span', function () {
     let filterKey = $(this).attr('id');
-    console.log(filterKey);
+    // console.log(filterKey);
     let filterText = $(this).text();
-    console.log(filterText);
+    // console.log(filterText);
     $(`#${filterKey}`).val('rf').change();
     // $(`#${filterKey}`).val('rf').trigger('change');
     // $(`#${filterKey}>option:eq(2)`).attr('selected', true);
@@ -293,8 +293,8 @@ function removeFilterTags() {
 function shareLink(elem) {
   var val = $(elem).closest('li').attr('id');
   var url = $(elem).attr('data-link');
-  console.log(val);
-  console.log(url);
+  // console.log(val);
+  // console.log(url);
   var $input = $("<input>");
   $('#' + val).append($input);
   $input.val(url).select();
@@ -601,7 +601,7 @@ function downloadBtn(elem) {
     type: "PUT",
     success: function (data) {
       refreshVideoBank();
-      console.log(data);
+      // console.log(data);
     }
   });
   $(this).find("button").blur();
@@ -610,15 +610,15 @@ function downloadBtn(elem) {
 function documentBookmark(e, element) {
   e.preventDefault();
   var actionUrl = $(element).attr("action");
-  console.log(actionUrl);
+  // console.log(actionUrl);
   var formid = $(element).attr("id").slice(9);
-  console.log(formid);
+  // console.log(formid);
   $.ajax({
     url: actionUrl,
     type: "PUT",
     success: function (data) {
       refreshVideoBank();
-      console.log(data);
+      // console.log(data);
       alert(`${data[0].msg}`);
     }
   })
@@ -631,7 +631,7 @@ function bookmarkVideo(e, elem){
         url: videoBookmarkActionURL,
         type: "PUT",
         success: function (data) {
-          console.log(data);
+          // console.log(data);
           alert(`${data}`)
           refreshVideoBank();  
         }
@@ -666,7 +666,7 @@ function deleteFacultyVideo(e,elem){
       url: acurl,
       type: 'DELETE',
       success: function(data){
-        console.log(data);
+        // console.log(data);
         alert(data);
         refreshVideoBank();
       }  
@@ -680,8 +680,8 @@ function deleteFacultyVideo(e,elem){
 function filterfilling() {
 
   $.get('/api/filterdata', function (filterlist) {
-    console.log('filterlist filterform');
-    console.log(filterlist);
+    // console.log('filterlist filterform');
+    // console.log(filterlist);
 
     $('#exam').empty();
     $('#exam').append(`<option value='rf'>Exam</option>`);
@@ -713,8 +713,8 @@ async function filterVideosSubjectFilling(elem) {
   // let sectionId = await $(elem).attr("data-ref"); 
   if (currentExam !== 'All' && currentExam !== 'rf') {
     $.get(`/api/filterform/${currentExam}/subjects`, function (info) {
-      console.log('subjectsssssssssssssssssssssssssss');
-      console.log(info);
+      // console.log('subjects');
+      // console.log(info);
       $(`#subject`).empty();
       $(`#subject`).append(`<option value='rf'>Subject</option>`);
       info[0].subjects.forEach(subject => {
