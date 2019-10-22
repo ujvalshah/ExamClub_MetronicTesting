@@ -12,9 +12,9 @@
             <% if(currentUser && !currentUser.isStudent){%>
                 <a href="/downloads/upload" class="btn btn-label-brand btn-bold btn-icon-h kt-margin-l-10"> Add Notes</a>
                 <a href="/videos/new" class="btn btn-label-brand btn-bold btn-icon-h kt-margin-l-10"> Add Videos</a>
-                <button type="button" id="notificationModalBtn"
-                class="btn btn-bold btn-label-warning btn-sm kt-margin-l-10" data-toggle="modal"
-                data-target="#kt_modal_4">Send Notification</button>
+                <!-- Begin Send Notification Button - Modal -->
+                <!-- <button type="button" id="notificationModalBtn"  class="btn btn-bold btn-label-warning btn-sm kt-margin-l-10" data-toggle="modal" data-target="#kt_modal_4">Send Notification</button> -->
+                <!-- End Send Notification Button - Modal -->
                 <%}%>
                 <% if(currentUser && currentUser.isAdmin){%>
                     <a href="/filterform/new" class="btn btn-label-dark btn-bold btn-icon-h kt-margin-l-10"> Add Filter Data</a>
@@ -124,7 +124,7 @@
 </div>
     <!-- end:: Content Head -->
     <!--begin::Modal-->
-<div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -167,6 +167,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- </div> -->
 <!--end::Modal-->

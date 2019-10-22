@@ -105,8 +105,8 @@ app.use(apiRoute);
 //-----------------------------------Sockets Routes---------------------------//
 //----------------------------------------------------------------------------//
 
-io.on('connection', (socket) => {
-    console.log('New WebSocket Connection');
+// io.on('connection', (socket) => {
+//     console.log('New WebSocket Connection');
 
     // socket.emit('notification', count, function (data){
     //     console.log(data);
@@ -119,7 +119,7 @@ io.on('connection', (socket) => {
 
     // });
 
-})
+// })
 //----------------------------------------------------------------------------//
 //-------------------------Notification Route(GET)----------------------------//
 //----------------------------------------------------------------------------//
