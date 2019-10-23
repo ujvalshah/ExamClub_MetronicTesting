@@ -19,6 +19,7 @@ var DownloadSchema = new mongoose.Schema({
         ref: "User"
         },
         username: String,
+        displayName: String,
     },
     downloadStudents: [{
         id:{

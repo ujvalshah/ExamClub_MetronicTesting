@@ -254,7 +254,7 @@
               <td class="align-middle text-center">
                 <%=document.createdAt ? document.createdAt.toDateString() : document.accountCreated.toDateString()%>
               </td>
-              <td class="align-middle text-center text-capitalize"><%=document.author.id.displayName%></td>
+              <td class="align-middle text-center text-capitalize"><%=document.author.displayName%></td>
               <td class="align-middle text-center"><%=document.title%></td>
               <td class="align-middle text-center"><span class=""><%=document.exam%></span>
               </td>
@@ -615,11 +615,11 @@
                 <div class="kt-widget19__content mt-2">
                   <div class="kt-widget19__userpic">
                     <span
-                      class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.username.charAt(0).toUpperCase()%></span>
+                      class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.displayName.charAt(0).toUpperCase()%></span>
                   </div>
                   <div class="kt-widget19__info">
                     <a href="/teachers/<%=video.author.id%>" class="kt-widget19__username">
-                      <%=video.author.id.displayName%>
+                      <%=video.author.displayName%>
                     </a>
                     <span class="kt-widget19__time small">
                       CA Faculty/Author

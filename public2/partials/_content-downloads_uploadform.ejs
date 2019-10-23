@@ -10,13 +10,15 @@
      
       <div class="form-group row">
         <label for="download[author]" class="col-sm-2 col-form-label">Author</label>
-        <div class="col-sm-4">
-          <% if(!currentUser.isAdmin){%>
-          <input type="text" class="form-control" id="download[author]" name="download[author][username]" value="<%=currentUser.username%>" readonly>
-          <%} else if (currentUser.isAdmin) { %>
-          <input type="text" class="form-control" id="download[author]" name="download[author][username]" placeholder="Name of the author..">
-          <%}%>
-        </div>
+        <% if(!currentUser.isAdmin){%>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="download[author]" name="download[author][username]" value="<%=currentUser.username%>" readonly>
+          </div>
+            <%} else if (currentUser.isAdmin) { %>
+              <select class="form-control col-sm-4 author"  id="download[author]" name="download[author][username]"></select>
+            <!-- <input type="text" class="form-control" id="download[author]_update" name="download[author][username]" placeholder="Author name..."> -->
+            <%}%>
+      
       </div>
       
       <div class="form-group row">
@@ -45,7 +47,7 @@
       </div>
       
     <!------------------------------------------Topic--------------------------------->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label for="download[topic]" class="col-sm-2 col-form-label">Topic</label>
         <div class="col-sm-4">
           <input type="text" class="form-control" id="download[topic]" name="download[topic]" placeholder="Topic">
@@ -53,21 +55,29 @@
             Provide details of the topics covered by the file being uploaded.  
            </small>
         </div>
-      </div>
+      </div> -->
     
     <!------------------------------------------Exam--------------------------------->
-      <div class="form-group row">
+    <div class="form-group row">
         <label class="col-sm-2" for="downloadExamFormControlSelect">Applicable Exam:</label>
         <select class="form-control col-sm-4" id="downloadExamFormControlSelect" name="download[exam]">
-          <option disabled selected>Choose Exam..</option>
+          <option value="" disabled selected>Choose Exam..</option>
           <option value="CA Final(New)">CA Final(New)</option>
           <option value="CA Final(Old)">CA Final(Old)</option>
           <option value="CA Intermediate(New)">CA Intermediate(New)</option>
           <option value="CA IPCC(Old)">CA IPCC(Old)</option>
-          <option value="CA Foundation(New)">CA Foundation(New)</option>
+          <option value="CA Foundation">CA Foundation</option>
           <option value="General">General</option>
         </select>
       </div>
+    <!------------------------------------------Subject--------------------------------->
+      <!-- <div class="form-group row">
+          <label class="col-sm-2" for="downloadSubjectSelect">Applicable Subject:</label>
+          <select class="form-control col-sm-4 subject" id="downloadSubjectSelect" name="download[subject]">
+            <option disabled selected>Subject</option>
+            <option disabled >First select the exam option</option>
+          </select>
+        </div> -->
       
     <!------------------------------------------Attempts--------------------------------->
       <div class="form-group row">
@@ -82,7 +92,7 @@
         </select>
       </div>
       
-      <!------------------------------------------Subjects--------------------------------->
+      <!------------------------------------------Subjects(Old)--------------------------------->
       <div class="form-group row">
         <label class="col-md-2" id="downloadSubjectsFormControlSelectLabel" for="downloadSubjectsFormControlSelect">Subject:</label>
         <select class="form-control col-md-3 mr-2 mb-3" id="downloadSubjectsFormControlSelect1" name="download[subject]" disabled="true">
@@ -167,7 +177,6 @@
         </div>
       </div>
     </form>
-    <button type="submit" class="btn btn-primary download_alert">Alert</button>
     </div>
     
     

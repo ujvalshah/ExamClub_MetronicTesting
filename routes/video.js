@@ -64,7 +64,8 @@ router.get("/videos", searchAndFilterVideoCopy, async function (req, res) {
             sort: req.query.sort || '-createdAt',
         });
         // ************Found Video********  ******
-
+        console.log('foundVideo');
+        console.log(foundVideo);
         console.log('req.query.page');
         console.log(req.query.page);
         if (req.xhr) {
@@ -137,6 +138,8 @@ router.get("/videos/new", isLoggedIn, function (req, res) {
 //----------------------------------------------------------------------------//
 router.post("/videos", isLoggedIn, function (req, res) {
     console.log(req.user);
+    console.log('req.body.video');
+    console.log(req.body.video);
     req.body.video.title = req.body.title;
     req.body.video.description = req.body.description;
     if(req.body.video.type == 'single'){
@@ -150,10 +153,13 @@ router.post("/videos", isLoggedIn, function (req, res) {
         var newVideoURL = indexEditUrl+'&rel=0&modestbranding=1';
     }
     req.body.video.url = newVideoURL;
-    req.body.video.author = {
-        username: req.user.username,
-        id: req.user._id
-    };
+    req.body.video.author.id = req.user._id;
+    if(req.user.isAdmin){
+        req.body.video.author.displayName = req.body.video.author.username;
+    }
+    if(!req.user.isAdmin){
+        req.body.video.author.displayName = req.user.displayName;
+    }
 
     Video.create(req.body.video, function (err, newlyCreated) {
         if (err) {
@@ -196,17 +202,10 @@ router.get("/videos/:id/edit", function (req, res) {
 
 router.put("/videos/:id", isLoggedIn, async function (req, res) {
     let query = req.body;
-    videoAuthor = req.body.video.author.username;
-    let foundauthor = await User.find({'username':videoAuthor});
-    console.log('foundauthor');
-    console.log(foundauthor);
-    console.log('query');
-    console.log(query);
-    console.log('req.body.author');
-    console.log(req.body.video.author);
-    console.log('req.body.video.author.username');
-    console.log(req.body.video.author.username);
-    let authorId = foundauthor[0]._id;
+    // videoAuthor = req.body.video.author.username;
+    // let foundauthor = await User.find({'username':videoAuthor});
+    // let authorId = foundauthor[0]._id;
+
     var oldUrl = req.body.url;
     if(req.body.video.type == 'single'){
         var oldUrl = req.body.url;
@@ -219,8 +218,14 @@ router.put("/videos/:id", isLoggedIn, async function (req, res) {
         var newVideoURL = indexEditUrl+'&rel=0&modestbranding=1';
     }
     req.body.video.url = newVideoURL;
-    req.body.video.author.id = authorId;
-    console.log(authorId);
+
+    if(req.user.isAdmin){
+        req.body.video.author.displayName = req.body.video.author.username;
+    }
+    if(!req.user.isAdmin){
+        req.body.video.author.displayName = req.user.displayName;
+    }
+    req.body.video.author.id = req.user.id;
     Video.findByIdAndUpdate(req.params.id, req.body.video, function (err, updatedVideo) {
         if (err) {
             req.flash("error");

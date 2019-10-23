@@ -264,11 +264,7 @@
             <tr>
               <td class="align-middle text-center"><%=index +1 %></td>
               <td class="align-middle text-center"><%=document.createdAt.toDateString()%></td>
-              <%if(document.byAdmin){%>
-                <td class="align-middle text-center text-capitalize"><%=document.author.displayName%></td>
-              <%} else if(document.byAdmin === false) {%>
-                <td class="align-middle text-center text-capitalize"><%=document.author.registeredUser.displayName%></td>
-              <%}%>
+              <td class="align-middle text-center text-capitalize"><%=document.author.displayName%></td>
               <td class="align-middle text-center dataTableText"><%=document.title%></td>
               <td class="align-middle text-center"><span
                   class="btn btn-bold btn-sm btn-font-sm <%=examsButtons[document.exam].class%>"><%=document.exam%></span>

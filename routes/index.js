@@ -96,7 +96,7 @@ router.post("/register", function (req, res) {
             } catch (err) {
                 console.log(err);
                 req.flash("error", err.message);
-                return res.redirect("/");
+                return res.redirect("/downloads");
             }
         });
     });

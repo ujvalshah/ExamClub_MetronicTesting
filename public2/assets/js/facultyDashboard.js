@@ -35,7 +35,7 @@ function refreshDataTable() {
          <tr>
            <td class="align-middle text-center">${index + 1}</td>
            <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
-           <td class="align-middle text-center text-capitalize">${document.author.username}</td>
+           <td class="align-middle text-center text-capitalize">${document.author.displayName}</td>
            <td class="align-middle text-center dataTableText">${document.title}</td>
            <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.faculty.examsButtons[document.exam].class}">${document.exam}</span></td>
            <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
@@ -106,7 +106,7 @@ function refreshDataTable() {
                   <div class="kt-widget4__item">
                   <div class="kt-widget4__pic kt-widget4__pic--pic">
                   <span
-                      class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.username.charAt(0).toUpperCase()}</span>
+                      class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.displayName.charAt(0).toUpperCase()}</span>
                     <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
                   </div>
                   <div class="kt-widget4__info pr-1">
@@ -114,7 +114,7 @@ function refreshDataTable() {
                       ${document.title}
                     </a>
                     <p class="kt-widget4__text">
-                      ${document.author.username} <br>
+                      ${document.author.displayName} <br>
                       <span
                         class="kt-badge kt-badge--inline kt-badge--bold ${data.faculty.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
                       <span
@@ -333,12 +333,12 @@ function refreshVideoBank() {
               <div class="kt-widget19__content mt-2">
                 <div class="kt-widget19__userpic">
                   <span
-                    class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
+                    class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.displayName.charAt(0).toUpperCase()}</span>
                   <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
                 </div>
                 <div class="kt-widget19__info">
                   <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                    ${video.author.username}
+                    ${video.author.displayName}
                   </a>
                   <span class="kt-widget19__time small">
                     CA Faculty/Author

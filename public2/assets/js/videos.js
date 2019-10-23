@@ -30,6 +30,8 @@ function refreshVideoBank() {
   // let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
   let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
   $.get(videoDatatableUrl, filterItems, function (data) {
+    console.log('Video Get Data');
+    console.log(data);
     $('#pagination-videos').empty();
     for (let i = 1; i <= data.pages; i++) {
       $('#pagination-videos').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
@@ -49,7 +51,7 @@ function refreshVideoBank() {
     if (!data.currentUser || data.currentUser === undefined) {
       data.docs.forEach(function (video) {
         $("#videoLoop").append(`
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-3 px-0">
         <!--begin:: Widgets/Blog-->
         <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
           <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
@@ -64,18 +66,18 @@ function refreshVideoBank() {
           <div class="kt-portlet__body">
             <div class="kt-widget19__wrapper mb-0">
               <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-                ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded">P</span>' : ""} ${video.title}
+                ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""} ${video.title}
               </h5>
               <div class="kt-divider"><span></span></div>
               <div class="kt-widget19__content mt-2">
                 <div class="kt-widget19__userpic">
                   <span
-                    class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
+                    class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold">${video.author.displayName.charAt(0).toUpperCase()}</span>
                   <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
                 </div>
                 <div class="kt-widget19__info">
-                  <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                    ${video.author.username}
+                  <a href="/teachers/${video.author.id.id}" class="kt-widget19__username">
+                    ${video.author.displayName}
                   </a>
                   <span class="kt-widget19__time small">
                     CA Faculty/Author
@@ -118,7 +120,7 @@ function refreshVideoBank() {
     if (data.currentUser) {
       data.docs.forEach(function (video) {
         $("#videoLoop").append(`
-      <div class="col-md-4 mb-3">
+      <div class="col-md-4 mb-3 px-0">
       <!--begin:: Widgets/Blog-->
       <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
         <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
@@ -133,18 +135,18 @@ function refreshVideoBank() {
         <div class="kt-portlet__body">
           <div class="kt-widget19__wrapper mb-0">
             <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-            ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded">P</span>' : ""}${video.title}
+            ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""}${video.title}
             </h5>
             <div class="kt-divider"><span></span></div>
             <div class="kt-widget19__content mt-2">
               <div class="kt-widget19__userpic">
                 <span
-                  class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
+                  class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold">${video.author.displayName.charAt(0).toUpperCase()}</span>
                 <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
               </div>
               <div class="kt-widget19__info">
                 <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                  ${video.author.username}
+                  ${video.author.displayName}
                 </a>
                 <span class="kt-widget19__time small">
                   CA Faculty/Author
@@ -431,7 +433,7 @@ function clickOnClearAllFiltersBtn(e) {
         if (!data.currentUser || data.currentUser === undefined) {
           data.docs.forEach(function (video) {
             $("#videoLoop").append(`
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-3 px-0">
             <!--begin:: Widgets/Blog-->
             <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
               <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
@@ -446,18 +448,18 @@ function clickOnClearAllFiltersBtn(e) {
               <div class="kt-portlet__body">
                 <div class="kt-widget19__wrapper mb-0">
                   <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-                    ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded">P</span>' : ""} ${video.title}
+                    ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""} ${video.title}
                   </h5>
                   <div class="kt-divider"><span></span></div>
                   <div class="kt-widget19__content mt-2">
                     <div class="kt-widget19__userpic">
                       <span
-                        class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
+                        class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold">${video.author.displayName.charAt(0).toUpperCase()}</span>
                       <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
                     </div>
                     <div class="kt-widget19__info">
                       <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                        ${video.author.username}
+                        ${video.author.displayName}
                       </a>
                       <span class="kt-widget19__time small">
                         CA Faculty/Author
@@ -500,7 +502,7 @@ function clickOnClearAllFiltersBtn(e) {
         if (data.currentUser) {
           data.docs.forEach(function (video) {
             $("#videoLoop").append(`
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mb-3 px-0">
           <!--begin:: Widgets/Blog-->
           <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
             <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
@@ -515,18 +517,18 @@ function clickOnClearAllFiltersBtn(e) {
             <div class="kt-portlet__body">
               <div class="kt-widget19__wrapper mb-0">
                 <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-                ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded">P</span>' : ""}${video.title}
+                ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""}${video.title}
                 </h5>
                 <div class="kt-divider"><span></span></div>
                 <div class="kt-widget19__content mt-2">
                   <div class="kt-widget19__userpic">
                     <span
-                      class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
+                      class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold">${video.author.displayName.charAt(0).toUpperCase()}</span>
                     <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
                   </div>
                   <div class="kt-widget19__info">
                     <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                      ${video.author.username}
+                      ${video.author.displayName}
                     </a>
                     <span class="kt-widget19__time small">
                       CA Faculty/Author

@@ -1,5 +1,5 @@
 //PAGE = VIDEO UPLOAD FORM
-
+$(document).ready(function () {
 $("#videoExamFormControlSelect").on("change", function(){
     var optionVal_video = $("#videoExamFormControlSelect option:selected").val();
     
@@ -84,3 +84,30 @@ if(optionVal_edit == "CA Final(New)"){
     $('#videoSubjectsFormControlSelect5_update').attr("disabled", "true");
     } ;
 })
+
+filterfilling();
+});
+
+
+function filterfilling() {
+
+    $.get('/api/filterdata', function (filterlist) {
+        console.log('filterlist');
+        console.log(filterlist);
+
+        $(".author").empty();
+        $(".author").append(`<option disabled selected>Faculty</option>`);
+        filterlist.teachers.forEach(faculty => {
+            if (!faculty.byAdmin) {
+                $(".author").append($("<option></option>")
+                    .attr("value", faculty.username)
+                    .text(faculty.registeredUser.displayName))
+            }
+            if (faculty.byAdmin) {
+                $(".author").append($("<option></option>")
+                    .attr("value", faculty.username)
+                    .text(faculty.displayName))
+            }
+        });
+    })
+};

@@ -94,7 +94,7 @@ function refreshDataTable() {
        <tr>
          <td class="align-middle text-center">${index + 1}</td>
          <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
-         <td class="align-middle text-center text-capitalize">${document.author.id.displayName}</td>
+         <td class="align-middle text-center text-capitalize">${document.author.displayName}</td>
          <td class="align-middle text-center dataTableText">${document.title}</td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.downloads.examsButtons[document.exam].class}">${document.exam}</span></td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
@@ -169,7 +169,7 @@ function refreshDataTable() {
                 <div class="kt-widget4__item">
                 <div class="kt-widget4__pic kt-widget4__pic--pic">
                 <span
-                    class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.username.charAt(0).toUpperCase()}</span>
+                    class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.displayName.charAt(0).toUpperCase()}</span>
                   <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
                 </div>
                 <div class="kt-widget4__info pr-1">
@@ -177,7 +177,7 @@ function refreshDataTable() {
                     ${document.title}
                   </a>
                   <p class="kt-widget4__text">
-                  ${document.author.id.displayName} <br>
+                  ${document.author.displayName} <br>
                     <span
                       class="kt-badge kt-badge--inline kt-badge--bold ${data.downloads.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
                     <span
@@ -485,7 +485,7 @@ function adminDashDocs_clearDocsFilter() {
        <tr>
          <td class="align-middle text-center">${index + 1}</td>
          <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
-         <td class="align-middle text-center text-capitalize">${document.author.id.displayName}</td>
+         <td class="align-middle text-center text-capitalize">${document.author.displayName}</td>
          <td class="align-middle text-center dataTableText">${document.title}</td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.downloads.examsButtons[document.exam].class}">${document.exam}</span></td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
@@ -560,7 +560,7 @@ function adminDashDocs_clearDocsFilter() {
                 <div class="kt-widget4__item">
                 <div class="kt-widget4__pic kt-widget4__pic--pic">
                 <span
-                    class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.username.charAt(0).toUpperCase()}</span>
+                    class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold">${document.author.displayName.charAt(0).toUpperCase()}</span>
                   <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
                 </div>
                 <div class="kt-widget4__info pr-1">
@@ -568,7 +568,7 @@ function adminDashDocs_clearDocsFilter() {
                     ${document.title}
                   </a>
                   <p class="kt-widget4__text">
-                    ${document.author.id.displayName} <br>
+                    ${document.author.displayName} <br>
                     <span
                       class="kt-badge kt-badge--inline kt-badge--bold ${data.downloads.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
                     <span
@@ -702,76 +702,76 @@ function refreshVideoBank() {
 
     $("#adminDashboardVideos-body").empty();
 
-    if (!data.currentUser || data.currentUser === undefined) {
-      data.docs.forEach(function (video) {
-        $("#adminDashboardVideos-body").append(`
-        <div class="col-md-4 mb-3 px-1">
-        <!--begin:: Widgets/Blog-->
-        <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
-          <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
-            <div class="kt-widget19__pic kt-portlet-fit--top kt-portlet-fit--sides">
-              <div class="embed-responsive embed-responsive-16by9 card-img-top">
-                <iframe width="560" height="315" class="embed-responsive-item" src="${video.url}" frameborder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
-              </div>
-            </div>
-          </div>
-          <div class="kt-portlet__body">
-            <div class="kt-widget19__wrapper mb-0">
-              <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-                ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""} ${video.title}
-              </h5>
-              <div class="kt-divider"><span></span></div>
-              <div class="kt-widget19__content mt-2">
-                <div class="kt-widget19__userpic">
-                  <span
-                    class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
-                  <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
-                </div>
-                <div class="kt-widget19__info">
-                  <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                    ${video.author.id.displayName}
-                  </a>
-                  <span class="kt-widget19__time small">
-                    CA Faculty/Author
-                  </span>
-                </div>
-                <span class="kt-badge kt-badge--info kt-badge--inline float-right" data-toggle="tooltip"
-                  data-placement="left" title="Date of Upload">${moment(video.createdAt).format("DD-MMM-YYYY")}</span>
-                <!-- <div class="kt-widget19__stats">
-            <span class="kt-widget19__number kt-font-brand" style="font-size: 0.9rem">
-            </span>
-            <div class="float-right"> Applicable Attempt </div>
-          </div> -->
-              </div>
-              <div class="mb-3 small font-weight-bold"> Applicable: <span
-                  class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
-                  data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${video.exam}</span>
-                <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
-                  data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt">${video.attempt}</span>
-              </div>
-              <div><small><span class="font-weight-bold">Description:</span> ${video.description}</small></div>
-              <div class="kt-widget19__text mb-2">
-              </div>
-            </div>
-            <div class="kt-divider"><span></span></div>
-            <div class="kt-widget19__action">
-              <!--Ownership Criteria of Videos-->
-               <div class="float-right">
-                 <form id=" bookmarkForm_${video._id}" class="d-inline float-right save-video-form-signup" action="javascript:;" onsubmit='return bookmarkVideosignup(event, this)'>
-                   <button type="submit" class="btn btn-sm btn-warning btn-bold student-alert">Bookmark</button>
-                 </form>
-               </div>
-          </div>
-        </div>
-      </div>
-      <!--end:: Widgets/Blog-->
-  </div>`);
-      });
-    }
+  //   if (!data.currentUser || data.currentUser === undefined) {
+  //     data.docs.forEach(function (video) {
+  //       $("#adminDashboardVideos-body").append(`
+  //       <div class="col-md-4 mb-3 px-1">
+  //       <!--begin:: Widgets/Blog-->
+  //       <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
+  //         <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
+  //           <div class="kt-widget19__pic kt-portlet-fit--top kt-portlet-fit--sides">
+  //             <div class="embed-responsive embed-responsive-16by9 card-img-top">
+  //               <iframe width="560" height="315" class="embed-responsive-item" src="${video.url}" frameborder="0"
+  //                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  //                 allowfullscreen></iframe>
+  //             </div>
+  //           </div>
+  //         </div>
+  //         <div class="kt-portlet__body">
+  //           <div class="kt-widget19__wrapper mb-0">
+  //             <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
+  //               ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""} ${video.title}
+  //             </h5>
+  //             <div class="kt-divider"><span></span></div>
+  //             <div class="kt-widget19__content mt-2">
+  //               <div class="kt-widget19__userpic">
+  //                 <span
+  //                   class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.displayName ? video.author.displayName.charAt(0).toUpperCase() : video.author.id.displayName.charAt(0).toUpperCase()}</span>
+  //                 <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
+  //               </div>
+  //               <div class="kt-widget19__info">
+  //                 <a href="/teachers/${video.author.id.id}" class="kt-widget19__username">
+  //                   ${video.author.displayName ? video.author.displayName : video.author.id.displayName}
+  //                 </a>
+  //                 <span class="kt-widget19__time small">
+  //                   CA Faculty/Author
+  //                 </span>
+  //               </div>
+  //               <span class="kt-badge kt-badge--info kt-badge--inline float-right" data-toggle="tooltip"
+  //                 data-placement="left" title="Date of Upload">${moment(video.createdAt).format("DD-MMM-YYYY")}</span>
+  //               <!-- <div class="kt-widget19__stats">
+  //           <span class="kt-widget19__number kt-font-brand" style="font-size: 0.9rem">
+  //           </span>
+  //           <div class="float-right"> Applicable Attempt </div>
+  //         </div> -->
+  //             </div>
+  //             <div class="mb-3 small font-weight-bold"> Applicable: <span
+  //                 class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
+  //                 data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${video.exam}</span>
+  //               <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
+  //                 data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt">${video.attempt}</span>
+  //             </div>
+  //             <div><small><span class="font-weight-bold">Description:</span> ${video.description}</small></div>
+  //             <div class="kt-widget19__text mb-2">
+  //             </div>
+  //           </div>
+  //           <div class="kt-divider"><span></span></div>
+  //           <div class="kt-widget19__action">
+  //             <!--Ownership Criteria of Videos-->
+  //              <div class="float-right">
+  //                <form id=" bookmarkForm_${video._id}" class="d-inline float-right save-video-form-signup" action="javascript:;" onsubmit='return bookmarkVideosignup(event, this)'>
+  //                  <button type="submit" class="btn btn-sm btn-warning btn-bold student-alert">Bookmark</button>
+  //                </form>
+  //              </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //     <!--end:: Widgets/Blog-->
+  // </div>`);
+  //     });
+  //   }
 
-    if (data.currentUser) {
+    // if (data.currentUser) {
       data.docs.forEach(function (video) {
         $("#adminDashboardVideos-body").append(`
       <div class="col-md-4 mb-3 px-1">
@@ -795,12 +795,12 @@ function refreshVideoBank() {
             <div class="kt-widget19__content mt-2">
               <div class="kt-widget19__userpic">
                 <span
-                  class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
+                  class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.displayName ? video.author.displayName.charAt(0).toUpperCase() : video.author.id.displayName.charAt(0).toUpperCase()}</span>
                 <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
               </div>
               <div class="kt-widget19__info">
-                <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                  ${video.author.id.displayName}
+                <a href="/teachers/${video.author.id.id}" class="kt-widget19__username">
+                  ${video.author.displayName ? video.author.displayName : video.author.id.displayName}
                 </a>
                 <span class="kt-widget19__time small">
                   CA Faculty/Author
@@ -827,31 +827,21 @@ function refreshVideoBank() {
           <div class="kt-divider"><span></span></div>
           <div class="kt-widget19__action">
             <!--Ownership Criteria of Videos-->
-            ${(data.currentUser && (data.currentUser.isFaculty || data.currentUser.isAdmin) && (JSON.stringify(data.currentUser._id) === JSON.stringify(video.author.id))) ?
-            `<div class="float-right align-bottom">
+           <div class="float-right align-bottom">
               <a class="btn btn-sm btn-label-brand btn-bold ml-4" href="/videos/${video._id}/edit"
                 role="button">Edit</a>
               <form class="d-inline-block delete-video-form" action="/videos/${video._id}?_method=DELETE"
                 method="POST" onsubmit="return deleteFacultyVideo(event,this)">
                 <button type="submit" class="btn btn-sm btn-label-danger btn-bold ml-1">Delete</button>
               </form>
-            </div>` : (data.currentUser && data.currentUser.isStudent) ?
-              `<div class="float-right">
-              <form class="d-inline float-right save-video-form id=${video._id}"
-                action="/user/${data.currentUser._id}/videos/${video._id}?_method=PUT" method="POST" onsubmit='return bookmarkVideo(event,this)'>
-                <button type="submit" id="video-bookmark-button"
-                  class="btn btn-sm ml-1 ${data.currentUser.videoBookmarks.includes(video._id) ? "btn-info" : "btn-warning"}">
-                  ${data.currentUser.videoBookmarks.includes(video._id) ? "Bookmarked" : "Bookmark"}</button>
-              </form>
-            </div>` : ""
-          }
+            </div>
         </div>
       </div>
     </div>
     <!--end:: Widgets/Blog-->
 </div>`);
       });
-    };
+    // };
     let curPage = $('#adminDashboardVideos-pagination .kt-pagination__link--active').text().trim();
     let currentPage = parseInt(curPage);
     let limit = data.limit;
@@ -1139,12 +1129,12 @@ function adminDashVideos_clearVideoFilter() {
               <div class="kt-widget19__content mt-2">
                 <div class="kt-widget19__userpic">
                   <span
-                    class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
+                    class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.displayName ? video.author.displayName.charAt(0).toUpperCase() : video.author.id.displayName.charAt(0).toUpperCase()}</span>
                   <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
                 </div>
                 <div class="kt-widget19__info">
-                  <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                    ${video.author.id.displayName}
+                  <a href="/teachers/${video.author.id.id}" class="kt-widget19__username">
+                    ${video.author.displayName ? video.author.displayName : video.author.id.displayName}
                   </a>
                   <span class="kt-widget19__time small">
                     CA Faculty/Author
@@ -1208,12 +1198,12 @@ function adminDashVideos_clearVideoFilter() {
             <div class="kt-widget19__content mt-2">
               <div class="kt-widget19__userpic">
                 <span
-                  class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.username.charAt(0).toUpperCase()}</span>
+                  class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-">${video.author.displayName ? video.author.displayName.charAt(0).toUpperCase() : video.author.id.displayName.charAt(0).toUpperCase()}</span>
                 <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
               </div>
               <div class="kt-widget19__info">
-                <a href="/teachers/${video.author.id}" class="kt-widget19__username">
-                  ${video.author.id.displayName}
+                <a href="/teachers/${video.author.id.id}" class="kt-widget19__username">
+                  ${video.author.displayName ? video.author.displayName : video.author.id.displayName}
                 </a>
                 <span class="kt-widget19__time small">
                   CA Faculty/Author

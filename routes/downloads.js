@@ -194,6 +194,14 @@ router.post("/downloads", upload.single('document'), async function (req, res, n
         // public_id: doc.public_id
     });
     req.body.download.author.id = req.user._id;
+    console.log('req.user.isAdmin');
+    console.log(req.user.isAdmin);
+    if(req.user.isAdmin){
+        req.body.download.author.displayName = req.body.download.author.username;
+    }
+    if(!req.user.isAdmin){
+        req.body.download.author.displayName = req.user.displayName;
+    }
     let download = await Download.create(req.body.download);
     User.findById(req.user._id, function (err, foundUser) {
         if (err) {
@@ -241,6 +249,7 @@ router.post("/downloads", upload.single('document'), async function (req, res, n
 //----------------------------------------------------------------------------//
 router.get("/downloads/:id/edit", isLoggedIn, isTeacherOrAdmin, async function (req, res) {
     var download = await Download.findById(req.params.id);
+    var loggedUser = await User.findById(req.user._id);
     console.log(download);
     if (!download) {
         req.flash("error", err.message);
@@ -282,7 +291,16 @@ router.put("/downloads/:id", isLoggedIn, upload.single('document'), async functi
                     });
 
                 }
-                foundDownload.author.username = req.user.username;
+                if(req.user.isAdmin){
+                    foundDownload.author.displayName = req.body.download.author.username;
+                    foundDownload.author.username = req.body.download.author.username;
+                    foundDownload.author.id = req.user.id;
+                }
+                if(!req.user.isAdmin){
+                    foundDownload.author.username = req.user.username;
+                    foundDownload.author.displayName = req.user.displayName;
+                    foundDownload.author.id = req.user.id;
+                }
                 foundDownload.title = req.body.download.title;
                 foundDownload.description = req.body.download.description;
                 foundDownload.topic = req.body.download.topic;

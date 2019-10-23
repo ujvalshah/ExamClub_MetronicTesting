@@ -10,13 +10,18 @@
       
      <div class="form-group row">
       <label for="download[author]" class="col-sm-2 col-form-label">Author</label>
+      <% if(!currentUser.isAdmin){%>
       <div class="col-sm-4">
-        <% if(!currentUser.isAdmin){%>
         <input type="text" class="form-control" id="download[author]_update" name="download[author][username]" value="<%=currentUser.username%>" readonly>
-        <%} else if (currentUser.isAdmin) { %>
-        <input type="text" class="form-control" id="download[author]_update" name="download[author][username]" value="<%=download.author.username%>">
-        <%}%>
       </div>
+        <%} else if (currentUser.isAdmin) { %>
+          <select class="form-control col-sm-4 author"  id="download[author]" name="download[author][username]"></select>
+          <label class="col-sm-2 col-form-label text-right">Current</label>
+          <div class="col-sm-4">
+          <input type="text" class="form-control" value="<%=download.author.displayName%>" readonly>
+          </div>
+          <!-- <input type="text" class="form-control" id="download[author]_update" name="download[author][username]" placeholder="Author name..."> -->
+        <%}%>
         
       </div>
       <div class="form-group row">
@@ -44,7 +49,7 @@
         </div>
       </div>
       
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label for="download[topic]" class="col-sm-2 col-form-label">Topic</label>
         <div class="col-sm-4">
           <input type="text" class="form-control" id="download[topic]_update" name="download[topic]" value="<%=download.topic%>">
@@ -52,7 +57,7 @@
             Provide details of the topics covered by the file being uploaded.  
            </small>
         </div>
-      </div>
+      </div> -->
       
       <!------------------------------------------Exam--------------------------------->
       <div class="form-group row">
@@ -62,7 +67,7 @@
           <option value="CA Final(Old)" <%= download.exam.includes("CA Final(Old)") ? "selected" : "" %>>CA Final(Old)</option>
           <option value="CA Intermediate(New)" <%= download.exam.includes("CA Intermediate(New)") ? "selected" : "" %>>CA Intermediate(New)</option>
           <option value="CA IPCC(Old)" <%= download.exam.includes("CA IPCC(Old)") ? "selected" : "" %>>CA IPCC(Old)</option>
-          <option value="CA Foundation(New)" <%= download.exam.includes("CA Foundation(New)") ? "selected" : "" %>>CA Foundation(New)</option>
+          <option value="CA Foundation(New)" <%= download.exam.includes("CA Foundation") ? "selected" : "" %>>CA Foundation</option>
           <option value="General" <%= download.exam.includes("General") ? "selected" : "" %>>General</option>
         </select>
       </div>

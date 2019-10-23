@@ -9,6 +9,22 @@
 
       <div class="form-group row">
         <label for="video[author]_update" class="col-sm-2 col-form-label">Author</label>
+        <% if(!currentUser.isAdmin){%>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="video[author]_update" name="video[author][username]"
+            value="<%=currentUser.username%>" readonly>
+          </div>
+          <%} else if (currentUser.isAdmin) { %>
+            <select class="form-control col-sm-4 author" id="video[author]_update" name="video[author][username]"></select>
+            <label class="col-sm-2 col-form-label text-right">Current</label>
+            <div class="col-sm-4">
+            <input type="text" class="form-control"  value="<%=video.author.displayName%>" readonly>
+            </div>
+          <%}%>
+  </div>
+
+      <!-- <div class="form-group row">
+        <label for="video[author]_update" class="col-sm-2 col-form-label">Author</label>
         <div class="col-sm-4">
           <% if(!currentUser.isAdmin){%>
           <input type="text" class="form-control" id="video[author]_update" name="video[author][username]"
@@ -18,7 +34,7 @@
             value="<%=video.author.username%>">
           <%}%>
   </div>
-  </div>
+  </div> -->
   
   <div class="form-group row">
     <label for="video[title]" class="col-sm-2 col-form-label">Title</label>
@@ -63,7 +79,7 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label for="video[topic]" class="col-sm-2 col-form-label">Topic</label>
         <div class="col-sm-4">
           <input type="text" class="form-control" id="video[topic]" name="video[topic]" value="<%=video.topic%>">
@@ -71,7 +87,7 @@
             Provide details of the topics covered by the file being uploaded.
           </small>
         </div>
-      </div>
+      </div> -->
 
 
       <!------------------------------------------Exam--------------------------------->

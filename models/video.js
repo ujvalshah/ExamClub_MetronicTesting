@@ -16,6 +16,7 @@ var VideoSchema = new mongoose.Schema({
         ref: "User"
         },
         username: String,
+        displayName: String,
     },
     date: {type: Date, default: Date.now }
 },{

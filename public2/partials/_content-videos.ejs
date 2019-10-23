@@ -199,9 +199,9 @@
 
   <div class="kt-grid__item">
     <div style="background-color: white" class='shadow mb-5'>
-      <div class="row px-4 py-5 overflow-auto"style="max-height: 150rem" id='videoLoop'>
+      <div class="row py-5 mx-auto overflow-auto"style="max-height: 150rem" id='videoLoop'>
         <%videos.docs.forEach(function(video){%>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-3 px-0">
           <!--begin:: Widgets/Blog-->
           <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
             <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
@@ -233,12 +233,12 @@
                 <div class="kt-widget19__content mt-2">
                   <div class="kt-widget19__userpic">
                     <span
-                      class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.username.charAt(0).toUpperCase()%></span>
+                      class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.displayName.charAt(0).toUpperCase()%></span>
                     <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
                   </div>
                   <div class="kt-widget19__info">
                     <a href="/teachers/<%=video.author.id%>" class="kt-widget19__username">
-                      <%=video.author.username%>
+                      <%=video.author.displayName%>
                     </a>
                     <span class="kt-widget19__time small">
                       CA Faculty/Author
