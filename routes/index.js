@@ -255,8 +255,11 @@ router.put("/forgot-password", async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000; //1hr
         await user.save();
         await sendPasswordResetMail(email, user.username, host, token);
+        if (req.xhr){
+            res.json(`An e-mail has been sent to ${user.email} with further instructions. Please check your spam for the email as well.`)
+        }
         req.flash("success", `An e-mail has been sent to ${user.email} with further instructions. Please check your spam for the email as well.`);
-        res.redirect("/forgot-password");
+        res.redirect("back");
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);
