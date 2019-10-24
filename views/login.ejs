@@ -159,10 +159,11 @@
 									<div class="kt-login__forgot">
 										<div class="kt-login__head">
 											<h3 class="kt-login__title">Forgotten Password ?</h3>
-											<div class="kt-login__desc">Enter your email to reset your password:</div>
+											<div class="kt-login__desc">Enter your registered email address on which we will
+													send you a password reset link.</div>
 										</div>
 										<div class="kt-login__form">
-											<form class="kt-form" action="">
+											<form class="kt-form" action="/forgot-password?_method=PUT" method="POST">
 												<div class="form-group">
 													<input class="form-control" type="text" placeholder="Email" name="email" id="kt_email" autocomplete="off">
 												</div>
@@ -227,12 +228,12 @@
 
 		<!--begin::Global Theme Bundle(used by all pages) -->
 		<script src="./assets/vendors/global/vendors.bundle.js" type="text/javascript"></script>
-		<script src="./assets/js/demo1/scripts.bundle.js" type="text/javascript"></script>
+		<script src="./assets/js/demo2/scripts.bundle.js" type="text/javascript"></script>
 
 		<!--end::Global Theme Bundle -->
 
 		<!--begin::Page Scripts(used by this page) -->
-		<script src="./assets/js/demo1/pages/login/login-general.js" type="text/javascript"></script>
+		<script src="./assets/js/demo2/pages/login/login-general.js" type="text/javascript"></script>
 
 		<!--end::Page Scripts -->
 	</body>
