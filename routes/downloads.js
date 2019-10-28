@@ -13,10 +13,8 @@ const moment = require('moment');
 
 const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs, sendUploadToGCS, publicURL } = middleware;
 const projectId = process.env.GCLOUD_STORAGE_BUCKET;
-// const keyFilename = process.env.GCLOUD_KEY_FILE;
-const keyFilename = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-// const keyFilename = JSON.parse(keys);
-const gc = new Storage({ projectId, keyFilename });
+const keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+const gc = new Storage({ projectId, keyFile });
 const upload = Multer({ storage: Multer.memoryStorage() });
 const bucketName = "eclub1";
 const bucket = gc.bucket(bucketName);
