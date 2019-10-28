@@ -142,7 +142,6 @@ app.use(apiRoute);
 //     }
 // })
 
-
 app.get('/notification', async (req, res) => {
     try {
         if (req.user) {

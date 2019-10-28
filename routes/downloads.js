@@ -18,7 +18,7 @@ const keyFilename = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 // const keyFilename = JSON.parse(keys);
 const gc = new Storage({ projectId, keyFilename });
 const upload = Multer({ storage: Multer.memoryStorage() });
-const bucketName = "eclub1"
+const bucketName = "eclub1";
 const bucket = gc.bucket(bucketName);
 //----------------------------------------------------------------------------//
 //--------------------------Downloads Routes----------------------------------//
