@@ -95,6 +95,8 @@
                     <% include ./partials/_content-downloads %>
                     <!-- else if(page !== 'undefined' && page === 'homepage')
                      include ./partials/_content-homepage  -->
+                    <%} else if (page !== 'undefined' && page === 'downloads_document') {%>
+                    <% include ./partials/_content-download_document %>
                     <%} else if (page !== 'undefined' && page === 'videos') {%>
                     <% include ./partials/_content-videos %>
                     <%} else if (page !== 'undefined' && page === 'teachersindex') {%>

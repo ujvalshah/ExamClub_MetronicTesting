@@ -15,7 +15,7 @@ $("#videoExamFormControlSelect").on("change", function(){
     $('#videoSubjectsFormControlSelect3').attr("disabled", "true");
     $('#videoSubjectsFormControlSelect4').attr("disabled", "true");
     $('#videoSubjectsFormControlSelect5').attr("disabled", "true");
-    } else if (optionVal_video == "CA Foundation(New)"){
+    } else if (optionVal_video == "CA Foundation"){
     $('#videoSubjectsFormControlSelect1').attr("disabled", "true");
     $('#videoSubjectsFormControlSelect2').attr("disabled", "true");
     $('#videoSubjectsFormControlSelect3').removeAttr("disabled");
@@ -58,7 +58,7 @@ if(optionVal_edit == "CA Final(New)"){
     $('#videoSubjectsFormControlSelect3_update').attr("disabled", "true");
     $('#videoSubjectsFormControlSelect4_update').attr("disabled", "true");
     $('#videoSubjectsFormControlSelect5_update').attr("disabled", "true");
-    } else if (optionVal_edit == "CA Foundation(New)"){
+    } else if (optionVal_edit == "CA Foundation"){
     $('#videoSubjectsFormControlSelect1_update').attr("disabled", "true");
     $('#videoSubjectsFormControlSelect2_update').attr("disabled", "true");
     $('#videoSubjectsFormControlSelect3_update').removeAttr("disabled");

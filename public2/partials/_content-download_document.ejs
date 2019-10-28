@@ -1,0 +1,260 @@
+<% include ./_subheader-subheader-v2 %>
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+
+    <div class="col-xl-6">
+        <!--begin:: Portlet-->
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__body kt-portlet__body--fit">
+                <!--begin::Widget -->
+                <div class="kt-widget kt-widget--project-1">
+                    <div class=" row kt-widget__head">
+                        <div class="col-md-8 kt-widget__label">
+                            <div class="col-3 kt-widget__media">
+                                <span
+                                    class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--rounded kt-badge--lg kt-badge--bold px-4"
+                                    style="width: 100%; height: 100%;">
+                                    <%=document.title.charAt(0).toUpperCase()%>
+                                </span>
+                            </div>
+                            <div class="col-9 kt-widget__info kt-margin-t-5">
+                                <span class="kt-widget__title" style="word-break:break-all;">
+                                    <%=document.title%>
+                                </span>
+                                <span class="kt-widget__desc">
+                                By <span
+                                        class="btn btn-bold btn-sm btn-font-sm btn-label-brand ml-1"><%=document.author.displayName%></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 kt-widget__stats text-center d-flex justify-content-center align-items-center mt-4 mt-md-0">
+                            <div class="kt-widget__item" title="The aggregate number of times this file has been downloaded.">
+                                <span class="kt-widget__date font-weight-bold text-center">
+                                    No of Downloads
+                                </span>
+                                <div class="kt-widget__label d-flex justify-content-center">
+                                    <span
+                                        class="kt-badge kt-badge--danger kt-badge--lg  kt-badge--bold "><%=document.downloadCounter%></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kt-widget__body">
+                        <div class="kt-widget__stats">
+                            <div class="kt-widget__item">
+                                <span class="kt-widget__date">
+                                    Exam
+                                </span>
+                                <div class="kt-widget__label">
+                                    <span
+                                        class="btn btn-label-warning btn-sm btn-bold btn-upper"><%=document.exam%></span>
+                                </div>
+                            </div>
+
+                            <div class="kt-widget__item">
+                                <span class="kt-widget__date">
+                                    Attempt
+                                </span>
+                                <div class="kt-widget__label">
+                                    <span
+                                        class="btn btn-label-success btn-sm btn-bold btn-upper"><%=document.attempt%></span>
+                                </div>
+                            </div>
+                            <div class="kt-widget__item">
+                                <span class="kt-widget__date">
+                                    Subject
+                                </span>
+                                <div class="kt-widget__label">
+                                    <span
+                                        class="btn btn-label-brand btn-sm btn-bold btn-upper"><%=document.subject%></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span class="kt-widget__text">
+                           Description <br> <%=document.description%>
+                        </span>
+
+                    </div>
+
+                    <div class="kt-widget__footer">
+                        <div class="kt-widget__wrapper float-right">
+                            <!-- <div class="kt-widget__section">
+                                <div class="kt-widget__blog">
+                                    <i class="flaticon2-list-1"></i>
+                                    <a href="#" class="kt-widget__value kt-font-brand">72 Tasks</a>
+                                </div>
+
+                                <div class="kt-widget__blog">
+                                    <i class="flaticon2-talk"></i>
+                                    <a href="#" class="kt-widget__value kt-font-brand">648 Comments</a>
+                                </div>
+                            </div> -->
+
+                            <div class="kt-widget__section">
+                                <a href="<%=document.file[0].url%>" class="btn btn-brand btn-sm btn-upper btn-bold p-3" target="_blank" >Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Widget -->
+            </div>
+        </div>
+        <!--end:: Portlet-->
+    </div>
+
+
+    <h5 class="mb-4" style="font-size: 1.3rem; font-weight: 600; color: #48465b;">More documents from <%=document.author.displayName%> for <%=document.exam%> <%=document.attempt%> attempt.</h6>
+    <div id='largeScreen-downloads' class="d-none d-md-block">
+            <div class="container-fluid mb-5 overflow-auto" id="container_download" style="max-height:50rem">
+              <!--begin: Table-->
+        
+              <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered dataTable dtr-inline table-hover"
+                  style="width:100%;">
+                  <thead>
+                    <tr id="download-header">
+                      <th class="text-center align-middle text-nowrap">No</th>
+                      <th class="text-center align-middle text-nowrap">Date of Upload</th>
+                      <th class="text-center align-middle text-nowrap">Faculty</th>
+                      <th class="text-center align-middle text-nowrap">Title</th>
+                      <th class="text-center align-middle text-nowrap">Exam </th>
+                      <th class="text-center align-middle text-nowrap">Attempt</th>
+                      <th class="text-center align-middle text-nowrap">Subject</th>
+                      <th class="text-center align-middle text-nowrap">No of Downloads</th>
+                      <th class="text-center align-middle text-nowrap">Download</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%authordocs.forEach(function(document,index){%>
+                    <tr>
+                      <td class="align-middle text-center"><%=index +1 %></td>
+                      <td class="align-middle text-center"><%=document.createdAt.toDateString()%></td>
+                      <td class="align-middle text-center text-capitalize"><%=document.author.displayName%></td>
+                      <td class="align-middle text-center dataTableText"><%=document.title%></td>
+                      <td class="align-middle text-center">
+                        <span class="btn btn-bold btn-sm btn-font-sm btn-label-brand"><%=document.exam%></span>
+                      </td>
+                      <td class="align-middle text-center"><span
+                          class="btn btn-bold btn-sm btn-font-sm btn-pill btn-label-brand text-nowrap"><%=document.attempt%></span>
+                      </td>
+                      <td class="align-middle text-center"><%=document.subject%></td>
+                      <td class="align-middle text-center"><span
+                          class="kt-badge kt-badge--danger kt-badge--lg"><%=document.downloadCounter%></span></td>
+                      <td class="align-middle text-center">
+                        <span class="dropdown">
+                        </span>
+                        <a href="/downloads/docs/<%=document._id%>" id="<%=document._id%>" onclick="downloadBtn(this)"
+                          title="Download" target="_blank"
+                          class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i
+                              class="fas fa-file-download"></i></span></a>
+        
+                        <form id="bookmark_<%=document._id%>" onsubmit="documentBookmark(event, this)"
+                          class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/<%=document._id%>/bookmark"
+                          method="POST">
+                          <button type="submit" title="Bookmark"
+                            class="btn btn-sm btn-clean btn-icon btn-icon-md <%=document._id%>"><i
+                              class="fas fa-bookmark"></i></button>
+                        </form>
+        
+                        <a href="https://web.whatsapp.com/send?text=/downloads/<%=document._id%>" title="Share"
+                          target="_blank"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i
+                              class="fas fa-share-alt"></i></span></a>
+                      </td>
+                    </tr>
+                    <%})%>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th class="text-center align-middle">No</th>
+                      <th class="text-center align-middle">Date of Upload</th>
+                      <th class="text-center align-middle">Faculty</th>
+                      <th class="text-center align-middle">Title</th>
+                      <th class="text-center align-middle">Exam</th>
+                      <th class="text-center align-middle">Attempt</th>
+                      <th class="text-center align-middle">Subject</th>
+                      <th class="text-center align-middle">No of Downloads</th>
+                      <th class="text-center align-middle">Download</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!--end: Table-->
+            </div>
+          </div>
+          <!-- end:: Content -->
+        
+          <!--Begin::Section-->
+          <div id="mobile-downloads" class="d-block d-md-none">
+            <div class="row">
+              <!--begin:: Widgets/New Users-->
+              <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                  <div class="kt-portlet__head-label">
+                    <h3 class="kt-portlet__head-title">
+                      Downloads
+                    </h3>
+                  </div>
+                  <div class="kt-portlet__head-toolbar">
+                  </div>
+                </div>
+                <div class="kt-portlet__body">
+                  <div class="tab-content">
+                    <div class="kt-widget4" id="mobile-downloads-content">
+                      <%authordocs.forEach(function(document,index){%>
+                      <div class="kt-widget4__item">
+                        <div class="kt-widget4__pic kt-widget4__pic--pic">
+                          <span
+                            class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold"><%=document.author.username.charAt(0).toUpperCase()%></span>
+                          <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
+                        </div>
+                        <div class="kt-widget4__info">
+                          <a href="#" class="kt-widget4__username">
+                            <%=document.title%>
+                          </a>
+                          <p class="kt-widget4__text">
+                              <%if(document.byAdmin){%>
+                                <%=document.author.displayName%> <br>
+                              <%} else if(document.byAdmin===false) {%>
+                                <%=document.author.registeredUser.displayName%> <br>
+                              <%}%>
+                            <span
+                              class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-brand text-nowrap"><%=document.attempt%></span>
+                            <span
+                              class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-brand"><%=document.exam%></span>
+                            <%if(document.subject || typeof document.subject != 'undefined'){%>
+                            <span
+                              class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-success"><%=document.subject%></span>
+                            <%}%>
+                          </p>
+                        </div>
+                        <a href="/downloads/docs/<%=document._id%>" id="<%=document._id%>"
+                            onclick="downloadBtn(this)" title="Download" target="_blank"
+                            class="download_button btn btn-sm btn-clean btn-icon btn-icon-md"><span class="pr-2"><i
+                                class="fas fa-file-download"></i></span></a></a>
+                            <form id="bookmark_<%=document._id%>" onsubmit="documentBookmark(event, this)"
+                              class="d-inline-block m-0 p-0 bookmark-ajax-form"
+                              action="/user/downloads/<%=document._id%>/bookmark" method="POST">
+                              <button type="submit" title="Bookmark"
+                                class="btn btn-sm btn-clean btn-icon btn-icon-md <%=document._id%>"><i
+                                  class="fas fa-bookmark"></i></button>
+                            </form>
+        
+                            <a href="https://web.whatsapp.com/send?text=/downloads/<%=document._id%>" title="Share"
+                              target="_blank"><span class="btn btn-sm btn-clean btn-icon btn-icon-md"><i
+                                  class="fas fa-share-alt"></i></span></a>
+                            <!-- <a href="#" class="btn btn-sm btn-label-brand btn-bold">Follow</a> -->
+                        </div>
+                        <%})%>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        
+                <!--end:: Widgets/New Users-->
+              </div>
+            </div>
+            <!--End::Section-->
+</div>
+<!-- end:: Content -->

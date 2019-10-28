@@ -1,184 +1,128 @@
 const express = require("express");
 const router = express.Router();
 const fs = require('fs');
+const { format } = require('util');
+const { Storage } = require('@google-cloud/storage');
 const Download = require("../models/download.js");
+const Videos = require("../models/download.js");
 const User = require("../models/user.js");
-const multer = require('multer');
+const Multer = require('multer');
 const path = require("path");
 const middleware = require("../middleware");
 const moment = require('moment');
-const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs } = middleware;
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, 'uploads/docs')
-    },
-    filename: function (req, file, callback) {
-        callback(null, file.originalname.slice(0, file.originalname.length - 4) + "_" + Date.now() + '.' + file.mimetype.slice(-3));
-    }
-});
-const upload = multer({ storage: storage });
 
-const cloudinary = require('cloudinary').v2;
-cloudinary.config({
-    cloud_name: 'clubstorage',
-    api_key: 416484648518755,
-    api_secret: "IesDyaDBBctXu9yM9OZv3_yNhm4"
-});
-
+const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs, sendUploadToGCS, publicURL } = middleware;
+const projectId = process.env.GCLOUD_STORAGE_BUCKET;
+const keyFilename = process.env.GCLOUD_KEY_FILE;
+const gc = new Storage({ projectId, keyFilename });
+const upload = Multer({ storage: Multer.memoryStorage() });
+const bucketName = "eclub1"
+const bucket = gc.bucket(bucketName);
 //----------------------------------------------------------------------------//
 //--------------------------Downloads Routes----------------------------------//
 //----------------------------------------------------------------------------//
 router.get("/downloadscopy", searchAndFilterDocs, function (req, res) {
-    const { docdbQuery, docspaginateUrl } = res.locals;
-    delete res.locals.docdbQuery;
+	const { docdbQuery, docspaginateUrl } = res.locals;
+	delete res.locals.docdbQuery;
 
-    console.log('*****docdbquery****');
-    console.log(docdbQuery);
-    Download.find(docdbQuery, (err, foundDownload) => {
-        if (err) {
-            req.flash("error");
-            res.redirect("back");
-        } else {
-            console.log('----------');
-            console.log(res.locals.docquery);
-            console.log('----------');
-            console.log(foundDownload.length);
+	console.log('*****docdbquery****');
+	console.log(docdbQuery);
+	Download.find(docdbQuery, (err, foundDownload) => {
+		if (err) {
+			req.flash("error");
+			res.redirect("back");
+		} else {
+			console.log('----------');
+			console.log(res.locals.docquery);
+			console.log('----------');
+			console.log(foundDownload.length);
 
-            if (!foundDownload.length && res.locals.query) {
-                res.locals.error = 'No results match that query.';
-            }
-            res.render("index2", { downloads: foundDownload, docspaginateUrl, page: "downloads", title: "Downloads" });
-            // res.render("downloads/downloads", {downloads: foundDownload, page: downloads});
-        }
-    });
+			if (!foundDownload.length && res.locals.query) {
+				res.locals.error = 'No results match that query.';
+			}
+			res.render("index2", { downloads: foundDownload, docspaginateUrl, page: "downloads", title: "Downloads" });
+			// res.render("downloads/downloads", {downloads: foundDownload, page: downloads});
+		}
+	});
 });
 
 router.get("/downloads", searchAndFilterDocs, async function (req, res) {
-    try {
-        console.log('*****Req.Query***********');
-        console.log(req.query);
-        console.log('*****Req.Query***********');
-        const { docdbQuery, docspaginateUrl } = res.locals;
-        delete res.locals.docdbQuery;
+	try {
+		console.log('*****Req.Query***********');
+		console.log(req.query);
+		console.log('*****Req.Query***********');
+		const { docdbQuery, docspaginateUrl } = res.locals;
+		delete res.locals.docdbQuery;
 
-        console.log('*IMMMMMP****docdbquery****');
-        console.log(docdbQuery);
+		console.log('*IMMMMMP****docdbquery****');
+		console.log(docdbQuery);
 
-        var foundDownload = await Download.paginate(docdbQuery, {
-            populate:{path:'author.id', model: 'User',  select: 'displayName' }, 
-            page: parseInt(req.query.page) || 1,
-            limit: parseInt(req.query.limit) || 10,
-            sort: req.query.sort || '-createdAt',
-        });
-        if (!foundDownload) {
-            req.flash("error");
-            res.redirect("back");
-        }
-        // var authorFilter = await User.find({ isFaculty: true });
-        var attemptsButtons = {
-            "Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
-            "May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
-            "Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
-            "May 2021": { 'title': "May 2021", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
-            "Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
-        };
+		var foundDownload = await Download.paginate(docdbQuery, {
+			populate: { path: 'author.id', model: 'User', select: 'displayName' },
+			page: parseInt(req.query.page) || 1,
+			limit: parseInt(req.query.limit) || 10,
+			sort: req.query.sort || '-createdAt',
+		});
+		if (!foundDownload) {
+			req.flash("error");
+			res.redirect("back");
+		}
+		// var authorFilter = await User.find({ isFaculty: true });
+		var attemptsButtons = {
+			"Nov 2019": { 'title': "Nov 2019", 'class': 'btn-label-primary', 'mobile': 'kt-badge--unified-primary' },
+			"May 2020": { 'title': "May 2020", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+			"Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+			"May 2021": { 'title': "May 2021", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+			"Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+		};
 
-        examsButtons = {
-            "CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
-            "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
-            "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
-            "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
-            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
-            "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
-            "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
-        };
+		examsButtons = {
+			"CA Final(New)": { 'title': "CA Final(New)", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
+			"CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
+			"CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
+			"CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
+			"CA Foundation": { 'title': "CA Foundation", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+			"General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+			"": { 'title': "None", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
+		};
 
-        if (req.xhr) {
-            console.log(foundDownload.docs.length);
-            foundDownload.pageUrl = docspaginateUrl;
-            // foundDownload.docdbQuery = docdbQuery;
-            foundDownload.attemptsButtons = attemptsButtons;
-            foundDownload.examsButtons = examsButtons;
-            // foundDownload.authorFilter = authorFilter;
-            if (req.user) {
-                let currentUser = await User.findById(req.user._id);
-                foundDownload.currentUser = currentUser;
-                return res.json(foundDownload);
-            }
-            return res.json(foundDownload);
-        } else {
-            console.log('----------');
-            console.log(res.locals.docquery);
-            console.log('----------');
-            console.log(foundDownload.docs.length);
-            console.log('----------');
-            if (!foundDownload.length && res.locals.query) {
-                res.locals.error = 'No results match that query.';
-            }
-            res.render("index2", { downloads: foundDownload, attemptsButtons, examsButtons, page: "downloads", title: "Downloads" });
-        }
-    } catch (error) {
-        console.log(error);
-    }
+		if (req.xhr) {
+			console.log(foundDownload.docs.length);
+			foundDownload.pageUrl = docspaginateUrl;
+			// foundDownload.docdbQuery = docdbQuery;
+			foundDownload.attemptsButtons = attemptsButtons;
+			foundDownload.examsButtons = examsButtons;
+			// foundDownload.authorFilter = authorFilter;
+			if (req.user) {
+				let currentUser = await User.findById(req.user._id);
+				foundDownload.currentUser = currentUser;
+				return res.json(foundDownload);
+			}
+			return res.json(foundDownload);
+		} else {
+			console.log('----------');
+			console.log(res.locals.docquery);
+			console.log('----------');
+			console.log(foundDownload.docs.length);
+			console.log('----------');
+			if (!foundDownload.length && res.locals.query) {
+				res.locals.error = 'No results match that query.';
+			}
+			res.render("index2", { downloads: foundDownload, attemptsButtons, examsButtons, page: "downloads", title: "Downloads" });
+		}
+	} catch (error) {
+		console.log(error);
+	}
 });
 
 
-// router.get("/downloadscopy",searchAndFilterDocs, async function(req, res){
-//     const {docdbQuery} = res.locals;
-//     delete res.locals.docdbQuery;
 
-//     console.log('*****docdbquery****');
-//     console.log(docdbQuery);
-
-
-//     Download.find(docdbQuery, (err, foundDownload) => {
-//         if (err) {
-//             req.flash("error");
-//             res.redirect("back");
-//         } else {
-//             if(req.xhr){
-//                 res.json(foundDownload);
-//             }
-//             else {
-//             console.log('----------');
-//             console.log(res.locals.docquery);
-//             console.log('----------');
-//             console.log(foundDownload.length);
-
-//             if (!foundDownload.length && res.locals.query) {
-//                 res.locals.error = 'No results match that query.';
-//                 }
-//             res.render("index2", { downloads: foundDownload, page: "downloadscopy", title: "Downloads"});
-//             // res.render("downloads/downloads", {downloads: foundDownload, page: downloads});
-//         }};
-//     });
-// });
-// {downloads: "edit data"}
-
-router.get("/downloads/caintermediate", function (req, res) {
-    res.render("downloads/bootstraptable");
-});
-
-router.get("/downloads/cafoundation", function (req, res) {
-    Download.find({}, (err, foundDownload) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("downloads/downloads_cafinal1Copy");
-        }
-    });
-});
-
-
-router.get("/downloads/ajax", function (req, res) {
-    res.render("downloads/datatables_ajax", { downloads: "edit data" });
-});
 //----------------------------------------------------------------------------//
 //----------------------Downloads - Upload - Form-----------------------------//
 //----------------------------------------------------------------------------//
-router.get("/downloads/upload", isLoggedIn, isTeacherOrAdmin, function (req, res) {
-    res.render("index2", { page: "downloads_uploadform", title: "Document Upload Form" });
-    // res.render("downloads/upload");
+router.get("/downloads/upload", isLoggedIn, isTeacherOrAdmin, async function (req, res) {
+	res.render("index2", { page: "downloads_uploadform", title: "Document Upload Form" });
+	// res.render("downloads/upload");
 });
 
 
@@ -186,421 +130,427 @@ router.get("/downloads/upload", isLoggedIn, isTeacherOrAdmin, function (req, res
 //------------------------Downloads - POST - Form-----------------------------//
 //----------------------------------------------------------------------------//
 
+// With GCP
+
 router.post("/downloads", upload.single('document'), async function (req, res, next) {
-    req.body.download.file = [];
+	try {
+		console.log('req.file');
+		console.log(req.file);
+		console.log('req.body');
+		console.log(req.body);
+		//Name
+		req.body.download.author.id = req.user._id;
+		if (req.user.isAdmin) {
+			req.body.download.author.displayName = req.body.download.author.username;
+		}
+		if (!req.user.isAdmin) {
+			req.body.download.author.displayName = req.user.displayName;
+		}
+		var originalfileName = req.file.originalname;
+		var fileName = originalfileName.slice(0, originalfileName.indexOf('.'));
+		var fileMimeType = req.file.mimetype;
+		var fileExtenstion = fileMimeType.slice((fileMimeType.indexOf('/') + 1));
+		var facultyName = req.body.download.author.displayName.split(' ').join('_');
+		console.log('fileExtenstion');
+		console.log(fileExtenstion);
 
-    req.body.download.file.push({
-        url: req.file.path,
-        // public_id: doc.public_id
-    });
-    req.body.download.author.id = req.user._id;
-    console.log('req.user.isAdmin');
-    console.log(req.user.isAdmin);
-    if(req.user.isAdmin){
-        req.body.download.author.displayName = req.body.download.author.username;
-    }
-    if(!req.user.isAdmin){
-        req.body.download.author.displayName = req.user.displayName;
-    }
-    let download = await Download.create(req.body.download);
-    User.findById(req.user._id, function (err, foundUser) {
-        if (err) {
-            req.flash("error");
-            res.redirect("/downloads/new");
-        } else {
-            foundUser.downloads.push(download);
-            foundUser.save();
-        }
-    })
-    res.redirect("/downloads");
+		var gcsFileName = `${facultyName}-${fileName}_${Date.now()}.${fileExtenstion}`;
+		var blob = bucket.file(gcsFileName);
+		var blobStream = blob.createWriteStream({
+			metadata: {
+				contentType: req.file.mimetype
+			},
+			gzip: true,
+			resumable: false,
+		});
+
+		blobStream.on('error', err => {
+			next(err);
+		});
+
+		blobStream.on('finish', async () => {
+			// The public URL can be used to directly access the file via HTTP.
+			var publicUrl = format(
+				`https://storage.googleapis.com/${bucket.name}/${blob.name}`
+			);
+			console.log(publicUrl);
+			
+			req.body.download.file = [];
+
+			req.body.download.file.push({
+				url: publicUrl,
+				public_id: blob.name
+			});
+
+			let download = await Download.create(req.body.download);
+			let documentOwner = await User.findById(req.user._id);
+			if (!documentOwner) {
+				req.flash("error");
+				res.redirect("/downloads/new");
+			} else if (documentOwner) {
+				documentOwner.downloads.push(download);
+				documentOwner.save();
+			}
+			req.flash('success', "Your file was successfully uploaded!");
+			res.redirect("/downloads");
+		});
+
+		blobStream.end(req.file.buffer);
+
+
+	} catch (error) {
+		console.log(error);
+		req.flash('error', error.message);
+		res.redirect('back');
+	}
+
 });
-
-//WITH CLOUDINARY
-// router.post("/downloads", upload.single('document'), async function(req, res, next){
-//     req.body.download.file=[];
-//             let doc = await cloudinary.uploader.upload(req.file.path, 
-//                 {resource_type: "raw",
-//                  use_filename : "true",
-//                  unique_filename : "false",
-//                 }, function(error, result){
-//                     console.log(result,error);
-//                 });
-//             req.body.download.file.push({
-//                 url: doc.secure_url,
-//                 public_id: doc.public_id
-//             });
-//         req.body.download.author.id = req.user._id;
-//         let download = await Download.create(req.body.download);
-//         User.findById(req.user._id, function(err, foundUser) {
-//             if(err){
-//                 req.flash("error");
-//                 res.redirect("/downloads/new");
-//             } else {
-//                 foundUser.downloads.push(download);
-//                 foundUser.save();
-//             }
-//         })
-//         res.redirect("/downloads");
-//     });
 
 
 //----------------------------------------------------------------------------//
 //-------------------Downloads - Update Form Route-----------------------------//
 //----------------------------------------------------------------------------//
 router.get("/downloads/:id/edit", isLoggedIn, isTeacherOrAdmin, async function (req, res) {
-    var download = await Download.findById(req.params.id);
-    var loggedUser = await User.findById(req.user._id);
-    console.log(download);
-    if (!download) {
-        req.flash("error", err.message);
-        res.redirect("/downloads");
-    }
-    if (req.user._id.toString() === download.author.id.toString() || loggedUser.isAdmin === true) {
-        res.render("index2", { download: download, page: "downloads_updateform", title: "Document Update Form" });
-        // res.render("downloads/updateform", {download:download});
-    } else {
-        req.flash("error", 'To edit you must be the owner of the document.');
-        res.redirect("/downloads");
-    };
+	try {
+		var download = await Download.findById(req.params.id);
+		var loggedUser = await User.findById(req.user._id);
+		console.log(download);
+		if (!download) {
+			req.flash("error", err.message);
+			res.redirect("/downloads");
+		}
+		if (req.user._id.toString() === download.author.id.toString() || loggedUser.isAdmin === true) {
+			res.render("index2", { download: download, page: "downloads_updateform", title: "Document Update Form" });
+			// res.render("downloads/updateform", {download:download});
+		} else {
+			req.flash("error", 'To edit you must be the owner of the document.');
+			res.redirect("/downloads");
+		};
+	} catch (error) {
+		console.log(error);
+		req.flash('error', error.message);
+		res.redirect('back');
+	}
 });
 
 //----------------------------------------------------------------------------//
 //-------------------Downloads - Update Put Route-----------------------------//
 //----------------------------------------------------------------------------//
 router.put("/downloads/:id", isLoggedIn, upload.single('document'), async function (req, res) {
-    var loggedUser = await User.findById(req.user._id);
-    Download.findById(req.params.id, async function (err, foundDownload) {
-        if (err) {
-            req.flash("error", err.message);
-            res.redirect("back");
-        } else {
-            console.log(loggedUser);
-            console.log(foundDownload);
-            if (req.user._id.toString() === foundDownload.author.id.toString() || loggedUser.isAdmin === true) {
-                if (req.file) {
-                    await fs.unlink(foundDownload.file[0].url, (err) => {
-                        console.log(err);
-                    });
-                    for (let oldFile of foundDownload.file) {
-                        let index = foundDownload.file.indexOf(oldFile);
-                        await foundDownload.file.splice(index, 1);
-                    };
-                    foundDownload.file.push({
-                        url: req.file.path,
-                        // public_id: doc.public_id
-                    });
+	try {
+		var loggedUser = await User.findById(req.user._id);
+		var documentToUpdate = await Download.findById(req.params.id);
+		if (!documentToUpdate) {
+			console.log(error);
+			req.flash('error', "The document can't be located. Please try again!");
+			res.redirect('back');
+		}
+		if (req.user._id.toString() === documentToUpdate.author.id.toString() || loggedUser.isAdmin === true) {
+			var filename = documentToUpdate.file[0].public_id
+			if (req.file) {
+				// [START storage_delete_file]
+				// Deletes the file from the bucket
+				console.log(filename);
 
-                }
-                if(req.user.isAdmin){
-                    foundDownload.author.displayName = req.body.download.author.username;
-                    foundDownload.author.username = req.body.download.author.username;
-                    foundDownload.author.id = req.user.id;
-                }
-                if(!req.user.isAdmin){
-                    foundDownload.author.username = req.user.username;
-                    foundDownload.author.displayName = req.user.displayName;
-                    foundDownload.author.id = req.user.id;
-                }
-                foundDownload.title = req.body.download.title;
-                foundDownload.description = req.body.download.description;
-                foundDownload.topic = req.body.download.topic;
-                foundDownload.exam = req.body.download.exam;
-                foundDownload.attempt = req.body.download.attempt;
-                foundDownload.subject = req.body.download.subject;
-                await foundDownload.save();
-                req.flash("success", "Successfully Updated!");
-                res.redirect("/downloads");
-            };
-        };
-    });
+				var file = bucket.file(filename);
+
+				file.exists(async function (err, exists) {
+					if (err) {
+						console.log(err)
+					} else if (exists) {
+						console.log('There')
+						console.log('exists');
+						console.log(exists);
+						// [START storage_delete_file]
+						// Deletes the file from the bucket
+						await gc
+							.bucket(bucketName)
+							.file(filename)
+							.delete();
+						console.log(`gs://${bucketName}/${filename} deleted.`);
+						// [END storage_delete_file]
+					}
+				});
+				console.log('Does not exist!');
+				for (let oldFile of documentToUpdate.file) {
+					let index = documentToUpdate.file.indexOf(oldFile);
+					await documentToUpdate.file.splice(index, 1);
+				};
+				// [START storage_upload_file]
+				if (req.user.isAdmin) {
+					documentToUpdate.author.displayName = req.body.download.author.username;
+					documentToUpdate.author.username = req.body.download.author.username;
+					documentToUpdate.author.id = req.user.id;
+				}
+				if (!req.user.isAdmin) {
+					documentToUpdate.author.username = req.user.username;
+					documentToUpdate.author.displayName = req.user.displayName;
+					documentToUpdate.author.id = req.user.id;
+				}
+				var originalfileName = req.file.originalname;
+				var fileName = originalfileName.slice(0, originalfileName.indexOf('.'));
+				var fileMimeType = req.file.mimetype;
+				var fileExtenstion = fileMimeType.slice((fileMimeType.indexOf('/') + 1));
+				var facultyName = documentToUpdate.author.displayName.split(' ').join('_');
+
+				var gcsFileName = `${facultyName}-${fileName}_${Date.now()}.${fileExtenstion}`;
+				var blob = bucket.file(gcsFileName);
+				var blobStream = blob.createWriteStream({
+					metadata: {
+						contentType: req.file.mimetype
+					},
+					gzip: true,
+					resumable: false,
+				});
+
+				blobStream.on('error', err => {
+					next(err);
+				});
+
+				blobStream.on('finish', async () => {
+					// The public URL can be used to directly access the file via HTTP.
+					var publicUrl = format(
+						`https://storage.googleapis.com/${bucket.name}/${blob.name}`
+					);
+					console.log(publicUrl);
+					documentToUpdate.file.push({
+						url: publicUrl,
+						public_id: blob.name
+					});
+					documentToUpdate.title = req.body.download.title;
+					documentToUpdate.description = req.body.download.description;
+					documentToUpdate.topic = req.body.download.topic;
+					documentToUpdate.exam = req.body.download.exam;
+					documentToUpdate.attempt = req.body.download.attempt;
+					documentToUpdate.subject = req.body.download.subject;
+					await documentToUpdate.save();
+					console.log('REQ.FILE USED');
+
+					req.flash("success", "Successfully Updated!");
+					res.redirect("/downloads");
+				});
+
+				blobStream.end(req.file.buffer);
+				// [END storage_upload_file]
+			} else {
+				if (req.user.isAdmin) {
+					documentToUpdate.author.displayName = req.body.download.author.username;
+					documentToUpdate.author.username = req.body.download.author.username;
+					documentToUpdate.author.id = req.user.id;
+				}
+				if (!req.user.isAdmin) {
+					documentToUpdate.author.username = req.user.username;
+					documentToUpdate.author.displayName = req.user.displayName;
+					documentToUpdate.author.id = req.user.id;
+				}
+
+				documentToUpdate.title = req.body.download.title;
+				documentToUpdate.description = req.body.download.description;
+				documentToUpdate.topic = req.body.download.topic;
+				documentToUpdate.exam = req.body.download.exam;
+				documentToUpdate.attempt = req.body.download.attempt;
+				documentToUpdate.subject = req.body.download.subject;
+				await documentToUpdate.save();
+				console.log('REQ.FILE NOT USED');
+				req.flash("success", "Successfully Updated!");
+				res.redirect("/downloads");
+			}
+		} else {
+			req.flash('error', 'You must be the owner of the document to edit it.')
+			res.redirect('back');
+		};
+	} catch (error) {
+		console.log(error);
+		req.flash('error', error.message);
+		res.redirect('back');
+	}
 });
-
-//OLD CLOUDINARY
-
-// router.put("/downloads/:id", upload.single('document'), function(req, res) {
-//     Download.findById(req.params.id, async function(err, foundDownload){
-//         if(err){
-//             req.flash("error", err.message);
-//             res.redirect("back");
-//         } else {
-//             if(req.file){
-//                 for(let oldFile of foundDownload.file){
-//                     console.log(oldFile.public_id);
-//                     await cloudinary.uploader.destroy(oldFile.public_id, function(error, result){
-//                             console.log(result, error);
-//                     });
-//                     let index = foundDownload.file.indexOf(oldFile);
-// 					 foundDownload.file.splice(index, 1);
-// 		      }
-
-// 				let docUpdated = await cloudinary.uploader.upload(req.file.path,
-// 				{resource_type: "raw",
-//                  use_filename : "true",
-//                  unique_filename: "false",
-//                 }, function(error, result){
-//                     console.log(result,error);
-//                 });
-// 				foundDownload.file.push({
-// 					url: docUpdated.secure_url,
-// 					public_id: docUpdated.public_id
-// 				});
-//                 }
-
-
-//             foundDownload.author.username = req.user.username;
-//             foundDownload.title = req.body.download.title;
-//             foundDownload.description=req.body.download.description;
-//             foundDownload.topic=req.body.download.topic;
-//             foundDownload.exam=req.body.download.exam;
-//             foundDownload.attempt=req.body.download.attempt;
-//             foundDownload.subject=req.body.download.subject;
-//             await foundDownload.save();
-//             req.flash("success","Successfully Updated!");
-//             res.redirect("/downloads");
-//         }
-//     });
-// });
-
-
 
 //----------------------------------------------------------------------------//
 //------------------------Downloads - Delete - Form---------------------------//
 //----------------------------------------------------------------------------//
 router.delete("/downloads/:id", isLoggedIn, async function (req, res) {
-    var loggedUser = User.findById(req.user._id);
-    let docs = await Download.findById(req.params.id);
-    console.log(docs);
-    console.log(req.user._id);
-    if (req.user._id.toString() === docs.author.id.toString() || loggedUser.isAdmin === true) {
-        await fs.unlink(docs.file[0].url, (err) => {
-            if (err) {
-                console.log(err)
-            }
-        })
-        await User.findByIdAndUpdate(req.user._id, { $pull: { downloads: req.params.id } });
-        console.log(docs)
+	try {
+		var loggedUser = User.findById(req.user._id);
+		let docs = await Download.findById(req.params.id);
+		console.log(docs);
+		console.log(req.user._id);
+		if (req.user._id.toString() === docs.author.id.toString() || loggedUser.isAdmin === true) {
+			let filename = docs.file[0].public_id;
+			console.log('filename');
+			console.log(filename);
+			var file = bucket.file(filename);
+			file.exists(async function (err, exists) {
+				if (err) {
+					console.log(err)
+				} else if (exists) {
+					console.log('There')
+					console.log('exists');
+					console.log(exists);
+					// [START storage_delete_file]
+					// Deletes the file from the bucket
+					await gc
+						.bucket(bucketName)
+						.file(filename)
+						.delete();
+					console.log(`gs://${bucketName}/${filename} deleted.`);
+					// [END storage_delete_file]
+				}
+			});
 
-        await docs.remove();
-        res.redirect("back");
-    } else {
-        req.flash('error', "You must be the owner of the document to delete it.");
-        return res.redirect('/downloads');
-    }
+			let updatedUser = await User.findByIdAndUpdate(req.user._id, { $pull: { downloads: req.params.id } });
+			docs.remove();
+			req.flash('success', 'Your file was successfully deleted!')
+			res.redirect("back");
+		} else {
+			req.flash('error', "You must be the owner of the document to delete it.");
+			return res.redirect('/downloads');
+		}
+	} catch (error) {
+		console.log(error);
+		req.flash('error', error.message);
+		res.redirect('back');
+	}
 });
-
-//OLD CLOUDINARY METHOD
-// ----------------------------
-// router.delete("/downloads/:id", async function(req, res){
-// await User.findByIdAndUpdate(req.user._id, {$pull:{downloads: req.params.id}});
-//    let docs = await Download.findById(req.params.id);
-//     for(let doc of docs.file){
-//          await cloudinary.uploader.destroy(doc.public_id, function(error, result){
-//              if (error) {
-//                  console.log("This Error " + error);
-//              } else {
-//                  console.log("This result " + result);
-//              }
-//          });
-//     }
-//     await docs.remove();
-//     res.redirect("back");
-// });
-
 
 //----------------------------------------------------------------------------//
 //-----------------------------Downloads Counter------------------------------//
 //----------------------------------------------------------------------------//
-router.put("/download/:id/counter", (req, res) => {
-    if (req.user) {
-        User.findById(req.user.id, (err, foundUser) => {
-            if (err) {
-                console.log(err);
-                return res.send(err);
-            } else {
-                Download.findById(req.params.id, (err, foundDownload) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        userDownloadData = {
-                            id: foundUser,
-                        };
-                        Download.findByIdAndUpdate(foundDownload,
-                            { $inc: { 'downloadCounter': 1 }, $addToSet: { downloadStudents: { id: foundUser, username: foundUser.username } } }, { new: true }, function (err, res) {
-                                if (err) {
-                                    console.log(err);
-                                    return res.send(err);
-                                } else (console.log("success"));
-                            });
-                        res.json([{ foundDownload }, { foundUser }]);
-                    };
-                });
-            }
-        });
-    }
+router.put("/download/:id/counter", async (req, res) => {
+	try {
+		if (req.user) {
+			let userCounter = await User.findById(req.user.id);
+			if(!userCounter){
+				console.log(err);
+				return res.send(err);
+			} else{
+				let downloadCounter = await	Download.findById(req.params.id);
+				if(!downloadCounter){
+					console.log(err);
+					return res.send(err);
+				} else {
+					userDownloadData = {
+						id: userCounter,
+					};
+					downloadCounterUpdate = await Download.findByIdAndUpdate(downloadCounter,{ $inc: { 'downloadCounter': 1 }, $addToSet: { downloadStudents: { id: userCounter, username: userCounter.username } } }, { new: true });
+					if(!downloadCounterUpdate){
+						console.log(err);
+						return res.send(err);
+					} else {
+						console.log('Success');
+					}
+					res.json([{ downloadCounter }, { userCounter }]);
+				}
+			}
+		}
+	} catch (error) {
+		console.log(error);
+	}
+
 });
 
+//Bookmark
 //Async Version 1.3
 router.put("/user/downloads/:id/bookmark", async (req, res) => {
-    try {
-        let foundUser = await User.findById(req.user.id);
-        if (!foundUser) { res.json([{ msg: "You need to be signed in!" }]); }
-        let foundDownload = await Download.findById(req.params.id);
-        var exists = foundUser.downloadBookmarks.indexOf(req.params.id);
-        console.log(exists);
-        if (exists !== -1 || undefined) {
-            User.findByIdAndUpdate(req.user.id,
-                { $pull: { downloadBookmarks: req.params.id } }, (err, result) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        if (req.xhr) {
-                            res.json([{ msg: `${foundDownload.title} is removed from your bookmarks` }]);
-                        } else {
-                            req.flash("success", "Bookmark was succesfully removed")
-                            res.redirect("back");
-                        };
-                    };
-                });
-        } else {
-            // let foundDownload = await Download.findById(req.params.id);
-            if (!foundDownload) { res.json([{ msg: "We encountered some issue. Please try again!" }]); }
-            foundUser.downloadBookmarks.push(foundDownload);
-            foundUser.save();
-            if (req.xhr) {
-                res.json([{ msg: `${foundDownload.title}  is added to your bookmarks` }]);
-            } else {
-                res.redirect("back");
-            }
-        };
-    }
-    catch (error) {
-        req.flash("error", error.message);
-        return res.render("back");
-    }
+	try {
+		let foundUser = await User.findById(req.user.id);
+		if (!foundUser) { res.json([{ msg: "You need to be signed in!" }]); }
+		let foundDownload = await Download.findById(req.params.id);
+		var exists = foundUser.downloadBookmarks.indexOf(req.params.id);
+		console.log(exists);
+		if (exists !== -1 || undefined) {
+			User.findByIdAndUpdate(req.user.id,
+				{ $pull: { downloadBookmarks: req.params.id } }, (err, result) => {
+					if (err) {
+						console.log(err);
+					} else {
+						if (req.xhr) {
+							res.json([{ msg: `${foundDownload.title} is removed from your bookmarks` }]);
+						} else {
+							req.flash("success", "Bookmark was succesfully removed")
+							res.redirect("back");
+						};
+					};
+				});
+		} else {
+			// let foundDownload = await Download.findById(req.params.id);
+			if (!foundDownload) { res.json([{ msg: "We encountered some issue. Please try again!" }]); }
+			foundUser.downloadBookmarks.push(foundDownload);
+			foundUser.save();
+			if (req.xhr) {
+				res.json([{ msg: `${foundDownload.title}  is added to your bookmarks` }]);
+			} else {
+				res.redirect("back");
+			}
+		};
+	}
+	catch (error) {
+		req.flash("error", error.message);
+		return res.render("back");
+	}
 });
 
+//DOWNLOAD
+router.get("/downloads/docs/:id", isLoggedIn, async function (req, res) {
 
-router.get("/downloads/docs/:id", isLoggedIn, (req, res) => {
-    const docId = req.params.id;
-    Download.findById(req.params.id, (err, foundDocument) => {
-        if (err) {
-            req.flash('error', err.msg);
-            res.redirect('/downloads');
-        } else {
-            const documentName = foundDocument.file[0].url.slice(13);
-            const fileFormat = foundDocument.file[0].url.slice(-4);
-            const fileName = documentName.substring(0, documentName.indexOf('_'));
-            const documentLocation = path.join('uploads', 'docs', documentName)
-            console.log(fileFormat);
-            console.log(documentName);
-            console.log(fileName);
-            console.log(documentLocation);
-            const file = fs.createReadStream(documentLocation);
-            res.setHeader('Content-Disposition', 'inline; filename="' + fileName + '' + fileFormat + '" ');
-            file.pipe(res);
-            // fs.readFile(documentLocation, (err,data)=>{
-            //     if(err){
-            //         console.log(err);
-            //     } else {
-            //         res.setHeader('Content-Disposition', 'attachment');
-            //         res.send(data);
-            //     }
-            // })
-        };
-    });
+	// [START storage_download_file]
+	/**
+	 * TODO(developer): Uncomment the following lines before running the sample.
+	 */
+
+	// Downloads the file
+	let documentToDelete = await Download.findById(req.params.id);
+	if (!documentToDelete) {
+		req.flash("error", "The document cannot be found. Please try again!");
+		res.redirect('back');
+	}
+	let srcUrl = documentToDelete.file[0].url;
+	console.log('srcUrl');
+	console.log(srcUrl);
+	res.redirect(srcUrl);
+	// [END storage_download_file]
 });
-
-// Main Version - 1.2
-
-// router.put("/user/downloads/:id/bookmark", (req,res)=>{
-//     User.findById(req.user.id).exec(async (err,foundUser)=>{
-//         if(err){
-//             console.log("No user exisiting");
-//         } else  {
-//            var exists = foundUser.downloadBookmarks.indexOf(req.params.id);
-//            console.log(exists);
-//            if(exists !== -1 || undefined){
-//             User.findByIdAndUpdate(req.user.id, {
-//             $pull: { downloadBookmarks: req.params.id}
-//             }, function(err, result){
-//                 if(err){console.log(err)} else {
-//                     res.json([{msg:"Removed from your bookmarks"}])}
-//             });
-//         } else {
-//             Download.findById(req.params.id,(err, foundDownload)=>{
-//                 if(err){
-//                     req.flash("err","Some issues. Please try again");
-//                 } else {
-//                     foundUser.downloadBookmarks.push(foundDownload);
-//                     foundUser.save();
-//                     res.json([{msg:"Added to your bookmarks"}]);
-//                 }; 
-//             });
-//         };
-//        };
-//     })
-// }); 
-
-
-
-// Version 1.0
-// router.put("/user/downloads/:id/bookmark", (req,res)=>{
-
-//     User.findById(req.user.id, (err, foundUser)=>{
-//         if(err){
-//            console.log(err);
-//            return  res.send(err);
-//         }  else {
-//             Download.findById(req.params.id,(err,foundDownload)=>{
-//                 if(err){
-//                     console.log(err);
-//                 } else {
-//                     if(foundUser.downloadBookmarks.includes(foundDownload.id)){
-//                         User.findByIdAndUpdate(req.user.id, {
-//                             $pull: { downloadBookmarks: foundDownload }
-//                         })} else {
-//                             foundUser.downloadBookmarks.push(foundDownload);
-//                             foundUser.save();
-//                         }; 
-//                     res.json([{foundDownload}, {foundUser}]);
-//                 };   
-//               });
-//             };
-//         });     
-//     }); 
 
 //----------------------------------------------------------------------------//
 //----------------------Downloads - Share-Landing Page------------------------//
 //----------------------------------------------------------------------------//
 router.get('/downloads/:id', async (req, res) => {
-    try {
-        var document = await Download.findById(req.params.id);
-        console.log(document.author.id);
-        var authorid = await User.findById(document.author.id);
-        // res.redirect('/teachers/'+authorid)
-        // var author = User.findById(document.author.id);
-        if (!document) {
-            req.flash('error', 'Please try again');
-            res.redirect('/downloads');
-        }
-        // res.redirect('/teachers/' + author.id);
-        var documentName = document.file[0].url.slice(13);
-        var fileFormat = document.file[0].url.slice(-4);
-        var fileName = documentName.substring(0, documentName.indexOf('_'));
-        var documentLocation = path.join('uploads', 'docs', documentName)
-        console.log(fileFormat);
-        console.log(documentName);
-        console.log(fileName);
-        console.log(documentLocation);
-        var file = fs.createReadStream(documentLocation);
-        res.setHeader('Content-Disposition', 'attachment; filename="' + fileName + '' + fileFormat + '" ');
-        file.pipe(res);
-    } catch (error) {
-        req.flash('error', error.message);
-        res.redirect('/downloads');
-    }
-
-
+	try {
+		var document = await Download.findById(req.params.id);
+		var authorDocs = await Download.find({'author.id':document.author.id, 'exam':document.exam, 'attempt':document.attempt}).sort('-createdAt');
+		var authorVideos = await Videos.find({'author.id':document.author.id});
+		var author = await User.findById(document.author.id).populate('downloads[0][id]');
+		console.log('document');
+		console.log(document);
+	
+		if (!document) {
+			req.flash('error', 'Please try again');
+			res.redirect('/downloads');
+		}
+		let documentName = document.title;
+		res.render('index2', { page: "downloads_document", title: `Download ${documentName}`, document, author, authordocs: authorDocs, authorvideos:authorVideos,});
+	} catch (error) {
+		req.flash('error', error.message);
+		res.redirect('/downloads');
+	}
 })
+// router.get('/downloads/:id', async (req, res) => {
+// 	try {
+// 		var document = await Download.findById(req.params.id);
+// 		var authorid = await User.findById(document.author.id);
+// 		if (!document) {
+// 			req.flash('error', 'Please try again');
+// 			res.redirect('/downloads');
+// 		}
+// 		let downloadUrl = document.file[0].url;
+// 		console.log(downloadUrl);
+// 		res.redirect(downloadUrl);
+// 	} catch (error) {
+// 		req.flash('error', error.message);
+// 		res.redirect('/downloads');
+// 	}
+
+
+// })
 
 module.exports = router;

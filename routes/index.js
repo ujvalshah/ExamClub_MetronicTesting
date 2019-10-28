@@ -254,12 +254,14 @@ router.put("/forgot-password", async (req, res) => {
         user.resetPasswordToken = token;
         user.resetPasswordExpires = Date.now() + 3600000; //1hr
         await user.save();
-        await sendPasswordResetMail(email, user.username, host, token);
+        sendPasswordResetMail(email, user.username, host, token);
         if (req.xhr){
             res.json(`An e-mail has been sent to ${user.email} with further instructions. Please check your spam for the email as well.`)
         }
-        req.flash("success", `An e-mail has been sent to ${user.email} with further instructions. Please check your spam for the email as well.`);
-        res.redirect("back");
+        else{
+            req.flash("success", `An e-mail has been sent to ${user.email} with further instructions. Please check your spam for the email as well.`);
+            res.redirect("back");
+        }
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);
@@ -310,7 +312,7 @@ router.put("/reset/:token", async (req, res) => {
             req.flash("error", "Password do not match.");
             return res.redirect(`/reset/${token}`);
         }
-        await sendPasswordResetConfirmationMail(user.email, user.username);
+        sendPasswordResetConfirmationMail(user.email, user.username);
         req.flash("success", `Password successfully updated`);
         return res.redirect("/downloads");
     } catch (err) {

@@ -3,7 +3,7 @@
 <div class="kt-container  kt-grid__item kt-grid__item--fluid">
 <!--------------------------Download - Upload - CREATE Form(GET)------------------------>
 
-<div class="container uploadera">
+<div class="container uploader">
     <h2 class="pb-3">Upload a file</h2>
     
     <form action="/downloads" method="POST" enctype="multipart/form-data">
@@ -15,7 +15,7 @@
             <input type="text" class="form-control" id="download[author]" name="download[author][username]" value="<%=currentUser.username%>" readonly>
           </div>
             <%} else if (currentUser.isAdmin) { %>
-              <select class="form-control col-sm-4 author"  id="download[author]" name="download[author][username]"></select>
+              <select class="form-control col-sm-4 author"  id="download[author]" name="download[author][username]" required></select>
             <!-- <input type="text" class="form-control" id="download[author]_update" name="download[author][username]" placeholder="Author name..."> -->
             <%}%>
       
@@ -24,7 +24,7 @@
       <div class="form-group row">
         <label for="download[title]" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="download[title]" name="download[title]" placeholder="Title">
+          <input type="text" class="form-control" id="download[title]" name="download[title]" placeholder="Title" required>
         </div>
       </div>
       
@@ -60,7 +60,7 @@
     <!------------------------------------------Exam--------------------------------->
     <div class="form-group row">
         <label class="col-sm-2" for="downloadExamFormControlSelect">Applicable Exam:</label>
-        <select class="form-control col-sm-4" id="downloadExamFormControlSelect" name="download[exam]">
+        <select class="form-control col-sm-4" id="downloadExamFormControlSelect" name="download[exam]" required>
           <option value="" disabled selected>Choose Exam..</option>
           <option value="CA Final(New)">CA Final(New)</option>
           <option value="CA Final(Old)">CA Final(Old)</option>
@@ -82,7 +82,7 @@
     <!------------------------------------------Attempts--------------------------------->
       <div class="form-group row">
         <label class="col-sm-2" for="downloadAttemptFormControlSelect">Applicable Attempt:</label>
-        <select class="form-control col-sm-4" id="downloadAttemptFormControlSelect" name="download[attempt]">
+        <select class="form-control col-sm-4" id="downloadAttemptFormControlSelect" name="download[attempt]" required>
           <option value="Nov 2019">Nov 2019</option>
           <option value="May 2020">May 2020</option>
           <option value="Nov 2020">Nov 2020</option>

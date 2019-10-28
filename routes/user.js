@@ -112,7 +112,7 @@ router.get("/teachers/:id", async (req,res)=>{
         "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
         "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
         "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
-        "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+        "CA Foundation": { 'title': "CA Foundation", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
         "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
         "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
     };
@@ -175,7 +175,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
             "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
             "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
             "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
-            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+            "CA Foundation": { 'title': "CA Foundation", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
             "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
             "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
         };
@@ -273,7 +273,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
             "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
             "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
             "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
-            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+            "CA Foundation": { 'title': "CA Foundation", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
             "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
             "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
         };
@@ -357,7 +357,7 @@ router.get("/user/:id/dashboard", isLoggedIn, searchAndFilterDocs, searchAndFilt
             "CA Final(Old)": { 'title': "CA Final(Old)", 'class': 'btn-label-danger', 'mobile': 'kt-badge--unified-danger' },
             "CA Intermediate(New)": { 'title': "CA Intermediate(New)", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
             "CA IPCC(Old)": { 'title': "CA IPCC(Old)", 'class': 'btn-label-info', 'mobile': 'kt-badge--unified-info' },
-            "CA Foundation(New)": { 'title': "CA Foundation(New)", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
+            "CA Foundation": { 'title': "CA Foundation", 'class': 'btn-label-brand', 'mobile': 'kt-badge--unified-brand' },
             "General": { 'title': "General", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
             "": { 'title': "", 'class': 'btn-label-light', 'mobile': 'kt-badge--unified-light' },
         };

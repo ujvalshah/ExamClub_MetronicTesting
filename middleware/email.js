@@ -4,7 +4,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const sendEmailVerificationMail = (email, name, host, token) => {
   sgMail.send({
     to: email,
-    from: 'Admin <caexamclub@gmail.com>',
+    from: 'Admin <admin@examclub.io>',
     subject: 'Exam Club - Verification Email',
     text: `Hi ${name}! 
         This email is to verify your email id.
@@ -18,7 +18,7 @@ const sendEmailVerificationMail = (email, name, host, token) => {
 const sendPasswordResetMail = (email, name, host, token) => {
   sgMail.send({
     to: email,
-    from: 'Admin <caexamclub@gmail.com>',
+    from: 'Admin <admin@examclub.io>',
     subject: 'Exam Club - Forgot Password/Reset',
     text: `Hi ${name}! You are receiving this because you (or someone else) has requested for the reset of your account password.
 	    Please click on the following link, or copy and paste it into your browser to complete the process:
@@ -30,7 +30,7 @@ const sendPasswordResetMail = (email, name, host, token) => {
 const sendPasswordResetConfirmationMail = (email, name) => {
   sgMail.send({
     to: email,
-    from: 'Admin <caexamclub@gmail.com>',
+    from: 'Admin <admin@examclub.io>',
     subject: 'Exam Club - Succesful Password Reset',
     text: `Hi ${name}! Your password has been succesfully reset.`
     //   html: '<strong>and easy to do anywhere, even with Node.js</strong>',

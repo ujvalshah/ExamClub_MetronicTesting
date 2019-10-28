@@ -3,7 +3,11 @@
 var Download = require("../models/download.js");
 var Video = require("../models/video.js");
 var User = require("../models/user.js");
-
+const { Storage } = require('@google-cloud/storage');
+const projectId = process.env.GCLOUD_STORAGE_BUCKET;
+const keyFilename = process.env.GCLOUD_KEY_FILE;
+const gc = new Storage({ projectId, keyFilename });
+const bucket = gc.bucket('eclub1');
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -58,7 +62,7 @@ module.exports = {
       next();
     }
   },
-  
+
 
   isFacultyVerified: function(req, res, next) {
     if(req.user && req.user.isFaculty && req.user.isFacultyVerified === false) {
@@ -461,5 +465,57 @@ async searchAndFilterStudent(req,res,next) {
       res.locals.studentpaginateUrl = req.originalUrl.replace(/(\?|\&)page=\d+/g,'') + `${delimiter}`;
 
       next();
+    },
+
+
+
+//----------------------------------------------------------------------------//
+//------------------------------Google Upload Filter-------------------------------//
+//----------------------------------------------------------------------------//
+
+
+async sendUploadToGCS(req, res, next) {
+  if (!req.file) {
+    return next();
+  }
+
+  const gcsname = Date.now() + req.file.originalname;
+  const file = bucket.file(gcsname);
+
+  const stream = file.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype
+    },
+    resumable: false
+  });
+
+
+  stream.on('error', (err) => {
+    req.file.cloudStorageError = err;
+    next(err);
+  });
+
+
+  
+  stream.on('finish', () => {
+    
+    function getPublicUrl (filename) {
+      return `https://storage.googleapis.com/${'eclub1'}/${filename}`;
     }
+    req.file.cloudStorageObject = gcsname;
+    file.makePublic().then(() => {
+      req.file.cloudStoragePublicUrl = getPublicUrl(gcsname);
+      next();
+    });
+  });
+
+  stream.end(req.file.buffer);
+},
+
+
+
+
+
+
 };
+

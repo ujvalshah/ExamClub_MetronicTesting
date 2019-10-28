@@ -169,3 +169,15 @@ router.put("/forgot-password", async (req,res)=>{
          https://tosbourn.com/edit-an-option-of-a-select-menu-using-jquery/
          https://paulund.co.uk/add-and-remove-options-in-select-using-jquery
 });
+
+
+
+
+const fileExists = _=>{
+    return file.exists().then((data)=>{ console.log(data[0]); });
+}
+
+fileExists();
+//logs a boolean to the console;
+//true if the file exists;
+//false if the file doesn't exist.

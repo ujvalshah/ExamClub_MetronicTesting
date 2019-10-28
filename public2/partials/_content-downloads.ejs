@@ -150,7 +150,7 @@
       <li class="kt-pagination__link--next">
         <a href="<%=docspaginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
       </li>
-      <div class="d-flex" id='pagination-downloads'>
+      <div class="d-flex" id='pagination_downloads'>
         <%if(downloads.pages>1 && downloads.docs.length){%>
         <% for(let i=1; i<=downloads.pages; i++ ) {%>
         <li id="pagination_<%=i%>" class=<%= downloads.page === i ? "kt-pagination__link--active" : "" %>>
@@ -159,9 +159,6 @@
         <%}%>
         <%}%>
       </div>
-      <!-- <li>
-          <a href="#">2</a>
-        </li> -->
       <li class="kt-pagination__link--prev">
         <a href="<%=docspaginateUrl%><%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
       </li>
@@ -266,8 +263,8 @@
               <td class="align-middle text-center"><%=document.createdAt.toDateString()%></td>
               <td class="align-middle text-center text-capitalize"><%=document.author.displayName%></td>
               <td class="align-middle text-center dataTableText"><%=document.title%></td>
-              <td class="align-middle text-center"><span
-                  class="btn btn-bold btn-sm btn-font-sm <%=examsButtons[document.exam].class%>"><%=document.exam%></span>
+              <td class="align-middle text-center">
+                <span class="btn btn-bold btn-sm btn-font-sm <%=examsButtons[document.exam].class%>"><%=document.exam%></span>
               </td>
               <td class="align-middle text-center"><span
                   class="btn btn-bold btn-sm btn-font-sm btn-pill <%=attemptsButtons[document.attempt[0]].class%> text-nowrap"><%=document.attempt%></span>
@@ -275,22 +272,8 @@
               <td class="align-middle text-center"><%=document.subject%></td>
               <td class="align-middle text-center"><span
                   class="kt-badge kt-badge--success kt-badge--lg"><%=document.downloadCounter%></span></td>
-              <td class="align-middle text-center"><span class="dropdown">
-                  <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-sm" data-toggle="dropdown"
-                    aria-expanded="true">
-                    <i class="fas fa-ellipsis-v"></i></a>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <div class="dropdown-item">
-                      <form action="/downloads/<%=document._id%>/edit" method="GET">
-                        <button class="btn btn-sm btn-label-success"><i class="far fa-edit"></i>Edit</button>
-                      </form>
-                    </div>
-                    <div class="dropdown-item">
-                      <form action="/downloads/<%=document._id%>?_method=DELETE" method="POST">
-                        <button class="btn btn-sm btn-label-danger"><i class="far fa-trash-alt"></i> Delete</button>
-                      </form>
-                    </div>
-                  </div>
+              <td class="align-middle text-center">
+                <span class="dropdown">
                 </span>
                 <a href="/downloads/docs/<%=document._id%>" id="<%=document._id%>" onclick="downloadBtn(this)"
                   title="Download" target="_blank"
@@ -419,7 +402,7 @@
         <li class="kt-pagination__link--next">
           <a href="<%=docspaginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
         </li>
-        <div class="d-flex" id='pagination-downloads_bottom'>
+        <div class="d-flex" id='pagination_downloads_bottom'>
           <%if(downloads.pages>1 && downloads.docs.length){%>
           <% for(let i=1; i<=downloads.pages; i++ ) {%>
           <li id="pagination_<%=i%>_bottom" class=<%= downloads.page === i ? "kt-pagination__link--active" : "" %>>
@@ -448,112 +431,3 @@
 
 
 
-
-
-  <!-- //Old Filter -->
-  <!-- 
-          <div class="kt-portlet__body">
-
-              <form class="form-inline float-right my-2 my-lg-0 ml-auto" id='dataTable_filter_ajax' action="/downloads"
-                method="GET">
-                <div class="row">
-                  <div class="col-md-3">
-                    <input class="form-control mr-sm-2 bd-highlight mb-3" id="search-document" type="text"
-                      style="width:100%; background:rgba(55,74,251,0.1)" placeholder="Search Downloads..." name="search"
-                      aria-label="Search" value="">
-                  </div>
-                  <div class="col-md-3">
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <label class="input-group-text" for="exam[]">Exam</label>
-                      </div>
-                      <select class="custom-select documentGroupSelect" id="exam" name="exam[]" onchange="return filterDownloadsSubjectFilling(this)">
-                        <option class="choose-document" disabled <%= !docquery.exam ? "selected" : "" %>>Choose...</option>
-                        <option value="All">All</option>
-                        <option value="rf" <%= docquery.exam && docquery.exam.includes("rf") ? "selected" : "" %>>Remove Filter
-                        </option>
-                        <option value="CA Final(New)"
-                          <%= docquery.exam && docquery.exam.includes("CA Final(New)") ? "selected" : "" %>>CA Final(New)
-                        </option>
-                        <option value="CA Final(Old)"
-                          <%= docquery.exam && docquery.exam.includes("CA Final(Old)") ? "selected" : "" %>>CA Final(Old)
-                        </option>
-                        <option value="CA Intermediate(New)"
-                          <%= docquery.exam && docquery.exam.includes("CA Intermediate(New)") ? "selected" : "" %>>CA
-                          Intermediate(New)</option>
-                        <option value="CA IPCC(Old)"
-                          <%= docquery.exam && docquery.exam.includes("CA IPCC(Old)") ? "selected" : "" %>>
-                          CA IPCC(Old)</option>
-                        <option value="CA Foundation(New)"
-                          <%= docquery.exam && docquery.exam.includes("CA Foundation(New)") ? "selected" : "" %>>CA
-                          Foundation(New)
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <label class="input-group-text" for="attempt[]">Attempt</label>
-                      </div>
-                      <select class="custom-select documentGroupSelect" id="attempt" name="attempt[]"
-                        onchange="return filter()">
-                        <option disabled <%= !docquery.attempt ? "selected" : "" %>>Choose...</option>
-                        <option value="All">All</option>
-                        <option value="rf" <%= docquery.attempt && docquery.attempt.includes("rf") ? "selected" : "" %>>Remove
-                          Filter
-                        </option>
-                        <option value="Nov 2019"
-                          <%= docquery.attempt && docquery.attempt.includes("Nov 2019") ? "selected" : "" %>>
-                          Nov 2019</option>
-                        <option value="May 2020"
-                          <%= docquery.attempt && docquery.attempt.includes("May 2020") ? "selected" : "" %>>
-                          May 2020</option>
-                        <option value="Nov 2020"
-                          <%= docquery.attempt && docquery.attempt.includes("Nov 2020") ? "selected" : "" %>>
-                          Nov 2020</option>
-                        <option value="May 2021"
-                          <%= docquery.attempt && docquery.attempt.includes("May 2021") ? "selected" : "" %>>
-                          May 2021</option>
-                        <option value="Nov 2021"
-                          <%= docquery.attempt && docquery.attempt.includes("Nov 2021") ? "selected" : "" %>>
-                          Nov 2021</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <label class="input-group-text" for="author">Author</label>
-                      </div>
-                      <select class="custom-select documentGroupSelect" id="author" name="author" onchange="return filter()">
-                        <option disabled <%= !docquery.author ? "selected" : "" %>>Choose...</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <label class="input-group-text" for="subject[]">Subject</label>
-                      </div>
-                      <select class="custom-select documentGroupSelect" id="subject" name="subject[]"
-                        onchange="return filter()">
-                        <option <%= !docquery.subject ? "selected" : "" %> disabled>Choose...</option>
-                        <option disabled>Select Exam First</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row d-flex justify-content-end" style="width:100%">
-                  <button type="submit" id="downloads_filter_submit" class="btn btn-label-success btn-bold mr-4">Submit</button>
-                  <a class="btn btn-label-danger btn-bold" href="/downloads" id="clear-download-form-copy">Reset</a>
-                </div>
-              </form>
-        
-              <div class="kt-section__content kt-section__content--solid">
-                <span class="">Filter Tags: </span>
-                <div id='downloads-filter-tags' class="d-inline">
-                  <span class="btn btn-label-warning">Primary</span>
-</div>
-</div>
-</div> -->

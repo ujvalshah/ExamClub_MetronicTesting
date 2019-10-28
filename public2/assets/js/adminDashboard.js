@@ -288,7 +288,7 @@ function adminDashDocs_paginationButtons() {
 
   $('.kt-pagination__link--next').on('click', 'a', function (e) {
     e.preventDefault();
-    let val = $('#adminDashboardDocsPagination .kt-pagination__link--active').prev().click();
+    $('#adminDashboardDocsPagination .kt-pagination__link--active').prev().click();
   })
 
   $('.kt-pagination__link--prev').on('click', 'a', function (e) {
@@ -871,11 +871,17 @@ function adminDashVideos_paginationButtons() {
 
   $('.kt-pagination__link--next').on('click', 'a', function (e) {
     e.preventDefault();
+    let classs = $(this).attr('id');
+    console.log('classsnext');
+    console.log(classs);
     $('#adminDashboardVideos-pagination .kt-pagination__link--active').prev().click();
   })
 
   $('.kt-pagination__link--prev').on('click', 'a', function (e) {
     e.preventDefault();
+    let classs2 = $(this).attr('id');
+    console.log('classsprevious');
+    console.log(this);
     // console.log('kt-pagination__link--prev');
     $('#adminDashboardVideos-pagination .kt-pagination__link--active').next().click();
   })

@@ -25,7 +25,7 @@ $("#downloadExamFormControlSelect").on("change", function(){
     $('#downloadSubjectsFormControlSelect3').attr("disabled", "true");
     $('#downloadSubjectsFormControlSelect4').attr("disabled", "true");
     $('#downloadSubjectsFormControlSelect5').attr("disabled", "true");
-    } else if (optionVal == "CA Foundation(New)"){
+    } else if (optionVal == "CA Foundation"){
     $('#downloadSubjectsFormControlSelect1').attr("disabled", "true");
     $('#downloadSubjectsFormControlSelect2').attr("disabled", "true");
     $('#downloadSubjectsFormControlSelect3').removeAttr("disabled");
@@ -67,7 +67,7 @@ if(optionVal_edit == "CA Final(New)"){
         $('#downloadSubjectsFormControlSelect3_update').attr("disabled", "true");
         $('#downloadSubjectsFormControlSelect4_update').attr("disabled", "true");
         $('#downloadSubjectsFormControlSelect5_update').attr("disabled", "true");
-        } else if (optionVal_edit == "CA Foundation(New)"){
+        } else if (optionVal_edit == "CA Foundation"){
         $('#downloadSubjectsFormControlSelect1_update').attr("disabled", "true");
         $('#downloadSubjectsFormControlSelect2_update').attr("disabled", "true");
         $('#downloadSubjectsFormControlSelect3_update').removeAttr("disabled");
@@ -114,7 +114,7 @@ function filterfilling() {
         // })
 
         $(".author").empty();
-        $(".author").append(`<option disabled selected>Faculty</option>`);
+        $(".author").append(`<option value=""  disabled selected>Faculty</option>`);
         filterlist.teachers.forEach(faculty => {
             if (!faculty.byAdmin) {
                 $(".author").append($("<option></option>")

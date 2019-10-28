@@ -1,6 +1,8 @@
 
 $(document).ready(function () {
+
   filterfilling()
+
   datatableinit();
   changePaginationActiveTab()
   changePaginationTabto1()
@@ -22,7 +24,7 @@ function refreshDataTable() {
   // console.log(filterItemsArray);
   // console.log(decodeURI(filterItems));
   let limitNo = $('#limit-downloadTable').val() || "10"
-  let pageNo = $('#pagination-downloads .kt-pagination__link--active').text().trim() || 1;
+  let pageNo = $('#pagination_downloads .kt-pagination__link--active').text().trim() || 1;
   if ($("#largeScreen-downloads").is(":hidden")) {
     var sort = $("select#sorting-mobileDownloadTable option:checked").val() || "-createdAt";
   }
@@ -32,18 +34,17 @@ function refreshDataTable() {
   // console.log(sort);
   let downloadDatatableUrl = `/downloads?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
   $.get(downloadDatatableUrl, filterItems, function (data) {
-    // console.log('data');
     // console.log(data);
-    $('#pagination-downloads').empty();
-    $('#pagination-downloads_bottom').empty();
+    $('#pagination_downloads').empty();
+    $('#pagination_downloads_bottom').empty();
     for (let i = 1; i <= data.pages; i++) {
-      $('#pagination-downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
+      $('#pagination_downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
     }
     for (let i = 1; i <= data.pages; i++) {
-      $('#pagination-downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+      $('#pagination_downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
     }
-    $(`#pagination-downloads li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
-    $(`#pagination-downloads_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
+    $(`#pagination_downloads li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
+    $(`#pagination_downloads_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
     $("tbody").empty();
     $('#mobile-downloads-content').empty();
@@ -54,7 +55,7 @@ function refreshDataTable() {
          <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
          <td class="align-middle text-center text-capitalize">${document.author.displayName}</td>
          <td class="align-middle text-center dataTableText">${document.title}</td>
-         <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.examsButtons[document.exam].class}">${document.exam}</span></td>
+         <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${document.exam ? data.examsButtons[document.exam].class : ""}">${document.exam}</span></td>
          <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
             ${data.attemptsButtons[document.attempt[0]].class} text-nowrap">${document.attempt}</span></td>
          <td class="align-middle text-center">${document.subject}</td>
@@ -126,7 +127,7 @@ function refreshDataTable() {
                     <span
                       class="kt-badge kt-badge--inline kt-badge--bold ${data.attemptsButtons[document.attempt[0]].mobile} text-nowrap">${document.attempt}</span>
                     <span
-                      class="kt-badge kt-badge--inline kt-badge--bold ${data.examsButtons[document.exam].mobile}">${document.exam}</span>
+                      class="kt-badge kt-badge--inline kt-badge--bold ${document.exam ? data.examsButtons[document.exam].mobile : ''}">${document.exam}</span>
                     ${(document.subject || document.subject !== "") ? `<span class="kt-badge kt-badge--inline kt-badge--bold kt-badge--unified-brand">${document.subject}</span>` : ""}
                   </p>
                 </div>
@@ -141,12 +142,12 @@ function refreshDataTable() {
                     class="fas fa-file-download"></i></span>
                 </a>
                 ${data.currentUser && data.currentUser.isStudent ?
-          `<form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
+              `<form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
                              <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.currentUser && data.currentUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
                    </form>` : (!data.currentUser) ? `<form id="bookmark_${document._id}" onsubmit="return documentSignupBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
                              <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.currentUser && data.currentUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
                    </form>` : ""
-        }
+                  }
 
                     <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
                     <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
@@ -190,8 +191,8 @@ function refreshDataTable() {
     });
 
 
-    // $('#pagination-downloads li').first().addClass('kt-pagination__link--active')
-    let curPage = $('#pagination-downloads .kt-pagination__link--active').text().trim();
+    // $('#pagination_downloads li').first().addClass('kt-pagination__link--active')
+    let curPage = $('#pagination_downloads .kt-pagination__link--active').text().trim();
     let currentPage = parseInt(curPage);
     // console.log(curPage);
     let limit = data.limit;
@@ -206,29 +207,30 @@ function refreshDataTable() {
 function datatableinit() {
   //  var filterItems = $('#dataTable_filter_ajax').serialize();
   refreshDataTable();
-  $('#pagination-downloads li').first().addClass('kt-pagination__link--active')
+  $('#pagination_downloads li').first().addClass('kt-pagination__link--active')
 };
 
 function paginationButtons() {
-  $('.kt-pagination__link--first').on('click', 'a', function (e) {
+  $('.kt-pagination__link--first').unbind('click').bind('click', 'a', function (e) {
     e.preventDefault();
     $('#pagination_1').click();
   })
 
-  $('.kt-pagination__link--last').on('click', 'a', function (e) {
+  $('.kt-pagination__link--last').unbind('click').bind('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination-downloads').children().last().click();
-    // $('#pagination-downloads :last-child').click();
+    $('#pagination_downloads').children().last().click();
+    // $('#pagination_downloads :last-child').click();
   })
 
-  $('.kt-pagination__link--next').on('click', 'a', function (e) {
+    
+  $('.kt-pagination__link--next').unbind('click').bind('click', 'a', function (e) {
     e.preventDefault();
-    let val = $('#pagination-downloads .kt-pagination__link--active').prev().click();
+    $('#pagination_downloads .kt-pagination__link--active').prev().click();
   })
 
-  $('.kt-pagination__link--prev').on('click', 'a', function (e) {
+  $('.kt-pagination__link--prev').unbind('click').bind('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination-downloads .kt-pagination__link--active').next().click();
+    $('#pagination_downloads .kt-pagination__link--active').next().click();
   })
 }
 
@@ -345,18 +347,18 @@ function shareLink(elem) {
 }
 
 function changePaginationActiveTab() {
-  $('#pagination-downloads').on('click', "li", function (e) {
+  $('#pagination_downloads').on('click', "li", function (e) {
     e.preventDefault();
-    $('#pagination-downloads .kt-pagination__link--active').removeClass('kt-pagination__link--active');
-    $('#pagination-downloads_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination_downloads .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination_downloads_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
     $(this).addClass('kt-pagination__link--active');
     refreshDataTable();
   });
 
-  $('#pagination-downloads_bottom').on('click', "li", function (e) {
+  $('#pagination_downloads_bottom').on('click', "li", function (e) {
     e.preventDefault();
-    $('#pagination-downloads .kt-pagination__link--active').removeClass('kt-pagination__link--active');
-    $('#pagination-downloads_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination_downloads .kt-pagination__link--active').removeClass('kt-pagination__link--active');
+    $('#pagination_downloads_bottom .kt-pagination__link--active').removeClass('kt-pagination__link--active');
     let pageNoBottomDownloadClicked = $(this).attr('id');
     let pageTopDownloadId = pageNoBottomDownloadClicked.replace('_bottom', '');
     $('#' + pageTopDownloadId).click();
@@ -367,12 +369,12 @@ function changePaginationActiveTab() {
 function changePaginationTabto1() {
   $('#limit-downloadTable').on('keyup change', function () {
     refreshDataTable()
-    $("#pagination-downloads li:first-child").click();
+    $("#pagination_downloads li:first-child").click();
   })
 
   $("#limit-downloadTable i").on('click', function () {
     refreshDataTable()
-    $("#pagination-downloads li:first-child").click();
+    $("#pagination_downloads li:first-child").click();
   })
 }
 

@@ -142,14 +142,14 @@
             <a id="pagination-url_<%=i%>" href="<%=docspaginateUrl%>page=<%=i%>"><%=i%></a>
           </li>
           <%}%>
-              <%}%>
+          <%}%>
         </div>
         <%if((downloads.page+1)<= downloads.pages){%>
         <li class="kt-pagination__link--prev">
           <a href="<%=docspaginateUrl%>page=<%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
         </li>
         <%}%>
-              <li class="kt-pagination__link--last">
+        <li class="kt-pagination__link--last">
                 <a href="<%=docspaginateUrl%>page=<%=downloads.pages%>"><i
           class="fa fa-angle-double-right kt-font-brand"></i></a>
         </li>
@@ -479,8 +479,9 @@
                 <div class="kt-pagination__toolbar full-width">
                   <select class="form-control kt-font-success adminDashboard-subject" id="adminDashboardVideos-subject"
                     name="subject[]" onchange="return adminDashVideos_filter() ">
-                    <option value='rf' <%= videoquery.subject && videoquery.subject.includes("rf") ? "selected" : "" %>>Subject
-                      </option>
+                    <option value='rf' <%= videoquery.subject && videoquery.subject.includes("rf") ? "selected" : "" %>>
+                      Subject
+                    </option>
                     <option disabled>Select Exam First</option>
                   </select>
                 </div>
