@@ -28,7 +28,12 @@
     <link href="/assets/css/demo2/pages/wizard/wizard-4.css" rel="stylesheet" type="text/css" />
     <!--end::Page Custom Styles -->
     <%}%>
-
+    <% if(page !== 'undefined' && page === 'contact'){%>
+		<!--begin::Page Custom Styles(used by this page) -->
+		<link href="./assets/css/demo2/pages/support-center/faq-3.css" rel="stylesheet" type="text/css" />
+		<link href="./assets/css/demo2/pages/support-center/feedback.css" rel="stylesheet" type="text/css" />
+        <!--end::Page Custom Styles -->
+        <%}%>
     <!--begin::Global Theme Styles(used by all pages) -->
     <link href="/assets/vendors/global/vendors.bundle.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/demo2/style.bundle.css" rel="stylesheet" type="text/css" />

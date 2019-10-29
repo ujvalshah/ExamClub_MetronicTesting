@@ -8,6 +8,7 @@ var Exam = require("../models/exam.js");
 var Teacher = require("../models/teacher.js");
 var Notification = require("../models/notifications.js");
 var Subscriber = require("../models/subscribers.js");
+var Inquiry = require("../models/inquiry.js");
 const { sendPasswordResetMail, sendPasswordResetConfirmationMail, sendEmailVerificationMail } = require("../middleware/email.js");
 const { isLoggedIn, isEmailVerified, isAdmin } = require("../middleware/index.js");
 const io = require("../utils/sockets.js");
@@ -628,6 +629,59 @@ router.get('/api/teacherdata', async function (req, res) {
 })
 
 
+router.get('/termsconditions', async function(req,res){
+    try {
+        res.render('index2',{page:"termsandconditions", title:"Terms and Conditions"})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.get('/privacypolicy', async function(req,res){
+    try {
+        res.render('index2',{page:"privacypolicy", title:"Privacy Policy"})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.get('/disclaimer', async function(req,res){
+    try {
+        res.render('index2',{page:"disclaimer", title:"Disclaimer"})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.get('/cookiepolicy', async function(req,res){
+    try {
+        res.render('index2',{page:"cookiepolicy", title:"Cookie Policy"})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.get('/contact', async function(req,res){
+    try {
+        res.render('index2',{page:"contact", title:"Contact"})
+    } catch (error) {
+        console.log(error);
+    }
+})
+router.post('/contact', async function(req,res){
+    try {
+        let newInquiry = await Inquiry.create(req.body.inquiry);
+        if(!newInquiry){
+            req.flash('error', "Your message could not be sent. Please try again once more.");
+            res.redirect('/contact');
+        }
+        console.log(newInquiry);
+        req.flash('success', "Thanks for reaching out. We will try to respond back ASAP!");
+        res.redirect('/contact');
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 
 // router.post('/notification/id', (req,res)=>{

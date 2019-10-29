@@ -135,6 +135,16 @@
                     <% include ./partials/_content-forgot_password %>
                     <%} else if (page !== 'undefined' && page === 'email-verification'){%>
                     <% include ./partials/_email-verification %>
+                    <%} else if (page !== 'undefined' && page === 'termsandconditions'){%>
+                    <% include ./partials/_content-terms_and_conditions%>
+                    <%} else if (page !== 'undefined' && page === 'privacypolicy'){%>
+                    <% include ./partials/_content-privacy_policy%>
+                    <%} else if (page !== 'undefined' && page === 'disclaimer'){%>
+                    <% include ./partials/_content-disclaimer%>
+                    <%} else if (page !== 'undefined' && page === 'cookiepolicy'){%>
+                    <% include ./partials/_content-cookiepolicy%>
+                    <%} else if (page !== 'undefined' && page === 'contact'){%>
+                    <% include ./partials/_content-inquiry%>
                     <% } %>
                 </div>
             </div>
