@@ -589,6 +589,7 @@ router.post('/teacherform', isLoggedIn, isAdmin, async function (req, res) {
 
 router.put('/teacherform/:id',  isLoggedIn, isAdmin, async function (req, res) {
     try {
+         req.body.teacher.username= req.body.teacher.displayName;
         let foundTeacher = await Teacher.findByIdAndUpdate(req.params.id, req.body.teacher, { new: true });
         console.log(foundTeacher);
         req.flash('success', 'The data was successfully edited.');
