@@ -13,7 +13,7 @@ const cookieParser = require("cookie-parser");
 const LocalStrategy = require("passport-local");
 const methodOverride = require("method-override");
 const flash = require('connect-flash');
-
+const XLSX = require('xlsx');
 
 //----------------------------------------------------------------------------//
 //----------------------------------Require Models----------------------------//
@@ -26,6 +26,7 @@ const Teacher = require("./models/teacher.js");
 const Exam = require("./models/exam.js");
 const Subscriber = require("./models/subscribers.js");
 const Inquiry = require("./models/inquiry.js");
+const Batchupload = require("./models/batchupload.js");
 const Notification = require("./models/notifications.js");
 const Notificationcopy = require("./models/notificationscopy.js");
 
@@ -37,6 +38,7 @@ const userRoutes = require("./routes/user.js");
 const downloadRoutes = require("./routes/downloads.js");
 const videoRoutes = require("./routes/video.js");
 const apiRoute = require("./routes/api.js");
+const batchRoute = require("./routes/batch.js");
 const middleware = require("./middleware");
 const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin } = middleware;
 
@@ -100,11 +102,18 @@ app.use(userRoutes);
 app.use(downloadRoutes);
 app.use(videoRoutes);
 app.use(apiRoute);
+app.use(batchRoute);
 
 
 //----------------------------------------------------------------------------//
 //-----------------------------------Sockets Routes---------------------------//
 //----------------------------------------------------------------------------//
+// var workbook = XLSX.readFile('D:/Data/upload.xlsx');
+// var sheet_name_list = workbook.SheetNames;
+// console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]));
+// var uploadData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+// console.log('uploadData.length');    
+// console.log(uploadData.length);    
 
 // io.on('connection', (socket) => {
 //     console.log('New WebSocket Connection');

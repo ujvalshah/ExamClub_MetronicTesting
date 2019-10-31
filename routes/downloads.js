@@ -5,45 +5,116 @@ const { format } = require('util');
 const { Storage } = require('@google-cloud/storage');
 const Download = require("../models/download.js");
 const Videos = require("../models/download.js");
+const Batchupload = require("../models/batchupload.js");
 const User = require("../models/user.js");
 const Multer = require('multer');
 const path = require("path");
 const middleware = require("../middleware");
 const moment = require('moment');
-
-const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs, sendUploadToGCS, publicURL } = middleware;
+const XLSX = require('xlsx');
+const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterDocs, sendUploadToGCS, publicURL, uploadFile } = middleware;
 const projectId = process.env.GCLOUD_STORAGE_BUCKET;
 const keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 const gc = new Storage({ projectId, keyFile });
 const upload = Multer({ storage: Multer.memoryStorage() });
+//----------------------------------------------------------------------------//
+const batchstorage = Multer.diskStorage({
+	destination: function (req, file, callback) {
+		callback(null, '/uploads/batch')
+	},
+	filename: function (req, file, callback) {
+		callback(null, Date.now() + file.originalname);
+	}
+});
+const batchfileupload = Multer({ storage: batchstorage });
+//----------------------------------------------------------------------------//
+
 const bucketName = "eclub1";
 const bucket = gc.bucket(bucketName);
 //----------------------------------------------------------------------------//
 //--------------------------Downloads Routes----------------------------------//
 //----------------------------------------------------------------------------//
-router.get("/downloadscopy", searchAndFilterDocs, function (req, res) {
-	const { docdbQuery, docspaginateUrl } = res.locals;
-	delete res.locals.docdbQuery;
-
-	console.log('*****docdbquery****');
-	console.log(docdbQuery);
-	Download.find(docdbQuery, (err, foundDownload) => {
-		if (err) {
-			req.flash("error");
-			res.redirect("back");
-		} else {
-			console.log('----------');
-			console.log(res.locals.docquery);
-			console.log('----------');
-			console.log(foundDownload.length);
-
-			if (!foundDownload.length && res.locals.query) {
-				res.locals.error = 'No results match that query.';
-			}
-			res.render("index2", { downloads: foundDownload, docspaginateUrl, page: "downloads", title: "Downloads" });
-			// res.render("downloads/downloads", {downloads: foundDownload, page: downloads});
+router.post("/downloadscopy", async function (req, res) {
+	try {
+		function uploadExcel() {
+			var workbook = XLSX.readFile('D:/Data/upload.xlsx');
+			var sheet_name_list = workbook.SheetNames;
+			console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]));
+			var uploadData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+			console.log('uploadData');
+			console.log(uploadData);
+			return uploadData;
 		}
-	});
+		let uploadData = uploadExcel();
+		for (const data of uploadData) {
+
+			let x = 0;
+			console.log(data);
+			console.log('data.author');
+			console.log(data.author);
+			console.log('data.path');
+			console.log(data.path);
+
+			let download = {};
+			download.author = {};
+			download.file = [];
+			download.exam = [];
+			download.attempt = [];
+			download.subject = [];
+
+			console.log('download');
+			console.log(download);
+			download.author.id = req.user._id;
+			download.author.username = data.author;
+			download.author.displayName = data.author;
+			download.exam = data.exam;
+			download.attempt = data.attempt;
+			download.subject = data.subject;
+			download.description = data.description;
+			download.title = data.title;
+			var newfileName = data.title;
+			var bucketName = "eclub1";
+			var filename = data.path;
+
+
+			await uploadFile(bucketName, filename, newfileName, data);
+
+			var publicUrl = format(
+				`https://storage.googleapis.com/${bucketName}/${newfileName}`
+			);
+			download.file.push({
+				url: publicUrl,
+				public_id: filename
+			});
+			console.log('Final download');
+			console.log(download);
+
+			var newDownload = await Download.create(download);
+			console.log('newDownload');
+			console.log(newDownload);
+			var documentOwner = await User.findById(req.user._id);
+			console.log('documentOwner');
+			console.log(documentOwner);
+			if (!documentOwner) {
+				req.flash("error");
+				res.redirect("/downloads/new");
+			} else if (documentOwner) {
+				documentOwner.downloads.push(newDownload);
+				documentOwner.save();
+			}
+			x += 1;
+			console.log('This is x');
+			console.log(x);
+		}
+		req.flash('success', "Your file was successfully uploaded!");
+		res.redirect("/downloads");
+
+	} catch (error) {
+		console.log(error);
+		req.flash('error', error.message);
+	}
+
+
 });
 
 router.get("/downloads", searchAndFilterDocs, async function (req, res) {
@@ -74,6 +145,7 @@ router.get("/downloads", searchAndFilterDocs, async function (req, res) {
 			"Nov 2020": { 'title': "Nov 2020", 'class': 'btn-label-warning', 'mobile': 'kt-badge--unified-warning' },
 			"May 2021": { 'title': "May 2021", 'class': 'btn-label-success', 'mobile': 'kt-badge--unified-success' },
 			"Nov 2021": { 'title': "Nov 2021", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
+			"": { 'title': "None", 'class': 'btn-label-dark', 'mobile': 'kt-badge--unified-dark' },
 		};
 
 		examsButtons = {
@@ -174,7 +246,7 @@ router.post("/downloads", upload.single('document'), async function (req, res, n
 				`https://storage.googleapis.com/${bucket.name}/${blob.name}`
 			);
 			console.log(publicUrl);
-			
+
 			req.body.download.file = [];
 
 			req.body.download.file.push({
@@ -182,13 +254,13 @@ router.post("/downloads", upload.single('document'), async function (req, res, n
 				public_id: blob.name
 			});
 
-			let download = await Download.create(req.body.download);
+			let newDownload = await Download.create(req.body.download);
 			let documentOwner = await User.findById(req.user._id);
 			if (!documentOwner) {
 				req.flash("error");
 				res.redirect("/downloads/new");
 			} else if (documentOwner) {
-				documentOwner.downloads.push(download);
+				documentOwner.downloads.push(newDownload);
 				documentOwner.save();
 			}
 			req.flash('success', "Your file was successfully uploaded!");
@@ -205,6 +277,81 @@ router.post("/downloads", upload.single('document'), async function (req, res, n
 	}
 
 });
+
+//With GCP but W/o Excel
+// router.post("/downloads", upload.single('document'), async function (req, res, next) {
+// 	try {
+// 		console.log('req.file');
+// 		console.log(req.file);
+// 		console.log('req.body');
+// 		console.log(req.body);
+// 		//Name
+// 		req.body.download.author.id = req.user._id;
+// 		if (req.user.isAdmin) {
+// 			req.body.download.author.displayName = req.body.download.author.username;
+// 		}
+// 		if (!req.user.isAdmin) {
+// 			req.body.download.author.displayName = req.user.displayName;
+// 		}
+// 		var originalfileName = req.file.originalname;
+// 		var fileName = originalfileName.slice(0, originalfileName.indexOf('.'));
+// 		var fileMimeType = req.file.mimetype;
+// 		var fileExtenstion = fileMimeType.slice((fileMimeType.indexOf('/') + 1));
+// 		var facultyName = req.body.download.author.displayName.split(' ').join('_');
+// 		console.log('fileExtenstion');
+// 		console.log(fileExtenstion);
+
+// 		var gcsFileName = `${facultyName}-${fileName}_${Date.now()}.${fileExtenstion}`;
+// 		var blob = bucket.file(gcsFileName);
+// 		var blobStream = blob.createWriteStream({
+// 			metadata: {
+// 				contentType: req.file.mimetype
+// 			},
+// 			gzip: true,
+// 			resumable: false,
+// 		});
+
+// 		blobStream.on('error', err => {
+// 			next(err);
+// 		});
+
+// 		blobStream.on('finish', async () => {
+// 			// The public URL can be used to directly access the file via HTTP.
+// 			var publicUrl = format(
+// 				`https://storage.googleapis.com/${bucket.name}/${blob.name}`
+// 			);
+// 			console.log(publicUrl);
+
+// 			req.body.download.file = [];
+
+// 			req.body.download.file.push({
+// 				url: publicUrl,
+// 				public_id: blob.name
+// 			});
+
+// 			let download = await Download.create(req.body.download);
+// 			let documentOwner = await User.findById(req.user._id);
+// 			if (!documentOwner) {
+// 				req.flash("error");
+// 				res.redirect("/downloads/new");
+// 			} else if (documentOwner) {
+// 				documentOwner.downloads.push(download);
+// 				documentOwner.save();
+// 			}
+// 			req.flash('success', "Your file was successfully uploaded!");
+// 			res.redirect("/downloads");
+// 		});
+
+// 		blobStream.end(req.file.buffer);
+
+
+// 	} catch (error) {
+// 		console.log(error);
+// 		req.flash('error', error.message);
+// 		res.redirect('back');
+// 	}
+
+// });
 
 
 //----------------------------------------------------------------------------//
@@ -413,6 +560,9 @@ router.delete("/downloads/:id", isLoggedIn, async function (req, res) {
 	}
 });
 
+
+
+
 //----------------------------------------------------------------------------//
 //-----------------------------Downloads Counter------------------------------//
 //----------------------------------------------------------------------------//
@@ -420,20 +570,20 @@ router.put("/download/:id/counter", async (req, res) => {
 	try {
 		if (req.user) {
 			let userCounter = await User.findById(req.user.id);
-			if(!userCounter){
+			if (!userCounter) {
 				console.log(err);
 				return res.send(err);
-			} else{
-				let downloadCounter = await	Download.findById(req.params.id);
-				if(!downloadCounter){
+			} else {
+				let downloadCounter = await Download.findById(req.params.id);
+				if (!downloadCounter) {
 					console.log(err);
 					return res.send(err);
 				} else {
 					userDownloadData = {
 						id: userCounter,
 					};
-					downloadCounterUpdate = await Download.findByIdAndUpdate(downloadCounter,{ $inc: { 'downloadCounter': 1 }, $addToSet: { downloadStudents: { id: userCounter, username: userCounter.username } } }, { new: true });
-					if(!downloadCounterUpdate){
+					downloadCounterUpdate = await Download.findByIdAndUpdate(downloadCounter, { $inc: { 'downloadCounter': 1 }, $addToSet: { downloadStudents: { id: userCounter, username: userCounter.username } } }, { new: true });
+					if (!downloadCounterUpdate) {
 						console.log(err);
 						return res.send(err);
 					} else {
@@ -517,18 +667,18 @@ router.get("/downloads/docs/:id", isLoggedIn, async function (req, res) {
 router.get('/downloads/:id', async (req, res) => {
 	try {
 		var document = await Download.findById(req.params.id);
-		var authorDocs = await Download.find({'author.id':document.author.id, 'exam':document.exam, 'attempt':document.attempt}).sort('-createdAt');
-		var authorVideos = await Videos.find({'author.id':document.author.id});
+		var authorDocs = await Download.find({ 'author.id': document.author.id, 'exam': document.exam, 'attempt': document.attempt }).sort('-createdAt');
+		var authorVideos = await Videos.find({ 'author.id': document.author.id });
 		var author = await User.findById(document.author.id).populate('downloads[0][id]');
 		console.log('document');
 		console.log(document);
-	
+
 		if (!document) {
 			req.flash('error', 'Please try again');
 			res.redirect('/downloads');
 		}
 		let documentName = document.title;
-		res.render('index2', { page: "downloads_document", title: `Download ${documentName}`, document, author, authordocs: authorDocs, authorvideos:authorVideos,});
+		res.render('index2', { page: "downloads_document", title: `Download ${documentName}`, document, author, authordocs: authorDocs, authorvideos: authorVideos, });
 	} catch (error) {
 		req.flash('error', error.message);
 		res.redirect('/downloads');
@@ -543,7 +693,6 @@ router.get('/downloads/:id', async (req, res) => {
 // 			res.redirect('/downloads');
 // 		}
 // 		let downloadUrl = document.file[0].url;
-// 		console.log(downloadUrl);
 // 		res.redirect(downloadUrl);
 // 	} catch (error) {
 // 		req.flash('error', error.message);
@@ -554,3 +703,4 @@ router.get('/downloads/:id', async (req, res) => {
 // })
 
 module.exports = router;
+	// 		console.log(downloadUrl);

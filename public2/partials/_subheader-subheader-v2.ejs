@@ -17,9 +17,10 @@
                 <!-- End Send Notification Button - Modal -->
                 <%}%>
                 <% if(currentUser && currentUser.isAdmin){%>
+                    <a href="/batchupload" class="btn btn-label-success btn-bold btn-icon-h kt-margin-l-10"> Batch Upload Documents</a>
                     <a href="/filterform/new" class="btn btn-label-dark btn-bold btn-icon-h kt-margin-l-10"> Add Filter Data</a>
                     <a href="/teacherform/new" class="btn btn-label-dark btn-bold btn-icon-h kt-margin-l-10"> Add Faculty-Filter Data</a>
-                    <%}%>
+                <%}%>
         </div>
         <!-- <% if(typeof page !== 'undefined' && page === "videos"){%>
             <div style="padding: 0 1rem; margin-top:0.25rem" >
