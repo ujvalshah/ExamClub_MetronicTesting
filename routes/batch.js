@@ -150,7 +150,7 @@ router.get("/batch/:id", (req, res) => {
             console.log('filesaveid');
             console.log(filesaveid);
             var filemime = filesaveid.slice(filesaveid.indexOf('.'));
-            var documentLocation = path.join('uploads', 'batch', filesaveid)
+            var documentLocation = path.join('upload', 'batch', filesaveid)
             var file = fs.createReadStream(documentLocation);
             res.setHeader('Content-Disposition', 'inline; filename="' + documentName + '' + filemime + '" ');
             file.pipe(res);
