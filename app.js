@@ -108,12 +108,14 @@ app.use(batchRoute);
 //----------------------------------------------------------------------------//
 //-----------------------------------Sockets Routes---------------------------//
 //----------------------------------------------------------------------------//
-// var workbook = XLSX.readFile('D:/Data/upload.xlsx');
+// var workbook = XLSX.readFile('D:/Upload/Documents1.xlsx');
 // var sheet_name_list = workbook.SheetNames;
 // console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]));
 // var uploadData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 // console.log('uploadData.length');    
-// console.log(uploadData.length);    
+// console.log(uploadData.length);
+// console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[2]]));    
+// console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[1]]));    
 
 // io.on('connection', (socket) => {
 //     console.log('New WebSocket Connection');

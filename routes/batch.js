@@ -96,12 +96,12 @@ router.post('/batchupload', isLoggedIn, isAdmin, upload.single('batchfile'), asy
 			download.subject = data.subject;
 			download.description = data.description;
 			download.title = data.title;
-			var newfileName = data.filename;
+			var newfileName = `${data.filename}_${Date.now()}${data.mime}`;
 			var bucketName = "eclub1";
 			var filename = data.path;
 
 
-			await uploadFile(bucketName, filename, newfileName, data);
+			await uploadFile(bucketName, filename, newfileName);
 
 			var publicUrl = format(
 				`https://storage.googleapis.com/${bucketName}/${newfileName}`

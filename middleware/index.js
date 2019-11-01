@@ -513,12 +513,12 @@ async sendUploadToGCS(req, res, next) {
 },
 
 
-async uploadFile(bucketName, filename, displayName, info) {
+async uploadFile(bucketName, filename, displayName) {
   // Uploads a local file to the bucket
   await gc.bucket(bucketName).upload(filename, {
   gzip: true,
   resumable: false,
-  destination: info.title,
+  destination: displayName,
   });
   
   console.log(`${displayName} uploaded to ${bucketName}.`);
