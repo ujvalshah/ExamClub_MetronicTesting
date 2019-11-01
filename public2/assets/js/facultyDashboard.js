@@ -36,7 +36,7 @@ function refreshDataTable() {
            <td class="align-middle text-center">${index + 1}</td>
            <td class="align-middle text-center">${moment(document.createdAt).format("DD-MMM-YYYY")}</td>
            <td class="align-middle text-center text-capitalize">${document.author.displayName}</td>
-           <td class="align-middle text-center dataTableText">${document.title}</td>
+           <td class="align-middle text-center text-break dataTableText">${document.title}</td>
            <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm ${data.faculty.examsButtons[document.exam].class}">${document.exam}</span></td>
            <td class="align-middle text-center"><span class="btn btn-bold btn-sm btn-font-sm btn-pill 
               ${data.faculty.attemptsButtons[document.attempt[0]].class} text-nowrap">${document.attempt}</span></td>
@@ -110,7 +110,7 @@ function refreshDataTable() {
                     <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
                   </div>
                   <div class="kt-widget4__info pr-1">
-                    <a href="#" class="kt-widget4__username">
+                    <a href="#" class="kt-widget4__username text-break">
                       ${document.title}
                     </a>
                     <p class="kt-widget4__text">

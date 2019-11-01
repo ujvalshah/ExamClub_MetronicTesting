@@ -150,7 +150,7 @@
       <li class="kt-pagination__link--next">
         <a href="<%=docspaginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
       </li>
-      <div class="d-flex" id='pagination_downloads'>
+      <div style="display: contents;" id='pagination_downloads'>
         <%if(downloads.pages>1 && downloads.docs.length){%>
         <% for(let i=1; i<=downloads.pages; i++ ) {%>
         <li id="pagination_<%=i%>" class=<%= downloads.page === i ? "kt-pagination__link--active" : "" %>>
@@ -402,7 +402,7 @@
         <li class="kt-pagination__link--next">
           <a href="<%=docspaginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
         </li>
-        <div class="d-flex" id='pagination_downloads_bottom'>
+        <div style="display: contents;" id='pagination_downloads_bottom'>
           <%if(downloads.pages>1 && downloads.docs.length){%>
           <% for(let i=1; i<=downloads.pages; i++ ) {%>
           <li id="pagination_<%=i%>_bottom" class=<%= downloads.page === i ? "kt-pagination__link--active" : "" %>>

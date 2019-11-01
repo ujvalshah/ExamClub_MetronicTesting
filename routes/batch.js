@@ -18,7 +18,7 @@ const gc = new Storage({ projectId, keyFile });
 
 const batchstorage = multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(null, 'upload/batch')
+        callback(null, 'uploads/batch')
     },
     filename: function (req, file, callback) {
         callback(null, Date.now()+ file.originalname);
@@ -62,7 +62,7 @@ router.post('/batchupload', isLoggedIn, isAdmin, upload.single('batchfile'), asy
         console.log('newBatchFile');
         console.log(newBatchFile);
 		function uploadExcel() {
-            var workbook = XLSX.readFile(`upload/batch/${req.file.filename}`);
+            var workbook = XLSX.readFile(`uploads/batch/${req.file.filename}`);
 			var sheet_name_list = workbook.SheetNames;
 			console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]));
 			var uploadData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
@@ -99,6 +99,7 @@ router.post('/batchupload', isLoggedIn, isAdmin, upload.single('batchfile'), asy
 			var newfileName = `${data.filename}_${Date.now()}${data.mime}`;
 			var bucketName = "eclub1";
 			var filename = data.path;
+			console.log(filename);
 
 
 			await uploadFile(bucketName, filename, newfileName);
@@ -133,6 +134,7 @@ router.post('/batchupload', isLoggedIn, isAdmin, upload.single('batchfile'), asy
 	} catch (error) {
 		console.log(error);
 		req.flash('error', error.message);
+		res.redirect('back');
 	}
 })
 
@@ -150,7 +152,7 @@ router.get("/batch/:id", (req, res) => {
             console.log('filesaveid');
             console.log(filesaveid);
             var filemime = filesaveid.slice(filesaveid.indexOf('.'));
-            var documentLocation = path.join('upload', 'batch', filesaveid)
+            var documentLocation = path.join('uploads', 'batch', filesaveid)
             var file = fs.createReadStream(documentLocation);
             res.setHeader('Content-Disposition', 'inline; filename="' + documentName + '' + filemime + '" ');
             file.pipe(res);

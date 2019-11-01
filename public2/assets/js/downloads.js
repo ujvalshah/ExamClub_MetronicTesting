@@ -119,7 +119,7 @@ function refreshDataTable() {
                   <!-- <img src="./assets/media/users/100_4.jpg" alt=""> -->
                 </div>
                 <div class="kt-widget4__info pr-1">
-                  <a href="#" class="kt-widget4__username">
+                  <a href="#" class="kt-widget4__username text-break">
                     ${document.title}
                   </a>
                   <p class="kt-widget4__text">

@@ -1,7 +1,6 @@
 .env
 node_modules
 default
-uploads
 todo.md
 keyfile.json
 notes.md

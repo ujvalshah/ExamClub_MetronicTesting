@@ -133,7 +133,7 @@
         <li class="kt-pagination__link--next">
           <a href="<%=videospaginateUrl%>page=<%=videos.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
         </li>
-        <div class="d-flex" id='pagination-videos'>
+        <div style="display: contents;" id='pagination-videos'>
           <%if(videos.pages>=1 && videos.docs.length){%>
           <% for(let i=1; i<=videos.pages; i++ ) {%>
           <li id="video-pagination_<%=i%>" class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
@@ -314,7 +314,7 @@
                   <a href="<%=videospaginateUrl%>page=<%=videos.page-1%>"><i
                       class="fa fa-angle-left kt-font-brand"></i></a>
                 </li>
-                <div class="d-flex" id='pagination-videos_bottom'>
+                <div style="display: contents;" id='pagination-videos_bottom'>
                   <%if(videos.pages>=1 && videos.docs.length){%>
                   <% for(let i=1; i<=videos.pages; i++ ) {%>
                   <li id="video-pagination_<%=i%>_bottom"
