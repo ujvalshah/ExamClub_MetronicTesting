@@ -3,6 +3,7 @@
 var Download = require("../models/download.js");
 var Video = require("../models/video.js");
 var User = require("../models/user.js");
+const fs = require('fs');
 const { Storage } = require('@google-cloud/storage');
 const projectId = process.env.GCLOUD_STORAGE_BUCKET;
 const keyFilename = process.env.GCLOUD_KEY_FILE;
@@ -526,6 +527,10 @@ async uploadFile(bucketName, filename, displayName) {
   
   // [END storage_upload_file]
   },
+
+  async deleteTempFile (path){
+    fs.unlink(path, (err) => console.log(err));
+  }
 
 };
 

@@ -17,18 +17,6 @@ const projectId = process.env.GCLOUD_STORAGE_BUCKET;
 const keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 const gc = new Storage({ projectId, keyFile });
 const upload = Multer({ storage: Multer.memoryStorage() });
-//----------------------------------------------------------------------------//
-const batchstorage = Multer.diskStorage({
-	destination: function (req, file, callback) {
-		callback(null, '/uploads/batch')
-	},
-	filename: function (req, file, callback) {
-		callback(null, Date.now() + file.originalname);
-	}
-});
-const batchfileupload = Multer({ storage: batchstorage });
-//----------------------------------------------------------------------------//
-
 const bucketName = "eclub1";
 const bucket = gc.bucket(bucketName);
 //----------------------------------------------------------------------------//
@@ -204,18 +192,19 @@ router.get("/downloads/upload", isLoggedIn, isTeacherOrAdmin, async function (re
 
 // With GCP
 
-router.post("/downloads", upload.single('document'), async function (req, res, next) {
+router.post("/downloads", isLoggedIn, upload.single('document'), async function (req, res, next) {
 	try {
 		console.log('req.file');
 		console.log(req.file);
 		console.log('req.body');
 		console.log(req.body);
 		//Name
-		req.body.download.author.id = req.user._id;
 		if (req.user.isAdmin) {
+			req.body.download.author.id = req.user._id || req.body.download.id;
 			req.body.download.author.displayName = req.body.download.author.username;
 		}
 		if (!req.user.isAdmin) {
+			req.body.download.author.id = req.user._id;
 			req.body.download.author.displayName = req.user.displayName;
 		}
 		var originalfileName = req.file.originalname;
@@ -263,8 +252,12 @@ router.post("/downloads", upload.single('document'), async function (req, res, n
 				documentOwner.downloads.push(newDownload);
 				documentOwner.save();
 			}
-			req.flash('success', "Your file was successfully uploaded!");
-			res.redirect("/downloads");
+			if(req.xhr){
+				res.json("Successfull");	
+			} else {
+				req.flash('success', "Your file was successfully uploaded!");
+				res.redirect("/downloads");
+			}
 		});
 
 		blobStream.end(req.file.buffer);
@@ -566,38 +559,64 @@ router.delete("/downloads/:id", isLoggedIn, async function (req, res) {
 //----------------------------------------------------------------------------//
 //-----------------------------Downloads Counter------------------------------//
 //----------------------------------------------------------------------------//
+
+
+
+
 router.put("/download/:id/counter", async (req, res) => {
 	try {
-		if (req.user) {
-			let userCounter = await User.findById(req.user.id);
-			if (!userCounter) {
+		let downloadCounter = await Download.findById(req.params.id);
+		if (!downloadCounter) {
+			console.log(err);
+			return res.send(err);
+		} else {
+		let	downloadCounterUpdate = await Download.findByIdAndUpdate(downloadCounter, { $inc: { 'downloadCounter': 1 }}, { new: true });
+			if (!downloadCounterUpdate) {
 				console.log(err);
 				return res.send(err);
 			} else {
-				let downloadCounter = await Download.findById(req.params.id);
-				if (!downloadCounter) {
-					console.log(err);
-					return res.send(err);
-				} else {
-					userDownloadData = {
-						id: userCounter,
-					};
-					downloadCounterUpdate = await Download.findByIdAndUpdate(downloadCounter, { $inc: { 'downloadCounter': 1 }, $addToSet: { downloadStudents: { id: userCounter, username: userCounter.username } } }, { new: true });
-					if (!downloadCounterUpdate) {
-						console.log(err);
-						return res.send(err);
-					} else {
-						console.log('Success');
-					}
-					res.json([{ downloadCounter }, { userCounter }]);
-				}
+				console.log('Success');
 			}
+			res.end();
 		}
 	} catch (error) {
 		console.log(error);
 	}
 
 });
+// If user needs to be logged in
+// router.put("/download/:id/counter", async (req, res) => {
+// 	try {
+// 		if (req.user) {
+// 			let userCounter = await User.findById(req.user.id);
+// 			if (!userCounter) {
+// 				console.log(err);
+// 				return res.send(err);
+// 			} else {
+// 				let downloadCounter = await Download.findById(req.params.id);
+// 				if (!downloadCounter) {
+// 					console.log(err);
+// 					return res.send(err);
+// 				} else {
+// 					userDownloadData = {
+// 						id: userCounter,
+// 					};
+// 					downloadCounterUpdate = await Download.findByIdAndUpdate(downloadCounter, { $inc: { 'downloadCounter': 1 }, $addToSet: { downloadStudents: { id: userCounter, username: userCounter.username } } }, { new: true });
+// 					if (!downloadCounterUpdate) {
+// 						console.log(err);
+// 						return res.send(err);
+// 					} else {
+// 						console.log('Success');
+// 					}
+// 					res.json([{ downloadCounter }, { userCounter }]);
+// 				}
+// 			}
+// 		}
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+
+// });
 
 //Bookmark
 //Async Version 1.3
@@ -641,20 +660,16 @@ router.put("/user/downloads/:id/bookmark", async (req, res) => {
 });
 
 //DOWNLOAD
-router.get("/downloads/docs/:id", isLoggedIn, async function (req, res) {
+router.get("/downloads/docs/:id", async function (req, res) {
 
-	// [START storage_download_file]
-	/**
-	 * TODO(developer): Uncomment the following lines before running the sample.
-	 */
 
 	// Downloads the file
-	let documentToDelete = await Download.findById(req.params.id);
-	if (!documentToDelete) {
+	let documentToDownload = await Download.findById(req.params.id);
+	if (!documentToDownload) {
 		req.flash("error", "The document cannot be found. Please try again!");
 		res.redirect('back');
 	}
-	let srcUrl = documentToDelete.file[0].url;
+	let srcUrl = documentToDownload.file[0].url;
 	console.log('srcUrl');
 	console.log(srcUrl);
 	res.redirect(srcUrl);

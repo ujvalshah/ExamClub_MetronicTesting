@@ -2,8 +2,9 @@ require('dotenv').config();
 const path = require('path');
 const http = require('http');
 const express = require("express");
-const socketio = require("socket.io")
+const socketio = require("socket.io");
 const app = express();
+const fs = require('fs');
 const server = http.createServer(app);
 const io = socketio(server);
 const bodyParser = require("body-parser");
@@ -29,6 +30,7 @@ const Inquiry = require("./models/inquiry.js");
 const Batchupload = require("./models/batchupload.js");
 const Notification = require("./models/notifications.js");
 const Notificationcopy = require("./models/notificationscopy.js");
+const Temp = require("./models/temp.js");
 
 //----------------------------------------------------------------------------//
 //-------------------------------Route Of Application-------------------------//
@@ -108,14 +110,14 @@ app.use(batchRoute);
 //----------------------------------------------------------------------------//
 //-----------------------------------Sockets Routes---------------------------//
 //----------------------------------------------------------------------------//
-var workbook = XLSX.readFile('D:/Upload/Documents1.xlsx');
-var sheet_name_list = workbook.SheetNames;
-console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]));
-var uploadData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-console.log('uploadData.length');    
-console.log(uploadData.length);
-console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[2]]));    
-console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[1]]));    
+// var workbook = XLSX.readFile('D:/Upload/Documents1.xlsx');
+// var sheet_name_list = workbook.SheetNames;
+// console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]));
+// var uploadData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+// console.log('uploadData.length');    
+// console.log(uploadData.length);
+// console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[2]]));    
+// console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[1]]));    
 
 // io.on('connection', (socket) => {
 //     console.log('New WebSocket Connection');
@@ -153,6 +155,7 @@ console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[1]]));
 //         return res.sendStatus(500);
 //     }
 // })
+
 
 app.get('/notification', async (req, res) => {
     try {
