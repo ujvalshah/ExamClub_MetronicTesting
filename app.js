@@ -222,45 +222,45 @@ app.get('/notification/all', async (req, res) => {
 
 // })
 
-
-app.post('/notification', async (req, res) => {
-    console.log(req.body);
-    console.log(req.body.message);
-    console.log(req.body.exam);
-    console.log(req.body.notificationExamData);
-    console.log("------------------");
-    try {
-        let user = await User.findById(req.user._id).populate('followers').exec();
-        if(!user){req.flash('error', "You need to be signed in.")};
-        // console.log('********USER******');  
-        // console.log(user);
-        // console.log('******************');  
-        let notificationData = { message: req.body.message, author: { id: req.user._id, username: req.user.username }, exam: req.body.exam }
+// TEMPORARY
+// app.post('/notification', async (req, res) => {
+//     console.log(req.body);
+//     console.log(req.body.message);
+//     console.log(req.body.exam);
+//     console.log(req.body.notificationExamData);
+//     console.log("------------------");
+//     try {
+//         let user = await User.findById(req.user._id).populate('followers').exec();
+//         if(!user){req.flash('error', "You need to be signed in.")};
+//         // console.log('********USER******');  
+//         // console.log(user);
+//         // console.log('******************');  
+//         let notificationData = { message: req.body.message, author: { id: req.user._id, username: req.user.username }, exam: req.body.exam }
         
-        // console.log('********NOTIFICATIONDATA******');
-        // console.log(notificationData);
-        // console.log('**************');
-        let notificationNew = await Notification.create(notificationData);
-        // console.log('*****NOTIFICATION*********');
-        // console.log(notificationNew);
-        // console.log('******USER.FOLLOWERS********');
-        // console.log(user.followers);
-        for(const follower of user.followers){
-            let notification = await Notificationcopy.create(notificationData);
-            follower.notifications.push(notification);
-            follower.save();
-            console.log(follower);
-        }
-        req.flash('error','Notification successfully created!');
-            // io.emit('notification', newNotification);
-        // res.send(newNotification);
-        res.redirect(`/user/${currentUser._id}/dashboard`);
-        } catch (err) {
-        req.flash('error', err.message);
-        res.redirect('back');
-    }
+//         // console.log('********NOTIFICATIONDATA******');
+//         // console.log(notificationData);
+//         // console.log('**************');
+//         let notificationNew = await Notification.create(notificationData);
+//         // console.log('*****NOTIFICATION*********');
+//         // console.log(notificationNew);
+//         // console.log('******USER.FOLLOWERS********');
+//         // console.log(user.followers);
+//         for(const follower of user.followers){
+//             let notification = await Notificationcopy.create(notificationData);
+//             follower.notifications.push(notification);
+//             follower.save();
+//             console.log(follower);
+//         }
+//         req.flash('error','Notification successfully created!');
+//             // io.emit('notification', newNotification);
+//         // res.send(newNotification);
+//         res.redirect(`/user/${currentUser._id}/dashboard`);
+//         } catch (err) {
+//         req.flash('error', err.message);
+//         res.redirect('back');
+//     }
 
-})
+// })
 
 //----------------------------------------------------------------------------//
 //---------------------------------Server Message-----------------------------//
