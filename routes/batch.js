@@ -30,7 +30,7 @@ const batchstorage = multer.diskStorage({
 
 const upload = multer({ storage: batchstorage });
 
-const bucketName = "eclub1";
+const bucketName = process.env.GOOGLE_CLOUD_BUCKET;
 const bucket = gc.bucket(bucketName);
 
 
@@ -101,7 +101,7 @@ router.post('/batchupload', isLoggedIn, isAdmin, upload.fields([{ name: 'batchfi
 			download.description = data.description;
 			download.title = data.title;
 			var newfileName = `${data.filename}_${Date.now()}${data.mime}`;
-			var bucketName = "eclub1";
+			var bucketName = process.env.GOOGLE_CLOUD_BUCKET;
 			var pathName = path.join('uploads', 'batch', `${data.filename}${data.mime}`);
 			console.log('pathNamepathNamepathNamepathName');
 			console.log(pathName);
@@ -197,7 +197,7 @@ router.post('/batchupload', isLoggedIn, isAdmin, upload.fields([{ name: 'batchfi
 // 			download.description = data.description;
 // 			download.title = data.title;
 // 			var newfileName = `${data.filename}_${Date.now()}${data.mime}`;
-// 			var bucketName = "eclub1";
+// 			var bucketName = process.env.GOOGLE_CLOUD_BUCKET;
 // 			var filename = data.path;
 // 			console.log(filename);
 

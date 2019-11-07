@@ -17,7 +17,7 @@ const projectId = process.env.GCLOUD_STORAGE_BUCKET;
 const keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 const gc = new Storage({ projectId, keyFile });
 const upload = Multer({ storage: Multer.memoryStorage() });
-const bucketName = "eclub1";
+const bucketName = process.env.GOOGLE_CLOUD_BUCKET;
 const bucket = gc.bucket(bucketName);
 //----------------------------------------------------------------------------//
 //--------------------------Downloads Routes----------------------------------//
@@ -61,7 +61,7 @@ router.post("/downloadscopy", async function (req, res) {
 			download.description = data.description;
 			download.title = data.title;
 			var newfileName = data.title;
-			var bucketName = "eclub1";
+			var bucketName = process.env.GOOGLE_CLOUD_BUCKET;
 			var filename = data.path;
 
 
