@@ -76,14 +76,32 @@ function refreshDataTable() {
   // console.log(adminDashboardDownloadTableURL);
   $.get(adminDashboardDownloadTableURL, filterItems, function (data) {
     // console.log(data);
+    var maxInitialPage = 9;
+    var maxInitialPages = Math.min(data.downloads.pages,9); 
+    var prePages = Math.max(data.downloads.page-7, 1);
+    var postPages = Math.min(data.downloads.pages,data.downloads.page+1);
     $('#adminDashboardDocsPagination').empty();
     $('#adminDashboardDocsPagination_bottom').empty();
-    for (let i = 1; i <= data.downloads.pages; i++) {
-      $('#adminDashboardDocsPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
+
+    if(data.downloads.page < maxInitialPage){
+      for (let i = 1; i <= maxInitialPages; i++) {
+        $('#adminDashboardDocsPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`);      
+        $('#adminDashboardDocsPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`);      
+      }      
+    } else {
+      for (let i = prePages; i <= postPages; i++) {
+        $('#adminDashboardDocsPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`);
+        $('#adminDashboardDocsPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`);
+      }      
     }
-    for (let i = 1; i <= data.pages; i++) {
-      $('#adminDashboardDocsPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
-    }
+
+    // for (let i = 1; i <= data.downloads.pages; i++) {
+    //   $('#adminDashboardDocsPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
+    // }
+    // for (let i = 1; i <= data.pages; i++) {
+    //   $('#adminDashboardDocsPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+    // }
+
     $(`#adminDashboardDocsPagination li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
     $(`#adminDashboardDocsPagination_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
@@ -266,7 +284,7 @@ function refreshDataTable() {
     let probsecondNumber = limit * currentPage;
     let secondNumber = Math.min(probsecondNumber, totalEntries);
     let firstNumber = probsecondNumber - (limit - 1);
-    $(".pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+    $(".pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.downloads.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
   })
 };
 
@@ -278,7 +296,7 @@ function datatableinit() {
 function adminDashDocs_paginationButtons() {
   $('.kt-pagination__link--first').on('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination_1').click();
+    $('#adminDashboardDocsPagination').children().first().click();
   })
 
   $('.kt-pagination__link--last').on('click', 'a', function (e) {
@@ -469,11 +487,21 @@ function adminDashDocs_clearDocsFilter() {
     $.get(adminDashboardDownloadTableURL, function (data) {
       $('#adminDashboardDocsPagination').empty();
       $('#adminDashboardDocsPagination_bottom').empty();
-      for (let i = 1; i <= data.downloads.pages; i++) {
-        $('#adminDashboardDocsPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-      }
-      for (let i = 1; i <= data.downloads.pages; i++) {
-        $('#adminDashboardDocsPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+
+      var maxInitialPage = 9;
+      var maxInitialPages = Math.min(data.downloads.pages,9); 
+      var prePages = Math.max(data.downloads.page-7, 1);
+      var postPages = Math.min(data.downloads.pages,data.downloads.page+1);
+      if(data.downloads.page < maxInitialPage){
+        for (let i = 1; i <= maxInitialPages; i++) {
+          $('#adminDashboardDocsPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`);      
+          $('#adminDashboardDocsPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`);      
+        }      
+      } else {
+        for (let i = prePages; i <= postPages; i++) {
+          $('#adminDashboardDocsPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`);
+          $('#adminDashboardDocsPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`);
+        }      
       }
       $(`#adminDashboardDocsPagination li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
       $(`#adminDashboardDocsPagination_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
@@ -657,7 +685,7 @@ function adminDashDocs_clearDocsFilter() {
       let probsecondNumber = limit * currentPage;
       let secondNumber = Math.min(probsecondNumber, totalEntries);
       let firstNumber = probsecondNumber - (limit - 1);
-      $(".pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+        $(".pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.downloads.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`);
     })
 
   })
@@ -683,18 +711,35 @@ function refreshVideoBank() {
 
   $.get(videoDatatableUrl, filterItems, function (data) {
 
-    // console.log('videovideovideo');
-    // console.log(data);
-
+    console.log('videovideovideo');
+    console.log(data);
+    var prePages = Math.max(data.page-7, 1);
+    var postPages = Math.min(data.pages,data.page+1);
+    var maxInitialPage = 9;
+    var maxInitialPages = Math.min(data.pages,9); 
     $('#adminDashboardVideos-pagination').empty();
-    for (let i = 1; i <= data.pages; i++) {
-      $('#adminDashboardVideos-pagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
+    $('#adminDashboardVideos-pagination_bottom').empty();
+
+    if(data.page < maxInitialPage){
+      for (let i = 1; i <= maxInitialPages; i++) {
+        $('#adminDashboardVideos-pagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`);
+        $('#adminDashboardVideos-pagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+      }      
+    } else {
+      for (let i = prePages; i <= postPages; i++) {
+        $('#adminDashboardVideos-pagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`);
+        $('#adminDashboardVideos-pagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`);
+      }      
     }
 
-    $('#adminDashboardVideos-pagination_bottom').empty();
-    for (let i = 1; i <= data.pages; i++) {
-      $('#adminDashboardVideos-pagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
-    }
+    // for (let i = 1; i <= data.pages; i++) {
+    //   $('#adminDashboardVideos-pagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
+    // }
+
+    // $('#adminDashboardVideos-pagination_bottom').empty();
+    // for (let i = 1; i <= data.pages; i++) {
+    //   $('#adminDashboardVideos-pagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+    // }
 
     $(`#adminDashboardVideos-pagination li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
 
@@ -849,7 +894,7 @@ function refreshVideoBank() {
     let probsecondNumber = limit * currentPage;
     let secondNumber = Math.min(probsecondNumber, totalEntries);
     let firstNumber = probsecondNumber - (limit - 1);
-    $(".adminVideo-pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+    $(".adminVideo-pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
   })
 };
 
@@ -861,7 +906,7 @@ function videoBankinit() {
 function adminDashVideos_paginationButtons() {
   $('.kt-pagination__link--first').on('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination_1').click();
+    $('#adminDashboardVideos-pagination').children().first().click();
   })
 
   $('.kt-pagination__link--last').on('click', 'a', function (e) {
@@ -1096,13 +1141,23 @@ function adminDashVideos_clearVideoFilter() {
 
     $.get(videoDatatableUrl, function (data) {
       $('#adminDashboardVideos-pagination').empty();
-      for (let i = 1; i <= data.pages; i++) {
-        $('#adminDashboardVideos-pagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
-      }
 
       $('#adminDashboardVideos-pagination_bottom').empty();
-      for (let i = 1; i <= data.pages; i++) {
-        $('#adminDashboardVideos-pagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+
+      var prePages = Math.max(data.page-7, 1);
+      var postPages = Math.min(data.pages,data.page+1);
+      var maxInitialPage = 9;
+      var maxInitialPages = Math.min(data.pages,9); 
+      if(data.page < maxInitialPage){
+        for (let i = 1; i <= maxInitialPages; i++) {
+          $('#adminDashboardVideos-pagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`);
+          $('#adminDashboardVideos-pagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+        }      
+      } else {
+        for (let i = prePages; i <= postPages; i++) {
+          $('#adminDashboardVideos-pagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`);
+          $('#adminDashboardVideos-pagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`);
+        }      
       }
 
       $(`#adminDashboardVideos-pagination li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
@@ -1268,8 +1323,7 @@ function adminDashVideos_clearVideoFilter() {
       let probsecondNumber = limit * currentPage;
       let secondNumber = Math.min(probsecondNumber, totalEntries);
       let firstNumber = probsecondNumber - (limit - 1);
-      $(".adminVideo-pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
-    })
+      $(".adminVideo-pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)    })
   })
 }
 
@@ -1299,12 +1353,22 @@ function refreshAdminFacultyTable() {
     // console.log(data);
     $('#adminDashboardfacultyPagination').empty();
     $('#adminDashboardfacultyPagination_bottom').empty();
-    for (let i = 1; i <= data.faculty.pages; i++) {
+    var maxInitialPage = 9;
+    var maxInitialPages = Math.min(data.faculty.pages,9); 
+    var prePages = Math.max(data.faculty.page-7, 1);
+    var postPages = Math.min(data.faculty.pages,data.faculty.page+1);
+    if(data.faculty.page < maxInitialPage){
+      for (let i = 1; i <= maxInitialPages; i++) {
       $('#adminDashboardfacultyPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-    }
-    for (let i = 1; i <= data.faculty.pages; i++) {
       $('#adminDashboardfacultyPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+      }      
+    } else {
+      for (let i = prePages; i <= postPages; i++) {
+      $('#adminDashboardfacultyPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
+      $('#adminDashboardfacultyPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+      }      
     }
+
     $(`#adminDashboardfacultyPagination li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
     $(`#adminDashboardfacultyPagination_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
@@ -1412,7 +1476,7 @@ function refreshAdminFacultyTable() {
     let probsecondNumber = limit * currentPage;
     let secondNumber = Math.min(probsecondNumber, totalEntries);
     let firstNumber = probsecondNumber - (limit - 1);
-    $(".faculty-pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+    $(".faculty-pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.faculty.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
   })
 };
 
@@ -1424,7 +1488,7 @@ function facultyTableinit() {
 function adminDashFaculty_paginationButtons() {
   $('.kt-pagination__link--first').on('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination_1').click();
+    $('#adminDashboardfacultyPagination').children().first().click();
   })
 
   $('.kt-pagination__link--last').on('click', 'a', function (e) {
@@ -1553,12 +1617,23 @@ function adminDashFacultyTable_clearFilter() {
     $.get(adminDashboardFacultyTableURL, function (data) {
       $('#adminDashboardfacultyPagination').empty();
       $('#adminDashboardfacultyPagination_bottom').empty();
-      for (let i = 1; i <= data.faculty.pages; i++) {
+
+      var maxInitialPage = 9;
+      var maxInitialPages = Math.min(data.faculty.pages,9); 
+      var prePages = Math.max(data.faculty.page-7, 1);
+      var postPages = Math.min(data.faculty.pages,data.faculty.page+1);
+      if(data.faculty.page < maxInitialPage){
+        for (let i = 1; i <= maxInitialPages; i++) {
         $('#adminDashboardfacultyPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-      }
-      for (let i = 1; i <= data.faculty.pages; i++) {
         $('#adminDashboardfacultyPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+        }      
+      } else {
+        for (let i = prePages; i <= postPages; i++) {
+        $('#adminDashboardfacultyPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
+        $('#adminDashboardfacultyPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+        }      
       }
+  
       $(`#adminDashboardfacultyPagination li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
       $(`#adminDashboardfacultyPagination_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
@@ -1754,7 +1829,7 @@ function adminDashFacultyTable_clearFilter() {
       let probsecondNumber = limit * currentPage;
       let secondNumber = Math.min(probsecondNumber, totalEntries);
       let firstNumber = probsecondNumber - (limit - 1);
-      $(".faculty-pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+      $(".faculty-pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.faculty.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
     })
 
   })
@@ -1802,12 +1877,22 @@ function refreshAdminstudentTable() {
     // console.log(data);
     $('#adminDashboardstudentPagination').empty();
     $('#adminDashboardstudentPagination_bottom').empty();
-    for (let i = 1; i <= data.student.pages; i++) {
+    var maxInitialPage = 9;
+    var maxInitialPages = Math.min(data.student.pages,9); 
+    var prePages = Math.max(data.student.page-7, 1);
+    var postPages = Math.min(data.student.pages,data.student.page+1);
+    if(data.student.page < maxInitialPage){
+      for (let i = 1; i <= maxInitialPages; i++) {
       $('#adminDashboardstudentPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-    }
-    for (let i = 1; i <= data.student.pages; i++) {
       $('#adminDashboardstudentPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+      }      
+    } else {
+      for (let i = prePages; i <= postPages; i++) {
+      $('#adminDashboardstudentPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
+      $('#adminDashboardstudentPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+      }      
     }
+
     $(`#adminDashboardstudentPagination li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
     $(`#adminDashboardstudentPagination_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
@@ -1903,7 +1988,7 @@ function refreshAdminstudentTable() {
     let probsecondNumber = limit * currentPage;
     let secondNumber = Math.min(probsecondNumber, totalEntries);
     let firstNumber = probsecondNumber - (limit - 1);
-    $(".student-pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+    $(".student-pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.student.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
   })
 };
 
@@ -1915,7 +2000,7 @@ function studentTableinit() {
 function adminDashStudent_paginationButtons() {
   $('.kt-pagination__link--first').on('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination_1').click();
+    $('#adminDashboardstudentPagination').children().first().click();
   })
 
   $('.kt-pagination__link--last').on('click', 'a', function (e) {
@@ -2051,12 +2136,22 @@ function adminDashStudentTable_clearFilter() {
     $.get(adminDashboardstudentTableURL, function (data) {
       $('#adminDashboardstudentPagination').empty();
       $('#adminDashboardstudentPagination_bottom').empty();
-      for (let i = 1; i <= data.student.pages; i++) {
+      var maxInitialPage = 9;
+      var maxInitialPages = Math.min(data.student.pages,9); 
+      var prePages = Math.max(data.student.page-7, 1);
+      var postPages = Math.min(data.student.pages,data.student.page+1);
+      if(data.student.page < maxInitialPage){
+        for (let i = 1; i <= maxInitialPages; i++) {
         $('#adminDashboardstudentPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-      }
-      for (let i = 1; i <= data.student.pages; i++) {
         $('#adminDashboardstudentPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+        }      
+      } else {
+        for (let i = prePages; i <= postPages; i++) {
+        $('#adminDashboardstudentPagination').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
+        $('#adminDashboardstudentPagination_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+        }      
       }
+
       $(`#adminDashboardstudentPagination li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
       $(`#adminDashboardstudentPagination_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
@@ -2233,7 +2328,6 @@ function adminDashStudentTable_clearFilter() {
  `);
       });
 
-
       let curPage = $('#adminDashboardstudentPagination .kt-pagination__link--active').text().trim();
       let currentPage = parseInt(curPage);
       let limit = data.student.limit;
@@ -2241,7 +2335,7 @@ function adminDashStudentTable_clearFilter() {
       let probsecondNumber = limit * currentPage;
       let secondNumber = Math.min(probsecondNumber, totalEntries);
       let firstNumber = probsecondNumber - (limit - 1);
-      $(".student-pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+      $(".student-pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.student.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`);
     })
 
   })

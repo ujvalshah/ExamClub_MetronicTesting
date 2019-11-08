@@ -129,3 +129,8 @@ button.btn.btn-clean.red-color i.fas.fa-bookmark{
 .fontsize_2rem{
     font-size: 2rem;
 }
+
+.paginationDescription{
+    color: #74788d;
+    font-weight: 500;
+}

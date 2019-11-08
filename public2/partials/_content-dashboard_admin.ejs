@@ -153,7 +153,9 @@
           class="fa fa-angle-double-right kt-font-brand"></i></a>
         </li>
       </ul>
-
+      <span class="pagination__desc kt-font-bolder mb-2 mb-md-0">
+        Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold"><%= downloads.pages%></span> || Showing 1 to <%= downloads.limit%> of <%=downloads.total%>
+        </span>
       <div class="kt-pagination__toolbar">
         <select class="form-control kt-font-brand" id="limit-adminDashboardDownloadTable" name="limit"
           style="width: 60px;">
@@ -195,8 +197,8 @@
           <!-- </form> -->
         </div>
         </form>
-        <span class="pagination__desc">
-          Showing 1 to <%= downloads.limit%> of <%=downloads.total%>
+        <span class="">
+
         </span>
       </div>
     </div>
@@ -372,7 +374,7 @@
         </li>
       </ul>
       <div class="kt-pagination__toolbar">
-        <span class="pagination__desc">
+        <span class="pagination__desc kt-font-bolder mb-2 mb-md-0">
           Showing 1 to <%= downloads.limit%> of <%=downloads.total%>
         </span>
       </div>
@@ -524,14 +526,8 @@
           <li class="kt-pagination__link--next">
             <a href="<%=docspaginateUrl%>page=<%=videos.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
           </li>
+          
           <div class="d-flex" id='adminDashboardVideos-pagination'>
-            <%if(videos.pages>=1 && videos.docs.length){%>
-            <% for(let i=1; i<=videos.pages; i++ ) {%>
-            <li id="adminDashboardVideos_<%=i%>" class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
-              <a id="adminDashboardVideos-url_<%=i%>" href="<%=docspaginateUrl%>page=<%=i%>"><%=i%></a>
-            </li>
-            <%}%>
-            <%}%>
           </div>
 
           <li class="kt-pagination__link--prev">
@@ -543,6 +539,9 @@
                 class="fa fa-angle-double-right kt-font-brand"></i></a>
           </li>
         </ul>
+        <span class="adminVideo-pagination__desc kt-font-bolder mb-2 mb-md-0">
+          Showing 1 to <%= videos.limit%> of <%=videos.total%>
+        </span>
         <div class="kt-pagination__toolbar">
           <div class="mr-3">
             <!-- <form id="adminDashboardVideos-sort-form" method="GET" action="#"> -->
@@ -576,8 +575,7 @@
             <option value='50' <%= videoquery.limit && videoquery.limit==="40" ? "selected" : "" %>>50</option>
           </select>
           <!-- </form> -->
-          <span class="adminVideo-pagination__desc">
-            Showing 1 to <%= videos.limit%> of <%=videos.total%>
+          <span>
           </span>
         </div>
       </div>
@@ -874,7 +872,9 @@
                       class="fa fa-angle-double-right kt-font-brand"></i></a>
                 </li>
               </ul>
-
+              <span class="faculty-pagination__desc kt-font-bolder mb-2 mb-md-0">
+                Showing 1 to <%= faculty.limit%> of <%=faculty.total%>
+              </span>
               <div class="kt-pagination__toolbar">
                 <select class="form-control kt-font-brand" id="adminDashboardfaculty-limit" name="limit"
                   style="width: 60px;">
@@ -904,8 +904,7 @@
                   <!-- </form> -->
                 </div>
                 </form>
-                <span class="faculty-pagination__desc">
-                  Showing 1 to <%= faculty.limit%> of <%=faculty.total%>
+                <span class="">
                 </span>
               </div>
             </div>
@@ -1122,7 +1121,7 @@
                 </li>
               </ul>
               <div class="kt-pagination__toolbar">
-                <span class="faculty-pagination__desc">
+                <span class="faculty-pagination__desc kt-font-bolder mb-2 mb-md-0">
                   Showing 1 to <%= faculty.limit%> of <%=faculty.total%>
                 </span>
               </div>
@@ -1292,6 +1291,10 @@
             </li>
           </ul>
 
+          <span class="student-pagination__desc kt-font-bolder mb-2 mb-md-0">
+            Showing 1 to <%= student.limit%> of <%=student.total%>
+          </span>
+
           <div class="kt-pagination__toolbar">
             <select class="form-control kt-font-brand" id="adminDashboardstudent-limit" name="limit"
               style="width: 60px;">
@@ -1321,8 +1324,7 @@
               <!-- </form> -->
             </div>
             </form>
-            <span class="student-pagination__desc">
-              Showing 1 to <%= student.limit%> of <%=student.total%>
+            <span>      
             </span>
           </div>
         </div>
@@ -1490,7 +1492,7 @@
             </li>
           </ul>
           <div class="kt-pagination__toolbar">
-            <span class="student-pagination__desc">
+            <span class="student-pagination__desc kt-font-bolder mb-2 mb-md-0">
               Showing 1 to <%= student.limit%> of <%=student.total%>
             </span>
           </div>

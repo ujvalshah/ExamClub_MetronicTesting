@@ -152,6 +152,9 @@
               class="fa fa-angle-double-right kt-font-brand"></i></a>
         </li>
       </ul>
+      <span class="pagination__desc kt-font-bolder mb-2 mb-md-0">
+        Showing 1 to <%= videos.limit%> of <%=videos.total%>
+      </span>
       <div class="kt-pagination__toolbar">
         <div class="mr-3">
           <!-- <form id="sorting-videoTable-form" method="GET" action="#"> -->
@@ -185,9 +188,7 @@
         </select>
         <!-- </form> -->
  
-        <span class="pagination__desc">
-          Showing 1 to <%= videos.limit%> of <%=videos.total%>
-        </span>
+        <span></span>
       </div>
     </div>
   </div>
@@ -315,14 +316,7 @@
                       class="fa fa-angle-left kt-font-brand"></i></a>
                 </li>
                 <div style="display: contents;" id='pagination-videos_bottom'>
-                  <%if(videos.pages>=1 && videos.docs.length){%>
-                  <% for(let i=1; i<=videos.pages; i++ ) {%>
-                  <li id="video-pagination_<%=i%>_bottom"
-                    class=<%= videos.page === i ? "kt-pagination__link--active" : "" %>>
-                    <a id="video-pagination-url_<%=i%>_bottom" href="<%=videospaginateUrl%>page=<%=i%>"><%=i%></a>
-                  </li>
-                  <%}%>
-                  <%}%>
+                  
                 </div>
 
                 <li class="kt-pagination__link--prev">

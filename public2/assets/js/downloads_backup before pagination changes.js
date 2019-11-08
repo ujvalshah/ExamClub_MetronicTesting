@@ -37,46 +37,12 @@ function refreshDataTable() {
     // console.log(data);
     $('#pagination_downloads').empty();
     $('#pagination_downloads_bottom').empty();
-
-    var prePages = Math.max(data.page-7, 1);
-    var postPages = Math.min(data.pages,data.page+1);
-    var maxInitialPage = 9;
-    var maxInitialPages = Math.min(data.pages,9); 
-
-    if(data.page < maxInitialPage){
-      for (let i = 1; i <= maxInitialPages; i++) {
-        $('#pagination_downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-        $('#pagination_downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
-      }      
-    } else {
-      for (let i = prePages; i <= postPages; i++) {
-        $('#pagination_downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-        $('#pagination_downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
-      }      
+    for (let i = 1; i <= data.pages; i++) {
+      $('#pagination_downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
     }
-
-    // if(data.page <= 8){
-    //   for (let i = 1; i <= 9; i++) {
-    //     $('#pagination_downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-    //   }      
-    // }
-    // if(data.page >= 9 ){
-    //   for (let i = prePages; i <= postPages; i++) {
-    //     $('#pagination_downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
-    //   }      
-    // }
-    // if(data.page <= 8){
-    //   for (let i = 1; i <= 9; i++) {
-    //     $('#pagination_downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
-    //   }      
-    // }
-    // if(data.page >= 9 ){
-    //   for (let i = prePages; i <= postPages; i++) {
-    //     $('#pagination_downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
-    //   }      
-    // }
-
-
+    for (let i = 1; i <= data.pages; i++) {
+      $('#pagination_downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+    }
     $(`#pagination_downloads li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
     $(`#pagination_downloads_bottom li #pagination-url_${pageNo}_bottom`).parent("li").addClass('kt-pagination__link--active')
 
@@ -234,8 +200,7 @@ function refreshDataTable() {
     let probsecondNumber = limit * currentPage;
     let secondNumber = Math.min(probsecondNumber, totalEntries);
     let firstNumber = probsecondNumber - (limit - 1);
-    $(".pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
-    // $(".pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+    $(".pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
   })
 };
 
@@ -248,8 +213,7 @@ function datatableinit() {
 function paginationButtons() {
   $('.kt-pagination__link--first').unbind('click').bind('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination_downloads').children().first().click();
-    // $('#pagination_1').click();
+    $('#pagination_1').click();
   })
 
   $('.kt-pagination__link--last').unbind('click').bind('click', 'a', function (e) {

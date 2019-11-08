@@ -30,16 +30,25 @@ function refreshVideoBank() {
   // let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`; because it goes as part of the filter items...
   let videoDatatableUrl = `/videos?page=${pageNo}&limit=${limitNo}&sort=${sort}`;
   $.get(videoDatatableUrl, filterItems, function (data) {
-    console.log('Video Get Data');
-    console.log(data);
+    // console.log('Video Get Data');
+    // console.log(data);
     $('#pagination-videos').empty();
-    for (let i = 1; i <= data.pages; i++) {
-      $('#pagination-videos').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
-    }
-
     $('#pagination-videos_bottom').empty();
-    for (let i = 1; i <= data.pages; i++) {
-    $('#pagination-videos_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+
+    var prePages = Math.max(data.page-7, 1);
+    var postPages = Math.min(data.pages,data.page+1);
+    var maxInitialPage = 9;
+    var maxInitialPages = Math.min(data.pages,9); 
+    if(data.page < maxInitialPage){
+      for (let i = 1; i <= maxInitialPages; i++) {
+        $('#pagination-videos').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
+        $('#pagination-videos_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+      }      
+    } else {
+      for (let i = prePages; i <= postPages; i++) {
+        $('#pagination-videos').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
+        $('#pagination-videos_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+      }      
     }
 
     $(`#pagination-videos li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
@@ -206,7 +215,7 @@ function refreshVideoBank() {
     let probsecondNumber = limit * currentPage;
     let secondNumber = Math.min(probsecondNumber, totalEntries);
     let firstNumber = probsecondNumber - (limit - 1);
-    $(".pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+    $(".pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`);
   })
 };
 
@@ -218,7 +227,7 @@ function videoBankinit() {
 function paginationButtons() {
   $('.kt-pagination__link--first').on('click', 'a', function (e) {
     e.preventDefault();
-    $('#pagination_1').click();
+    $('#pagination-videos').children().first().click();
   })
 
 /*   $('.kt-pagination__link--last').on('click', 'a', function (e) {
@@ -415,13 +424,23 @@ function clickOnClearAllFiltersBtn(e) {
     
       $.get(videoDatatableUrl, function (data) {
         $('#pagination-videos').empty();
-        for (let i = 1; i <= data.pages; i++) {
-          $('#pagination-videos').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
-        }
-    
         $('#pagination-videos_bottom').empty();
-        for (let i = 1; i <= data.pages; i++) {
-        $('#pagination-videos_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+
+        var prePages = Math.max(data.page-7, 1);
+        var postPages = Math.min(data.pages,data.page+1);
+        var maxInitialPage = 9;
+        var maxInitialPages = Math.min(data.pages,9); 
+
+        if(data.page < maxInitialPage){
+          for (let i = 1; i <= maxInitialPages; i++) {
+            $('#pagination-videos').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
+            $('#pagination-videos_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+          }      
+        } else {
+          for (let i = prePages; i <= postPages; i++) {
+            $('#pagination-videos').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}">${i}</a></li>`)
+            $('#pagination-videos_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}" id="pagination-url_${i}_bottom">${i}</a></li>`)
+          }      
         }
     
         $(`#pagination-videos li #pagination-url_${pageNo}`).parent("li").addClass('kt-pagination__link--active')
@@ -588,7 +607,7 @@ function clickOnClearAllFiltersBtn(e) {
         let probsecondNumber = limit * currentPage;
         let secondNumber = Math.min(probsecondNumber, totalEntries);
         let firstNumber = probsecondNumber - (limit - 1);
-        $(".pagination__desc").text(`Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`)
+        $(".pagination__desc").html(`Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--md kt-badge--rounded kt-badge--bold mr-1">${data.pages}</span>|| Showing ${firstNumber} to ${secondNumber} of ${totalEntries}`);
       })
     };
     filter();

@@ -151,13 +151,13 @@
         <a href="<%=docspaginateUrl%><%=downloads.page-1%>"><i class="fa fa-angle-left kt-font-brand"></i></a>
       </li>
       <div style="display: contents;" id='pagination_downloads'>
-        <%if(downloads.pages>1 && downloads.docs.length){%>
-        <% for(let i=1; i<=downloads.pages; i++ ) {%>
-        <li id="pagination_<%=i%>" class=<%= downloads.page === i ? "kt-pagination__link--active" : "" %>>
+        <!-- <%if(downloads.pages>1 && downloads.docs.length){%> -->
+        <!-- <% for(let i=1; i<=downloads.pages; i++ ) {%> -->
+        <!-- <li id="pagination_<%=i%>" class=<%= downloads.page === i ? "kt-pagination__link--active" : "" %>>
           <a id="pagination-url_<%=i%>" href="<%=docspaginateUrl%><%=i%>"><%=i%></a>
-        </li>
-        <%}%>
-        <%}%>
+        </li> -->
+        <!-- <%}%> -->
+        <!-- <%}%> -->
       </div>
       <li class="kt-pagination__link--prev">
         <a href="<%=docspaginateUrl%><%=downloads.page+1%>"><i class="fa fa-angle-right kt-font-brand"></i></a>
@@ -166,7 +166,9 @@
           <a href="<%=docspaginateUrl%><%=downloads.pages%>"><i class="fa fa-angle-double-right kt-font-brand"></i></a>
       </li>
     </ul>
-
+      <span class="pagination__desc kt-font-bolder mb-2 mb-md-0">
+      Total pages <span class="kt-badge kt-badge--unified-brand kt-badge--lg kt-badge--rounded kt-badge--bold"><%= downloads.pages%></span> || Showing 1 to <%= downloads.limit%> of <%=downloads.total%>
+      </span>
     <div class="kt-pagination__toolbar">
       <form id="limit-downloadTable-form" method="GET" action="#">
         <select class="form-control kt-font-brand" id="limit-downloadTable" name="limit" style="width: 60px;">
@@ -209,8 +211,7 @@
         </select>
         <!-- </form> -->
       </div>
-      <span class="pagination__desc">
-        Showing 1 to <%= downloads.limit%> of <%=downloads.total%>
+      <span>
       </span>
     </div>
   </div>
