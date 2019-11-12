@@ -179,9 +179,7 @@
         <!-- <form id="limit-videoTable-form" method="GET" action="<%=limitUrl%>"> -->
         <select class="form-control kt-font-brand" id="limit-videoTable" name="limit" style="width: 60px;"
           onchange="return filter()">
-          <option value='1' <%= !videoquery.limit || videoquery.limit==="1" ? "selected" : "" %>>1</option>
-          <option value='2' <%= !videoquery.limit || videoquery.limit==="2" ? "selected" : "" %>>2</option>
-          <option value='10' <%= !videoquery.limit || videoquery.limit==="10" ? "selected" : "" %>>10</option>
+          <option value='9' <%= !videoquery.limit || videoquery.limit==="9" ? "selected" : "" %>>9</option>
           <option value='20' <%= videoquery.limit && videoquery.limit==="20" ? "selected" : "" %>>20</option>
           <option value='30' <%= videoquery.limit && videoquery.limit==="30" ? "selected" : "" %>>30</option>
           <option value='50' <%= videoquery.limit && videoquery.limit==="40" ? "selected" : "" %>>50</option>
@@ -199,8 +197,8 @@
   <!-- ------------------------------------------------------------------------------- -->
 
   <div class="kt-grid__item">
-    <div style="background-color: white" class='shadow mb-5'>
-      <div class="row py-5 mx-auto overflow-auto"style="max-height: 150rem" id='videoLoop'>
+    <!-- <div style="background-color: white" class='shadow mb-5'>  -->
+      <div class="row py-5 mx-auto overflow-auto"style="max-height: 160rem" id='videoLoop'>
         <%videos.docs.forEach(function(video){%>
         <div class="col-md-4 mb-3 px-0">
           <!--begin:: Widgets/Blog-->
@@ -300,7 +298,7 @@
     </div>
     <%})%>
               </div>
-            </div>
+            <!-- </div> -->
 
           </div>
           <!--begin: Pagination-Bottom(sm)-->
@@ -316,7 +314,7 @@
                       class="fa fa-angle-left kt-font-brand"></i></a>
                 </li>
                 <div style="display: contents;" id='pagination-videos_bottom'>
-                  
+
                 </div>
 
                 <li class="kt-pagination__link--prev">

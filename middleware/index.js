@@ -8,7 +8,7 @@ const { Storage } = require('@google-cloud/storage');
 const projectId = process.env.GCLOUD_STORAGE_BUCKET;
 const keyFilename = process.env.GCLOUD_KEY_FILE;
 const gc = new Storage({ projectId, keyFilename });
-const bucket = gc.bucket('eclub1');
+const bucket = gc.bucket(process.env.GOOGLE_CLOUD_BUCKET);
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
@@ -501,7 +501,7 @@ async sendUploadToGCS(req, res, next) {
   stream.on('finish', () => {
     
     function getPublicUrl (filename) {
-      return `https://storage.googleapis.com/${'eclub1'}/${filename}`;
+      return `https://storage.googleapis.com/${process.env.GOOGLE_CLOUD_BUCKET}/${filename}`;
     }
     req.file.cloudStorageObject = gcsname;
     file.makePublic().then(() => {

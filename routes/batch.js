@@ -5,7 +5,7 @@ const fs = require('fs');
 const { format } = require('util');
 const { Storage } = require('@google-cloud/storage');
 const Download = require("../models/download.js");
-const Videos = require("../models/download.js");
+const Video = require("../models/video.js");
 const Batchupload = require("../models/batchupload.js");
 const User = require("../models/user.js");
 const Temp = require("../models/temp.js");
@@ -279,5 +279,97 @@ router.get('/api/batch', async function (req, res) {
 	let files = await Batchupload.find({});
 	res.json({ files });
 })
+
+
+
+
+
+
+
+router.post('/batchuploadvideos', isLoggedIn, isAdmin, upload.single('batchvideofile'), async function (req, res) {
+	console.log('req.body');
+	console.log(req.body);
+	console.log('req.file');
+	console.log(req.file);
+	try {
+        let batch = {};
+        batch.name = req.body.name;
+        batch.url = req.file.path;
+        batch.saveid = req.file.filename;
+        let newBatchFile = await Batchupload.create(batch);
+        console.log('newBatchFile');
+        console.log(newBatchFile);
+
+		function uploadExcel() {
+			var workbook = XLSX.readFile(`uploads/batch/${req.file.filename}`);
+			var sheet_name_list = workbook.SheetNames;
+			console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]));
+			var uploadData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+			console.log('uploadData');
+			console.log(uploadData);
+			return uploadData;
+			}
+
+		let uploadData = uploadExcel();
+
+		console.log('uploadDatauploadDatauploadData');
+		console.log(uploadData);
+
+		for (const data of uploadData) {
+			var video={};
+			video.author = {};
+			video.exam = [];
+			video.attempt = [];
+			video.subject = [];
+			if(data.type == 'single'){
+				var oldUrl = data.url;
+				var editedOldURL = oldUrl.replace("watch?v=", "embed/");
+				var newVideoURL = editedOldURL+'?rel=0&modestbranding=1';
+			} else if (data.type == 'playlist'){
+				var oldUrl = data.url;
+				var editedOldURL = oldUrl.replace("watch?v=", "embed?listType=playlist&extraid=");
+				var indexEditUrl = editedOldURL.replace("&index",'&extraIndex')
+				var newVideoURL = indexEditUrl+'&rel=0&modestbranding=1';
+			}
+			video.type = data.type;
+			video.title = data.title;
+			video.description = data.description;
+			video.url = newVideoURL;
+			video.author.id = req.user._id;
+			video.author.displayName = data.author;
+			video.author.username = data.author;
+			var examArray = await data.exam.split(',');
+			video.exam = examArray;
+			video.attempt = data.attempt;
+			var subjectArray = await data.subject.split(',');
+			video.subject = subjectArray;
+			console.log(video.exam);
+			console.log(video.subject);
+			var newlyCreated = await Video.create(video);
+			if(!newlyCreated){
+				console.log(err)
+			}
+			console.log('newlyCreated');
+			console.log(newlyCreated);
+			var foundUser = await User.findById(req.user._id);
+			if(!foundUser){console.log(error)};
+			foundUser.videos.push(newlyCreated);
+			foundUser.save();
+
+		}
+		req.flash('success','Videos have been successfully been uploaded');
+		res.redirect('back');
+	} catch (error) {
+		console.log(error);
+		req.flash('error', error.message);
+		res.redirect('back');
+	}	
+})
+
+
+
+
+
+
 
 module.exports = router;

@@ -110,14 +110,22 @@ app.use(batchRoute);
 //----------------------------------------------------------------------------//
 //-----------------------------------Sockets Routes---------------------------//
 //----------------------------------------------------------------------------//
-// var workbook = XLSX.readFile('D:/Upload/Documents1.xlsx');
+// var workbook = XLSX.readFile('C:/Users/ujval/Desktop/Book5.xlsx');
 // var sheet_name_list = workbook.SheetNames;
 // console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]));
 // var uploadData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+
+// console.log('uploadData[0].exam');    
+// console.log(uploadData[0].exam);
+// var array = uploadData[0].exam.split(',');
+// var array2 = uploadData[1].exam.split(',');
+// console.log('array');
+// console.log(array);
+// console.log('array2');
+// console.log(array2);
 // console.log('uploadData.length');    
 // console.log(uploadData.length);
-// console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[2]]));    
-// console.log(XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[1]]));    
+
 
 // io.on('connection', (socket) => {
 //     console.log('New WebSocket Connection');

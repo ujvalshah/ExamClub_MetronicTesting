@@ -100,11 +100,9 @@ function refreshVideoBank() {
             <div class="float-right"> Applicable Attempt </div>
           </div> -->
               </div>
-              <div class="mb-3 small font-weight-bold"> Applicable: <span
-                  class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
-                  data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${video.exam}</span>
-                <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
-                  data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt">${video.attempt}</span>
+              <div class="mb-3 small font-weight-bold"> Applicable: ${video.exam.reduce((acc, exam) => acc + `<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${exam}</span>`,"")}
+                <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold" data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt">${video.attempt}</span>
+                ${video.subject.reduce((acc, subject) => acc + `<span class="kt-badge kt-badge--brand kt-badge--inline kt-badge--pill kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${subject}</span>`,"")}
               </div>
               <div><small><span class="font-weight-bold">Description:</span> ${video.description}</small></div>
               <div class="kt-widget19__text mb-2">
@@ -169,11 +167,11 @@ function refreshVideoBank() {
           <div class="float-right"> Applicable Attempt </div>
         </div> -->
             </div>
-            <div class="mb-3 small font-weight-bold"> Applicable: <span
-                class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
-                data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${video.exam}</span>
+            <div class="mb-3 small font-weight-bold"> Applicable:${video.exam.reduce((acc, exam) => acc + `<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${exam}</span>`,"")}
               <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
                 data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt">${video.attempt}</span>
+                 ${video.subject.reduce((acc, subject) => acc + `<span class="kt-badge kt-badge--brand kt-badge--inline kt-badge--pill kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${subject}</span>`,"")}
+
             </div>
             <div><small><span class="font-weight-bold">Description:</span> ${video.description}</small></div>
             <div class="kt-widget19__text mb-2">
@@ -492,11 +490,11 @@ function clickOnClearAllFiltersBtn(e) {
                 <div class="float-right"> Applicable Attempt </div>
               </div> -->
                   </div>
-                  <div class="mb-3 small font-weight-bold"> Applicable: <span
-                      class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
-                      data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${video.exam}</span>
+                  <div class="mb-3 small font-weight-bold"> Applicable:${video.exam.reduce((acc, exam) => acc + `<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${exam}</span>`,"")}
                     <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
                       data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt">${video.attempt}</span>
+                       ${video.subject.reduce((acc, subject) => acc + `<span class="kt-badge kt-badge--brand kt-badge--inline kt-badge--pill kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${subject}</span>`,"")}
+
                   </div>
                   <div><small><span class="font-weight-bold">Description:</span> ${video.description}</small></div>
                   <div class="kt-widget19__text mb-2">
@@ -561,11 +559,11 @@ function clickOnClearAllFiltersBtn(e) {
               <div class="float-right"> Applicable Attempt </div>
             </div> -->
                 </div>
-                <div class="mb-3 small font-weight-bold"> Applicable: <span
-                    class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
-                    data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${video.exam}</span>
+                <div class="mb-3 small font-weight-bold"> Applicable:${video.exam.reduce((acc, exam) => acc + `<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${exam}</span>`,"")}
                   <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
                     data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt">${video.attempt}</span>
+                     ${video.subject.reduce((acc, subject) => acc + `<span class="kt-badge kt-badge--brand kt-badge--inline kt-badge--pill kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${subject}</span>`,"")}
+
                 </div>
                 <div><small><span class="font-weight-bold">Description:</span> ${video.description}</small></div>
                 <div class="kt-widget19__text mb-2">

@@ -352,9 +352,7 @@ function refreshVideoBank() {
             <div class="float-right"> Applicable Attempt </div>
           </div> -->
               </div>
-              <div class="mb-3 small font-weight-bold"> Applicable: <span
-                  class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold"
-                  data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${video.exam}</span>
+              <div class="mb-3 small font-weight-bold"> Applicable:${video.exam.reduce((acc, exam) => acc + `<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam">${exam}</span>`,"")}
                 <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
                   data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt">${video.attempt}</span>
               </div>
