@@ -58,7 +58,7 @@ router.get("/videos", searchAndFilterVideoCopy, async function (req, res) {
         console.log('***req.query.sort****');
         console.log(req.query.sort);
         var foundVideo = await Video.paginate(dbQuery, {
-            populate:{path:'author.id', model: 'User',  select: 'displayName' },
+            populate: { path: 'author.id', model: 'User', select: 'displayName' },
             page: parseInt(req.query.page) || 1,
             limit: parseInt(req.query.limit) || 10,
             sort: req.query.sort || '-createdAt',
@@ -142,22 +142,22 @@ router.post("/videos", isLoggedIn, function (req, res) {
     console.log(req.body.video);
     req.body.video.title = req.body.title;
     req.body.video.description = req.body.description;
-    if(req.body.video.type == 'single'){
+    if (req.body.video.type == 'single') {
         var oldUrl = req.body.url;
         var editedOldURL = oldUrl.replace("watch?v=", "embed/");
-        var newVideoURL = editedOldURL+'?rel=0&modestbranding=1';
-    } else if (req.body.video.type == 'playlist'){
+        var newVideoURL = editedOldURL + '?rel=0&modestbranding=1';
+    } else if (req.body.video.type == 'playlist') {
         var oldUrl = req.body.url;
         var editedOldURL = oldUrl.replace("watch?v=", "embed?listType=playlist&extraid=");
-        var indexEditUrl = editedOldURL.replace("&index",'&extraIndex')
-        var newVideoURL = indexEditUrl+'&rel=0&modestbranding=1';
+        var indexEditUrl = editedOldURL.replace("&index", '&extraIndex')
+        var newVideoURL = indexEditUrl + '&rel=0&modestbranding=1';
     }
     req.body.video.url = newVideoURL;
     req.body.video.author.id = req.user._id;
-    if(req.user.isAdmin){
+    if (req.user.isAdmin) {
         req.body.video.author.displayName = req.body.video.author.username;
     }
-    if(!req.user.isAdmin){
+    if (!req.user.isAdmin) {
         req.body.video.author.displayName = req.user.displayName;
     }
 
@@ -207,22 +207,22 @@ router.put("/videos/:id", isLoggedIn, async function (req, res) {
     // let authorId = foundauthor[0]._id;
 
     var oldUrl = req.body.url;
-    if(req.body.video.type == 'single'){
+    if (req.body.video.type == 'single') {
         var oldUrl = req.body.url;
         var editedOldURL = oldUrl.replace("watch?v=", "embed/");
-        var newVideoURL = editedOldURL+'?rel=0&modestbranding=1';
-    } else if (req.body.video.type == 'playlist'){
+        var newVideoURL = editedOldURL + '?rel=0&modestbranding=1';
+    } else if (req.body.video.type == 'playlist') {
         var oldUrl = req.body.url;
         var editedOldURL = oldUrl.replace("watch?v=", "embed?listType=playlist&extraid=");
-        var indexEditUrl = editedOldURL.replace("&index",'&extraIndex')
-        var newVideoURL = indexEditUrl+'&rel=0&modestbranding=1';
+        var indexEditUrl = editedOldURL.replace("&index", '&extraIndex')
+        var newVideoURL = indexEditUrl + '&rel=0&modestbranding=1';
     }
     req.body.video.url = newVideoURL;
 
-    if(req.user.isAdmin){
+    if (req.user.isAdmin) {
         req.body.video.author.displayName = req.body.video.author.username;
     }
-    if(!req.user.isAdmin){
+    if (!req.user.isAdmin) {
         req.body.video.author.displayName = req.user.displayName;
     }
     req.body.video.author.id = req.user.id;
@@ -244,7 +244,7 @@ router.delete("/videos/:id", async function (req, res) {
     await User.findByIdAndUpdate(req.user._id, { $pull: { videos: req.params.id } });
 
     Video.findByIdAndRemove(req.params.id, function (err) {
-        if(req.xhr){
+        if (req.xhr) {
             res.json('Video successfully deleted!');
         } else {
             if (err) {
@@ -256,6 +256,22 @@ router.delete("/videos/:id", async function (req, res) {
             }
         }
     })
+})
+
+router.delete("/videosdelete", isLoggedIn, isAdmin, async function (req, res) {
+    try {
+        let videotobedeleted = await Video.find({});
+        console.log('videotobedeleted');
+        console.log(videotobedeleted);
+        for (const videodata of videotobedeleted) {
+            let userremovedvideo = await User.findByIdAndUpdate(req.user._id, { $pull: { videos:videodata.id } });
+            let videoremoved = await Video.findByIdAndRemove(videodata.id)
+        }
+        req.flash("success", "All Videos have been successfullty deleted!");
+        return res.redirect("back");
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 module.exports = router;
