@@ -497,7 +497,7 @@ router.delete('/filterform/:id', isLoggedIn, isAdmin, async function (req, res) 
 router.get('/api/filterdata', async function (req, res) {
     try {
         let filterList = await Exam.find({}).exec();
-        let teachers = await Teacher.find({}).populate({path:'registeredUser', select:'displayName'});
+        let teachers = await Teacher.find({}).populate({path:'registeredUser', select:'displayName'}).sort({'displayName':1});
         // let teachers = await User.find({isFaculty:true});
         if(!filterList){
             return console.log('Some issue. Try again')
