@@ -100,13 +100,6 @@ app.use(function (req, res, next) {
 //---------------------------------Requiring Routes---------------------------//
 //----------------------------------------------------------------------------//
 
-app.use(indexRoutes);
-app.use(userRoutes);
-app.use(downloadRoutes);
-app.use(videoRoutes);
-app.use(apiRoute);
-app.use(batchRoute);
-
 if(process.env.NODE_ENV === 'production') {
     app.use((req, res, next) => {
       if (req.header('x-forwarded-proto') !== 'https')
@@ -115,6 +108,14 @@ if(process.env.NODE_ENV === 'production') {
         next()
     })
   }
+  
+app.use(indexRoutes);
+app.use(userRoutes);
+app.use(downloadRoutes);
+app.use(videoRoutes);
+app.use(apiRoute);
+app.use(batchRoute);
+
 
 //----------------------------------------------------------------------------//
 //-----------------------------------Sockets Routes---------------------------//
