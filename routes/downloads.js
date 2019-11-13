@@ -682,8 +682,10 @@ router.get("/downloads/docs/:id", async function (req, res) {
 router.get('/downloads/:id', async (req, res) => {
 	try {
 		var document = await Download.findById(req.params.id);
-		var authorDocs = await Download.find({ 'author.id': document.author.id, 'exam': document.exam, 'attempt': document.attempt }).sort('-createdAt');
-		var authorVideos = await Videos.find({ 'author.id': document.author.id });
+		var authorDocs = await Download.find({ 'author.username': document.author.username, 'exam': document.exam, 'attempt': document.attempt }).sort('-createdAt');
+		var authorVideos = await Videos.find({ 'author.username': document.author.username }).sort('-createdAt');
+		// var authorDocs = await Download.find({ 'author.id': document.author.id, 'exam': document.exam, 'attempt': document.attempt }).sort('-createdAt');
+		// var authorVideos = await Videos.find({ 'author.id': document.author.id });
 		var author = await User.findById(document.author.id).populate('downloads[0][id]');
 		console.log('document');
 		console.log(document);
