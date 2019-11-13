@@ -132,6 +132,8 @@ router.post('/batchupload', isLoggedIn, isAdmin, upload.fields([{ name: 'batchfi
 				documentOwner.downloads.push(newDownload);
 				documentOwner.save();
 			}
+			console.log('req.files.documents');
+			console.log(req.files.documents);
 		}
 		for (const file of req.files.documents) {
 		await deleteTempFile(file.path);

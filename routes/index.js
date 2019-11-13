@@ -85,7 +85,7 @@ router.post("/register", function (req, res) {
                     req.logout();
                     req.flash('warning', `Your faculty account needs to be approved by the admin before you can access it.
                     Usually it takes 2-3 hours to get approved. Please wait till then.
-                    For any further enquiries email at caexamclub@gmail.com.
+                    For any further enquiries email at admin@examclub.io.
                     Also for account validation it is necessary that your Email Id ${userEmail} is validated.
                     Please check your email for our validation mail. Thanks`);
                     res.redirect('/login');
@@ -205,7 +205,7 @@ router.get("/faculty-validation", async (req, res) => {
         req.logout();
         req.flash('warning', `Your faculty account needs to be approved by the admin before you can access it.
         Usually it takes 2-3 hours to get approved. Please wait till then.
-        For any further enquiries email at caexamclub@gmail.com.`);
+        For any further enquiries email at admin@examclub.io.`);
         res.redirect('/login');
     } else {
         res.redirect('/');
