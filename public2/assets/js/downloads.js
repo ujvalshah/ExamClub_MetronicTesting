@@ -190,10 +190,10 @@ function refreshDataTable() {
                     <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
                       <ul class="kt-nav">
                         <li class="kt-nav__item">
-                          <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${document._id}" title="Share" target="_blank" class="kt-nav__link">
-                                  <i class="kt-nav__link-icon socicon-whatsapp"></i>
-                                  <span class="kt-nav__link-text">Whatsapp</span>
-                          </a>
+                        <a href="whatsapp://send?text=http://${$(location).attr('host')}/downloads/${document._id}" data-action="share/whatsapp/share" title="Share" class="kt-nav__link">                                  
+                        <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                        <span class="kt-nav__link-text">Whatsapp</span>
+                        </a>
                         </li>
                         <li class="kt-nav__item"> 
           
