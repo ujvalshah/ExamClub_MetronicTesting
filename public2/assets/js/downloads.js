@@ -14,6 +14,7 @@ $(document).ready(function () {
   filter();
   searchEnterKey();
   downloadBtn();
+
 });
 
 
@@ -38,21 +39,21 @@ function refreshDataTable() {
     $('#pagination_downloads').empty();
     $('#pagination_downloads_bottom').empty();
 
-    var prePages = Math.max(data.page-7, 1);
-    var postPages = Math.min(data.pages,data.page+1);
+    var prePages = Math.max(data.page - 7, 1);
+    var postPages = Math.min(data.pages, data.page + 1);
     var maxInitialPage = 9;
-    var maxInitialPages = Math.min(data.pages,9); 
+    var maxInitialPages = Math.min(data.pages, 9);
 
-    if(data.page < maxInitialPage){
+    if (data.page < maxInitialPage) {
       for (let i = 1; i <= maxInitialPages; i++) {
         $('#pagination_downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
         $('#pagination_downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
-      }      
+      }
     } else {
       for (let i = prePages; i <= postPages; i++) {
         $('#pagination_downloads').append(`<li id="pagination_${i}"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}">${i}</a></li>`)
         $('#pagination_downloads_bottom').append(`<li id="pagination_${i}_bottom"> <a href="${data.pageUrl}page=${i}&limit=${limitNo}" id="pagination-url_${i}_bottom">${i}</a></li>`)
-      }      
+      }
     }
 
     // if(data.page <= 8){
@@ -176,12 +177,12 @@ function refreshDataTable() {
                     class="fas fa-file-download"></i></span>
                 </a>
                 ${data.currentUser && data.currentUser.isStudent ?
-              `<form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
+          `<form id="bookmark_${document._id}" onsubmit="documentBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
                              <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.currentUser && data.currentUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
                    </form>` : (!data.currentUser) ? `<form id="bookmark_${document._id}" onsubmit="return documentSignupBookmark(event, this)" class="d-inline-block m-0 p-0 bookmark-ajax-form" action="/user/downloads/${document._id}/bookmark" method="POST">
                              <button type="submit" title="Bookmark"  class="btn btn-sm btn-clean btn-icon btn-icon-md ${document._id} ${data.currentUser && data.currentUser.downloadBookmarks.includes(document._id) ? 'red-color' : ''}"><i class="fas fa-bookmark"></i></button>
                    </form>` : ""
-                  }
+        }
 
                     <div class="kt-widget2__actions d-inline-block" id='sharingBtns'>
                     <a href="#" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown">
@@ -209,8 +210,7 @@ function refreshDataTable() {
                             </a>
                         </li>
                         <li class="kt-nav__item" id='inputdownloadUrl_${document._id}'>
-                        <input type="text"  class="form-control d-none" value="http://${$(location).attr('host')}/downloads/${document._id}"">
-                            <a href="javascript:;" data-link="http://${$(location).attr('host')}/downloads/${document._id}" id='downloadUrl_${document._id}' onclick="return shareLink(this)" class="kt-nav__link sharelinktrial"'>
+                            <a href="javascript:;" data-clipboard-text="http://${$(location).attr('host')}/downloads/${document._id}" id='downloadUrl_${document._id}' onclick="return clipcopy()" class="kt-nav__link copy sharelinktrial"'>
                                 <i class="kt-nav__link-icon fa fa-link"></i>
                                 <span class="kt-nav__link-text">Copy URL</span>
                             </a>
@@ -258,7 +258,7 @@ function paginationButtons() {
     // $('#pagination_downloads :last-child').click();
   })
 
-    
+
   $('.kt-pagination__link--next').unbind('click').bind('click', 'a', function (e) {
     e.preventDefault();
     $('#pagination_downloads .kt-pagination__link--active').prev().click();
@@ -380,6 +380,35 @@ function shareLink(elem) {
   //     </button>
   //     </div>`
   //  )
+}
+
+function clipcopy() {
+  var clipboard = new ClipboardJS('.copy');
+  clipboard.on('success', function (e) {
+    $('#alert-notifications').append(
+      `<div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+        <div class='alert-text'>Link ${e.text} successfully copied!</div>
+        <div class="alert-close">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        </div>`
+    )
+
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+
+    console.info('Action:', e.action);
+    console.info('Text:', e.text);
+    console.info('Trigger:', e.trigger);
+
+    e.clearSelection();
+    clipboard.destroy();
+  });
+  clipboard.on('error', function (e) {
+    console.error('Action:', e.action);
+    console.error('Trigger:', e.trigger);
+  });
 }
 
 function changePaginationActiveTab() {
