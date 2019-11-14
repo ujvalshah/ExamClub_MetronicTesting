@@ -387,7 +387,7 @@ function clipcopy() {
   clipboard.on('success', function (e) {
     $('#alert-notifications').append(
       `<div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
-        <div class='alert-text'>Link have been successfully copied!</div>
+        <div class='alert-text'>Link successfully copied!</div>
         <div class="alert-close">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
