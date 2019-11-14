@@ -75,7 +75,7 @@ function refreshVideoBank() {
           <div class="kt-portlet__body">
             <div class="kt-widget19__wrapper mb-0">
               <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-                ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""} ${video.title}
+                ${video.title} ${video.type && video.type === 'playlist' ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>' : ""}
               </h5>
               <div class="kt-divider"><span></span></div>
               <div class="kt-widget19__content mt-2">
@@ -111,11 +111,49 @@ function refreshVideoBank() {
             <div class="kt-divider"><span></span></div>
             <div class="kt-widget19__action">
               <!--Ownership Criteria of Videos-->
-               <div class="float-right">
-                 <form id=" bookmarkForm_${video._id}" class="d-inline float-right save-video-form-signup" action="javascript:;" onsubmit='return bookmarkVideosignup(event, this)'>
+              </div>
+               <div class="d-flex justify-content-end">
+               <a href="#" class="btn btn-sm btn-label-brand btn-bold d-inline-block" data-toggle="dropdown">
+                Share <i class="fas fa-share-alt"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+                <ul class="kt-nav">
+                  <li class="kt-nav__item d-block d-md-none">
+                    <a href="whatsapp://send?text=http://${$(location).attr('host')}/videos/${video._id}" title="Share" target="_blank" class="kt-nav__link">
+                            <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                            <span class="kt-nav__link-text">Whatsapp</span>
+                    </a>
+                  </li>
+                  <li class="kt-nav__item d-none d-md-block">
+                    <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/videos/${video._id}" title="Share" target="_blank" class="kt-nav__link">
+                            <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                            <span class="kt-nav__link-text">Whatsapp</span>
+                    </a>
+                  </li>
+                  <li class="kt-nav__item"> 
+    
+                      <a href="tg://msg?url=http://${$(location).attr('host')}/videos/${video._id}&text=${video.title}" class="kt-nav__link">
+                          <i class="kt-nav__link-icon socicon-telegram"></i>
+                          <span class="kt-nav__link-text">Telegram</span>
+                      </a>
+                  </li>
+                  <li class="kt-nav__item">
+                      <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/videos/${video._id}" target="_blank" class="kt-nav__link">
+                          <i class="kt-nav__link-icon socicon-facebook"></i>
+                          <span class="kt-nav__link-text">Facebook</span>
+                      </a>
+                  </li>
+                  <li class="kt-nav__item" id='inputvideoUrl_${video._id}'>
+                      <a href="javascript:;" data-clipboard-text="http://${$(location).attr('host')}/videos/${video._id}" id='videoUrl_${video._id}' onclick="return clipcopy()" class="kt-nav__link copy"'>
+                          <i class="kt-nav__link-icon fa fa-link"></i>
+                          <span class="kt-nav__link-text">Copy URL</span>
+                      </a>
+                  </li>
+                  </ul>							
+                </div>
+                 <form id="bookmarkForm_${video._id}" class="d-inline-block save-video-form-signup ml-2" action="javascript:;" onsubmit='return bookmarkVideosignup(event, this)'>
                    <button type="submit" class="btn btn-sm btn-label-warning btn-bold student-alert">Bookmark</button>
                  </form>
-               </div>
           </div>
         </div>
       </div>
@@ -142,7 +180,7 @@ function refreshVideoBank() {
         <div class="kt-portlet__body">
           <div class="kt-widget19__wrapper mb-0">
             <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-            ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""}${video.title}
+            ${video.title} ${video.type && video.type === 'playlist' ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>' : ""}
             </h5>
             <div class="kt-divider"><span></span></div>
             <div class="kt-widget19__content mt-2">
@@ -178,8 +216,45 @@ function refreshVideoBank() {
             </div>
           </div>
           <div class="kt-divider"><span></span></div>
-          <div class="kt-widget19__action">
+          <div class="kt-widget19__action d-flex justify-content-end">
             <!--Ownership Criteria of Videos-->
+            <a href="#" class="btn btn-sm btn-label-brand btn-bold d-inline-block" data-toggle="dropdown">
+                Share <i class="fas fa-share-alt"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+                <ul class="kt-nav">
+                 <li class="kt-nav__item d-block d-md-none">
+                    <a href="whatsapp://send?text=http://${$(location).attr('host')}/videos/${video._id}" title="Share" target="_blank" class="kt-nav__link">
+                      <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                      <span class="kt-nav__link-text">Whatsapp</span>
+                    </a>
+                  </li>
+                  <li class="kt-nav__item d-none d-md-block">
+                    <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/videos/${video._id}" title="Share" target="_blank" class="kt-nav__link">
+                      <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                      <span class="kt-nav__link-text">Whatsapp</span>
+                    </a>
+                  </li>
+                  <li class="kt-nav__item"> 
+                    <a href="tg://msg?url=http://${$(location).attr('host')}/videos/${video._id}&text=${video.title}" class="kt-nav__link">
+                        <i class="kt-nav__link-icon socicon-telegram"></i>
+                        <span class="kt-nav__link-text">Telegram</span>
+                    </a>
+                  </li>
+                  <li class="kt-nav__item">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/videos/${video._id}" target="_blank" class="kt-nav__link">
+                        <i class="kt-nav__link-icon socicon-facebook"></i>
+                        <span class="kt-nav__link-text">Facebook</span>
+                    </a>
+                  </li>
+                  <li class="kt-nav__item" id='inputvideoUrl_${video._id}'>
+                  <a href="javascript:;" data-clipboard-text="http://${$(location).attr('host')}/videos/${video._id}" id='videoUrl_${video._id}' onclick="return clipcopy()" class="kt-nav__link copy"'>
+                      <i class="kt-nav__link-icon fa fa-link"></i>
+                      <span class="kt-nav__link-text">Copy URL</span>
+                  </a>
+              </li>
+                  </ul>							
+                </div>
             ${(data.currentUser && (data.currentUser.isFaculty || data.currentUser.isAdmin) && (JSON.stringify(data.currentUser._id) === JSON.stringify(video.author.id))) ?
             `<div class="float-right align-bottom">
               <a class="btn btn-sm btn-label-brand btn-bold ml-4" href="/videos/${video._id}/edit"
@@ -299,53 +374,33 @@ function removeFilterTags() {
   })
 }
 
-function shareLink(elem) {
-  var val = $(elem).closest('li').attr('id');
-  var url = $(elem).attr('data-link');
-  // console.log(val);
-  // console.log(url);
-  var $input = $("<input>");
-  $('#' + val).append($input);
-  $input.val(url).select();
-  document.execCommand("copy");
-  $input.remove();
+function clipcopy() {
+  var clipboard = new ClipboardJS('.copy');
+  clipboard.on('success', function (e) {
+    $('#alert-notifications').append(
+      `<div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
+        <div class='alert-text'>Link successfully copied!</div>
+        <div class="alert-close">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        </div>`
+    )
 
-  $('#alert-notifications').append(
-    `<div class="alert alert-bold alert-solid-success alert-dismissible fade show kt-alert kt-alert--outline mx-auto my-3" style='width:90%' role="alert">
-      <div class='alert-text'>Link successfully copied!</div>
-      <div class="alert-close">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
-      </div>
-      </div>`
-  )
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
 
-  $('html, body').animate({ scrollTop: 0 }, 'fast');
+    console.info('Action:', e.action);
+    console.info('Text:', e.text);
+    console.info('Trigger:', e.trigger);
 
-  // let href = $('a').attr('id');
-  // // let val = 'input' + href;
-  // let url = $('.sharelinktrial').attr('data-link');
-  // alert('clicked' + url);
-  // console.log(`Data lINK is ${url}`);
-  // console.log(`HREF is ${href}`);
-
-  // // let url = $('#'+val).val()
-  // console.log(url);
-  // var copyText = document.getElementById(val);
-  // copyText.select();
-  // copyText.setSelectionRange(0, 99999)
-  // document.execCommand("copy");
-  // console.log(copyText);
-
-  //  $('#alert-notifications').append(
-  //    `<div class="alert alert-warning alert-dismissible fade show kt-alert kt-alert--outline m-0" role="alert">
-  //    <span>Link copied to clipboard succesfully</span>
-  //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-  //         <span aria-hidden="true">&times;</span>
-  //     </button>
-  //     </div>`
-  //  )
+    e.clearSelection();
+    clipboard.destroy();
+  });
+  clipboard.on('error', function (e) {
+    console.error('Action:', e.action);
+    console.error('Trigger:', e.trigger);
+  });
 }
 
 function changePaginationActiveTab() {
@@ -465,7 +520,7 @@ function clickOnClearAllFiltersBtn(e) {
               <div class="kt-portlet__body">
                 <div class="kt-widget19__wrapper mb-0">
                   <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-                    ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""} ${video.title}
+                    ${video.title} ${video.type && video.type === 'playlist' ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>' : ""}
                   </h5>
                   <div class="kt-divider"><span></span></div>
                   <div class="kt-widget19__content mt-2">
@@ -534,7 +589,7 @@ function clickOnClearAllFiltersBtn(e) {
             <div class="kt-portlet__body">
               <div class="kt-widget19__wrapper mb-0">
                 <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-                ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""}${video.title}
+                ${video.title} ${video.type && video.type === 'playlist' ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>' : ""}
                 </h5>
                 <div class="kt-divider"><span></span></div>
                 <div class="kt-widget19__content mt-2">
@@ -611,37 +666,7 @@ function clickOnClearAllFiltersBtn(e) {
     filter();
 }
 
-function downloadBtn(elem) {
 
-  var buttonid = $(elem).attr('id');
-  var actionUrl = `/download/${buttonid}/counter`;
-  $.ajax({
-    url: actionUrl,
-    type: "PUT",
-    success: function (data) {
-      refreshVideoBank();
-      // console.log(data);
-    }
-  });
-  $(this).find("button").blur();
-}
-
-function documentBookmark(e, element) {
-  e.preventDefault();
-  var actionUrl = $(element).attr("action");
-  // console.log(actionUrl);
-  var formid = $(element).attr("id").slice(9);
-  // console.log(formid);
-  $.ajax({
-    url: actionUrl,
-    type: "PUT",
-    success: function (data) {
-      refreshVideoBank();
-      // console.log(data);
-      alert(`${data[0].msg}`);
-    }
-  })
-};
 
 function bookmarkVideo(e, elem){
       e.preventDefault();

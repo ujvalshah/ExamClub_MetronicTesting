@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Video = require("../models/video.js");
+var Download = require("../models/download.js");
 var User = require("../models/user.js");
 var middleware = require("../middleware");
 var { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFilterVideo, searchAndFilterVideoCopy } = middleware;
@@ -273,5 +274,33 @@ router.delete("/videosdelete", isLoggedIn, isAdmin, async function (req, res) {
         console.log(error);
     }
 })
+
+//----------------------------------------------------------------------------//
+//----------------------Videos - Share-Landing Page------------------------//
+//----------------------------------------------------------------------------//
+router.get('/videos/:id', async (req, res) => {
+	try {
+		var video = await Video.findById(req.params.id);
+		var authorDocs = await Download.find({ 'author.username': video.author.username, 'attempt': video.attempt }).sort('-createdAt');
+		var authorVideos = await Video.find({ 'author.username': video.author.username, 'attempt': video.attempt }).sort('-createdAt');
+		// var authorDocs = await Download.find({ 'author.id': video.author.id, 'exam': video.exam, 'attempt': video.attempt }).sort('-createdAt');
+		// var authorVideos = await Videos.find({ 'author.id': video.author.id });
+		var author = await User.findById(video.author.id).populate('videos[0][id]');
+		console.log('video');
+		console.log(video);
+
+		if (!video) {
+			req.flash('error', 'Please try again');
+			res.redirect('/downloads');
+		}
+		let videoName = video.title;
+		res.render('index2', { page: "videos_video", title: `Videos ${videoName}`, video, author, authordocs: authorDocs, authorvideos: authorVideos, });
+	} catch (error) {
+		req.flash('error', error.message);
+		res.redirect('/downloads');
+	}
+})
+
+
 
 module.exports = router;

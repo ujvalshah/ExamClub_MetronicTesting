@@ -1,0 +1,300 @@
+<% include ./_subheader-subheader-v2 %>
+<!-- begin:: Content -->
+<div class="kt-container  kt-grid__item kt-grid__item--fluid">
+
+  <div class="kt-grid__item">
+    <!-- <div style="background-color: white" class='shadow mb-5'>  -->
+      <div class="row py-5 mx-auto overflow-auto"style="max-height: 160rem" id='videoLoop'>
+        <div class="col-md-4 mb-3 px-0">
+          <!--begin:: Widgets/Blog-->
+          <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
+            <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
+              <div class="kt-widget19__pic kt-portlet-fit--top kt-portlet-fit--sides">
+                <div class="embed-responsive embed-responsive-16by9 card-img-top">
+                  <iframe width="560" height="315" class="embed-responsive-item" src="<%=video.url%>" frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                </div>
+                <!-- <iframe width="560" height="315" class="embed-responsive-item" src="https://www.youtube.com/watch?v=FobusV1Lmgg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                <!-- <h3 class="kt-widget19__title kt-font-dark pb-0 mb-0">
+                Introducing New Feature
+              </h3> -->
+                <!-- <div class="kt-widget19__shadow"></div>
+              <div class="kt-widget19__labels">
+                <a href="#" class="btn btn-label-light-o2 btn-bold ">Recent</a>
+              </div> -->
+              </div>
+            </div>
+            <div class="kt-portlet__body">
+              <div class="kt-widget19__wrapper mb-0">
+                <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
+                    <%=video.title%>
+                  <%if(video.type && video.type === 'playlist'){%>
+                    <span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>
+                  <%}%>
+                </h5>
+                <div class="kt-divider"><span></span></div>
+                <div class="kt-widget19__content mt-2">
+                  <div class="kt-widget19__userpic">
+                    <span
+                      class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.displayName.charAt(0).toUpperCase()%></span>
+                    <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
+                  </div>
+                  <div class="kt-widget19__info">
+                    <a href="/teachers/<%=video.author.id%>" class="kt-widget19__username">
+                      <%=video.author.displayName%>
+                    </a>
+                    <span class="kt-widget19__time small">
+                      CA Faculty/Author
+                    </span>
+                  </div>
+                  <span class="kt-badge kt-badge--info kt-badge--inline float-right" data-toggle="tooltip"
+                    data-placement="left" title="Date of Upload"><%=video.createdAt.toDateString()%></span>
+                  <!-- <div class="kt-widget19__stats">
+              <span class="kt-widget19__number kt-font-brand" style="font-size: 0.9rem">
+              </span>
+              <div class="float-right"> Applicable Attempt </div>
+            </div> -->
+                </div>
+                <div class="mb-3 small font-weight-bold"> Applicable:
+                      <%video.exam.forEach(function(exam){%>
+                        <span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam"><%=exam%></span>
+                      <%})%>
+                      <%video.subject.forEach(function(exam){%>
+                        <span class="kt-badge kt-badge--brand kt-badge--inline kt-badge--pill kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam"><%=exam%></span>
+                      <%})%>
+                  <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
+                    data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt"><%=video.attempt%></span>
+                </div>
+                <div><small><span class="font-weight-bold">Description:</span> <%=video.description%></small></div>
+                <div class="kt-widget19__text mb-2">
+                </div>
+              </div>
+              <div class="kt-divider"><span></span></div>
+              <div class="kt-widget19__action d-flex justify-content-end">
+                <!--Ownership Criteria of Videos-->
+                
+                          <a href="#" class="btn btn-sm btn-label-brand btn-bold d-inline-block mr-1" data-toggle="dropdown">
+                        Share <i class="fas fa-share-alt"></i>
+                           </a>
+                      <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+                        <ul class="kt-nav">
+                          <li class="kt-nav__item d-block d-md-none">
+                            <a href="whatsapp://send?text=<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>" title="Share" target="_blank" class="kt-nav__link">
+                                    <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                                    <span class="kt-nav__link-text">Whatsapp</span>
+                            </a>
+                          </li>
+                          <li class="kt-nav__item d-none d-md-block">
+                            <a href="https://web.whatsapp.com/send?text=<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>" title="Share" target="_blank" class="kt-nav__link">
+                                    <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                                    <span class="kt-nav__link-text">Whatsapp</span>
+                            </a>
+                          </li>
+                          <li class="kt-nav__item"> 
+            
+                              <a href="tg://msg?url=<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>&text=${video.title}" class="kt-nav__link">
+                                  <i class="kt-nav__link-icon socicon-telegram"></i>
+                                  <span class="kt-nav__link-text">Telegram</span>
+                              </a>
+                          </li>
+                          <li class="kt-nav__item">
+                              <a href="https://www.facebook.com/sharer/sharer.php?u=<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>" target="_blank" class="kt-nav__link">
+                                  <i class="kt-nav__link-icon socicon-facebook"></i>
+                                  <span class="kt-nav__link-text">Facebook</span>
+                              </a>
+                          </li>
+                          <li class="kt-nav__item" id='inputvideoUrl_${video._id}'>
+                          <a href="javascript:;" data-clipboard-text="<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>" id='videoUrl_${video._id}' onclick="return clipcopy()" class="kt-nav__link copy">
+                              <i class="kt-nav__link-icon fa fa-link"></i>
+                              <span class="kt-nav__link-text">Copy URL</span>
+                          </a>
+                      </li>
+                          </ul>							
+                        </div>
+                <% if(currentUser && (currentUser.isFaculty || currentUser.isAdmin) && (JSON.stringify(currentUser._id) === JSON.stringify(video.author.id))) {%>
+                <div class="float-right align-bottom">
+                  <a class="btn btn-sm btn-label-brand btn-bold ml-4" href="/videos/<%=video._id %>/edit"
+                    role="button">Edit</a>delete
+                  <form class="d-inline-block delete-video-form" action="/videos/<%=video._id%>?_method=DELETE"
+                    method="POST" onsubmit="return deleteFacultyVideo(event,this)">
+                    <button type="submit" class="btn btn-sm btn-label-danger btn-bold ml-1">Delete</button>
+                  </form>
+                </div>
+                <%}else if(currentUser && currentUser.isStudent){%>
+                <div class="float-right">
+                  <form id="save-video-form" class="d-inline float-right"
+                    action="/user/<%=currentUser._id%>/videos/<%=video._id%>?_method=PUT" method="POST"
+                    onsubmit='return bookmarkVideo(event, this)'>
+                    <button type="submit"
+                      class="btn btn-sm ml-1 <%=currentUser.videoBookmarks.includes(video.id) ? "btn-label-danger": "btn-label-warning" %>">
+                      <%=currentUser.videoBookmarks.includes(video.id) ? "Bookmarked" : "Bookmark?" %></button>
+                  </form>
+                </div>
+                <%} else if(!currentUser){%>
+                <div class="float-right">
+                  <form id=" bookmarkForm_<%=video._id %>" class="d-inline float-right save-video-form-signup"
+                    action="javascript:;" onsubmit='return bookmarkVideosignup(event, this)'>
+                    <button type="submit" class="btn btn-sm btn-label-warning btn-bold student-alert">Bookmark</button>
+                  </form>
+                </div>
+                <%}%>
+            </div>
+          </div>
+        </div>
+        <!--end:: Widgets/Blog-->
+    </div>
+              </div>
+            <!-- </div> -->
+
+          </div>
+
+
+    <h5 class="mb-4" style="font-size: 1.3rem; font-weight: 600; color: #48465b;">More videos from <%=video.author.displayName%> for <%=video.attempt%> attempt.</h6>
+      <div class="kt-grid__item">
+        <!-- <div style="background-color: white" class='shadow mb-5'>  -->
+          <div class="row py-5 mx-auto overflow-auto"style="max-height: 160rem">
+            <%authorvideos.forEach(function(video){%>
+            <div class="col-md-4 mb-3 px-0">
+              <!--begin:: Widgets/Blog-->
+              <div class="kt-portlet kt-portlet--height-fluid kt-widget19 mx-2 shadow">
+                <div class="kt-portlet__body kt-portlet__body--fit kt-portlet__body--unfill">
+                  <div class="kt-widget19__pic kt-portlet-fit--top kt-portlet-fit--sides">
+                    <div class="embed-responsive embed-responsive-16by9 card-img-top">
+                      <iframe width="560" height="315" class="embed-responsive-item" src="<%=video.url%>" frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                    </div>
+                    <!-- <iframe width="560" height="315" class="embed-responsive-item" src="https://www.youtube.com/watch?v=FobusV1Lmgg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                    <!-- <h3 class="kt-widget19__title kt-font-dark pb-0 mb-0">
+                    Introducing New Feature
+                  </h3> -->
+                    <!-- <div class="kt-widget19__shadow"></div>
+                  <div class="kt-widget19__labels">
+                    <a href="#" class="btn btn-label-light-o2 btn-bold ">Recent</a>
+                  </div> -->
+                  </div>
+                </div>
+                <div class="kt-portlet__body">
+                  <div class="kt-widget19__wrapper mb-0">
+                    <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
+                        <%=video.title%>
+                      <%if(video.type && video.type === 'playlist'){%>
+                        <span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>
+                      <%}%>
+                    </h5>
+                    <div class="kt-divider"><span></span></div>
+                    <div class="kt-widget19__content mt-2">
+                      <div class="kt-widget19__userpic">
+                        <span
+                          class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--bold kt-hidden-"><%=video.author.displayName.charAt(0).toUpperCase()%></span>
+                        <!-- <img src="./assets/media//users/user1.jpg" alt=""> -->
+                      </div>
+                      <div class="kt-widget19__info">
+                        <a href="/teachers/<%=video.author.id%>" class="kt-widget19__username">
+                          <%=video.author.displayName%>
+                        </a>
+                        <span class="kt-widget19__time small">
+                          CA Faculty/Author
+                        </span>
+                      </div>
+                      <span class="kt-badge kt-badge--info kt-badge--inline float-right" data-toggle="tooltip"
+                        data-placement="left" title="Date of Upload"><%=video.createdAt.toDateString()%></span>
+                      <!-- <div class="kt-widget19__stats">
+                  <span class="kt-widget19__number kt-font-brand" style="font-size: 0.9rem">
+                  </span>
+                  <div class="float-right"> Applicable Attempt </div>
+                </div> -->
+                    </div>
+                    <div class="mb-3 small font-weight-bold"> Applicable:
+                        <%video.exam.forEach(function(exam){%>
+                          <span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam"><%=exam%></span>
+                        <%})%>
+                        <%video.subject.forEach(function(exam){%>
+                          <span class="kt-badge kt-badge--brand kt-badge--inline kt-badge--pill kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="Applicable Exam"><%=exam%></span>
+                        <%})%>
+                      <span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--bold"
+                        data-toggle="tooltip" data-placement="bottom" title="Applicaple Attempt"><%=video.attempt%></span>
+                    </div>
+                    <div><small><span class="font-weight-bold">Description:</span> <%=video.description%></small></div>
+                    <div class="kt-widget19__text mb-2">
+                    </div>
+                  </div>
+                  <div class="kt-divider"><span></span></div>
+                  <div class="kt-widget19__action d-flex justify-content-end">
+            <!--Ownership Criteria of Videos-->
+                  <a href="#" class="btn btn-sm btn-label-brand btn-bold d-inline-block mr-1" data-toggle="dropdown">
+                Share <i class="fas fa-share-alt"></i>
+                   </a>
+              <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+                <ul class="kt-nav">
+                  <li class="kt-nav__item">
+                    <a href="https://web.whatsapp.com/send?text=<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>" title="Share" target="_blank" class="kt-nav__link">
+                            <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                            <span class="kt-nav__link-text">Whatsapp</span>
+                    </a>
+                  </li>
+                  <li class="kt-nav__item"> 
+    
+                      <a href="tg://msg?url=<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>&text=${video.title}" class="kt-nav__link">
+                          <i class="kt-nav__link-icon socicon-telegram"></i>
+                          <span class="kt-nav__link-text">Telegram</span>
+                      </a>
+                  </li>
+                  <li class="kt-nav__item">
+                      <a href="https://www.facebook.com/sharer/sharer.php?u=<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>" target="_blank" class="kt-nav__link">
+                          <i class="kt-nav__link-icon socicon-facebook"></i>
+                          <span class="kt-nav__link-text">Facebook</span>
+                      </a>
+                  </li>
+                  <li class="kt-nav__item" id='inputvideoUrl_${video._id}'>
+                  <a href="javascript:;" data-clipboard-text="<%=currentprotocol%>://<%=currenthost%>/videos/<%=video._id%>" id='videoUrl_${video._id}' onclick="return clipcopy()" class="kt-nav__link copy"'>
+                      <i class="kt-nav__link-icon fa fa-link"></i>
+                      <span class="kt-nav__link-text">Copy URL</span>
+                  </a>
+              </li>
+                  </ul>							
+                </div>
+                    <!--Ownership Criteria of Videos-->
+                    <% if(currentUser && (currentUser.isFaculty || currentUser.isAdmin) && (JSON.stringify(currentUser._id) === JSON.stringify(video.author.id))) {%>
+                    <div class="float-right align-bottom">
+                      <a class="btn btn-sm btn-label-brand btn-bold ml-4" href="/videos/<%=video._id %>/edit"
+                        role="button">Edit</a>delete
+                      <form class="d-inline-block delete-video-form" action="/videos/<%=video._id%>?_method=DELETE"
+                        method="POST" onsubmit="return deleteFacultyVideo(event,this)">
+                        <button type="submit" class="btn btn-sm btn-label-danger btn-bold ml-1">Delete</button>
+                      </form>
+                    </div>
+                    <%}else if(currentUser && currentUser.isStudent){%>
+                    <div class="float-right">
+                      <form id="save-video-form" class="d-inline float-right"
+                        action="/user/<%=currentUser._id%>/videos/<%=video._id%>?_method=PUT" method="POST"
+                        onsubmit='return bookmarkVideo(event, this)'>
+                        <button type="submit"
+                          class="btn btn-sm ml-1 <%=currentUser.videoBookmarks.includes(video.id) ? "btn-label-danger": "btn-label-warning" %>">
+                          <%=currentUser.videoBookmarks.includes(video.id) ? "Bookmarked" : "Bookmark?" %></button>
+                      </form>
+                    </div>
+                    <%} else if(!currentUser){%>
+                    <div class="float-right">
+                      <form id=" bookmarkForm_<%=video._id %>" class="d-inline float-right save-video-form-signup"
+                        action="javascript:;" onsubmit='return bookmarkVideosignup(event, this)'>
+                        <button type="submit" class="btn btn-sm btn-label-warning btn-bold student-alert">Bookmark</button>
+                      </form>
+                    </div>
+                    <%}%>
+                </div>
+              </div>
+            </div>
+            <!--end:: Widgets/Blog-->
+        </div>
+        <%})%>
+                  </div>
+                <!-- </div> -->
+    
+              </div>
+
+
+
+    </div>
+<!-- end:: Content -->

@@ -834,7 +834,7 @@ function refreshVideoBank() {
         <div class="kt-portlet__body">
           <div class="kt-widget19__wrapper mb-0">
             <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-            ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""}${video.title}
+             ${video.title} ${video.type && video.type === 'playlist' ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>' : ""}
             </h5>
             <div class="kt-divider"><span></span></div>
             <div class="kt-widget19__content mt-2">
@@ -1251,7 +1251,7 @@ function adminDashVideos_clearVideoFilter() {
         <div class="kt-portlet__body">
           <div class="kt-widget19__wrapper mb-0">
             <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-            ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""}${video.title}
+             ${video.title} ${video.type && video.type === 'playlist' ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>' : ""}
             </h5>
             <div class="kt-divider"><span></span></div>
             <div class="kt-widget19__content mt-2">

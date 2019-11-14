@@ -92,6 +92,8 @@ app.use(function (req, res, next) {
     res.locals.error = req.flash("error");
     res.locals.warning = req.flash("warning");
     res.locals.emailVerification = req.flash("emailVerification");
+    res.locals.currenthost = req.get('host');
+    res.locals.currentprotocol = req.protocol;
     next();
 });
 

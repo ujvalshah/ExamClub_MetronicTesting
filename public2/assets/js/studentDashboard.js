@@ -140,13 +140,12 @@ function refreshDataTable() {
                       <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
                         <ul class="kt-nav">
                           <li class="kt-nav__item">
-                            <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/downloads/${document._id}" title="Share" target="_blank" class="kt-nav__link">
+                          <a href="whatsapp://send?text=http://${$(location).attr('host')}/downloads/${document._id}" data-action="share/whatsapp/share" title="Share" class="kt-nav__link">
                                     <i class="kt-nav__link-icon socicon-whatsapp"></i>
                                     <span class="kt-nav__link-text">Whatsapp</span>
                             </a>
                           </li>
                           <li class="kt-nav__item"> 
-            
                               <a href="tg://msg?url=http://${$(location).attr('host')}/downloads/${document._id}&text=${document.title}" class="kt-nav__link">
                                   <i class="kt-nav__link-icon socicon-telegram"></i>
                                   <span class="kt-nav__link-text">Telegram</span>
@@ -317,7 +316,7 @@ function refreshVideoBank() {
           <div class="kt-portlet__body"  ${video.type && video.type === 'playlist' ? 'title="This is a playlist"' : ""}>
             <div class="kt-widget19__wrapper mb-0">
               <h5 class="kt-widget19__title kt-font-dark kt-label-font-color-3 pb-2 mb-0">
-              ${video.type && video.type === 'playlist' ? '<span title="This is a playlist" class="kt-badge kt-badge--danger kt-badge--md kt-badge--rounded mr-2">P</span>' : ""}${video.title}
+              ${video.title} ${video.type && video.type === 'playlist' ? '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge kt-badge--bold mt-1" data-toggle="tooltip" data-placement="bottom" title="This is a Playlist">Playlist</span>' : ""}
               </h5>
               <div class="kt-divider"><span></span></div>
               <div class="kt-widget19__content mt-2">
@@ -351,8 +350,46 @@ function refreshVideoBank() {
               </div>
             </div>
             <div class="kt-divider"><span></span></div>
-            <div class="kt-widget19__action">
               <!--Ownership Criteria of Videos-->
+              <div class="kt-widget19__actiond-flex justify-content-end">
+              <a href="#" class="btn btn-sm btn-label-brand btn-bold d-inline-block" data-toggle="dropdown">
+               Share <i class="fas fa-share-alt"></i>
+             </a>
+             <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
+               <ul class="kt-nav">
+                <li class="kt-nav__item d-block d-md-none">
+                  <a href="whatsapp://send?text=http://${$(location).attr('host')}/videos/${video._id}" title="Share" target="_blank" class="kt-nav__link">
+                          <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                          <span class="kt-nav__link-text">Whatsapp</span>
+                  </a>
+                </li>
+                <li class="kt-nav__item d-none d-md-block">
+                  <a href="https://web.whatsapp.com/send?text=http://${$(location).attr('host')}/videos/${video._id}" title="Share" target="_blank" class="kt-nav__link">
+                          <i class="kt-nav__link-icon socicon-whatsapp"></i>
+                          <span class="kt-nav__link-text">Whatsapp</span>
+                  </a>
+                </li>
+                 <li class="kt-nav__item"> 
+   
+                     <a href="tg://msg?url=http://${$(location).attr('host')}/videos/${video._id}&text=${video.title}" class="kt-nav__link">
+                         <i class="kt-nav__link-icon socicon-telegram"></i>
+                         <span class="kt-nav__link-text">Telegram</span>
+                     </a>
+                 </li>
+                 <li class="kt-nav__item">
+                     <a href="https://www.facebook.com/sharer/sharer.php?u=http://${$(location).attr('host')}/videos/${video._id}" target="_blank" class="kt-nav__link">
+                         <i class="kt-nav__link-icon socicon-facebook"></i>
+                         <span class="kt-nav__link-text">Facebook</span>
+                     </a>
+                 </li>
+                 <li class="kt-nav__item" id='inputvideoUrl_${video._id}'>
+                     <a href="javascript:;" data-clipboard-text="http://${$(location).attr('host')}/videos/${video._id}" id='videoUrl_${video._id}' onclick="return clipcopy()" class="kt-nav__link copy"'>
+                         <i class="kt-nav__link-icon fa fa-link"></i>
+                         <span class="kt-nav__link-text">Copy URL</span>
+                     </a>
+                 </li>
+                 </ul>							
+               </div>
                 <div class="float-right">
                 <form class="d-inline float-right save-video-form id=${video._id}"
                   action="/user/${data.student.docs[0]._id}/videos/${video._id}" method="POST" data-info="${video.title}" onsubmit='return bookmarkVideo(event,this)'>
