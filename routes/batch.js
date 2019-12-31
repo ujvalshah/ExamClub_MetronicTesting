@@ -18,7 +18,16 @@ const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin, searchAndFi
 const projectId = process.env.GCLOUD_STORAGE_BUCKET;
 const keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 const gc = new Storage({ projectId, keyFile });
+var redis = require('redis');
+var client = redis.createClient();
 
+client.on('connect', function() {
+    console.log('Redis client connected');
+});
+
+client.on('error', function (err) {
+    console.log('Something went wrong ' + err);
+});
 const batchstorage = multer.diskStorage({
 	destination: function (req, file, callback) {
 		callback(null, 'uploads/batch')

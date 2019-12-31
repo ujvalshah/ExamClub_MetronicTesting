@@ -41,6 +41,7 @@ const downloadRoutes = require("./routes/downloads.js");
 const videoRoutes = require("./routes/video.js");
 const apiRoute = require("./routes/api.js");
 const batchRoute = require("./routes/batch.js");
+const processRoute = require("./routes/process.js");
 const middleware = require("./middleware");
 const { isLoggedIn, isAdmin, isFaculty, isStudent, isTeacherOrAdmin } = middleware;
 
@@ -117,6 +118,7 @@ app.use(downloadRoutes);
 app.use(videoRoutes);
 app.use(apiRoute);
 app.use(batchRoute);
+app.use(processRoute);
 
 
 //----------------------------------------------------------------------------//
